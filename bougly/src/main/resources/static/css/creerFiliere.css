@@ -1,0 +1,12 @@
+.deleteIcon:hover {
+    color: red;
+    cursor: pointer;
+}
+
+.divIconDelete {
+    text-align: right;
+}
+
+.btnAddMatiereExistante {
+    margin-left: 4px;
+}
