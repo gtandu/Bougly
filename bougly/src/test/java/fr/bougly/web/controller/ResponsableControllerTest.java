@@ -9,10 +9,9 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.web.servlet.MockMvc;
@@ -20,36 +19,18 @@ import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
-import fr.bougly.service.AdministrateurService;
-import fr.bougly.service.EnseignantService;
-import fr.bougly.service.EtudiantService;
-import fr.bougly.service.ResponsableService;
-
-
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration
 @SpringBootTest
-public class LoginControllerTest {
-	
-    private MockMvc mockMvc;
-    
+public class ResponsableControllerTest {
+
+	private MockMvc mockMvc;
+
 	@Autowired
 	private WebApplicationContext wac;
 	
-	@MockBean
-	private AdministrateurService administrateurService;
-	
-	@MockBean
-	private EtudiantService etudiantService;
-	
-	@MockBean
-	@Qualifier(value="enseignantService")
-	private EnseignantService enseignantService;
-	
-	@MockBean
-	@Qualifier(value="responsableService")
-	private ResponsableService responsableService;
-	
+	private final String URL_CONTROLLEuR_FILIERE = "/responsable";
+
 	@Before
 	public void setup() {
 		mockMvc = MockMvcBuilders
@@ -59,12 +40,11 @@ public class LoginControllerTest {
 				.build();
 	}
 
-
-    @Test
-    public void testShowLoginPage() throws Exception {
-    	
-        this.mockMvc.perform(get(LoginController.URL_LOGIN_PAGE).accept(MediaType.TEXT_HTML))
-                .andExpect(status().isOk()).andExpect(view().name("login")).andDo(MockMvcResultHandlers.print());
-    }
+	@Test
+	@WithMockUser(roles = "RESPONSABLE")
+	public void testShowPageGestionFiliere() throws Exception {
+		mockMvc.perform(get(URL_CONTROLLEuR_FILIERE+ResponsableController.URL_GESTION_FILIERE).accept(MediaType.TEXT_HTML))
+				.andExpect(status().isOk()).andExpect(view().name("gestionFiliere"));
+	}
 
 }

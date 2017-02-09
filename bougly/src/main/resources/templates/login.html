@@ -1,19 +1,12 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 
-<head>
-
+<head >
+	
+	<head th:include="/include/header :: header"></head>
     <title>Bougly Login</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <!--Let browser know website is optimized for mobile-->
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-    <!--Import Google Icon Font-->
-    <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
-    <!--Import materialize.css-->
-    <link type="text/css" rel="stylesheet" th:href="@{css/materialize.min.css}" media="screen,projection" />
-
-    <link type="text/css" rel="stylesheet" th:href="@{css/login.css}" />
+   	<meta charset="UTF-8"/>
+   	<link type="text/css" rel="stylesheet" th:href="@{css/login.css}" />
 
 </head>
 
@@ -43,6 +36,7 @@
                                 <button class="btn waves-effect waves-light col s10 offset-s1" type="submit">Connexion</button>
                             </div>
                         </div>
+                        <div th:if="${param.error}">Email ou mot de passe incorrecte</div>
                         <div class="row">
                             <div class="col s12 center-align">
                                 <a href=""><b>Mot de passe oublié ?</b></a>
