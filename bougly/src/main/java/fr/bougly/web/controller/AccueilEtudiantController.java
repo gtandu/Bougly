@@ -5,13 +5,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
-public class AccueilController {
+public class AccueilEtudiantController {
 	
-	@RequestMapping(value="/accueil.html")
+	@RequestMapping(value="/accueilEtudiant.html")
 	public ModelAndView showPageAccueil()
 	{
 		ModelAndView model = new ModelAndView();
-		model.setViewName("accueil");
+		model.setViewName("accueilEtudiant");
 		return model;
 	}
 

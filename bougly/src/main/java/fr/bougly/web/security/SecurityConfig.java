@@ -20,7 +20,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         .authorizeRequests().antMatchers("/responsable/**").access("hasRole('RESPONSABLE')").and()
         .formLogin()
         .loginPage("/login.html")
-        .defaultSuccessUrl("/accueil.html",true)
+        .defaultSuccessUrl("/accueilEtudiant.html",true)
         .permitAll()
         .and()
         .logout()                                    
