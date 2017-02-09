@@ -1,5 +1,8 @@
 package fr.bougly.service;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
 import org.springframework.beans.factory.annotation.Autowired;
 
 import fr.bougly.exception.UserExistException;
@@ -23,7 +26,8 @@ public class CompteService {
 		}
 		Compte compteSave = (Compte) compteRepository.save(compte);
 		
-		saveAuthority(compteSave, role);
+		Authority saveAuthority = saveAuthority(compteSave, role);
+		compteSave.setAuthorities(Arrays.asList(saveAuthority));
 		
 		return compteSave;
 		

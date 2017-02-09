@@ -15,12 +15,13 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import fr.bougly.service.AdministrateurService;
 import fr.bougly.service.EtudiantService;
+import fr.bougly.web.security.CustomAuthenticationSuccessHandler;
 import fr.bougly.web.security.SecurityConfig;
 
 
 @RunWith(SpringRunner.class)
 @WebMvcTest(LoginController.class)
-@Import(SecurityConfig.class)
+@Import({SecurityConfig.class,CustomAuthenticationSuccessHandler.class})
 public class LoginControllerTest {
 	
 	@Autowired

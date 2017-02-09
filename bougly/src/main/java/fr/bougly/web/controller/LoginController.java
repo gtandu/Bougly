@@ -26,7 +26,7 @@ public class LoginController {
 	@RequestMapping(value = URL_LOGIN_PAGE, method = RequestMethod.GET)
 	public ModelAndView showLoginPage() throws Exception {
 
-		initUser();
+		//initUser();
 		ModelAndView model = new ModelAndView();
 		model.setViewName("login");
 		

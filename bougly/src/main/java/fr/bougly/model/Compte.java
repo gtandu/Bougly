@@ -2,6 +2,7 @@ package fr.bougly.model;
 
 import java.util.Collection;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
@@ -27,7 +28,7 @@ public abstract class Compte implements UserDetails {
 
 	protected String mdp;
 
-	@OneToMany(fetch = FetchType.EAGER)
+	@OneToMany(fetch = FetchType.EAGER,cascade=CascadeType.ALL,orphanRemoval=true,mappedBy="compte")
 	protected Collection<Authority> authorities;
 	
 	public Compte(){}
