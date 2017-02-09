@@ -49,19 +49,19 @@ public class LoginController {
 	private void initUser() throws Exception {
 
 		// COMPTE ADMIN
-		Compte admin = new Administrateur("admin@hotmail.fr","adm","Admin","Admin","21/05/1994");
+		Compte admin = new Administrateur("admin@hotmail.fr","adm","MAPELLA","Corentin","31/05/1994");
 		admin = administrateurService.saveUser(admin);
 
 		// COMPTE ETUDIANT
-		Compte etudiant = new Etudiant("etudiant@hotmail.fr","etu","Tandu","Glodie","21/05/1994","20156351");
+		Compte etudiant = new Etudiant("etudiant@hotmail.fr","etu","TANDU","Glodie","21/05/1994","20156351");
 		etudiant = etudiantService.saveUser(etudiant);
 
 		//COMPTE ENSEIGNANT
-		Compte enseignant = new Enseignant("mapella.corentin@gmail.com","1234","Mapella","Corentin","31/05/1994");
+		Compte enseignant = new Enseignant("enseignant@hotmail.fr","ens","FINN","José","31/05/1994");
 		enseignant = enseignantService.saveUser(enseignant);
 		
 		//COMPTE RESPONSABLE
-		Compte responsable = new Responsable("tandu.glodie@gmail.com","1234","Tandu","Glodie","21/05/1994");
+		Compte responsable = new Responsable("responsable@hotmail.fr","res","ONYME","Anne","21/05/1994");
 		responsable = responsableService.saveUser(responsable);
 		
 		

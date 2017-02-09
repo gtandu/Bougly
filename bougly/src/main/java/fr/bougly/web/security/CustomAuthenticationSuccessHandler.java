@@ -14,14 +14,16 @@ import org.springframework.security.web.authentication.AuthenticationSuccessHand
 
 @Configuration
 public class CustomAuthenticationSuccessHandler implements AuthenticationSuccessHandler {
-    @Override
+    
+	@Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authResult) throws IOException, ServletException {
-            /* Redirect on the successful authentication of the user */
-            Collection<? extends GrantedAuthority> auths = authResult.getAuthorities();
+        /* Redirect on the successful authentication of the user */
+            
+		Collection<? extends GrantedAuthority> auths = authResult.getAuthorities();
             for(GrantedAuthority currentRole : auths)
             {
             	if(currentRole.getAuthority().contains("ETUDIANT")){
-                    response.sendRedirect(response.encodeURL("/etudiant/accueil.html"));
+                    response.sendRedirect(response.encodeURL("/etudiant/accueilEtudiant.html"));
                 }
                 else if(currentRole.getAuthority().contains("ADMIN"))
                 {

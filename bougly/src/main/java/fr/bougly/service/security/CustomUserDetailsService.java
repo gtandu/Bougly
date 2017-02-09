@@ -19,7 +19,4 @@ public class CustomUserDetailsService implements UserDetailsService {
 	public UserDetails loadUserByUsername(String mail) throws UsernameNotFoundException {
 		return administrateurRepository.findByMail(mail);
 	}
-
-	
-
 }
