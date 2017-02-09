@@ -19,7 +19,7 @@ public class CompteService {
 		
 		if(compteExiste != null)
 		{
-			throw new UserExistException("Utilisateur existe déja");
+			throw new UserExistException("Utilisateur existe déjà");
 		}
 		Compte compteSave = (Compte) compteRepository.save(compte);
 		
