@@ -1,6 +1,7 @@
 package fr.bougly.web.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -26,9 +27,11 @@ public class LoginController {
 	private EtudiantService etudiantService;
 	
 	@Autowired
+	@Qualifier(value="enseignantService")
 	private EnseignantService enseignantService;
 	
 	@Autowired
+	@Qualifier(value="responsableService")
 	private ResponsableService responsableService;
 	
 	public static final String URL_LOGIN_PAGE = "/login.html";
