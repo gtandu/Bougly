@@ -27,9 +27,13 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
                 {
                 	response.sendRedirect(response.encodeURL("/administrateur/gestionCompte.html"));
                 }
-                else
+                else if(currentRole.getAuthority().contains("ENSEIGNANT"))
                 {
                 	response.sendRedirect(response.encodeURL("/responsable/gestionFiliere.html"));
+                }
+                else
+                {
+                	response.sendRedirect(response.encodeURL("/enseignant/gestionMatiere.html"));
                 }
             }
             
