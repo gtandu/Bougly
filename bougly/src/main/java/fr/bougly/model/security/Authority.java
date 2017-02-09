@@ -23,7 +23,7 @@ public class Authority implements GrantedAuthority {
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private long id;
 	
-	@OneToOne
+	@ManyToOne
 	private Compte compte;
 	
 	
