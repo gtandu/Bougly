@@ -8,9 +8,13 @@ import org.springframework.web.servlet.ModelAndView;
 
 import fr.bougly.model.Administrateur;
 import fr.bougly.model.Compte;
+import fr.bougly.model.Enseignant;
 import fr.bougly.model.Etudiant;
+import fr.bougly.model.Responsable;
 import fr.bougly.service.AdministrateurService;
+import fr.bougly.service.EnseignantService;
 import fr.bougly.service.EtudiantService;
+import fr.bougly.service.ResponsableService;
 
 @Controller
 public class LoginController {
@@ -20,6 +24,12 @@ public class LoginController {
 	
 	@Autowired
 	private EtudiantService etudiantService;
+	
+	@Autowired
+	private EnseignantService enseignantService;
+	
+	@Autowired
+	private ResponsableService responsableService;
 	
 	public static final String URL_LOGIN_PAGE = "/login.html";
 
@@ -39,25 +49,18 @@ public class LoginController {
 		Compte admin = new Administrateur("admin@hotmail.fr","adm","Admin","Admin","21/05/1994");
 		admin = administrateurService.saveUser(admin);
 
-		//COMPTE ETUDIANT
+		// COMPTE ETUDIANT
 		Compte etudiant = new Etudiant("etudiant@hotmail.fr","etu","Tandu","Glodie","21/05/1994","20156351");
 		etudiant = etudiantService.saveUser(etudiant);
 
-		/* CORENTIN
-		//COMPTE RESPONSABLE
-		Administrateur responsable = new Administrateur("g.tandu@hotmail.fr","test","Tandu","Glodie","21/05/1994");
-		admin = administrateurRepository.save(admin);
-
-		Authority authorityResponsable = new Authority(admin,"ADMIN");
-		authorityRepository.save(authorityAdmin);
-		
 		//COMPTE ENSEIGNANT
-		Administrateur enseignant = new Administrateur("g.tandu@hotmail.fr","test","Tandu","Glodie","21/05/1994");
-		admin = administrateurRepository.save(admin);
-
-		Authority authorityEnseignant = new Authority(admin,"ADMIN");
-		authorityRepository.save(authorityAdmin);
-		*/
+		Compte enseignant = new Enseignant("mapella.corentin@gmail.com","1234","Mapella","Corentin","31/05/1994");
+		enseignant = enseignantService.saveUser(enseignant);
+		
+		//COMPTE RESPONSABLE
+		Compte responsable = new Responsable("tandu.glodie@gmail.com","1234","Tandu","Glodie","21/05/1994");
+		responsable = responsableService.saveUser(responsable);
+		
 		
 	}
 }
