@@ -8,7 +8,10 @@ import org.springframework.web.servlet.ModelAndView;
 @RequestMapping(value="/etudiant")
 public class EtudiantController {
 	
-	@RequestMapping(value = "/accueilEtudiant.html")
+	public static final String URL_ACCUEIL_ETUDIANT_PAGE = "/accueilEtudiant.html";
+	public static final String URL_NOTE_ETUDIANT_PAGE = "/noteEtudiant.html";
+	
+	@RequestMapping(value = URL_ACCUEIL_ETUDIANT_PAGE)
 	public ModelAndView showAccueilEtudiantPage()
 	{
 		ModelAndView model = new ModelAndView();
@@ -17,7 +20,7 @@ public class EtudiantController {
 		return model;
 	}
 	
-	@RequestMapping(value = "/noteEtudiant.html")
+	@RequestMapping(value = URL_NOTE_ETUDIANT_PAGE)
 	public ModelAndView showNoteEtudiantPage()
 	{
 		ModelAndView model = new ModelAndView();

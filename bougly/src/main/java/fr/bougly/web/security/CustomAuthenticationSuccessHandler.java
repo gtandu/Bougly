@@ -31,11 +31,11 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
                 }
                 else if(currentRole.getAuthority().contains("ENSEIGNANT"))
                 {
-                	response.sendRedirect(response.encodeURL("/responsable/gestionFiliere.html"));
+                	response.sendRedirect(response.encodeURL("/enseignant/gestionFiliere.html"));
                 }
                 else
                 {
-                	response.sendRedirect(response.encodeURL("/enseignant/gestionMatiere.html"));
+                	response.sendRedirect(response.encodeURL("/responsable/gestionMatiere.html"));
                 }
             }
             
