@@ -11,13 +11,16 @@
 
 <body>
 
-	<fragment th:include="/include/nav :: nav"></fragment>
+	<header>
+		<fragment th:include="/include/nav :: nav"></fragment>
+	</header>
+	
 
 	<footer class="page-footer white">
 		<div>
 			Copyright © 2017  <a class="brown-text text-lighten-3" href="https://www.google.com">Bougly Compagny</a>
 		</div>
 	</footer>
-
+	<fragment th:include="/include/script :: script"></fragment>
 </body>
 </html>

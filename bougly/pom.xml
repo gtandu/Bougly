@@ -72,6 +72,11 @@
 			<artifactId>spring-security-test</artifactId>
 			<version>4.2.1.RELEASE</version>
 		</dependency>
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
+			<version>3.5</version>
+		</dependency>
 	</dependencies>
 
 	<build>

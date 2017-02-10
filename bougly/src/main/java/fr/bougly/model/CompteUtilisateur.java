@@ -1,7 +1,13 @@
 package fr.bougly.model;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import javax.persistence.Entity;
 import javax.persistence.Inheritance;
+
+import fr.bougly.web.beans.CompteBean;
 
 @Entity
 @Inheritance
@@ -22,6 +28,14 @@ public abstract class CompteUtilisateur extends Compte {
 		this.nom = nom;
 		this.prenom = prenom;
 		this.dateDeNaissance = dateDeNaissance;
+	}
+	
+	public CompteUtilisateur(CompteBean compteBean) throws ParseException
+	{
+		super(compteBean.getMail(),compteBean.getMdp());
+		this.nom = compteBean.getNom();
+		this.prenom = compteBean.getPrenom();
+		this.dateDeNaissance = compteBean.getDateDeNaissance();
 	}
 
 

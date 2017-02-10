@@ -73,6 +73,12 @@ public class CompteServiceTest {
 		
 	}
 	
-	
+	@Test
+	public void shouldGenerateMdp()
+	{
+		String mdp = administrateurService.generateMdp();
+		assertThat(mdp).isNotNull();
+		
+	}
 
 }

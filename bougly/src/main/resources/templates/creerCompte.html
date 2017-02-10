@@ -11,14 +11,26 @@
 </head>
 
 <body>
-    <header></header>
+    <header th:include="/include/nav :: nav" />
     <main>
         <div class="container">
             <div class="row">
-                <form class="col s12" th:action="@{/creerCompte}" th:object="${compte}" method="post">
+                <form class="col s12" th:action="@{/administrateur/creerCompte.html}" th:object="${compte}" method="post">
+                <input type="hidden"  th:field="*{role}"  />
+                    <div class="row">
+               			<div class="input-field col s12">
+		                    <select>
+		                    	<option value="Etudiant" selected="selected">Etudiant</option>
+		                        <option value="Administrateur">Administrateur</option>
+		                        <option value="Responsable">Responsable</option>
+		                        <option value="Enseignant">Enseignant</option>
+		                    </select>
+		                    <label>Listes des roles</label>
+		                </div>
+		            </div>
                     <div class="row">
                         <div class="input-field col s6">
-                            <input class="validate" placeholder="Ex : adresse@mail.fr" type="text" th:field="*{mail}" />
+                            <input class="validate" placeholder="Ex : adresse@mail.fr" type="email" th:field="*{mail}" />
                             <label for="mail">Mail</label>
                         </div>
                         <div class="input-field col s6">
@@ -30,25 +42,25 @@
                             <label for="prenom">Prenom</label>
                         </div>
                         <div class="input-field col s6">
-                            <input class="validate" type="date" th:field="*{dateDeNaissance}" />
-                            <label for="dateDeNaissace">Date de naissance</label>
+                            <label class="date active" for="dateDeNaissance">Date de naisssance</label>
+                            <input class="validate" type="date" placeholder="Ex : 01/01/2017" th:field="*{dateDeNaissance}" />
                         </div>
-                        <div class="input-field col s6">
-                            <input class="validate" type="date" th:field="*{dateDeNaissance}" />
-                            <label for="dateDeNaissace">Date de naissance</label>
-                        </div>
-                        <div class="input-field col s6">
-                            <input class="validate" type="date" th:field="*{numeroEtudiant}" />
+                        <div class="inputNumEtu input-field col s6">
+                            <input class="validate " placeholder="Ex : 20172345" type="number" th:field="*{numeroEtudiant}" />
                             <label for="numeroEtudiant">Numero étudiant</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="input-field col s12">
+                            <button class="btn waves-effect waves-light col s10 offset-s1" type="submit">Créer compte</button>
                         </div>
                     </div>
                 </form>
             </div>
         </div>
     </main>
-    <!--Import jQuery before materialize.js-->
-    <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
-    <script type="text/javascript" th:src="@{/js/materialize.min.js}"></script>
+    <fragment th:include="/include/script :: script"></fragment>
+    <script type="text/javascript" th:src="@{/js/creerCompte.js}"></script>
 </body>
 
 </html>
