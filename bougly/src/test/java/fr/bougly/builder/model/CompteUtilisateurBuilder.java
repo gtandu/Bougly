@@ -1,7 +1,5 @@
 package fr.bougly.builder.model;
 
-import fr.bougly.model.CompteUtilisateur;
-
 public abstract class CompteUtilisateurBuilder extends CompteBuilder  {
 
 

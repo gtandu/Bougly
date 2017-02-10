@@ -62,3 +62,12 @@ footer.page-footer {
   text-align: center;
   clear: both;
 }
+
+.side-nav li > form > input.material-icons {
+  float: left;
+  height: 48px;
+  line-height: 48px;
+  margin: 0 32px 0 0;
+  width: 24px;
+  color: rgba(0, 0, 0, 0.54);
+}
