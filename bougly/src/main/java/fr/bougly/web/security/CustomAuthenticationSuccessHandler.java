@@ -24,20 +24,20 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
 		Collection<? extends GrantedAuthority> auths = authResult.getAuthorities();
             for(GrantedAuthority currentRole : auths)
             {
-            	if(currentRole.getAuthority().equals(RoleCompteEnum.ETUDIANT)){
+            	if(currentRole.getAuthority().equalsIgnoreCase(RoleCompteEnum.ETUDIANT.toString())){
                     response.sendRedirect(response.encodeURL("/etudiant/accueilEtudiant.html"));
                 }
-                else if(currentRole.getAuthority().equals(RoleCompteEnum.ADMINISTRATEUR))
+                else if(currentRole.getAuthority().equalsIgnoreCase(RoleCompteEnum.ADMINISTRATEUR.toString()))
                 {
                 	response.sendRedirect(response.encodeURL("/administrateur/gestionCompte.html"));
                 }
-                else if(currentRole.getAuthority().equals(RoleCompteEnum.ENSEIGNANT))
+                else if(currentRole.getAuthority().equalsIgnoreCase(RoleCompteEnum.ENSEIGNANT.toString()))
                 {
-                	response.sendRedirect(response.encodeURL("/enseignant/gestionFiliere.html"));
+                	response.sendRedirect(response.encodeURL("/enseignant/gestionMatiere.html"));
                 }
                 else
                 {
-                	response.sendRedirect(response.encodeURL("/responsable/gestionMatiere.html"));
+                	response.sendRedirect(response.encodeURL("/responsable/gestionFiliere.html"));
                 }
             }
             
