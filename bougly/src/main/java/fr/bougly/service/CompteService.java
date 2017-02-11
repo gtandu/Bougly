@@ -15,12 +15,16 @@ import fr.bougly.model.security.Authority;
 import fr.bougly.repository.CompteRepository;
 import fr.bougly.repository.security.AuthorityRepository;
 import fr.bougly.service.helper.MapperBeanUtil;
+import fr.bougly.service.mail.ServiceMail;
 import fr.bougly.web.beans.CompteBean;
 
 @Service
 public class CompteService {
 	
 	//TODO Encrypt mdp
+	
+	@Autowired
+	private ServiceMail serviceMail;
 	
 	@Autowired
 	private AuthorityRepository authorityRepository;
@@ -42,6 +46,8 @@ public class CompteService {
 		
 		Authority saveAuthority = saveAuthority(compteSave, role);
 		compteSave.setAuthorities(Arrays.asList(saveAuthority));
+		
+		serviceMail.prepareAndSend(compte.getMail(),compte.getMail(),compte.getMdp());
 		
 		return compteSave;
 		

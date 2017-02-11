@@ -23,6 +23,7 @@ import fr.bougly.model.enumeration.RoleCompteEnum;
 import fr.bougly.model.security.Authority;
 import fr.bougly.repository.CompteRepository;
 import fr.bougly.repository.security.AuthorityRepository;
+import fr.bougly.service.mail.ServiceMail;
 import fr.bougly.web.beans.CompteBean;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -30,6 +31,9 @@ public class CompteServiceTest {
 	
 	@InjectMocks
 	private CompteService compteService;
+	
+	@Mock
+	private ServiceMail serviceMail;
 	
 	@Mock
 	private CompteRepository<Compte> compteRepository;
@@ -50,6 +54,7 @@ public class CompteServiceTest {
 		Compte administrateur = new AdministrateurBuilder().avecMail(mail).avecMdp(mdp).avecNom(nom).avecPrenom(prenom).avecDateDeNaissance(dateDeNaissance).build();
 		when(compteRepository.findByMail(anyString())).thenReturn(null);
 		when(compteRepository.save(any(Compte.class))).thenReturn(administrateur);
+		doNothing().when(serviceMail).prepareAndSend(anyString(), anyString(), anyString());
 		
 		//GIVEN
 		Compte compte = compteService.checkUserMailAndSaveUser(administrateur, role);
@@ -57,6 +62,7 @@ public class CompteServiceTest {
 		//THEN
 		verify(compteRepository).findByMail(mail);
 		verify(compteRepository).save(administrateur);
+		verify(serviceMail).prepareAndSend(eq(mail), eq(mail), anyString());
 		verify(authorityRepository).save(any(Authority.class));
 		assertThat(compte).isNotNull();
 		assertThat(compte).isEqualToComparingFieldByField(administrateur);
