@@ -3,24 +3,23 @@
 
 <head>
 
-	<head th:include="/include/header :: header"></head>
-	<meta charset="UTF-8"/>
-	<title>Gestion Filière</title>
-	
+    <div th:replace="/include/header :: header"></div>
+    <meta charset="UTF-8" />
+    <title>Gestion Filière</title>
+
 </head>
 
 <body>
 
-	<header>
-		<fragment th:include="/include/nav :: nav"></fragment>
-	</header>
-	
+    <header>
+        <div th:replace="/include/nav :: nav"></div>
+    </header>
 
-	<footer class="page-footer white">
-		<div>
-			Copyright © 2017  <a class="brown-text text-lighten-3" href="https://www.google.com">Bougly Compagny</a>
-		</div>
-	</footer>
-	<fragment th:include="/include/script :: script"></fragment>
+
+    <div th:replace="/include/script :: script"></div>
+    <footer>
+        <div th:replace="/include/footer :: footer"></div>
+    </footer>
 </body>
+
 </html>

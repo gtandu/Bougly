@@ -6,17 +6,17 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 
-import fr.bougly.repository.AdministrateurRepository;
+import fr.bougly.repository.CompteRepository;
 
 @Component
 public class CustomUserDetailsService implements UserDetailsService {
 
 	@Autowired
-	private AdministrateurRepository administrateurRepository;
+	private CompteRepository compteRepository;
 	
 	
 	@Override
 	public UserDetails loadUserByUsername(String mail) throws UsernameNotFoundException {
-		return administrateurRepository.findByMail(mail);
+		return compteRepository.findByMail(mail);
 	}
 }

@@ -2,16 +2,17 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
 <head>
-	
-	<div th:replace="/include/header :: header"></div>
+
+    <div th:replace="/include/header :: header"></div>
     <title>Bougly Login</title>
-   	<meta charset="UTF-8"/>
-   	<link type="text/css" rel="stylesheet" th:href="@{css/login.css}" />
+    <meta charset="UTF-8" />
+    <link type="text/css" rel="stylesheet" th:href="@{css/login.css}" />
 
 </head>
 
 <body>
     <header>
+        <div th:replace="/include/nav :: nav"></div>
     </header>
     <main>
         <div class="container">
@@ -49,7 +50,10 @@
 
         </div>
     </main>
-    <fragment th:include="/include/script :: script"></fragment>
+    <div th:replace="/include/script :: script"></div>
+    <footer>
+        <div th:replace="/include/footer :: footer"></div>
+    </footer>
 </body>
 
 </html>

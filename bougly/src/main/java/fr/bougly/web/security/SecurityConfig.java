@@ -7,6 +7,8 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
+import fr.bougly.model.enumeration.RoleCompteEnum;
+
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
@@ -23,9 +25,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		.antMatchers("/css/**","/js/**","/fonts/**").permitAll() 
         .anyRequest().authenticated()
         .and()
-        .authorizeRequests().antMatchers("/responsable/**").access("hasRole('RESPONSABLE')").and()
-        .authorizeRequests().antMatchers("/etudiant/**").access("hasRole('ETUDIANT')").and()
-        .authorizeRequests().antMatchers("/administrateur/**").access("hasRole('ADMIN')").and()
+        .authorizeRequests().antMatchers("/responsable/**").access("hasRole("+RoleCompteEnum.RESPONSABLE+")").and()
+        .authorizeRequests().antMatchers("/enseignant/**").access("hasRole("+RoleCompteEnum.ENSEIGNANT+")").and()
+        .authorizeRequests().antMatchers("/etudiant/**").access("hasRole("+RoleCompteEnum.ETUDIANT+")").and()
+        .authorizeRequests().antMatchers("/administrateur/**").access("hasRole("+RoleCompteEnum.ADMINISTRATEUR+")").and()
         .formLogin()
         .loginPage("/login.html")
         .defaultSuccessUrl("/accueilEtudiant.html",true)
@@ -34,7 +37,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         .and()
         .logout()
         .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-        .logoutSuccessUrl("/login");
+        .logoutSuccessUrl("/login.html");
 	}
 
 }

@@ -1,16 +1,16 @@
-package fr.bougly.model;
+package fr.bougly.model.enumeration;
 
-public enum RoleCompte {
+public enum RoleCompteEnum {
 	
 	ENSEIGNANT ("ENSEIGNANT"),
-    ADMIN ("ADMIN"),
+    ADMINISTRATEUR ("ADMINISTRATEUR"),
     ETUDIANT ("ETUDIANT"),
     RESPONSABLE ("RESPONSABLE");
 	
 
     private final String name;       
 
-    private RoleCompte(String s) {
+    private RoleCompteEnum(String s) {
         name = s;
     }
 

@@ -1,5 +1,8 @@
 package fr.bougly.web.controller;
 
+import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyString;
+import static org.mockito.Matchers.eq;
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -13,7 +16,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
@@ -26,14 +28,13 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 import fr.bougly.model.Administrateur;
+import fr.bougly.model.Compte;
 import fr.bougly.model.Enseignant;
 import fr.bougly.model.Etudiant;
 import fr.bougly.model.Responsable;
-import fr.bougly.model.RoleCompte;
-import fr.bougly.service.AdministrateurService;
-import fr.bougly.service.EnseignantService;
-import fr.bougly.service.EtudiantService;
-import fr.bougly.service.ResponsableService;
+import fr.bougly.model.enumeration.RoleCompteEnum;
+import fr.bougly.repository.CompteRepository;
+import fr.bougly.service.CompteService;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration
@@ -46,20 +47,9 @@ public class AdministrateurControllerTest {
 
 	@Autowired
 	private WebApplicationContext wac;
-	
+
 	@MockBean
-	private EtudiantService etudiantService;
-	
-	@MockBean
-	private AdministrateurService administrateurService;
-	
-	@MockBean
-	@Qualifier(value="enseignantService")
-	private EnseignantService enseignantService;
-	
-	@MockBean
-	@Qualifier(value="responsableService")
-	private ResponsableService responsableService;
+	private CompteService compteService;
 	
 	@Before
 	public void setup() {
@@ -68,7 +58,7 @@ public class AdministrateurControllerTest {
 				.alwaysDo(MockMvcResultHandlers.print())
 				.apply(springSecurity()).build();
 	}
-
+	
 	@Test
 	@WithMockUser(roles = "ADMIN")
 	public void testShowPageGestionCompte() throws Exception {
@@ -91,7 +81,7 @@ public class AdministrateurControllerTest {
 	}
 	
 	@Test
-	@WithMockUser(roles = "ADMIN")
+	@WithMockUser(roles = "Administrateur")
 	public void testCreerCompteEtudiantFromData() throws Exception {
 		//WHEN
 		String mail = "test@mail.fr";
@@ -100,10 +90,10 @@ public class AdministrateurControllerTest {
 		String prenom = "Joe";
 		String dateDeNaissance = "20/05/1994";
 		String numeroEtudiant = "20171000";
-		String role = RoleCompte.ETUDIANT.toString();
-		Etudiant etudiantMock = new Etudiant(mail,mdp,nom,prenom,dateDeNaissance,numeroEtudiant);
+		String role = RoleCompteEnum.ETUDIANT.toString();
+		Etudiant etudiant = new Etudiant(mail,mdp,nom,prenom,dateDeNaissance,numeroEtudiant);
 		
-		Mockito.when(etudiantService.saveUser(Mockito.any(Etudiant.class))).thenReturn(etudiantMock);
+		Mockito.when(compteService.checkUserMailAndSaveUser(any(Compte.class), anyString())).thenReturn(etudiant);
 		
 		//GIVEN
 		this.mockMvc
@@ -118,7 +108,7 @@ public class AdministrateurControllerTest {
 				.andExpect(status().isFound())
 				.andExpect(redirectedUrl(URL_CONTROLLEUR_ADMIN+AdministrateurController.URL_GESTION_COMPTE_PAGE));
 		
-		Mockito.verify(etudiantService).saveUser(Mockito.any(Etudiant.class));
+		Mockito.verify(compteService).checkUserMailAndSaveUser(eq(etudiant), eq(role));
 	}
 	
 	@Test
@@ -130,10 +120,10 @@ public class AdministrateurControllerTest {
 		String nom = "Dalton";
 		String prenom = "Joe";
 		String dateDeNaissance = "20/05/1994";
-		String role = RoleCompte.ADMIN.toString();
-		Administrateur adminMock = new Administrateur(mail,mdp,nom,prenom,dateDeNaissance);
+		String role = RoleCompteEnum.ADMINISTRATEUR.toString();
+		Administrateur admin = new Administrateur(mail,mdp,nom,prenom,dateDeNaissance);
 		
-		Mockito.when(administrateurService.saveUser(Mockito.any(Administrateur.class))).thenReturn(adminMock);
+		Mockito.when(compteService.checkUserMailAndSaveUser(any(Compte.class), anyString())).thenReturn(admin);
 		
 		//GIVEN
 		this.mockMvc
@@ -147,7 +137,7 @@ public class AdministrateurControllerTest {
 				.andExpect(status().isFound())
 				.andExpect(redirectedUrl(URL_CONTROLLEUR_ADMIN+AdministrateurController.URL_GESTION_COMPTE_PAGE));
 		
-		Mockito.verify(administrateurService).saveUser(Mockito.any(Administrateur.class));
+		Mockito.verify(compteService).checkUserMailAndSaveUser(eq(admin), eq(role));
 	}
 	
 	@Test
@@ -159,11 +149,11 @@ public class AdministrateurControllerTest {
 		String nom = "Dalton";
 		String prenom = "Joe";
 		String dateDeNaissance = "20/05/1994";
-		String role = RoleCompte.ENSEIGNANT.toString();
+		String role = RoleCompteEnum.ENSEIGNANT.toString();
 		
 		Enseignant enseignant = new Enseignant(mail,mdp,nom,prenom,dateDeNaissance);
 		
-		Mockito.when(enseignantService.saveUser(Mockito.any(Administrateur.class))).thenReturn(enseignant);
+		Mockito.when(compteService.checkUserMailAndSaveUser(any(Compte.class), anyString())).thenReturn(enseignant);
 		
 		//GIVEN
 		this.mockMvc
@@ -177,9 +167,10 @@ public class AdministrateurControllerTest {
 				.andExpect(status().isFound())
 				.andExpect(redirectedUrl(URL_CONTROLLEUR_ADMIN+AdministrateurController.URL_GESTION_COMPTE_PAGE));
 		
-		Mockito.verify(enseignantService).saveUser(Mockito.any(Administrateur.class));
+		Mockito.verify(compteService).checkUserMailAndSaveUser(eq(enseignant), eq(role));
 	}
 	
+
 	@Test
 	@WithMockUser(roles = "ADMIN")
 	public void testCreerCompteResponsableFromData() throws Exception {
@@ -189,11 +180,11 @@ public class AdministrateurControllerTest {
 		String nom = "Dalton";
 		String prenom = "Joe";
 		String dateDeNaissance = "20/05/1994";
-		String role = RoleCompte.RESPONSABLE.toString();
+		String role = RoleCompteEnum.RESPONSABLE.toString();
 		
 		Responsable responsable = new Responsable(mail,mdp,nom,prenom,dateDeNaissance);
 		
-		Mockito.when(responsableService.saveUser(Mockito.any(Administrateur.class))).thenReturn(responsable);
+		Mockito.when(compteService.checkUserMailAndSaveUser(any(Compte.class), anyString())).thenReturn(responsable);
 		
 		//GIVEN
 		this.mockMvc
@@ -207,8 +198,8 @@ public class AdministrateurControllerTest {
 				.andExpect(status().isFound())
 				.andExpect(redirectedUrl(URL_CONTROLLEUR_ADMIN+AdministrateurController.URL_GESTION_COMPTE_PAGE));
 		
-		Mockito.verify(responsableService).saveUser(Mockito.any(Administrateur.class));
+		Mockito.verify(compteService).checkUserMailAndSaveUser(eq(responsable), eq(role));
 	}
-
+	
 
 }

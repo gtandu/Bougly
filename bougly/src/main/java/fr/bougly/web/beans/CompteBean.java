@@ -1,5 +1,10 @@
 package fr.bougly.web.beans;
 
+import org.springframework.security.core.GrantedAuthority;
+
+import fr.bougly.model.CompteUtilisateur;
+import fr.bougly.model.Etudiant;
+
 public class CompteBean {
 	
 	private String mail;
@@ -9,6 +14,27 @@ public class CompteBean {
 	private String prenom;
 	private String dateDeNaissance;
 	private String numeroEtudiant;
+	
+	public CompteBean() {
+		super();
+	}
+	
+	public CompteBean(CompteUtilisateur compte) {
+		this.mail = compte.getMail();
+		this.nom = compte.getNom();
+		this.prenom = compte.getPrenom();
+		this.dateDeNaissance = compte.getDateDeNaissance();
+		for(GrantedAuthority role : compte.getAuthorities())
+		{
+			this.role = role.getAuthority();
+		}
+		if(compte instanceof Etudiant)
+		{
+			Etudiant compteEtudiant = (Etudiant) compte;
+			this.numeroEtudiant = compteEtudiant.getNumeroEtudiant();
+		}
+		
+	}
 	
 	public String getMail() {
 		return mail;

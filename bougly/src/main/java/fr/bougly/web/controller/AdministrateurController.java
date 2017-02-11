@@ -1,5 +1,7 @@
 package fr.bougly.web.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -11,11 +13,8 @@ import fr.bougly.model.Administrateur;
 import fr.bougly.model.Enseignant;
 import fr.bougly.model.Etudiant;
 import fr.bougly.model.Responsable;
-import fr.bougly.model.RoleCompte;
-import fr.bougly.service.AdministrateurService;
-import fr.bougly.service.EnseignantService;
-import fr.bougly.service.EtudiantService;
-import fr.bougly.service.ResponsableService;
+import fr.bougly.model.enumeration.RoleCompteEnum;
+import fr.bougly.service.CompteService;
 import fr.bougly.web.beans.CompteBean;
 
 
@@ -27,23 +26,17 @@ public class AdministrateurController {
 	public static final String URL_GESTION_COMPTE_PAGE = "/gestionCompte.html";
 	public static final String URL_CREER_COMPTE = "/creerCompte.html";
 	
-	@Autowired
-	AdministrateurService administrateurService;
 	
 	@Autowired
-	EnseignantService enseignantService;
-	
-	@Autowired
-	EtudiantService etudiantService;
-	
-	@Autowired
-	ResponsableService responsableService;
+	CompteService compteService;
 	
 	@RequestMapping(value=URL_GESTION_COMPTE_PAGE, method=RequestMethod.GET)
 	public ModelAndView showPageGestionCompte()
 	{
 		
 		ModelAndView model = new ModelAndView("gestionCompte");
+		List<CompteBean> listeComptes = compteService.findAllComptes();
+		model.addObject("listeComptes", listeComptes);
 		return model;
 		
 	}
@@ -62,25 +55,25 @@ public class AdministrateurController {
 	public String creerCompteFromData(@ModelAttribute(value="compte") CompteBean compteBean) throws Exception
 	{
 		
-		if(compteBean.getRole().equals(RoleCompte.ADMIN.toString()))
+		if(compteBean.getRole().equalsIgnoreCase(RoleCompteEnum.ADMINISTRATEUR.toString()))
 		{
 			Administrateur administrateur = new Administrateur(compteBean);
-			administrateurService.saveUser(administrateur);
+			compteService.checkUserMailAndSaveUser(administrateur, RoleCompteEnum.ADMINISTRATEUR.toString());
 		}
-		else if(compteBean.getRole().equals(RoleCompte.RESPONSABLE.toString()))
+		else if(compteBean.getRole().equalsIgnoreCase(RoleCompteEnum.RESPONSABLE.toString()))
 		{
 			Responsable responsable = new Responsable(compteBean);
-			responsableService.saveUser(responsable);
+			compteService.checkUserMailAndSaveUser(responsable, RoleCompteEnum.RESPONSABLE.toString());
 		}
-		else if(compteBean.getRole().equals(RoleCompte.ENSEIGNANT.toString()))
+		else if(compteBean.getRole().equalsIgnoreCase(RoleCompteEnum.ENSEIGNANT.toString()))
 		{
 			Enseignant enseignant = new Enseignant(compteBean);
-			enseignantService.saveUser(enseignant);
+			compteService.checkUserMailAndSaveUser(enseignant, RoleCompteEnum.ENSEIGNANT.toString());
 		}
 		else
 		{
 			Etudiant etudiant = new Etudiant(compteBean);
-			etudiantService.saveUser(etudiant);
+			compteService.checkUserMailAndSaveUser(etudiant, RoleCompteEnum.ETUDIANT.toString());
 		}
 		
 		return "redirect:"+URL_CONTROLLEUR_ADMIN+URL_GESTION_COMPTE_PAGE;

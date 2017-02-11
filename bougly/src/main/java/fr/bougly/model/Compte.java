@@ -93,6 +93,31 @@ public abstract class Compte implements UserDetails {
 		this.authorities = authorities;
 	}
 	
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((mail == null) ? 0 : mail.hashCode());
+		return result;
+	}
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Compte other = (Compte) obj;
+		if (mail == null) {
+			if (other.mail != null)
+				return false;
+		} else if (!mail.equals(other.mail))
+			return false;
+		return true;
+	}
+	
+	
 	
 
 }

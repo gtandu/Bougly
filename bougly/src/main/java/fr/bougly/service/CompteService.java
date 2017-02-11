@@ -1,17 +1,23 @@
 package fr.bougly.service;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.RandomUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import fr.bougly.exception.UserExistException;
 import fr.bougly.model.Compte;
 import fr.bougly.model.security.Authority;
 import fr.bougly.repository.CompteRepository;
 import fr.bougly.repository.security.AuthorityRepository;
+import fr.bougly.service.helper.MapperBeanUtil;
+import fr.bougly.web.beans.CompteBean;
 
+@Service
 public class CompteService {
 	
 	//TODO Encrypt mdp
@@ -19,7 +25,11 @@ public class CompteService {
 	@Autowired
 	private AuthorityRepository authorityRepository;
 	
-	protected Compte checkUserMailAndSaveUser(Compte compte, CompteRepository<?> compteRepository, String role) throws Exception
+	@Autowired
+	private CompteRepository<Compte> compteRepository;
+	
+	
+	public Compte checkUserMailAndSaveUser(Compte compte, String role) throws Exception
 	{
 		Compte compteExiste = compteRepository.findByMail(compte.getMail());
 		
@@ -35,6 +45,14 @@ public class CompteService {
 		
 		return compteSave;
 		
+	}
+	
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	public List<CompteBean> findAllComptes()
+	{
+		List listeComptes = compteRepository.findAll();
+		ArrayList listeComptesBeans = MapperBeanUtil.convertListCompteToListCompteBean(listeComptes);
+		return listeComptesBeans;
 	}
 	
 	public Authority saveAuthority(Compte compte, String role)

@@ -1,7 +1,5 @@
 package fr.bougly.web.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -12,27 +10,10 @@ import fr.bougly.model.Compte;
 import fr.bougly.model.Enseignant;
 import fr.bougly.model.Etudiant;
 import fr.bougly.model.Responsable;
-import fr.bougly.service.AdministrateurService;
-import fr.bougly.service.EnseignantService;
-import fr.bougly.service.EtudiantService;
-import fr.bougly.service.ResponsableService;
 
 @Controller
 public class LoginController {
 
-	@Autowired
-	private AdministrateurService administrateurService;
-	
-	@Autowired
-	private EtudiantService etudiantService;
-	
-	@Autowired
-	@Qualifier(value="enseignantService")
-	private EnseignantService enseignantService;
-	
-	@Autowired
-	@Qualifier(value="responsableService")
-	private ResponsableService responsableService;
 	
 	public static final String URL_LOGIN_PAGE = "/login.html";
 
@@ -50,19 +31,19 @@ public class LoginController {
 
 		// COMPTE ADMIN
 		Compte admin = new Administrateur("admin@hotmail.fr","adm","MAPELLA","Corentin","31/05/1994");
-		admin = administrateurService.saveUser(admin);
+	//	admin = administrateurService.saveUser(admin);
 
 		// COMPTE ETUDIANT
 		Compte etudiant = new Etudiant("etudiant@hotmail.fr","etu","TANDU","Glodie","21/05/1994","20156351");
-		etudiant = etudiantService.saveUser(etudiant);
+		//etudiant = etudiantService.saveUser(etudiant);
 
 		//COMPTE ENSEIGNANT
 		Compte enseignant = new Enseignant("enseignant@hotmail.fr","ens","FINN","José","31/05/1994");
-		enseignant = enseignantService.saveUser(enseignant);
+		//enseignant = enseignantService.saveUser(enseignant);
 		
 		//COMPTE RESPONSABLE
 		Compte responsable = new Responsable("responsable@hotmail.fr","res","ONYME","Anne","21/05/1994");
-		responsable = responsableService.saveUser(responsable);
+		//responsable = responsableService.saveUser(responsable);
 		
 		
 	}

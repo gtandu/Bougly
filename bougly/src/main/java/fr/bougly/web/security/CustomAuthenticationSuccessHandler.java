@@ -12,6 +12,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
+import fr.bougly.model.enumeration.RoleCompteEnum;
+
 @Configuration
 public class CustomAuthenticationSuccessHandler implements AuthenticationSuccessHandler {
     
@@ -22,14 +24,14 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
 		Collection<? extends GrantedAuthority> auths = authResult.getAuthorities();
             for(GrantedAuthority currentRole : auths)
             {
-            	if(currentRole.getAuthority().contains("ETUDIANT")){
+            	if(currentRole.getAuthority().equals(RoleCompteEnum.ETUDIANT)){
                     response.sendRedirect(response.encodeURL("/etudiant/accueilEtudiant.html"));
                 }
-                else if(currentRole.getAuthority().contains("ADMIN"))
+                else if(currentRole.getAuthority().equals(RoleCompteEnum.ADMINISTRATEUR))
                 {
                 	response.sendRedirect(response.encodeURL("/administrateur/gestionCompte.html"));
                 }
-                else if(currentRole.getAuthority().contains("ENSEIGNANT"))
+                else if(currentRole.getAuthority().equals(RoleCompteEnum.ENSEIGNANT))
                 {
                 	response.sendRedirect(response.encodeURL("/enseignant/gestionFiliere.html"));
                 }

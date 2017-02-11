@@ -3,7 +3,7 @@
 
 <head>
 
-    <head th:include="/include/header :: header"></head>
+    <div th:replace="/include/header :: header"></div>
     <title>Créer compte</title>
     <meta charset="UTF-8" />
     <link type="text/css" rel="stylesheet" th:href="@{/css/creerCompte.css}" />
@@ -11,23 +11,25 @@
 </head>
 
 <body>
-    <header th:include="/include/nav :: nav" />
+    <header>
+        <div th:replace="/include/nav :: nav"></div>
+    </header>
     <main>
         <div class="container">
             <div class="row">
                 <form class="col s12" th:action="@{/administrateur/creerCompte.html}" th:object="${compte}" method="post">
-                <input type="hidden"  th:field="*{role}"  />
+                    <input type="hidden" th:field="*{role}" />
                     <div class="row">
-               			<div class="input-field col s12">
-		                    <select>
+                        <div class="input-field col s12">
+                            <select>
 		                    	<option value="Etudiant" selected="selected">Etudiant</option>
 		                        <option value="Administrateur">Administrateur</option>
 		                        <option value="Responsable">Responsable</option>
 		                        <option value="Enseignant">Enseignant</option>
 		                    </select>
-		                    <label>Listes des roles</label>
-		                </div>
-		            </div>
+                            <label>Listes des roles</label>
+                        </div>
+                    </div>
                     <div class="row">
                         <div class="input-field col s6">
                             <input class="validate" placeholder="Ex : adresse@mail.fr" type="email" th:field="*{mail}" />
@@ -52,14 +54,18 @@
                     </div>
                     <div class="row">
                         <div class="input-field col s12">
-                            <button class="btn waves-effect waves-light col s10 offset-s1" type="submit">Créer compte</button>
+                            <a class="waves-effect waves-light btn col s5 offset-s1" th:href="@{/administrateur/gestionCompte.html}">Gestion des comptes</a>
+                            <button class="btn waves-effect waves-light col s5 offset-s1" type="submit">Créer compte</button>
                         </div>
                     </div>
                 </form>
             </div>
         </div>
     </main>
-    <fragment th:include="/include/script :: script"></fragment>
+    <div th:replace="/include/script :: script"></div>
+    <footer>
+        <div th:replace="/include/footer :: footer"></div>
+    </footer>
     <script type="text/javascript" th:src="@{/js/creerCompte.js}"></script>
 </body>
 

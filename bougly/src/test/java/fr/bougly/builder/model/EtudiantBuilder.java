@@ -1,8 +1,12 @@
 package fr.bougly.builder.model;
 
+import java.util.Arrays;
+import java.util.Collection;
+
 import fr.bougly.model.Compte;
 import fr.bougly.model.CompteUtilisateur;
 import fr.bougly.model.Etudiant;
+import fr.bougly.model.security.Authority;
 
 public class EtudiantBuilder extends CompteUtilisateurBuilder {
 
@@ -37,6 +41,14 @@ public class EtudiantBuilder extends CompteUtilisateurBuilder {
 		this.etudiant.setMdp(mdp);
 		return this;
 	}
+	
+	@Override
+	public EtudiantBuilder avecRole(String role) {
+		Collection<Authority> authorities = Arrays.asList(new Authority(role));
+		this.etudiant.setAuthorities(authorities );
+		return this;
+	}
+
 	
 	public EtudiantBuilder avecNumeroEtudiant(String numeroEtudiant) {
 		etudiant.setNumeroEtudiant(numeroEtudiant);
