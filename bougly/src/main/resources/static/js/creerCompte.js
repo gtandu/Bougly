@@ -12,7 +12,6 @@ $(function() {
  */
 function hideAttributOnRoleNoEtudiant() {
 	var currentRole = $('select option:selected').val()
-	console.log(currentRole);
 	$("#role").val(currentRole);
 	$('select').change(function() {
 		
@@ -36,10 +35,8 @@ function checkDateFormatOnInputFocusOut()
 	$("#dateDeNaissance").focusout(function(){
 		var inputDateDeNaissance = $(this).val();
 		var dateValide = isValidDate(inputDateDeNaissance);
-		console.log(dateValide);
 		if(dateValide == false)
 		{
-			console.log($(this));
 			$(this).addClass('invalid');
 		}
 		else
