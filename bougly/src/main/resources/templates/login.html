@@ -4,33 +4,31 @@
 <head>
 
     <div th:replace="/include/header :: header"></div>
-    <title>Bougly Login</title>
+    <title>Portail de Connexion</title>
     <meta charset="UTF-8" />
     <link type="text/css" rel="stylesheet" th:href="@{css/login.css}" />
 
 </head>
 
 <body>
-    <header>
-        <div th:replace="/include/nav :: nav"></div>
-    </header>
+
     <main>
         <div class="container">
             <div class="row">
                 <div class="card-panel col s12 m8 l6 offset-l3 offset-m2 design_formulaire">
-                    <form method="post">
+                    <form method="post" class="design_formulaire_content">
                         <div class="row">
                             <div class="input-field col s11">
                                 <i class="material-icons prefix">perm_identity</i>
                                 <input id="username" type="email" name="username" class="validate" />
-                                <label for="email" class="active">Email</label>
+                                <label for="email" class="active">E-mail</label>
                             </div>
                         </div>
                         <div class="row">
                             <div class="input-field col s11">
                                 <i class="material-icons prefix">vpn_key</i>
                                 <input id="password" type="password" name="password" class="validate" />
-                                <label for="password" class="active">Password</label>
+                                <label for="password" class="active">Mot de Passe</label>
                             </div>
                         </div>
                         <div class="row">
