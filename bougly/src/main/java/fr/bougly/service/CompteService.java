@@ -13,7 +13,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import fr.bougly.exception.UserExistException;
-import fr.bougly.model.Compte;
 import fr.bougly.model.CompteUtilisateur;
 import fr.bougly.model.security.Authority;
 import fr.bougly.repository.CompteRepository;
@@ -34,7 +33,7 @@ public class CompteService {
 	private AuthorityRepository authorityRepository;
 	
 	@Autowired
-	private CompteRepository<Compte> compteRepository;
+	private CompteRepository<CompteUtilisateur> compteRepository;
 	
 	private static final int PAGE_SIZE = 1;
 	
@@ -66,7 +65,7 @@ public class CompteService {
 		return listeComptesBeans;
 	}
 	
-	public Authority saveAuthority(Compte compte, String role)
+	public Authority saveAuthority(CompteUtilisateur compte, String role)
 	{
 		Authority authority = new Authority(compte,role);
 		return authorityRepository.save(authority);

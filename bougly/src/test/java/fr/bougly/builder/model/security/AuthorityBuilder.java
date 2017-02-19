@@ -1,6 +1,6 @@
 package fr.bougly.builder.model.security;
 
-import fr.bougly.model.Compte;
+import fr.bougly.model.CompteUtilisateur;
 import fr.bougly.model.security.Authority;
 
 public class AuthorityBuilder {
@@ -14,7 +14,7 @@ public class AuthorityBuilder {
 		
 	}
 	
-	public AuthorityBuilder avecCompte(Compte compte)
+	public AuthorityBuilder avecCompte(CompteUtilisateur compte)
 	{
 		this.authority.setCompte(compte);
 		return this;

@@ -1,12 +1,9 @@
 package fr.bougly.builder.model;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 
 import fr.bougly.model.Administrateur;
-import fr.bougly.model.Compte;
-import fr.bougly.model.CompteUtilisateur;
 import fr.bougly.model.security.Authority;
 
 public class AdministrateurBuilder extends CompteUtilisateurBuilder{

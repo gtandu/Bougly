@@ -3,7 +3,6 @@ package fr.bougly.service.helper;
 import java.util.ArrayList;
 import java.util.List;
 
-import fr.bougly.model.Compte;
 import fr.bougly.model.CompteUtilisateur;
 import fr.bougly.web.beans.CompteBean;
 

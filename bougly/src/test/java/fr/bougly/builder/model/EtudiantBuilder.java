@@ -3,8 +3,6 @@ package fr.bougly.builder.model;
 import java.util.Arrays;
 import java.util.Collection;
 
-import fr.bougly.model.Compte;
-import fr.bougly.model.CompteUtilisateur;
 import fr.bougly.model.Etudiant;
 import fr.bougly.model.security.Authority;
 

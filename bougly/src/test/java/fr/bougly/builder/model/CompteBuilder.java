@@ -1,6 +1,6 @@
 package fr.bougly.builder.model;
 
-import fr.bougly.model.Compte;
+import fr.bougly.model.CompteUtilisateur;
 
 public abstract class CompteBuilder {
 
@@ -10,6 +10,6 @@ public abstract class CompteBuilder {
 	
 	public abstract CompteBuilder avecRole(String role);
 
-	public abstract Compte build();
+	public abstract CompteUtilisateur build();
 
 }

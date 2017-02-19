@@ -27,7 +27,6 @@ import fr.bougly.builder.model.AdministrateurBuilder;
 import fr.bougly.builder.model.EtudiantBuilder;
 import fr.bougly.exception.UserExistException;
 import fr.bougly.model.Administrateur;
-import fr.bougly.model.Compte;
 import fr.bougly.model.CompteUtilisateur;
 import fr.bougly.model.Etudiant;
 import fr.bougly.model.enumeration.RoleCompteEnum;
@@ -47,7 +46,7 @@ public class CompteServiceTest {
 	private ServiceMail serviceMail;
 	
 	@Mock
-	private CompteRepository<Compte> compteRepository;
+	private CompteRepository<CompteUtilisateur> compteRepository;
 	
 	@Mock
 	private AuthorityRepository authorityRepository;
@@ -68,7 +67,7 @@ public class CompteServiceTest {
 		doNothing().when(serviceMail).prepareAndSend(anyString(), anyString(), anyString());
 		
 		//GIVEN
-		Compte compte = compteService.checkUserMailAndSaveUser(administrateur, role);
+		CompteUtilisateur compte = compteService.checkUserMailAndSaveUser(administrateur, role);
 		
 		//THEN
 		verify(compteRepository).findByMail(mail);

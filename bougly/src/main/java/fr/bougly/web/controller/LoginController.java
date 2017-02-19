@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import fr.bougly.model.Administrateur;
-import fr.bougly.model.Compte;
+import fr.bougly.model.CompteUtilisateur;
 import fr.bougly.model.Enseignant;
 import fr.bougly.model.Etudiant;
 import fr.bougly.model.Responsable;
@@ -30,19 +30,19 @@ public class LoginController {
 	private void initUser() throws Exception {
 
 		// COMPTE ADMIN
-		Compte admin = new Administrateur("admin@hotmail.fr","adm","MAPELLA","Corentin","31/05/1994");
+		CompteUtilisateur admin = new Administrateur("admin@hotmail.fr","adm","MAPELLA","Corentin","31/05/1994");
 	//	admin = administrateurService.saveUser(admin);
 
 		// COMPTE ETUDIANT
-		Compte etudiant = new Etudiant("etudiant@hotmail.fr","etu","TANDU","Glodie","21/05/1994","20156351");
+		CompteUtilisateur etudiant = new Etudiant("etudiant@hotmail.fr","etu","TANDU","Glodie","21/05/1994","20156351");
 		//etudiant = etudiantService.saveUser(etudiant);
 
 		//COMPTE ENSEIGNANT
-		Compte enseignant = new Enseignant("enseignant@hotmail.fr","ens","FINN","José","31/05/1994");
+		CompteUtilisateur enseignant = new Enseignant("enseignant@hotmail.fr","ens","FINN","José","31/05/1994");
 		//enseignant = enseignantService.saveUser(enseignant);
 		
 		//COMPTE RESPONSABLE
-		Compte responsable = new Responsable("responsable@hotmail.fr","res","ONYME","Anne","21/05/1994");
+		CompteUtilisateur responsable = new Responsable("responsable@hotmail.fr","res","ONYME","Anne","21/05/1994");
 		//responsable = responsableService.saveUser(responsable);
 		
 		
