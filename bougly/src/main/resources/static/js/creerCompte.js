@@ -4,10 +4,11 @@ $(function() {
 	hideAttributOnRoleNoEtudiant();
 	checkDateFormatOnInputFocusOut();
 	checkErrorOnSubmit();
+	checkEmailFormatOnInputFocusOut();
 });
 
 /**
- * Cache les inputs selon le role choisit
+ * Cache les inputs selon le role choisit et ajoute la classe 'notBind' a l'input numeroEtudiant selon le type de compte
  * @returns
  */
 function hideAttributOnRoleNoEtudiant() {
@@ -19,8 +20,17 @@ function hideAttributOnRoleNoEtudiant() {
 		
 		if (currentRole != "Etudiant") {
 			$(".inputNumEtu").toggle(function(){
+				$("#numeroEtudiant").removeAttr('required');
+				$("#numeroEtudiant").removeClass('invalid');
+				$("#numeroEtudiant").removeClass('validate');
+				$("#numeroEtudiant").addClass('notBind');
 				$("#role").val(currentRole);
 			});
+		}
+		else
+		{
+			$('#numeroEtudiant').attr('required','true');
+			$("#numeroEtudiant").removeClass('notBind');
 		}
 	});
 }
@@ -60,7 +70,41 @@ function isValidDate(date)
 }
 
 /**
- * Verifie lors du submit que tous les champs soient valides
+ * Verifie le format de l'email en sortie d'input
+ * @returns
+ */
+function checkEmailFormatOnInputFocusOut()
+{
+	$("#email").focusout(function(){
+		var inputEmail = $(this).val();
+		var emailValide = isValidEmail(inputEmail);
+		if(emailValide == false)
+		{
+			console.log('invalide');
+			console.log($(this));
+			$(this).addClass('invalid');
+		}
+		else
+		{
+			console.log('valide');
+			$(this).removeClass('invalid').addClass('valid');
+		}
+	});
+}
+
+/**
+ * Test le format de l'email
+ * @param email
+ * @returns
+ */
+function isValidEmail(email)
+{
+	var reg = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+	return reg.test(email);
+}
+
+/**
+ * Verifie lors du submit que tous les champs soient valides et ignore le champ numero etudiant selon le type de compte
  * @returns
  */
 function checkErrorOnSubmit()
@@ -71,10 +115,13 @@ function checkErrorOnSubmit()
 		$('input').each(function(){
 			var currentInput = $(this);
 			
-			if(currentInput.val()=='' || currentInput.hasClass('invalid'))
+			if(currentInput.hasClass('notBind') == false)
 			{
-				error = true
-				currentInput.addClass('invalid');
+				if(currentInput.val()=='' || currentInput.hasClass('invalid'))
+				{
+					error = true
+					currentInput.addClass('invalid');
+				}
 			}
 		})
 		if(error == false)

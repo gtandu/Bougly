@@ -2,11 +2,17 @@ package fr.bougly.model;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Collection;
 import java.util.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.Id;
 import javax.persistence.Inheritance;
+import javax.persistence.OneToMany;
 
+import fr.bougly.model.security.Authority;
 import fr.bougly.web.beans.CompteBean;
 
 @Entity
@@ -16,7 +22,16 @@ public abstract class CompteUtilisateur extends Compte {
 	/**
 	 * 
 	 */
+	
 	private static final long serialVersionUID = 2450538310211221681L;
+	@Id
+	protected String mail;
+
+	protected String mdp;
+	
+	@OneToMany(fetch = FetchType.EAGER,cascade=CascadeType.ALL,orphanRemoval=true,mappedBy="compte")
+	protected Collection<Authority> authorities;
+	
 	protected String nom;
 	protected String prenom;
 	protected String dateDeNaissance;

@@ -3,6 +3,7 @@ package fr.bougly.web.controller;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Matchers.eq;
+import static org.mockito.Mockito.when;
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -11,6 +12,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
+import java.util.Arrays;
+import java.util.Iterator;
+import java.util.List;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -18,6 +23,10 @@ import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.core.convert.converter.Converter;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.ContextConfiguration;
@@ -27,13 +36,13 @@ import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
+import fr.bougly.builder.model.AdministrateurBuilder;
 import fr.bougly.model.Administrateur;
-import fr.bougly.model.Compte;
+import fr.bougly.model.CompteUtilisateur;
 import fr.bougly.model.Enseignant;
 import fr.bougly.model.Etudiant;
 import fr.bougly.model.Responsable;
 import fr.bougly.model.enumeration.RoleCompteEnum;
-import fr.bougly.repository.CompteRepository;
 import fr.bougly.service.CompteService;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -62,6 +71,9 @@ public class AdministrateurControllerTest {
 	@Test
 	@WithMockUser(roles = "ADMIN")
 	public void testShowPageGestionCompte() throws Exception {
+		
+		Page<CompteUtilisateur> toto = buildPageUtilisateur();
+		when(compteService.listAllByPage(any(Integer.class))).thenReturn(toto);
 
 		this.mockMvc
 				.perform(get(URL_CONTROLLEUR_ADMIN + AdministrateurController.URL_GESTION_COMPTE_PAGE)
@@ -93,7 +105,7 @@ public class AdministrateurControllerTest {
 		String role = RoleCompteEnum.ETUDIANT.toString();
 		Etudiant etudiant = new Etudiant(mail,mdp,nom,prenom,dateDeNaissance,numeroEtudiant);
 		
-		Mockito.when(compteService.checkUserMailAndSaveUser(any(Compte.class), anyString())).thenReturn(etudiant);
+		Mockito.when(compteService.checkUserMailAndSaveUser(any(CompteUtilisateur.class), anyString())).thenReturn(etudiant);
 		
 		//GIVEN
 		this.mockMvc
@@ -123,7 +135,7 @@ public class AdministrateurControllerTest {
 		String role = RoleCompteEnum.ADMINISTRATEUR.toString();
 		Administrateur admin = new Administrateur(mail,mdp,nom,prenom,dateDeNaissance);
 		
-		Mockito.when(compteService.checkUserMailAndSaveUser(any(Compte.class), anyString())).thenReturn(admin);
+		Mockito.when(compteService.checkUserMailAndSaveUser(any(CompteUtilisateur.class), anyString())).thenReturn(admin);
 		
 		//GIVEN
 		this.mockMvc
@@ -153,7 +165,7 @@ public class AdministrateurControllerTest {
 		
 		Enseignant enseignant = new Enseignant(mail,mdp,nom,prenom,dateDeNaissance);
 		
-		Mockito.when(compteService.checkUserMailAndSaveUser(any(Compte.class), anyString())).thenReturn(enseignant);
+		Mockito.when(compteService.checkUserMailAndSaveUser(any(CompteUtilisateur.class), anyString())).thenReturn(enseignant);
 		
 		//GIVEN
 		this.mockMvc
@@ -184,7 +196,7 @@ public class AdministrateurControllerTest {
 		
 		Responsable responsable = new Responsable(mail,mdp,nom,prenom,dateDeNaissance);
 		
-		Mockito.when(compteService.checkUserMailAndSaveUser(any(Compte.class), anyString())).thenReturn(responsable);
+		Mockito.when(compteService.checkUserMailAndSaveUser(any(CompteUtilisateur.class), anyString())).thenReturn(responsable);
 		
 		//GIVEN
 		this.mockMvc
@@ -201,5 +213,106 @@ public class AdministrateurControllerTest {
 		Mockito.verify(compteService).checkUserMailAndSaveUser(eq(responsable), eq(role));
 	}
 	
+	private Page<CompteUtilisateur> buildPageUtilisateur()
+	{
+		return new Page<CompteUtilisateur>() {
+
+			@Override
+			public List<CompteUtilisateur> getContent() {
+				// TODO Auto-generated method stub
+				return Arrays.asList(new AdministrateurBuilder().avecMail("admin@admin.fr").avecMdp("adm").avecNom("Admin").avecPrenom("Admin").avecDateDeNaissance("21/05/1994").avecRole(RoleCompteEnum.ADMINISTRATEUR.toString()).build());
+			}
+
+			@Override
+			public int getNumber() {
+				// TODO Auto-generated method stub
+				return 10;
+			}
+
+			@Override
+			public int getNumberOfElements() {
+				// TODO Auto-generated method stub
+				return 0;
+			}
+
+			@Override
+			public int getSize() {
+				// TODO Auto-generated method stub
+				return 0;
+			}
+
+			@Override
+			public Sort getSort() {
+				// TODO Auto-generated method stub
+				return null;
+			}
+
+			@Override
+			public boolean hasContent() {
+				// TODO Auto-generated method stub
+				return false;
+			}
+
+			@Override
+			public boolean hasNext() {
+				// TODO Auto-generated method stub
+				return false;
+			}
+
+			@Override
+			public boolean hasPrevious() {
+				// TODO Auto-generated method stub
+				return false;
+			}
+
+			@Override
+			public boolean isFirst() {
+				// TODO Auto-generated method stub
+				return false;
+			}
+
+			@Override
+			public boolean isLast() {
+				// TODO Auto-generated method stub
+				return false;
+			}
+
+			@Override
+			public Pageable nextPageable() {
+				// TODO Auto-generated method stub
+				return null;
+			}
+
+			@Override
+			public Pageable previousPageable() {
+				// TODO Auto-generated method stub
+				return null;
+			}
+
+			@Override
+			public Iterator<CompteUtilisateur> iterator() {
+				// TODO Auto-generated method stub
+				return null;
+			}
+
+			@Override
+			public long getTotalElements() {
+				// TODO Auto-generated method stub
+				return 0;
+			}
+
+			@Override
+			public int getTotalPages() {
+				// TODO Auto-generated method stub
+				return 10;
+			}
+
+			@Override
+			public <S> Page<S> map(Converter<? super CompteUtilisateur, ? extends S> arg0) {
+				// TODO Auto-generated method stub
+				return null;
+			}
+		};
+	}
 
 }

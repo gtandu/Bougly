@@ -2,16 +2,17 @@ package fr.bougly.repository;
 
 import java.util.List;
 
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.stereotype.Repository;
 
 import fr.bougly.model.Compte;
+import fr.bougly.model.CompteUtilisateur;
 
 @Repository
-public interface CompteRepository<T extends Compte> extends CrudRepository<Compte, Long>{
+public interface CompteRepository<T extends Compte> extends PagingAndSortingRepository<CompteUtilisateur, Long>{
 	
-	public Compte findByMail(String mail);
+	public CompteUtilisateur findByMail(String mail);
 	
-	public List<Compte> findAll();
+	public List<CompteUtilisateur> findAll();
 
 }

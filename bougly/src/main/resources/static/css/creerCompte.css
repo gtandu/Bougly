@@ -2,3 +2,7 @@
 {
 	position : initial;
 }
+.required
+{
+	color : red;
+}

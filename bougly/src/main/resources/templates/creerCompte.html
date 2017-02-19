@@ -32,30 +32,30 @@
                     </div>
                     <div class="row">
                         <div class="input-field col s6">
-                            <input id="email" class="validate" placeholder="Ex : adresse@mail.fr" type="email" th:field="*{mail}" required="true"  />
-                            <label for="mail" data-error="Saisie incorrecte" data-success="Valide">Mail</label>
+                            <input id="email" class="" placeholder="Ex : adresse@mail.fr" type="text" th:field="*{mail}" required="true"  />
+                            <label for="mail" data-error="Erreur" data-success="Valide">Mail <span class="required">*</span></label>
                         </div>
                         <div class="input-field col s6">
                             <input class="validate" placeholder="Ex : Doe" type="text" th:field="*{nom}" pattern=".{2,}" required="true" />
-                            <label for="nom" data-error="Saisie incorrecte" data-success="Valide">Nom</label>
+                            <label for="nom" data-error="Erreur" data-success="Valide">Nom <span class="required">*</span></label>
                         </div>
                         <div class="input-field col s6">
                             <input class="validate" placeholder="Ex : John" type="text" th:field="*{prenom}" pattern=".{2,}" required="true"/>
-                            <label for="prenom" data-error="Saisie incorrecte" data-success="Valide">Prenom</label>
+                            <label for="prenom" data-error="Erreur" data-success="Valide">Prenom <span class="required">*</span></label>
                         </div>
                         <div class="input-field col s6">
                             <input class="" type="text" placeholder="Ex : 01/01/2017" th:field="*{dateDeNaissance}" required="true" />
-                        	<label class="date active" for="dateDeNaissance" data-error="Saisie incorrecte" data-success="Valide">Date de naisssance</label>
+                        	<label class="date active" for="dateDeNaissance" data-error="Erreur" data-success="Valide">Date de naisssance <span class="required">*</span></label>
                         </div>
                         <div class="inputNumEtu input-field col s6">
                             <input class="validate" placeholder="Ex : 20172345" type="text" th:field="*{numeroEtudiant}" pattern="[0-9]{8}" required="true"/>
-                            <label for="numeroEtudiant" data-error="Saisie incorrecte" data-success="Valide">Numero étudiant</label>
+                            <label for="numeroEtudiant" data-error="Erreur" data-success="Valide">Numero étudiant <span class="required">*</span></label>
                         </div>
                     </div>
                     <div class="row">
                         <div class="input-field col s12">
-                            <a class="waves-effect waves-light btn col s5 offset-s1" th:href="@{/administrateur/gestionCompte.html}">Gestion des comptes</a>
-                            <button id="submitButton" class="btn waves-effect waves-light col s5 offset-s1" type="submit">Créer compte</button>
+                            <a class="waves-effect waves-light btn col s5" th:href="@{/administrateur/gestionCompte.html}">Gestion des comptes</a>
+                            <button id="submitButton" class="btn waves-effect waves-light col s5 offset-s2" type="submit">Créer compte</button>
                         </div>
                     </div>
                 </form>

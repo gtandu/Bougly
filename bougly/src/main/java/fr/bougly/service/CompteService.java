@@ -7,10 +7,14 @@ import java.util.List;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.RandomUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import fr.bougly.exception.UserExistException;
 import fr.bougly.model.Compte;
+import fr.bougly.model.CompteUtilisateur;
 import fr.bougly.model.security.Authority;
 import fr.bougly.repository.CompteRepository;
 import fr.bougly.repository.security.AuthorityRepository;
@@ -32,17 +36,18 @@ public class CompteService {
 	@Autowired
 	private CompteRepository<Compte> compteRepository;
 	
+	private static final int PAGE_SIZE = 1;
 	
-	public Compte checkUserMailAndSaveUser(Compte compte, String role) throws Exception
+	public CompteUtilisateur checkUserMailAndSaveUser(CompteUtilisateur compte, String role) throws Exception
 	{
-		Compte compteExiste = compteRepository.findByMail(compte.getMail());
+		CompteUtilisateur compteExiste = compteRepository.findByMail(compte.getMail());
 		
 		if(compteExiste != null)
 		{
 			throw new UserExistException("Utilisateur existe déjà");
 		}
 		compte.setMdp(generateMdp());
-		Compte compteSave = (Compte) compteRepository.save(compte);
+		CompteUtilisateur compteSave = compteRepository.save(compte);
 		
 		Authority saveAuthority = saveAuthority(compteSave, role);
 		compteSave.setAuthorities(Arrays.asList(saveAuthority));
@@ -71,6 +76,11 @@ public class CompteService {
 	public String generateMdp()
 	{
 		return RandomStringUtils.randomAlphanumeric(RandomUtils.nextInt(0, 13) + 8);
+	}
+	
+	public Page<CompteUtilisateur> listAllByPage(Integer pageNumber) {
+		PageRequest request = new PageRequest(pageNumber-1, PAGE_SIZE, Sort.Direction.ASC, "mail");
+		return compteRepository.findAll(request);
 	}
 
 }

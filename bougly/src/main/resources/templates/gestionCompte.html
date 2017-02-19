@@ -47,12 +47,17 @@
                     <a class="waves-effect waves-light btn col s10 offset-s1" th:href="@{/administrateur/creerCompte.html}">Créer un compte</a>
                 </div>
             </div>
+            <div class="row">
+           		<div th:replace="/include/pagination :: pagination">
+            </div>
+            </div>
         </div>
     </main>
     <div th:replace="/include/script :: script"></div>
     <footer>
         <div th:replace="/include/footer :: footer"></div>
     </footer>
+    <script type="text/javascript" th:src="@{/js/gestionCompte.js}"></script>
 </body>
 
 </html>
