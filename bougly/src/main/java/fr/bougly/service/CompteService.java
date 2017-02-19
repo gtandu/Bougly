@@ -35,7 +35,7 @@ public class CompteService {
 	@Autowired
 	private CompteRepository<CompteUtilisateur> compteRepository;
 	
-	private static final int PAGE_SIZE = 1;
+	private static final int PAGE_SIZE = 5;
 	
 	public CompteUtilisateur checkUserMailAndSaveUser(CompteUtilisateur compte, String role) throws Exception
 	{
@@ -80,6 +80,13 @@ public class CompteService {
 	public Page<CompteUtilisateur> listAllByPage(Integer pageNumber) {
 		PageRequest request = new PageRequest(pageNumber-1, PAGE_SIZE, Sort.Direction.ASC, "mail");
 		return compteRepository.findAll(request);
+	}
+	
+	public void deleteCompteByMail(String mail)
+	{
+		CompteUtilisateur compteToDelete = compteRepository.findByMail(mail);
+		compteRepository.delete(compteToDelete);
+		
 	}
 
 }

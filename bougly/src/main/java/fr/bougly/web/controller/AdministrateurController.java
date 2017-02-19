@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import fr.bougly.model.Administrateur;
@@ -30,6 +31,8 @@ public class AdministrateurController {
 	private static final String URL_CONTROLLEUR_ADMIN = "/administrateur";
 	public static final String URL_GESTION_COMPTE_PAGE = "/gestionCompte.html";
 	public static final String URL_CREER_COMPTE = "/creerCompte.html";
+	public static final String URL_SUPPRIMER_COMPTE = "/supprimerCompte.html";
+	
 	
 	
 	@Autowired
@@ -93,6 +96,13 @@ public class AdministrateurController {
 		return "redirect:"+URL_CONTROLLEUR_ADMIN+URL_GESTION_COMPTE_PAGE;
 		
 	}
+	
+	@RequestMapping(value=URL_SUPPRIMER_COMPTE, method=RequestMethod.POST)
+	@ResponseBody
+	public void supprimerCompte(@RequestParam(required=true) String mail)
+	{
+		compteService.deleteCompteByMail(mail);
 		
+	}
 
 }

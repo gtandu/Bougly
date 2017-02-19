@@ -1,9 +1,7 @@
 package fr.bougly.web.controller;
 
-import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.anyString;
-import static org.mockito.Matchers.eq;
-import static org.mockito.Mockito.when;
+import static org.mockito.Matchers.*;
+import static org.mockito.Mockito.*;
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -94,7 +92,7 @@ public class AdministrateurControllerTest {
 	
 	@Test
 	@WithMockUser(roles = "Administrateur")
-	public void testCreerCompteEtudiantFromData() throws Exception {
+	public void testCreerCompteEtudiantFromDataAndRedirect() throws Exception {
 		//WHEN
 		String mail = "test@mail.fr";
 		String mdp = "toto";
@@ -125,7 +123,7 @@ public class AdministrateurControllerTest {
 	
 	@Test
 	@WithMockUser(roles = "ADMIN")
-	public void testCreerCompteAdminFromData() throws Exception {
+	public void testCreerCompteAdminFromDataAndRedirect() throws Exception {
 		//WHEN
 		String mail = "test@mail.fr";
 		String mdp = "toto";
@@ -154,7 +152,7 @@ public class AdministrateurControllerTest {
 	
 	@Test
 	@WithMockUser(roles = "ADMIN")
-	public void testCreerCompteEnseignantFromData() throws Exception {
+	public void testCreerCompteEnseignantFromDataAndRedirect() throws Exception {
 		//WHEN
 		String mail = "test@mail.fr";
 		String mdp = "toto";
@@ -185,7 +183,7 @@ public class AdministrateurControllerTest {
 
 	@Test
 	@WithMockUser(roles = "ADMIN")
-	public void testCreerCompteResponsableFromData() throws Exception {
+	public void shouldCreerCompteResponsableFromDataAndRedirect() throws Exception {
 		//WHEN
 		String mail = "test@mail.fr";
 		String mdp = "toto";
@@ -213,6 +211,24 @@ public class AdministrateurControllerTest {
 		Mockito.verify(compteService).checkUserMailAndSaveUser(eq(responsable), eq(role));
 	}
 	
+	@Test
+	@WithMockUser(roles = "ADMIN")
+	public void shouldCallServiceSupprimerCompte() throws Exception {
+		//WHEN
+		String mail = "admin@hotmail.fr";
+		
+		doNothing().when(compteService).deleteCompteByMail(anyString());
+		
+		//GIVEN
+		this.mockMvc.perform(post(URL_CONTROLLEUR_ADMIN + AdministrateurController.URL_SUPPRIMER_COMPTE)
+				.accept(MediaType.TEXT_HTML)
+				.param("mail", mail))
+		.andExpect(status().isOk());
+		
+		verify(compteService).deleteCompteByMail(eq(mail));
+		
+	}
+
 	private Page<CompteUtilisateur> buildPageUtilisateur()
 	{
 		return new Page<CompteUtilisateur>() {

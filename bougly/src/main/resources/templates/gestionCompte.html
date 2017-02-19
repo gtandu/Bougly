@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html >
 
 <head>
 
@@ -17,6 +17,7 @@
         <div class="container">
             <div class="row">
                 <div id="tabCompte" class="col s12">
+                	<p id="currentUser" th:attr="data-user=${#authentication.name}" style="display:none;"></p>
                     <table class="bordered striped highlight centered responsive-table">
                         <thead>
                             <tr>
@@ -37,6 +38,8 @@
                                 <td th:text="${compte.prenom}">Joe</td>
                                 <td th:text="${compte.dateDeNaissance}">21 Mai 1994</td>
                                 <td th:text="${compte.numeroEtudiant}">20172000</td>
+                                <td><i class="small material-icons deleteIcon" th:attr="data-mail=${compte.mail}">clear</i></td>
+                                <td></td>
                             </tr>
                         </tbody>
                     </table>
@@ -57,7 +60,7 @@
     <footer>
         <div th:replace="/include/footer :: footer"></div>
     </footer>
-    <script type="text/javascript" th:src="@{/js/gestionCompte.js}"></script>
+    <script th:inline="javascript" type="text/javascript" th:src="@{/js/gestionCompte.js}"></script>
 </body>
 
 </html>

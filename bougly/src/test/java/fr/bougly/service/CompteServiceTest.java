@@ -139,6 +139,22 @@ public class CompteServiceTest {
 		verify(compteRepository).findAll(any(Pageable.class));
 	}
 	
+	@Test
+	public void testDeleteCompteByMail() throws Exception {
+		//WHEN
+		String mail = "admin@hotmail.fr";
+		Etudiant etudiant = new Etudiant();
+		when(compteRepository.findByMail(anyString())).thenReturn(etudiant);
+		doNothing().when(compteRepository).delete(any(CompteUtilisateur.class));
+		//GIVEN
+		compteService.deleteCompteByMail(mail);
+		
+		//THEN
+		verify(compteRepository).findByMail(eq(mail));
+		verify(compteRepository).delete(etudiant);
+	}
+
+
 	private Page<CompteUtilisateur> buildPageUtilisateur()
 	{
 		return new Page<CompteUtilisateur>() {
