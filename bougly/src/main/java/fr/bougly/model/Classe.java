@@ -1,16 +1,37 @@
 package fr.bougly.model;
 
-import java.util.ArrayList;
+import java.util.Set;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+
+@Entity
 public class Classe {
 
+	@Id
+    @Column(name = "ID_CLASSE")
+    @GeneratedValue(strategy=GenerationType.AUTO)
+    private Long idClasse;
+	
 	private String nom;
 	private String niveau;
 	private String formation;
 	private float moyenne;
 	private Responsable responsable;
-	private ArrayList<Filiere> lesFilieres ;
-	private ArrayList<Etudiant> lesEtudiants ;
+	
+	@OneToMany
+	@JoinColumn(name = "FILIERES", table = "FILERE")
+	private Set<Filiere> lesFilieres ;
+	
+	//private Set<Etudiant> lesEtudiants ;
 
 	public Classe(){}
 	
@@ -18,8 +39,6 @@ public class Classe {
 		this.nom = nom;
 		this.niveau = niveau;
 		this.formation = formation;
-		lesFilieres = new ArrayList<Filiere> ();
-		lesEtudiants = new ArrayList<Etudiant> ();
 	}
 	
 	public Classe(String nom, String niveau, String formation, float moyenne) {
@@ -27,8 +46,6 @@ public class Classe {
 		this.niveau = niveau;
 		this.formation = formation;
 		this.moyenne = moyenne;
-		lesFilieres = new ArrayList<Filiere> ();
-		lesEtudiants = new ArrayList<Etudiant> ();
 	}
 	
 	public Classe(String nom, String niveau, String formation, Responsable responsable) {
@@ -36,8 +53,6 @@ public class Classe {
 		this.niveau = niveau;
 		this.formation = formation;
 		this.responsable = responsable;
-		lesFilieres = new ArrayList<Filiere> ();
-		lesEtudiants = new ArrayList<Etudiant> ();
 	}
 	
 	public Classe(String nom, String niveau, String formation, float moyenne, Responsable responsable) {
@@ -46,8 +61,6 @@ public class Classe {
 		this.formation = formation;
 		this.moyenne = moyenne;
 		this.responsable = responsable;
-		lesFilieres = new ArrayList<Filiere> ();
-		lesEtudiants = new ArrayList<Etudiant> ();
 	}
 
 	public String getNom() {
@@ -90,20 +103,21 @@ public class Classe {
 		this.responsable = responsable;
 	}
 
-	public ArrayList<Filiere> getLesFilieres() {
+	public Set<Filiere> getLesFilieres() {
 		return lesFilieres;
 	}
 
-	public void setLesFilieres(ArrayList<Filiere> lesFilieres) {
+	public void setLesFilieres(Set<Filiere> lesFilieres) {
 		this.lesFilieres = lesFilieres;
 	}
 
-	public ArrayList<Etudiant> getLesEtudiants() {
+	/**
+	public Set<Etudiant> getLesEtudiants() {
 		return lesEtudiants;
 	}
 
-	public void setLesEtudiants(ArrayList<Etudiant> lesEtudiants) {
+	public void setLesEtudiants(Set<Etudiant> lesEtudiants) {
 		this.lesEtudiants = lesEtudiants;
 	}
-	
+	**/
 }

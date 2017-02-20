@@ -1,10 +1,32 @@
 package fr.bougly.model;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+
+@Entity
+@Inheritance
 public class Filiere {
 
-	protected String nom;
-	protected int seuilCompensation;
-	protected Classe classe;
+	@Id
+	@Column(name = "ID_FILIERE")
+    @GeneratedValue(strategy=GenerationType.AUTO)
+    private Long idFiliere;
+	
+	@Column(name = "NOM")
+	private String nom;
+	
+	@Column(name = "SEUIL_COMPENSATION")
+	private int seuilCompensation;
+	
+	@ManyToOne
+	@JoinColumn(name = "CLASSE", table = "CLASSE")
+	private Classe classe;
 
 	public Filiere(){}
 	
