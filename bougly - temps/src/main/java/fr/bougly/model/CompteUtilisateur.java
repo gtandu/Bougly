@@ -1,5 +1,6 @@
 package fr.bougly.model;
 
+import java.text.ParseException;
 import java.util.Collection;
 
 import javax.persistence.CascadeType;
@@ -13,31 +14,48 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import fr.bougly.model.security.Authority;
+import fr.bougly.web.beans.CompteBean;
 
 @Entity
 @Inheritance
-public abstract class Compte implements UserDetails {
+public abstract class CompteUtilisateur implements UserDetails {
 
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 7927360086142136384L;
-
+	
+	private static final long serialVersionUID = 2450538310211221681L;
 	@Id
 	protected String mail;
 
 	protected String mdp;
-
+	
 	@OneToMany(fetch = FetchType.EAGER,cascade=CascadeType.ALL,orphanRemoval=true,mappedBy="compte")
 	protected Collection<Authority> authorities;
 	
-	public Compte(){}
-	public Compte(String mail, String mdp)
-	{
+	protected String nom;
+	protected String prenom;
+	protected String dateDeNaissance;
+
+	public CompteUtilisateur(){}
+	
+	public CompteUtilisateur(String mail, String mdp, String nom, String prenom, String dateDeNaissance) {
 		this.mail = mail;
 		this.mdp = mdp;
+		this.nom = nom;
+		this.prenom = prenom;
+		this.dateDeNaissance = dateDeNaissance;
 	}
-
+	
+	public CompteUtilisateur(CompteBean compteBean) throws ParseException
+	{
+		this.mail = compteBean.getMail();
+		this.mdp = compteBean.getMdp();
+		this.nom = compteBean.getNom();
+		this.prenom = compteBean.getPrenom();
+		this.dateDeNaissance = compteBean.getDateDeNaissance();
+	}
+	
 	@Override
 	public String getPassword() {
 		return this.mdp;
@@ -108,7 +126,7 @@ public abstract class Compte implements UserDetails {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Compte other = (Compte) obj;
+		CompteUtilisateur other = (CompteUtilisateur) obj;
 		if (mail == null) {
 			if (other.mail != null)
 				return false;
@@ -116,8 +134,30 @@ public abstract class Compte implements UserDetails {
 			return false;
 		return true;
 	}
-	
-	
-	
+
+
+	public String getNom() {
+		return nom;
+	}
+
+	public void setNom(String nom) {
+		this.nom = nom;
+	}
+
+	public String getPrenom() {
+		return prenom;
+	}
+
+	public void setPrenom(String prenom) {
+		this.prenom = prenom;
+	}
+
+	public String getDateDeNaissance() {
+		return dateDeNaissance;
+	}
+
+	public void setDateDeNaissance(String dateDeNaissance) {
+		this.dateDeNaissance = dateDeNaissance;
+	}
 
 }

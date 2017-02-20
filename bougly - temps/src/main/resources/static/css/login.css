@@ -1,0 +1,15 @@
+body {
+    /*background-color: #78909c;*/
+    background-image: url("img/WallpaperLogin.png");
+	background-position: center center;
+}
+
+.design_formulaire
+{
+    margin-top: 150px;
+}
+
+.design_formulaire_content
+{
+    padding: 15px;
+}
