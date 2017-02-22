@@ -1,5 +1,7 @@
 package fr.bougly.web.beans;
 
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.text.WordUtils;
 import org.springframework.security.core.GrantedAuthority;
 
 import fr.bougly.model.CompteUtilisateur;
@@ -58,13 +60,15 @@ public class CompteBean {
 		return nom;
 	}
 	public void setNom(String nom) {
-		this.nom = nom;
+		nom = StringUtils.lowerCase(nom);
+		this.nom = WordUtils.capitalizeFully(nom);
 	}
 	public String getPrenom() {
 		return prenom;
 	}
 	public void setPrenom(String prenom) {
-		this.prenom = prenom;
+		prenom = StringUtils.lowerCase(prenom);
+		this.prenom = WordUtils.capitalizeFully(prenom);;
 	}
 	public String getDateDeNaissance() {
 		return dateDeNaissance;
