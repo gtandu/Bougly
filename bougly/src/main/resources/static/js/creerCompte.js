@@ -19,7 +19,7 @@ function hideAttributOnRoleNoEtudiant() {
 		currentRole = $(this).val();
 		
 		if (currentRole != "Etudiant") {
-			$(".inputNumEtu").toggle(function(){
+			$(".inputNumEtu").hide(function(){
 				$("#numeroEtudiant").removeAttr('required');
 				$("#numeroEtudiant").removeClass('invalid');
 				$("#numeroEtudiant").removeClass('validate');
@@ -29,8 +29,11 @@ function hideAttributOnRoleNoEtudiant() {
 		}
 		else
 		{
-			$('#numeroEtudiant').attr('required','true');
-			$("#numeroEtudiant").removeClass('notBind');
+			$(".inputNumEtu").show(function(){
+				$('#numeroEtudiant').attr('required','true');
+				$("#numeroEtudiant").removeClass('notBind');
+			})
+
 		}
 	});
 }
