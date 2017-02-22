@@ -1,10 +1,28 @@
 package fr.bougly.model;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Inheritance;
+
+@Entity
+@Inheritance
 public class Classe {
 
+	@Id
+	@Column(name="ID")
+	private int id;
+	
+	@Column(name="NOM")
 	private String nom;
+	
+	@Column(name="NIVEAU")
 	private String niveau;
+	
+	@Column(name="FORMATION")
 	private String formation;
+	
+	@Column(name="MOYENNE")
 	private float moyenne;
 	
 	//private Set<Filiere> lesFilieres ;

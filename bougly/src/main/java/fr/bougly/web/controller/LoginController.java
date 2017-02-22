@@ -7,11 +7,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import fr.bougly.model.Administrateur;
+import fr.bougly.model.Classe;
 import fr.bougly.model.CompteUtilisateur;
 import fr.bougly.model.Enseignant;
 import fr.bougly.model.Etudiant;
 import fr.bougly.model.Responsable;
 import fr.bougly.model.enumeration.RoleCompteEnum;
+import fr.bougly.repository.ClasseRepository;
+import fr.bougly.service.ClasseService;
 import fr.bougly.service.CompteService;
 
 @Controller
@@ -22,6 +25,8 @@ public class LoginController {
 	
 	@Autowired
 	private CompteService compteService;
+	@Autowired
+	private ClasseService classeService;
 
 	@RequestMapping(value = URL_LOGIN_PAGE, method = RequestMethod.GET)
 	public ModelAndView showLoginPage() throws Exception {
@@ -35,6 +40,7 @@ public class LoginController {
 
 	private void initUser() throws Exception {
 
+		/**
 		// COMPTE ETUDIANT
 		CompteUtilisateur etudiant = new Etudiant("etudiant@hotmail.fr","etu","TANDU","Glodie","21/05/1994","20156351");
 		//etudiant = etudiantService.saveUser(etudiant);
@@ -49,12 +55,13 @@ public class LoginController {
 		//COMPTE ADMIN
 		CompteUtilisateur admin = new Administrateur("admin@hotmail.fr","adm","MAPELLA","Corentin","31/05/1994");
 		compteService.checkUserMailAndSaveUser(admin, RoleCompteEnum.ADMINISTRATEUR.toString());
+		**/
+		
+		//CLASSE
+		Classe classe = new Classe("MIAGE", "M1", "Apprentissage");
+		classeService.saveClasse(classe);
 		
 		/**
-		//CLASSE
-		Classe m1miaa = new Classe("MIAGE", "M1", "Apprentissage");
-		ClasseRepository.save(m1miaa);
-		
 		//FILIERE
 		Filiere miage = new Filiere("Méthodes informatiques appliquées à la gestion des entreprises", 10);
 		FiliereRepository.save(miage);
