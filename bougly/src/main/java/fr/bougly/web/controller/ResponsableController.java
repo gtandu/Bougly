@@ -9,7 +9,7 @@ import org.springframework.web.servlet.ModelAndView;
 @RequestMapping(value="/responsable")
 public class ResponsableController {
 	
-	public static final String URL_GESTION_FILIERE = "/gestionFiliere.html";
+	public static final String URL_GESTION_FILIERE = "/gestionClasse.html";
 	
 	@RequestMapping(value=URL_GESTION_FILIERE, method=RequestMethod.GET)
 	public ModelAndView showPageGestionFiliere()

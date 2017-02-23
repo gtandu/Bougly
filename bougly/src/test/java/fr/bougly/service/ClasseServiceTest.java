@@ -1,7 +1,7 @@
 package fr.bougly.service;
 
-import static org.mockito.Matchers.anyString;
-import static org.mockito.Mockito.when;
+import static org.mockito.Matchers.*;
+import static org.mockito.Mockito.*;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -9,8 +9,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import fr.bougly.builder.model.AdministrateurBuilder;
-import fr.bougly.model.Administrateur;
+import fr.bougly.model.Classe;
 import fr.bougly.repository.ClasseRepository;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -23,12 +22,13 @@ public class ClasseServiceTest {
 	@Test
 	public void testSaveClasse() throws Exception {
 		//WHEN
-				
+		when(classeRepository.save(any(Classe.class))).thenReturn(new Classe());	
+		
 		//GIVEN
+		classeService.saveClasse(new Classe());
 				
 		//THEN
-				
-		throw new RuntimeException("not yet implemented");
+		verify(classeRepository).save(any(Classe.class));
 	}
 
 }
