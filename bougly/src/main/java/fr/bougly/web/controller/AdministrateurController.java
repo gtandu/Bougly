@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -36,6 +37,7 @@ public class AdministrateurController {
 	public static final String URL_GESTION_COMPTE_PAGE = "/gestionCompte.html";
 	public static final String URL_CREER_COMPTE = "/creerCompte.html";
 	public static final String URL_SUPPRIMER_COMPTE = "/supprimerCompte.html";
+	public static final String URL_EDITER_COMPTE = "/editerCompte.html";
 	
 	
 	
@@ -114,6 +116,13 @@ public class AdministrateurController {
 	public void initBinder(WebDataBinder binder) {
 		StringTrimmerEditor stringtrimmer = new StringTrimmerEditor(true);
 		binder.registerCustomEditor(String.class, stringtrimmer);
+	}
+	
+	@RequestMapping(value=URL_EDITER_COMPTE, method=RequestMethod.POST)
+	@ResponseBody
+	public void editerCompte(CompteBean compteBean)
+	{
+		compteService.editerCompteWithCompteBean(compteBean);
 	}
 
 }

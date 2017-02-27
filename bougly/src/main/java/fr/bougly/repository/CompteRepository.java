@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 import fr.bougly.model.CompteUtilisateur;
 
 @Repository
-public interface CompteRepository<T extends CompteUtilisateur> extends PagingAndSortingRepository<CompteUtilisateur, Long>{
+public interface CompteRepository extends PagingAndSortingRepository<CompteUtilisateur, Long>{
 	
 	public CompteUtilisateur findByMail(String mail);
 	

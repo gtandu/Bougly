@@ -8543,7 +8543,21 @@ button.picker__today:focus, button.picker__clear:focus, button.picker__close:foc
   }
 }
 
+/* ==========================================================================
+   $CUSTOM CSS PROJET BOUGLY
+   ========================================================================== */
+
 .deleteIcon:hover {
     color: red;
     cursor: pointer;
+}
+
+.editIcon:hover{
+	color: #26a69a;
+    cursor: pointer;
+}
+
+.required
+{
+	color : red;
 }

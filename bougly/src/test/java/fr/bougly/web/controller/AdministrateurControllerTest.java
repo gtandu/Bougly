@@ -42,6 +42,7 @@ import fr.bougly.model.Etudiant;
 import fr.bougly.model.Responsable;
 import fr.bougly.model.enumeration.RoleCompteEnum;
 import fr.bougly.service.CompteService;
+import fr.bougly.web.beans.CompteBean;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration
@@ -91,7 +92,7 @@ public class AdministrateurControllerTest {
 	}
 	
 	@Test
-	@WithMockUser(roles = "Administrateur")
+	@WithMockUser(roles = "ADMINISTRATEUR")
 	public void testCreerCompteEtudiantFromDataAndRedirect() throws Exception {
 		//WHEN
 		String mail = "test@mail.fr";
@@ -122,7 +123,7 @@ public class AdministrateurControllerTest {
 	}
 	
 	@Test
-	@WithMockUser(roles = "ADMIN")
+	@WithMockUser(roles = "ADMINISTRATEUR")
 	public void testCreerCompteAdminFromDataAndRedirect() throws Exception {
 		//WHEN
 		String mail = "test@mail.fr";
@@ -151,7 +152,7 @@ public class AdministrateurControllerTest {
 	}
 	
 	@Test
-	@WithMockUser(roles = "ADMIN")
+	@WithMockUser(roles = "ADMINISTRATEUR")
 	public void testCreerCompteEnseignantFromDataAndRedirect() throws Exception {
 		//WHEN
 		String mail = "test@mail.fr";
@@ -182,7 +183,7 @@ public class AdministrateurControllerTest {
 	
 
 	@Test
-	@WithMockUser(roles = "ADMIN")
+	@WithMockUser(roles = "ADMINISTRATEUR")
 	public void shouldCreerCompteResponsableFromDataAndRedirect() throws Exception {
 		//WHEN
 		String mail = "test@mail.fr";
@@ -212,7 +213,7 @@ public class AdministrateurControllerTest {
 	}
 	
 	@Test
-	@WithMockUser(roles = "ADMIN")
+	@WithMockUser(roles = "ADMINISTRATEUR")
 	public void shouldCallServiceSupprimerCompte() throws Exception {
 		//WHEN
 		String mail = "admin@hotmail.fr";
@@ -227,6 +228,23 @@ public class AdministrateurControllerTest {
 		
 		verify(compteService).deleteCompteByMail(eq(mail));
 		
+	}
+	
+	@Test
+	@WithMockUser(roles = "ADMINISTRATEUR")
+	public void shouldCallServiceEditerCompte() throws Exception
+	{
+		//WHEN
+		doNothing().when(compteService).editerCompteWithCompteBean(any(CompteBean.class));
+		
+		//GIVEN
+		this.mockMvc.perform(post(URL_CONTROLLEUR_ADMIN + AdministrateurController.URL_EDITER_COMPTE)
+				.accept(MediaType.TEXT_HTML))
+		.andExpect(status().isOk());
+		
+		//THEN
+		
+		verify(compteService).editerCompteWithCompteBean(any(CompteBean.class));
 	}
 
 	private Page<CompteUtilisateur> buildPageUtilisateur()

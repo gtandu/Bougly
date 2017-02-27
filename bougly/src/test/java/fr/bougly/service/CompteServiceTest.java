@@ -5,6 +5,7 @@ import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -23,6 +24,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 
+import fr.bougly.builder.bean.CompteBeanBuilder;
 import fr.bougly.builder.model.AdministrateurBuilder;
 import fr.bougly.builder.model.EtudiantBuilder;
 import fr.bougly.exception.UserExistException;
@@ -46,7 +48,7 @@ public class CompteServiceTest {
 	private ServiceMail serviceMail;
 	
 	@Mock
-	private CompteRepository<CompteUtilisateur> compteRepository;
+	private CompteRepository compteRepository;
 	
 	@Mock
 	private AuthorityRepository authorityRepository;
@@ -140,7 +142,7 @@ public class CompteServiceTest {
 	}
 	
 	@Test
-	public void testDeleteCompteByMail() throws Exception {
+	public void shouldDeleteCompteByMail() throws Exception {
 		//WHEN
 		String mail = "admin@hotmail.fr";
 		Etudiant etudiant = new Etudiant();
@@ -152,6 +154,31 @@ public class CompteServiceTest {
 		//THEN
 		verify(compteRepository).findByMail(eq(mail));
 		verify(compteRepository).delete(etudiant);
+	}
+	
+	@Test
+	public void shouldEditerCompte()
+	{
+		//WHEN
+		String mail = "etudiant@hotmail.fr";
+		String role = RoleCompteEnum.ETUDIANT.toString();
+		String nom = "Joe";
+		String prenom = "Bibi";
+		String dateDeNaissance = "01/01/2007";
+		String numeroEtudiant = "20174520";
+		CompteBean compteBean = new CompteBeanBuilder().avecMail(mail).avecRole(role).avecNom(nom).avecPrenom(prenom).avecDateDeNaissance(dateDeNaissance).avecNumeroEtudiant(numeroEtudiant).build();
+		Etudiant compte = mock(Etudiant.class);
+		when(compteRepository.findByMail(anyString())).thenReturn(compte);
+		
+		//GIVEN
+		compteService.editerCompteWithCompteBean(compteBean);
+		
+		//THEN
+		verify(compteRepository).findByMail(eq(mail));
+		verify(compte).setNom(eq(nom));
+		verify(compte).setPrenom(eq(prenom));
+		verify(compte).setDateDeNaissance(eq(dateDeNaissance));
+		verify(compte).setNumeroEtudiant(eq(numeroEtudiant));
 	}
 
 

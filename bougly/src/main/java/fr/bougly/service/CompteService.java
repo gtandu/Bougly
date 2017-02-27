@@ -11,9 +11,12 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import fr.bougly.exception.UserExistException;
 import fr.bougly.model.CompteUtilisateur;
+import fr.bougly.model.Etudiant;
+import fr.bougly.model.enumeration.RoleCompteEnum;
 import fr.bougly.model.security.Authority;
 import fr.bougly.repository.CompteRepository;
 import fr.bougly.repository.security.AuthorityRepository;
@@ -33,7 +36,7 @@ public class CompteService {
 	private AuthorityRepository authorityRepository;
 	
 	@Autowired
-	private CompteRepository<CompteUtilisateur> compteRepository;
+	private CompteRepository compteRepository;
 	
 	private static final int PAGE_SIZE = 5;
 	
@@ -87,6 +90,19 @@ public class CompteService {
 		CompteUtilisateur compteToDelete = compteRepository.findByMail(mail);
 		compteRepository.delete(compteToDelete);
 		
+	}
+	
+	@Transactional
+	public void editerCompteWithCompteBean(CompteBean compteBean){
+		CompteUtilisateur compteFromDb = compteRepository.findByMail(compteBean.getMail());
+		compteFromDb.setNom(compteBean.getNom());
+		compteFromDb.setPrenom(compteBean.getPrenom());
+		compteFromDb.setDateDeNaissance(compteBean.getDateDeNaissance());
+		if(compteBean.getRole() == RoleCompteEnum.ETUDIANT.toString())
+		{
+			Etudiant etudiant = (Etudiant) compteFromDb;
+			etudiant.setNumeroEtudiant(compteBean.getNumeroEtudiant());
+		}
 	}
 
 }

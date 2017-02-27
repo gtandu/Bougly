@@ -32,13 +32,14 @@
 
                         <tbody>
                             <tr th:each="compte : ${listeComptes}">
-                                <td th:text="${compte.role}">Administrateur</td>
-                                <td th:text="${compte.mail}">admin@hotmail.fr</td>
-                                <td th:text="${compte.nom}">Dalton</td>
-                                <td th:text="${compte.prenom}">Joe</td>
-                                <td th:text="${compte.dateDeNaissance}">21 Mai 1994</td>
-                                <td th:text="${compte.numeroEtudiant}">20172000</td>
-                                <td><i class="small material-icons deleteIcon" th:attr="data-mail=${compte.mail}">clear</i></td>
+                                <td th:attr="data-role=${compte.role}" th:text="${compte.role}">Administrateur</td>
+                                <td th:attr="data-mail=${compte.mail}" th:text="${compte.mail}">admin@hotmail.fr</td>
+                                <td th:attr="data-nom=${compte.nom}" th:text="${compte.nom}">Dalton</td>
+                                <td th:attr="data-prenom=${compte.prenom}" th:text="${compte.prenom}">Joe</td>
+                                <td th:attr="data-date_de_naissance=${compte.dateDeNaissance}" th:text="${compte.dateDeNaissance}">21 Mai 1994</td>
+                                <td th:attr="data-numero_etudiant=${compte.numeroEtudiant}" th:text="${compte.numeroEtudiant}">20172000</td>
+                                <td><a href="#modalEditCompte"><i class="small material-icons editIcon">edit</i></a></td>
+                                <td><i class="small material-icons deleteIcon">clear</i></td>
                                 <td></td>
                             </tr>
                         </tbody>
@@ -54,6 +55,7 @@
            		<div th:replace="/include/pagination :: pagination">
             </div>
             </div>
+            <div th:replace="/include/modal/modalEditCompte :: modalEditCompte"></div>
         </div>
     </main>
     <div th:replace="/include/script :: script"></div>
@@ -61,6 +63,7 @@
         <div th:replace="/include/footer :: footer"></div>
     </footer>
     <script th:inline="javascript" type="text/javascript" th:src="@{/js/gestionCompte.js}"></script>
+    <script type="text/javascript" th:src="@{/js/lib/formChecker.js}"></script>
 </body>
 
 </html>

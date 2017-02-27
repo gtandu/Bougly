@@ -40,11 +40,15 @@ public class LoginController {
 
 	private void initUser() throws Exception {
 
+		//COMPTE ADMIN
+		CompteUtilisateur admin = new Administrateur("admin@hotmail.fr","adm","MAPELLA","Corentin","31/05/1994");
+		compteService.checkUserMailAndSaveUser(admin, RoleCompteEnum.ADMINISTRATEUR.toString());
+		
 		/**
 		// COMPTE ETUDIANT
 		CompteUtilisateur etudiant = new Etudiant("etudiant@hotmail.fr","etu","TANDU","Glodie","21/05/1994","20156351");
 		//etudiant = etudiantService.saveUser(etudiant);
-
+		
 		//COMPTE ENSEIGNANT
 		CompteUtilisateur enseignant = new Enseignant("enseignant@hotmail.fr","ens","FINN","José","31/05/1994");
 		//enseignant = enseignantService.saveUser(enseignant);
@@ -52,9 +56,7 @@ public class LoginController {
 		//COMPTE RESPONSABLE
 		CompteUtilisateur responsable = new Responsable("responsable@hotmail.fr","res","ONYME","Anne","21/05/1994");
 		
-		//COMPTE ADMIN
-		CompteUtilisateur admin = new Administrateur("admin@hotmail.fr","adm","MAPELLA","Corentin","31/05/1994");
-		compteService.checkUserMailAndSaveUser(admin, RoleCompteEnum.ADMINISTRATEUR.toString());
+
 		**/
 		
 		//CLASSE

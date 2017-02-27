@@ -1,3 +1,7 @@
 .pagination li.active {
-    background-color: #26a69a;
+	background-color: #26a69a;
+}
+
+.editIcon {
+	color: black;
 }

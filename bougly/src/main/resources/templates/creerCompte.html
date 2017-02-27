@@ -18,7 +18,7 @@
         <div class="container">
             <div class="row">
                 <form class="col s12" th:action="@{/administrateur/creerCompte.html}" th:object="${compte}" method="post">
-                    <input type="hidden" th:field="*{role}" />
+                    <input type="hidden" th:field="*{role}"/>
                     <div class="row">
                         <div class="input-field col s12">
                             <select>
@@ -67,6 +67,7 @@
         <div th:replace="/include/footer :: footer"></div>
     </footer>
     <script type="text/javascript" th:src="@{/js/creerCompte.js}"></script>
+    <script type="text/javascript" th:src="@{/js/lib/formChecker.js}"></script>
 </body>
 
 </html>
