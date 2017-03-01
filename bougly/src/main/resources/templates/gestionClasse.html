@@ -1,10 +1,14 @@
 <!DOCTYPE html>
-<html>
+<html >
+
 <head>
+
     <div th:replace="/include/header :: header"></div>
+    <title>Gestion des classes</title>
     <meta charset="UTF-8" />
-    <title>Gestion Filière</title>
+    <link type="text/css" rel="stylesheet" th:href="@{/css/gestionCompte.css}" />
 </head>
+
 <body>
     <header>
         <div th:replace="/include/nav :: nav"></div>
@@ -12,61 +16,34 @@
     <main>
         <div class="container">
             <div class="row">
-                <div id="tabUE" class="col s12 ">
-                    <div class="card-panel">
-                        <div class="UE1">
-                            <div class="card-content">
-                                <div class="col s2">
-                                    <span class="card-title">Classe Miage</span>
-                                </div>
-                                <div class="col s1 offset-s10 divIconDelete">
-                                    <span><i class="small material-icons deleteIcon deleteUe">clear</i></span>
-                                </div>
-                            </div>
-                            <table class="bordered highlight centered responsive-table">
-                                <thead>
-                                    <tr>
-                                        <th>Nom</th>
-                                        <th>Niveau</th>
-                                        <th>Formation</th>
-                                        <th>Moyenne</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>Statistiques</td>
-                                        <td>Cours de statistiques descriptive</td>
-                                        <td>4</td>
-                                        <td>7</td>
-                                        <td>Oui</td>
-                                        <td><i class="small material-icons deleteIcon deleteMatiere">clear</i></td>
-                                    </tr>
-                                    <tr>
-                                        <td>Droit</td>
-                                        <td>Droit du travail, droit des contrats</td>
-                                        <td>3</td>
-                                        <td>7</td>
-                                        <td>Oui</td>
-                                        <td><i class="small material-icons deleteIcon deleteMatiere">clear</i></td>
-                                    </tr>
-                                    <tr>
-                                        <td>Base de données avancées</td>
-                                        <td>Bdd no sql, projet</td>
-                                        <td>4</td>
-                                        <td>7</td>
-                                        <td>Oui</td>
-                                        <td><i class="small material-icons deleteIcon deleteMatiere">clear</i></td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                            <p>Coefficient total de l'UE : <span>8</span></p>
-                        </div>
-                    </div>
+                <div id="tabCompte" class="col s12">
+                	<p id="currentUser" th:attr="data-user=${#authentication.name}" style="display:none;"></p>
+                    <table class="bordered striped highlight centered responsive-table">
+                        <thead>
+                            <tr>
+                                <th>Nom</th>
+                                <th>Formation</th>
+                                <th>Niveau</th>
+                                <th>Moyenne</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            <tr th:each="classe : ${listeClasses}">
+                                <td th:text="${classe.nom}">Administrateur</td>
+                                <td th:text="${classe.formation}">admin@hotmail.fr</td>
+                                <td th:text="${classe.niveau}">Dalton</td>
+                                <td th:text="${classe.moyenne}">Joe</td>
+                                <td><i class="small material-icons deleteIcon" th:attr="data-mail=${compte.mail}">clear</i></td>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
             <div class="row">
                 <div class="col s12">
-                    <a class="waves-effect waves-light btn col s10 offset-s1" th:href="@{/responsable/creerFiliere.html}">Créer une filiere</a>
+                    <a class="waves-effect waves-light btn col s10 offset-s1" th:href="@{/responsable/creerClasse.html}">Créer une classe</a>
                 </div>
             </div>
         </div>
@@ -75,5 +52,7 @@
     <footer>
         <div th:replace="/include/footer :: footer"></div>
     </footer>
+    <script th:inline="javascript" type="text/javascript" th:src="@{/js/gestionCompte.js}"></script>
 </body>
+
 </html>

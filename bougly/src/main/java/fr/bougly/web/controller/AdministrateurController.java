@@ -39,8 +39,6 @@ public class AdministrateurController {
 	public static final String URL_SUPPRIMER_COMPTE = "/supprimerCompte.html";
 	public static final String URL_EDITER_COMPTE = "/editerCompte.html";
 	
-	
-	
 	@Autowired
 	CompteService compteService;
 	
