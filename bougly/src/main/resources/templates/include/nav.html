@@ -1,23 +1,28 @@
 <meta charset="UTF-8" />
 
-<div th:fragment="nav">
-    <nav class="#b2dfdb teal lighten-3" role="navigation">
-        <div class="nav-wrapper container">
-            <a id="logo-container" class="brand-logo">Bougly</a>
-            <ul class="right hide-on-med-and-down">
-                <li><a th:href="@{/etudiant/noteEtudiant.html}"><i class="material-icons">assessment</i></a></li>
-                <li><a href="#"><i class="material-icons">email</i></a></li>
-                <li><a href="#"><i class="material-icons">settings</i></a></li>
-                <li><a th:href="@{/logout}"><i class="material-icons">power_settings_new</i></a></li>
-            </ul>
-
-            <ul id="nav-mobile" class="side-nav">
-                <li><a th:href="@{/etudiant/noteEtudiant.html}"><i class="material-icons">assessment</i>Mes Notes</a></li>
-                <li><a href="#"><i class="material-icons">email</i>Messagerie</a></li>
-                <li><a href="#"><i class="material-icons">settings</i>Paramètres</a></li>
-                <li><a th:href="@{/logout}"><i class="material-icons">power_settings_new</i>Déconnexion</a></li>
-            </ul>
-            <a href="#" data-activates="nav-mobile" class="button-collapse white-text text-darken-2"><i class="material-icons">menu</i></a>
-        </div>
-    </nav>
+<div class="container">
+    <a href="#" data-activates="nav-mobile" class="button-collapse top-nav waves-effect waves-light circle hide-on-large-only">
+        <i class="material-icons">menu</i>
+    </a>
 </div>
+
+<ul id="nav-mobile" class="side-nav fixed">
+    <li class="logo"><a id="logo-container" href="http://materializecss.com/" class="brand-logo"></a></li>
+    <li class="bold"><a href="about.html" class="waves-effect waves-teal">About</a></li>
+    <li class="bold"><a href="getting-started.html" class="waves-effect waves-teal">Getting Started</a></li>
+    <li class="no-padding">
+        <ul class="collapsible collapsible-accordion">
+            <li class="bold"><a class="collapsible-header  waves-effect waves-teal">CSS</a>
+                <div class="collapsible-body">
+                    <ul>
+                        <li><a href="color.html">Color</a></li>
+                        <li><a href="grid.html">Grid</a></li>
+                    </ul>
+                </div>
+            </li>
+        </ul>
+    </li>
+<li class="bold"><a href="http://materializecss.com/mobile.html" class="waves-effect waves-teal">Mobile</a></li>
+<li class="bold"><a href="showcase.html" class="waves-effect waves-teal">Showcase</a></li>
+<li class="bold"><a href="themes.html" class="waves-effect waves-teal">Themes</a></li>
+</ul>
