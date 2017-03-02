@@ -21,14 +21,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		http
 		.csrf().disable();
 		
-		http.authorizeRequests()
-		.antMatchers("/css/**","/js/**","/fonts/**").permitAll() 
+		http
+		.authorizeRequests().antMatchers("/responsable/**").hasAuthority(RoleCompteEnum.RESPONSABLE.toString()).and()
+		.authorizeRequests().antMatchers("/enseignant/**").hasAuthority(RoleCompteEnum.ENSEIGNANT.toString()).and()
+		.authorizeRequests().antMatchers("/etudiant/**").hasAuthority(RoleCompteEnum.ETUDIANT.toString()).and()
+		.authorizeRequests().antMatchers("/administrateur/**").hasAuthority(RoleCompteEnum.ADMINISTRATEUR.toString()).and()
+		.authorizeRequests().antMatchers("/css/**","/js/**","/fonts/**").permitAll() 
         .anyRequest().authenticated()
         .and()
-        .authorizeRequests().antMatchers("/responsable/**").access("hasRole("+RoleCompteEnum.RESPONSABLE+")").and()
-        .authorizeRequests().antMatchers("/enseignant/**").access("hasRole("+RoleCompteEnum.ENSEIGNANT+")").and()
-        .authorizeRequests().antMatchers("/etudiant/**").access("hasRole("+RoleCompteEnum.ETUDIANT+")").and()
-        .authorizeRequests().antMatchers("/administrateur/**").access("hasRole("+RoleCompteEnum.ADMINISTRATEUR+")").and()
         .formLogin()
         .loginPage("/login.html")
         .defaultSuccessUrl("/accueilEtudiant.html",true)
