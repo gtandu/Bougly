@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.data.domain.Page;
 import org.springframework.format.Formatter;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
@@ -118,9 +120,10 @@ public class AdministrateurController {
 	
 	@RequestMapping(value=URL_EDITER_COMPTE, method=RequestMethod.POST)
 	@ResponseBody
-	public void editerCompte(CompteBean compteBean)
+	public String editerCompte(CompteBean compteBean)
 	{
-		compteService.editerCompteWithCompteBean(compteBean);
+			compteService.editerCompteWithCompteBean(compteBean);
+			return "OK";
 	}
 
 }

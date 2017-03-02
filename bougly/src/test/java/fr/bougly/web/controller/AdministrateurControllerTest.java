@@ -68,7 +68,7 @@ public class AdministrateurControllerTest {
 	}
 	
 	@Test
-	@WithMockUser(roles = "ADMIN")
+	@WithMockUser(authorities = "ADMINISTRATEUR")
 	public void testShowPageGestionCompte() throws Exception {
 		
 		Page<CompteUtilisateur> toto = buildPageUtilisateur();
@@ -81,7 +81,7 @@ public class AdministrateurControllerTest {
 	}
 
 	@Test
-	@WithMockUser(roles = "ADMIN")
+	@WithMockUser(authorities = "ADMINISTRATEUR")
 	public void testShowPageCreerCompte() throws Exception {
 		this.mockMvc
 				.perform(get(URL_CONTROLLEUR_ADMIN + AdministrateurController.URL_CREER_COMPTE)
@@ -92,7 +92,7 @@ public class AdministrateurControllerTest {
 	}
 	
 	@Test
-	@WithMockUser(roles = "ADMINISTRATEUR")
+	@WithMockUser(authorities = "ADMINISTRATEUR")
 	public void testCreerCompteEtudiantFromDataAndRedirect() throws Exception {
 		//WHEN
 		String mail = "test@mail.fr";
@@ -123,7 +123,7 @@ public class AdministrateurControllerTest {
 	}
 	
 	@Test
-	@WithMockUser(roles = "ADMINISTRATEUR")
+	@WithMockUser(authorities = "ADMINISTRATEUR")
 	public void testCreerCompteAdminFromDataAndRedirect() throws Exception {
 		//WHEN
 		String mail = "test@mail.fr";
@@ -152,7 +152,7 @@ public class AdministrateurControllerTest {
 	}
 	
 	@Test
-	@WithMockUser(roles = "ADMINISTRATEUR")
+	@WithMockUser(authorities = "ADMINISTRATEUR")
 	public void testCreerCompteEnseignantFromDataAndRedirect() throws Exception {
 		//WHEN
 		String mail = "test@mail.fr";
@@ -183,8 +183,8 @@ public class AdministrateurControllerTest {
 	
 
 	@Test
-	@WithMockUser(roles = "ADMINISTRATEUR")
-	public void shouldCreerCompteResponsableFromDataAndRedirect() throws Exception {
+	@WithMockUser(authorities = "ADMINISTRATEUR")
+	public void testCreerCompteResponsableFromDataAndRedirect() throws Exception {
 		//WHEN
 		String mail = "test@mail.fr";
 		String mdp = "toto";
@@ -213,8 +213,8 @@ public class AdministrateurControllerTest {
 	}
 	
 	@Test
-	@WithMockUser(roles = "ADMINISTRATEUR")
-	public void shouldCallServiceSupprimerCompte() throws Exception {
+	@WithMockUser(authorities = "ADMINISTRATEUR")
+	public void testSupprimerCompte() throws Exception {
 		//WHEN
 		String mail = "admin@hotmail.fr";
 		
@@ -231,8 +231,8 @@ public class AdministrateurControllerTest {
 	}
 	
 	@Test
-	@WithMockUser(roles = "ADMINISTRATEUR")
-	public void shouldCallServiceEditerCompte() throws Exception
+	@WithMockUser(authorities = "ADMINISTRATEUR")
+	public void testEditerCompte() throws Exception
 	{
 		//WHEN
 		doNothing().when(compteService).editerCompteWithCompteBean(any(CompteBean.class));
