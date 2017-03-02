@@ -37,7 +37,7 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
                 }
                 else
                 {
-                	response.sendRedirect(response.encodeURL("/responsable/gestionFiliere.html"));
+                	response.sendRedirect(response.encodeURL("/responsable/gestionClasse.html"));
                 }
             }
             

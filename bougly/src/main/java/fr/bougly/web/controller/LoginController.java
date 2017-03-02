@@ -62,7 +62,7 @@ public class LoginController {
 		**/
 		
 		//CLASSE
-		Classe classe = new Classe("M1MIAA", Niveau.L3, Formation.MIAGE);
+		Classe classe = new Classe("M1MIAA", Niveau.L3.toString(), Formation.MIAGE.toString());
 		classeService.saveClasse(classe);
 		
 		/**

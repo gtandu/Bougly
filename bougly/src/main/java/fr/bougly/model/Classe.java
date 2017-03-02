@@ -17,10 +17,10 @@ public class Classe {
 	private String nom;
 	
 	@Column(name="NIVEAU")
-	private Niveau niveau;
+	private String niveau;
 	
 	@Column(name="FORMATION")
-	private Formation formation;
+	private String formation;
 	
 	@Column(name="MOYENNE")
 	private float moyenne;
@@ -30,20 +30,20 @@ public class Classe {
 
 	public Classe(){}
 	
-	public Classe(String nom, Niveau niveau, Formation formation) {
+	public Classe(String nom, String niveau, String formation) {
 		this.nom = nom;
 		this.niveau = niveau;
 		this.formation = formation;
 	}
 	
-	public Classe(String nom, Niveau niveau, Formation formation, float moyenne) {
+	public Classe(String nom, String niveau, String formation, float moyenne) {
 		this.nom = nom;
 		this.niveau = niveau;
 		this.formation = formation;
 		this.moyenne = moyenne;
 	}
 	
-	public Classe(String nom, Niveau niveau, Formation formation, float moyenne, Responsable responsable) {
+	public Classe(String nom, String niveau, String formation, float moyenne, Responsable responsable) {
 		this.nom = nom;
 		this.niveau = niveau;
 		this.formation = formation;
@@ -58,19 +58,19 @@ public class Classe {
 		this.nom = nom;
 	}
 
-	public Niveau getNiveau() {
+	public String getNiveau() {
 		return niveau;
 	}
 
-	public void setNiveau(Niveau niveau) {
+	public void setNiveau(String niveau) {
 		this.niveau = niveau;
 	}
 
-	public Formation getFormation() {
+	public String getFormation() {
 		return formation;
 	}
 
-	public void setFormation(Formation formation) {
+	public void setFormation(String formation) {
 		this.formation = formation;
 	}
 
