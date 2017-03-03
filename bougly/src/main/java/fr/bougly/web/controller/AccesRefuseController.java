@@ -10,9 +10,11 @@ public class AccesRefuseController {
 	
 	public static final String URL_ACCESS_DENIED = "/403";
 	
+	
+	
 	@RequestMapping(value=URL_ACCESS_DENIED, method=RequestMethod.GET)
-	public ModelAndView accesRefuse(){
-		ModelAndView model = new ModelAndView("erreur/erreur");
+	public ModelAndView showPageErreur403(){
+		ModelAndView model = new ModelAndView("error/403");
 		return model;
 	}
 

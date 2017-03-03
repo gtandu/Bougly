@@ -49,13 +49,13 @@ public class AccesRefuseControllerTest {
 
 	@Test
 	@WithMockUser(authorities = "ADMINISTRATEUR")
-	public void shouldShowPageAccesRefuse() throws Exception {
+	public void shouldShowPageErreur403() throws Exception {
 
 
 		this.mockMvc
 				.perform(get(AccesRefuseController.URL_ACCESS_DENIED)
 						.accept(MediaType.TEXT_HTML))
-				.andExpect(status().isOk()).andExpect(view().name("erreur/erreur"));
+				.andExpect(status().isOk()).andExpect(view().name("error/403"));
 	}
 
 }
