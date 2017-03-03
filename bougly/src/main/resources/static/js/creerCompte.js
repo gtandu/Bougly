@@ -1,7 +1,7 @@
 $(function() {
 	$('select').material_select();
 	hideAttributOnRoleNoEtudiant();
-});
+})
 
 /**
  * Cache les inputs selon le role choisit et ajoute la classe 'notBind' a l'input numeroEtudiant selon le type de compte
@@ -14,13 +14,12 @@ function hideAttributOnRoleNoEtudiant() {
 		
 		currentRole = $(this).val();
 		
-		if (currentRole != "Etudiant") {
+		if (currentRole != "ETUDIANT") {
 			$(".inputNumEtu").hide(function(){
 				$("#numeroEtudiant").removeAttr('required');
 				$("#numeroEtudiant").removeClass('invalid');
 				$("#numeroEtudiant").removeClass('validate');
 				$("#numeroEtudiant").addClass('notBind');
-				$("#role").val(currentRole);
 			});
 		}
 		else

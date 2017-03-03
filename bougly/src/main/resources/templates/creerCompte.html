@@ -21,12 +21,9 @@
                     <input type="hidden" th:field="*{role}"/>
                     <div class="row">
                         <div class="input-field col s12">
-                            <select>
-		                    	<option value="Etudiant" selected="selected">Etudiant</option>
-		                        <option value="Administrateur">Administrateur</option>
-		                        <option value="Responsable">Responsable</option>
-		                        <option value="Enseignant">Enseignant</option>
-		                    </select>
+                        	<select th:field="*{role}">
+								<option th:each="role : ${allRoles}" th:value="${role}" th:text="${role}">Wireframe</option>
+							</select>
                             <label>Listes des roles</label>
                         </div>
                     </div>

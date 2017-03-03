@@ -1,26 +1,15 @@
 package fr.bougly.model.enumeration;
 
+import java.util.Arrays;
+import java.util.List;
+
 public enum RoleCompteEnum {
-	
-	ENSEIGNANT ("ENSEIGNANT"),
-    ADMINISTRATEUR ("ADMINISTRATEUR"),
-    ETUDIANT ("ETUDIANT"),
-    RESPONSABLE ("RESPONSABLE");
-	
 
-    private final String name;       
+	ENSEIGNANT, ADMINISTRATEUR, ETUDIANT, RESPONSABLE;
 
-    private RoleCompteEnum(String s) {
-        name = s;
-    }
-
-    public boolean equalsName(String otherName) {
-        // (otherName == null) check is not needed because name.equals(null) returns false 
-        return name.equals(otherName);
-    }
-
-    public String toString() {
-       return this.name;
-    }
+	public static List<String> listesAllRoles() {
+		return Arrays.asList(ETUDIANT.toString(), ADMINISTRATEUR.toString(), ENSEIGNANT.toString(),
+				RESPONSABLE.toString());
+	}
 
 }

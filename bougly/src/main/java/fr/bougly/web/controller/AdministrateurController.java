@@ -70,6 +70,7 @@ public class AdministrateurController {
 		
 		ModelAndView model = new ModelAndView("creerCompte");
 		model.addObject("compte", new CompteBean());
+		model.addObject("allRoles",RoleCompteEnum.listesAllRoles());
 		return model;
 		
 	}

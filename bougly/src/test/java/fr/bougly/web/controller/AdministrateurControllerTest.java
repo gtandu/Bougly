@@ -88,6 +88,7 @@ public class AdministrateurControllerTest {
 						.accept(MediaType.TEXT_HTML))
 				.andExpect(status().isOk())
 				.andExpect(model().attributeExists("compte"))
+				.andExpect(model().attributeExists("allRoles"))
 				.andExpect(view().name("creerCompte"));
 	}
 	
