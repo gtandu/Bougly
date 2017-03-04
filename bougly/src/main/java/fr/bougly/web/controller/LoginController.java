@@ -12,8 +12,8 @@ import fr.bougly.model.CompteUtilisateur;
 import fr.bougly.model.Enseignant;
 import fr.bougly.model.Etudiant;
 import fr.bougly.model.Responsable;
-import fr.bougly.model.Niveau;
-import fr.bougly.model.Formation;
+import fr.bougly.model.enumeration.FormationEnum;
+import fr.bougly.model.enumeration.NiveauEnum;
 import fr.bougly.model.enumeration.RoleCompteEnum;
 import fr.bougly.repository.ClasseRepository;
 import fr.bougly.service.ClasseService;
@@ -62,7 +62,7 @@ public class LoginController {
 		**/
 		
 		//CLASSE
-		Classe classe = new Classe("M1MIAA", Niveau.L3.toString(), Formation.MIAGE.toString());
+		Classe classe = new Classe("MIAGE", NiveauEnum.M1.toString(), FormationEnum.APPRENTISSAGE.toString());
 		classeService.saveClasse(classe);
 		
 		/**

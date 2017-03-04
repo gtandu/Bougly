@@ -1,32 +1,22 @@
 package fr.bougly.model;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Inheritance;
+
+import fr.bougly.web.beans.ClasseBean;
 
 @Entity
-@Inheritance
 public class Classe {
 
 	@Id
-	@Column(name="ID")
-	private int id;
-	
-	@Column(name="NOM")
+	@GeneratedValue(strategy=GenerationType.AUTO)
+	private long id;
 	private String nom;
-	
-	@Column(name="NIVEAU")
 	private String niveau;
-	
-	@Column(name="FORMATION")
 	private String formation;
-	
-	@Column(name="MOYENNE")
 	private float moyenne;
-	
-	//private Set<Filiere> lesFilieres ;
-	//private Set<Etudiant> lesEtudiants ;
 
 	public Classe(){}
 	
@@ -36,18 +26,10 @@ public class Classe {
 		this.formation = formation;
 	}
 	
-	public Classe(String nom, String niveau, String formation, float moyenne) {
-		this.nom = nom;
-		this.niveau = niveau;
-		this.formation = formation;
-		this.moyenne = moyenne;
-	}
-	
-	public Classe(String nom, String niveau, String formation, float moyenne, Responsable responsable) {
-		this.nom = nom;
-		this.niveau = niveau;
-		this.formation = formation;
-		this.moyenne = moyenne;
+	public Classe(ClasseBean classeBean) {
+		this.nom = classeBean.getNom();
+		this.niveau = classeBean.getNiveau();
+		this.formation = classeBean.getFormation();
 	}
 
 	public String getNom() {
@@ -81,14 +63,4 @@ public class Classe {
 	public void setMoyenne(float moyenne) {
 		this.moyenne = moyenne;
 	}
-
-	/**
-	public Set<Etudiant> getLesEtudiants() {
-		return lesEtudiants;
-	}
-
-	public void setLesEtudiants(Set<Etudiant> lesEtudiants) {
-		this.lesEtudiants = lesEtudiants;
-	}
-	**/
 }
