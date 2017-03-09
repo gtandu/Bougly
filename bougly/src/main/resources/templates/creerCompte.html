@@ -16,6 +16,7 @@
     </header>
     <main>
         <div class="container">
+      	  <h3  class="header center teal-text text-lighten-2">Créer un compte</h3>
             <div class="row">
                 <form class="col s12" th:action="@{/administrateur/creerCompte.html}" th:object="${compte}" method="post">
                     <input type="hidden" th:field="*{role}"/>
