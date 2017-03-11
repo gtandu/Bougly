@@ -97,7 +97,6 @@ public class CompteService {
 		CompteUtilisateur compteFromDb = compteRepository.findByMail(compteBean.getMail());
 		compteFromDb.setNom(compteBean.getNom());
 		compteFromDb.setPrenom(compteBean.getPrenom());
-		compteFromDb.setDateDeNaissance(compteBean.getDateDeNaissance());
 		if(compteBean.getRole() == RoleCompteEnum.ETUDIANT.toString())
 		{
 			Etudiant etudiant = (Etudiant) compteFromDb;

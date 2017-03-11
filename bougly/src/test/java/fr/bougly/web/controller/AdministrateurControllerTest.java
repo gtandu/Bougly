@@ -255,7 +255,7 @@ public class AdministrateurControllerTest {
 			@Override
 			public List<CompteUtilisateur> getContent() {
 				// TODO Auto-generated method stub
-				return Arrays.asList(new AdministrateurBuilder().avecMail("admin@admin.fr").avecMdp("adm").avecNom("Admin").avecPrenom("Admin").avecDateDeNaissance("21/05/1994").avecRole(RoleCompteEnum.ADMINISTRATEUR.toString()).build());
+				return Arrays.asList(new AdministrateurBuilder().avecMail("admin@admin.fr").avecMdp("adm").avecNom("Admin").avecPrenom("Admin").avecRole(RoleCompteEnum.ADMINISTRATEUR.toString()).build());
 			}
 
 			@Override

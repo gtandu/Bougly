@@ -23,12 +23,6 @@ public class AdministrateurBuilder extends CompteUtilisateurBuilder{
 	}
 
 	@Override
-	public AdministrateurBuilder avecDateDeNaissance(String dateDeNaissance) {
-		this.administrateur.setDateDeNaissance(dateDeNaissance);
-		return this;
-	}
-
-	@Override
 	public AdministrateurBuilder avecMail(String mail) {
 		this.administrateur.setMail(mail);
 		return this;

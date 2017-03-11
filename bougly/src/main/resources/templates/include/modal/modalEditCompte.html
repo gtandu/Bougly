@@ -11,16 +11,12 @@
                     <label class ="active" for="email" data-error="Erreur" data-success="Valide">Mail <span class="required"></span></label>
                 </div>
                 <div class="input-field col s6">
-                    <input id="nom" name="nom" class="validate" placeholder="Ex : Doe" type="text" pattern=".{2,}" required="true" />
+                    <input id="nom" name="nom" class="validate" placeholder="Ex : Doe" type="text" pattern="[\w'-]+" required="true" />
                     <label for="nom" data-error="Erreur" data-success="Valide">Nom <span class="required">*</span></label>
                 </div>
                 <div class="input-field col s6">
-                    <input id="prenom" name="prenom" class="validate" placeholder="Ex : John" type="text" pattern=".{2,}" required="true" />
+                    <input id="prenom" name="prenom" class="validate" placeholder="Ex : John" type="text" pattern="[\w'-]+" required="true" />
                     <label for="prenom" data-error="Erreur" data-success="Valide">Prenom <span class="required">*</span></label>
-                </div>
-                <div class="input-field col s6">
-                    <input id="dateDeNaissance" name="dateDeNaissance" type="text" placeholder="Ex : 01/01/2017" required="true" />
-                    <label class="date active" for="dateDeNaissance" data-error="Erreur" data-success="Valide">Date de naisssance <span class="required">*</span></label>
                 </div>
                 <div id="inputNumEtu" class="input-field col s6">
                     <input id="numeroEtudiant" name="numeroEtudiant" class="validate" placeholder="Ex : 20172345" type="text" pattern="[0-9]{8}" required="true" />

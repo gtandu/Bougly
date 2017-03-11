@@ -22,10 +22,9 @@
                         <thead>
                             <tr>
                                 <th>Type de compte</th>
-                                <th>Adresse Email</th>
+                                <th>Adresse email</th>
                                 <th>Nom</th>
                                 <th>Prenom</th>
-                                <th>Date de naissance</th>
                                 <th>Numero étudiant</th>
                             </tr>
                         </thead>
@@ -36,7 +35,6 @@
                                 <td th:attr="data-mail=${compte.mail}" th:text="${compte.mail}">admin@hotmail.fr</td>
                                 <td th:attr="data-nom=${compte.nom}" th:text="${compte.nom}">Dalton</td>
                                 <td th:attr="data-prenom=${compte.prenom}" th:text="${compte.prenom}">Joe</td>
-                                <td th:attr="data-date_de_naissance=${compte.dateDeNaissance}" th:text="${compte.dateDeNaissance}">21 Mai 1994</td>
                                 <td th:attr="data-numero_etudiant=${compte.numeroEtudiant}" th:text="${compte.numeroEtudiant}">20172000</td>
                                 <td><a href="#modalEditCompte"><i class="small material-icons editIcon">edit</i></a></td>
                                 <td><i class="small material-icons deleteIcon" th:attr="data-mail=${compte.mail}">clear</i></td>

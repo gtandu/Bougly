@@ -19,13 +19,12 @@
       	  <h3  class="header center teal-text text-lighten-2">Créer un compte</h3>
             <div class="row">
                 <form class="col s12" th:action="@{/administrateur/creerCompte.html}" th:object="${compte}" method="post">
-                    <input type="hidden" th:field="*{role}"/>
                     <div class="row">
                         <div class="input-field col s12">
                         	<select th:field="*{role}">
 								<option th:each="role : ${allRoles}" th:value="${role}" th:text="${role}">Wireframe</option>
 							</select>
-                            <label>Listes des roles</label>
+                            <label>Roles</label>
                         </div>
                     </div>
                     <div class="row">
@@ -34,16 +33,12 @@
                             <label for="mail" data-error="Erreur" data-success="Valide">Mail <span class="required">*</span></label>
                         </div>
                         <div class="input-field col s6">
-                            <input class="validate" placeholder="Ex : Doe" type="text" th:field="*{nom}" pattern=".{2,}" required="true" />
+                            <input class="validate" placeholder="Ex : Doe" type="text" th:field="*{nom}" pattern="[\w'-]+" required="true" />
                             <label for="nom" data-error="Erreur" data-success="Valide">Nom <span class="required">*</span></label>
                         </div>
                         <div class="input-field col s6">
-                            <input class="validate" placeholder="Ex : John" type="text" th:field="*{prenom}" pattern=".{2,}" required="true"/>
-                            <label for="prenom" data-error="Erreur" data-success="Valide">Prenom <span class="required">*</span></label>
-                        </div>
-                        <div class="input-field col s6">
-                            <input class="" type="text" placeholder="Ex : 01/01/2017" th:field="*{dateDeNaissance}" required="true" />
-                        	<label class="date active" for="dateDeNaissance" data-error="Erreur" data-success="Valide">Date de naisssance <span class="required">*</span></label>
+                            <input class="validate" placeholder="Ex : John" type="text" th:field="*{prenom}" pattern="[\w'-]+" required="true"/>
+                            <label for="prenom" data-error="Erreur" data-success="Valide">Prénom <span class="required">*</span></label>
                         </div>
                         <div class="inputNumEtu input-field col s6">
                             <input class="validate" placeholder="Ex : 20172345" type="text" th:field="*{numeroEtudiant}" pattern="[0-9]{8}" required="true"/>

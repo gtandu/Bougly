@@ -23,12 +23,6 @@ public class EtudiantBuilder extends CompteUtilisateurBuilder {
 	}
 
 	@Override
-	public EtudiantBuilder avecDateDeNaissance(String dateDeNaissance) {
-		this.etudiant.setDateDeNaissance(dateDeNaissance);
-		return this;
-	}
-
-	@Override
 	public EtudiantBuilder avecMail(String mail) {
 		this.etudiant.setMail(mail);
 		return this;

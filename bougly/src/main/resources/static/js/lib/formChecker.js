@@ -1,36 +1,7 @@
 $(function() {
-	checkDateFormatOnInputFocusOut();
 	checkErrorOnSubmit();
 	checkEmailFormatOnInputFocusOut();
 });
-
-/**
- * Verifie le format de la date en sortie d'input
- * dd/MM/YYYY Ex : 01/01/2017
- * @returns
- */
-function checkDateFormatOnInputFocusOut()
-{
-	$("#dateDeNaissance").focusout(function(){
-		checkDateFormatAndAddOrRemoveClass();
-	});
-}
-
-function checkDateFormatAndAddOrRemoveClass()
-{
-	var inputDateDeNaissance = $("#dateDeNaissance").val();
-	var dateValide = isValidDate(inputDateDeNaissance);
-	if(dateValide == false)
-	{
-		$("#dateDeNaissance").addClass('invalid');
-		return true;
-	}
-	else
-	{
-		$("#dateDeNaissance").removeClass('invalid').addClass('valid');
-		return false;
-	}
-}
 
 /**
  * Test le format de la date de l'input
@@ -87,8 +58,7 @@ function checkErrorOnSubmit()
 {
 	$("#submitButton").click(function(event){
 		event.preventDefault();
-		var error = checkDateFormatAndAddOrRemoveClass();
-		
+		var error = false;
 		$('input').each(function(){
 			var currentInput = $(this);
 			

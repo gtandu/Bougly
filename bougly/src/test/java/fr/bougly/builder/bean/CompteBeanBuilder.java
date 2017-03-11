@@ -31,11 +31,6 @@ public class CompteBeanBuilder {
 		return this;
 	}
 
-	public CompteBeanBuilder avecDateDeNaissance(String dateDeNaissance) {
-		this.compteBean.setDateDeNaissance(dateDeNaissance);
-		return this;
-	}
-	
 	public CompteBeanBuilder avecNumeroEtudiant(String numeroEtudiant) {
 		this.compteBean.setNumeroEtudiant(numeroEtudiant);
 		return this;

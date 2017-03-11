@@ -35,7 +35,6 @@ public abstract class CompteUtilisateur implements UserDetails {
 	
 	protected String nom;
 	protected String prenom;
-	protected String dateDeNaissance;
 
 	public CompteUtilisateur(){}
 	
@@ -44,7 +43,6 @@ public abstract class CompteUtilisateur implements UserDetails {
 		this.mdp = mdp;
 		this.nom = nom;
 		this.prenom = prenom;
-		this.dateDeNaissance = dateDeNaissance;
 	}
 	
 	public CompteUtilisateur(CompteBean compteBean) throws ParseException
@@ -53,7 +51,6 @@ public abstract class CompteUtilisateur implements UserDetails {
 		this.mdp = compteBean.getMdp();
 		this.nom = compteBean.getNom();
 		this.prenom = compteBean.getPrenom();
-		this.dateDeNaissance = compteBean.getDateDeNaissance();
 	}
 	
 	@Override
@@ -151,13 +148,4 @@ public abstract class CompteUtilisateur implements UserDetails {
 	public void setPrenom(String prenom) {
 		this.prenom = prenom;
 	}
-
-	public String getDateDeNaissance() {
-		return dateDeNaissance;
-	}
-
-	public void setDateDeNaissance(String dateDeNaissance) {
-		this.dateDeNaissance = dateDeNaissance;
-	}
-
 }

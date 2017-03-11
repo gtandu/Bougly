@@ -13,6 +13,7 @@ function hideAttributOnRoleNoEtudiant() {
 	$('select').change(function() {
 		
 		currentRole = $(this).val();
+		console.log(currentRole);
 		
 		if (currentRole != "ETUDIANT") {
 			$(".inputNumEtu").hide(function(){

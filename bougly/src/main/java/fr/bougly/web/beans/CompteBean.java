@@ -14,7 +14,6 @@ public class CompteBean {
 	private String role;
 	private String nom;
 	private String prenom;
-	private String dateDeNaissance;
 	private String numeroEtudiant;
 	
 	public CompteBean() {
@@ -25,7 +24,6 @@ public class CompteBean {
 		this.mail = compte.getMail();
 		this.nom = compte.getNom();
 		this.prenom = compte.getPrenom();
-		this.dateDeNaissance = compte.getDateDeNaissance();
 		for(GrantedAuthority role : compte.getAuthorities())
 		{
 			this.role = role.getAuthority();
@@ -69,12 +67,6 @@ public class CompteBean {
 	public void setPrenom(String prenom) {
 		prenom = StringUtils.lowerCase(prenom);
 		this.prenom = WordUtils.capitalizeFully(prenom);;
-	}
-	public String getDateDeNaissance() {
-		return dateDeNaissance;
-	}
-	public void setDateDeNaissance(String dateDeNaissance) {
-		this.dateDeNaissance = dateDeNaissance;
 	}
 	public String getNumeroEtudiant() {
 		return numeroEtudiant;

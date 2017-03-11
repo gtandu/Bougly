@@ -15,7 +15,5 @@ public abstract class CompteUtilisateurBuilder  {
 
 	public abstract CompteUtilisateurBuilder avecPrenom(String prenom);
 
-	public abstract CompteUtilisateurBuilder avecDateDeNaissance(String dateDeNaissance);
-
 	public abstract CompteUtilisateur build();
 }

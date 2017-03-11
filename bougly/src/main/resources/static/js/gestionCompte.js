@@ -80,7 +80,6 @@ function fillModalWithData()
 function postDataForEdit()
 {
 	$("#formEditCompte").submit(function(event){
-		console.log("test");
 		event.preventDefault();
 		var $form = $( this );
 		var compteBean = {
@@ -88,7 +87,6 @@ function postDataForEdit()
 				"role" : $form.find("input[name='role']").val(),
 				"nom" : $form.find("input[name='nom']").val(),
 				"prenom" : $form.find("input[name='prenom']").val(),
-				"dateDeNaissance" : $form.find("input[name='dateDeNaissance']").val(),
 				"numeroEtudiant" : $form.find("input[name='numeroEtudiant']").val()
 		};
 		$.post("/administrateur/editerCompte.html",compteBean ,function(data){
@@ -101,7 +99,6 @@ function postDataForEdit()
 				var ligneEdit = $('tbody').find('[data-mail="'+compteBean.mail+'"]').parents('tr');
 				ligneEdit.find('[data-nom]').attr("data-nom", compteBean.nom).text(compteBean.nom);
 				ligneEdit.find('[data-prenom]').attr("data-prenom", compteBean.prenom).text(compteBean.prenom);
-				ligneEdit.find('[data-date_de_naissance]').attr("data-date_de_naissance", compteBean.dateDeNaissance).text(compteBean.dateDeNaissance);
 				ligneEdit.find('[data-numero_etudiant]').attr("data-numero_etudiant", compteBean.numeroEtudiant).text(compteBean.numeroEtudiant);
 				Materialize.toast('Modification(s) effectuée(s)', 3000, 'rounded')
 			}

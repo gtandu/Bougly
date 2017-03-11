@@ -63,7 +63,7 @@ public class CompteServiceTest {
 		String prenom = "Joe";
 		String dateDeNaissance ="01/01/2000";
 		String role = "ADMIN";
-		Administrateur administrateur = new AdministrateurBuilder().avecMail(mail).avecMdp(mdp).avecNom(nom).avecPrenom(prenom).avecDateDeNaissance(dateDeNaissance).build();
+		Administrateur administrateur = new AdministrateurBuilder().avecMail(mail).avecMdp(mdp).avecNom(nom).avecPrenom(prenom).build();
 		when(compteRepository.findByMail(anyString())).thenReturn(null);
 		when(compteRepository.save(any(CompteUtilisateur.class))).thenReturn(administrateur);
 		doNothing().when(serviceMail).prepareAndSend(anyString(), anyString(), anyString());
@@ -90,7 +90,7 @@ public class CompteServiceTest {
 		String prenom = "Joe";
 		String dateDeNaissance ="01/01/2000";
 		String role = "ADMIN";
-		Administrateur administrateur = new AdministrateurBuilder().avecMail(mail).avecMdp(mdp).avecNom(nom).avecPrenom(prenom).avecDateDeNaissance(dateDeNaissance).build();
+		Administrateur administrateur = new AdministrateurBuilder().avecMail(mail).avecMdp(mdp).avecNom(nom).avecPrenom(prenom).build();
 		
 		when(compteRepository.findByMail(anyString())).thenReturn(administrateur);
 		
@@ -107,8 +107,8 @@ public class CompteServiceTest {
 	{
 		//WHEN
 		List<CompteUtilisateur> listeComptes = new ArrayList<>();
-		Etudiant etudiant = new EtudiantBuilder().avecRole(RoleCompteEnum.ETUDIANT.toString()).avecMail("etu@mail.fr").avecNom("Dalton").avecPrenom("Joe").avecDateDeNaissance("01/01/2000").avecMoyenneGenerale(17).avecNumeroEtudiant("20175406").build();
-		Administrateur administrateur = new AdministrateurBuilder().avecRole(RoleCompteEnum.ADMINISTRATEUR.toString()).avecMail("adm@mail.fr").avecNom("Adm").avecPrenom("Adm").avecDateDeNaissance("01/01/2005").build();
+		Etudiant etudiant = new EtudiantBuilder().avecRole(RoleCompteEnum.ETUDIANT.toString()).avecMail("etu@mail.fr").avecNom("Dalton").avecPrenom("Joe").avecMoyenneGenerale(17).avecNumeroEtudiant("20175406").build();
+		Administrateur administrateur = new AdministrateurBuilder().avecRole(RoleCompteEnum.ADMINISTRATEUR.toString()).avecMail("adm@mail.fr").avecNom("Adm").avecPrenom("Adm").build();
 		listeComptes.add(etudiant);
 		listeComptes.add(administrateur);
 		when(compteRepository.findAll()).thenReturn(listeComptes);
@@ -166,7 +166,7 @@ public class CompteServiceTest {
 		String prenom = "Bibi";
 		String dateDeNaissance = "01/01/2007";
 		String numeroEtudiant = "20174520";
-		CompteBean compteBean = new CompteBeanBuilder().avecMail(mail).avecRole(role).avecNom(nom).avecPrenom(prenom).avecDateDeNaissance(dateDeNaissance).avecNumeroEtudiant(numeroEtudiant).build();
+		CompteBean compteBean = new CompteBeanBuilder().avecMail(mail).avecRole(role).avecNom(nom).avecPrenom(prenom).avecNumeroEtudiant(numeroEtudiant).build();
 		Etudiant compte = mock(Etudiant.class);
 		when(compteRepository.findByMail(anyString())).thenReturn(compte);
 		
@@ -177,7 +177,6 @@ public class CompteServiceTest {
 		verify(compteRepository).findByMail(eq(mail));
 		verify(compte).setNom(eq(nom));
 		verify(compte).setPrenom(eq(prenom));
-		verify(compte).setDateDeNaissance(eq(dateDeNaissance));
 		verify(compte).setNumeroEtudiant(eq(numeroEtudiant));
 	}
 
@@ -189,7 +188,7 @@ public class CompteServiceTest {
 			@Override
 			public List<CompteUtilisateur> getContent() {
 				// TODO Auto-generated method stub
-				return Arrays.asList(new AdministrateurBuilder().avecMail("admin@admin.fr").avecMdp("adm").avecNom("Admin").avecPrenom("Admin").avecDateDeNaissance("21/05/1994").avecRole(RoleCompteEnum.ADMINISTRATEUR.toString()).build());
+				return Arrays.asList(new AdministrateurBuilder().avecMail("admin@admin.fr").avecMdp("adm").avecNom("Admin").avecPrenom("Admin").avecRole(RoleCompteEnum.ADMINISTRATEUR.toString()).build());
 			}
 
 			@Override
