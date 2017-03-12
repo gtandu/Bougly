@@ -107,8 +107,8 @@ public class CompteServiceTest {
 	{
 		//WHEN
 		List<CompteUtilisateur> listeComptes = new ArrayList<>();
-		Etudiant etudiant = new EtudiantBuilder().avecRole(RoleCompteEnum.ETUDIANT.toString()).avecMail("etu@mail.fr").avecNom("Dalton").avecPrenom("Joe").avecMoyenneGenerale(17).avecNumeroEtudiant("20175406").build();
-		Administrateur administrateur = new AdministrateurBuilder().avecRole(RoleCompteEnum.ADMINISTRATEUR.toString()).avecMail("adm@mail.fr").avecNom("Adm").avecPrenom("Adm").build();
+		Etudiant etudiant = new EtudiantBuilder().avecRole(RoleCompteEnum.Etudiant.toString()).avecMail("etu@mail.fr").avecNom("Dalton").avecPrenom("Joe").avecMoyenneGenerale(17).avecNumeroEtudiant("20175406").build();
+		Administrateur administrateur = new AdministrateurBuilder().avecRole(RoleCompteEnum.Administrateur.toString()).avecMail("adm@mail.fr").avecNom("Adm").avecPrenom("Adm").build();
 		listeComptes.add(etudiant);
 		listeComptes.add(administrateur);
 		when(compteRepository.findAll()).thenReturn(listeComptes);
@@ -161,7 +161,7 @@ public class CompteServiceTest {
 	{
 		//WHEN
 		String mail = "etudiant@hotmail.fr";
-		String role = RoleCompteEnum.ETUDIANT.toString();
+		String role = RoleCompteEnum.Etudiant.toString();
 		String nom = "Joe";
 		String prenom = "Bibi";
 		String dateDeNaissance = "01/01/2007";
@@ -188,7 +188,7 @@ public class CompteServiceTest {
 			@Override
 			public List<CompteUtilisateur> getContent() {
 				// TODO Auto-generated method stub
-				return Arrays.asList(new AdministrateurBuilder().avecMail("admin@admin.fr").avecMdp("adm").avecNom("Admin").avecPrenom("Admin").avecRole(RoleCompteEnum.ADMINISTRATEUR.toString()).build());
+				return Arrays.asList(new AdministrateurBuilder().avecMail("admin@admin.fr").avecMdp("adm").avecNom("Admin").avecPrenom("Admin").avecRole(RoleCompteEnum.Administrateur.toString()).build());
 			}
 
 			@Override

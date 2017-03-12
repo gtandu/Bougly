@@ -5,11 +5,11 @@ import java.util.List;
 
 public enum RoleCompteEnum {
 
-	ENSEIGNANT, ADMINISTRATEUR, ETUDIANT, RESPONSABLE;
+	Enseignant, Administrateur, Etudiant, Responsable;
 
 	public static List<String> listesAllRoles() {
-		return Arrays.asList(ETUDIANT.toString(), ADMINISTRATEUR.toString(), ENSEIGNANT.toString(),
-				RESPONSABLE.toString());
+		return Arrays.asList(Etudiant.toString(), Administrateur.toString(), Enseignant.toString(),
+				Responsable.toString());
 	}
 
 }

@@ -68,7 +68,7 @@ public class AdministrateurControllerTest {
 	}
 	
 	@Test
-	@WithMockUser(authorities = "ADMINISTRATEUR")
+	@WithMockUser(authorities = "Administrateur")
 	public void testShowPageGestionCompte() throws Exception {
 		
 		Page<CompteUtilisateur> toto = buildPageUtilisateur();
@@ -81,7 +81,7 @@ public class AdministrateurControllerTest {
 	}
 
 	@Test
-	@WithMockUser(authorities = "ADMINISTRATEUR")
+	@WithMockUser(authorities = "Administrateur")
 	public void testShowPageCreerCompte() throws Exception {
 		this.mockMvc
 				.perform(get(URL_CONTROLLEUR_ADMIN + AdministrateurController.URL_CREER_COMPTE)
@@ -93,7 +93,7 @@ public class AdministrateurControllerTest {
 	}
 	
 	@Test
-	@WithMockUser(authorities = "ADMINISTRATEUR")
+	@WithMockUser(authorities = "Administrateur")
 	public void testCreerCompteEtudiantFromDataAndRedirect() throws Exception {
 		//WHEN
 		String mail = "test@mail.fr";
@@ -102,7 +102,7 @@ public class AdministrateurControllerTest {
 		String prenom = "Joe";
 		String dateDeNaissance = "20/05/1994";
 		String numeroEtudiant = "20171000";
-		String role = RoleCompteEnum.ETUDIANT.toString();
+		String role = RoleCompteEnum.Etudiant.toString();
 		Etudiant etudiant = new Etudiant(mail,mdp,nom,prenom,dateDeNaissance,numeroEtudiant);
 		
 		Mockito.when(compteService.checkUserMailAndSaveUser(any(CompteUtilisateur.class), anyString())).thenReturn(etudiant);
@@ -124,7 +124,7 @@ public class AdministrateurControllerTest {
 	}
 	
 	@Test
-	@WithMockUser(authorities = "ADMINISTRATEUR")
+	@WithMockUser(authorities = "Administrateur")
 	public void testCreerCompteAdminFromDataAndRedirect() throws Exception {
 		//WHEN
 		String mail = "test@mail.fr";
@@ -132,7 +132,7 @@ public class AdministrateurControllerTest {
 		String nom = "Dalton";
 		String prenom = "Joe";
 		String dateDeNaissance = "20/05/1994";
-		String role = RoleCompteEnum.ADMINISTRATEUR.toString();
+		String role = RoleCompteEnum.Administrateur.toString();
 		Administrateur admin = new Administrateur(mail,mdp,nom,prenom,dateDeNaissance);
 		
 		Mockito.when(compteService.checkUserMailAndSaveUser(any(CompteUtilisateur.class), anyString())).thenReturn(admin);
@@ -153,7 +153,7 @@ public class AdministrateurControllerTest {
 	}
 	
 	@Test
-	@WithMockUser(authorities = "ADMINISTRATEUR")
+	@WithMockUser(authorities = "Administrateur")
 	public void testCreerCompteEnseignantFromDataAndRedirect() throws Exception {
 		//WHEN
 		String mail = "test@mail.fr";
@@ -161,7 +161,7 @@ public class AdministrateurControllerTest {
 		String nom = "Dalton";
 		String prenom = "Joe";
 		String dateDeNaissance = "20/05/1994";
-		String role = RoleCompteEnum.ENSEIGNANT.toString();
+		String role = RoleCompteEnum.Enseignant.toString();
 		
 		Enseignant enseignant = new Enseignant(mail,mdp,nom,prenom,dateDeNaissance);
 		
@@ -184,7 +184,7 @@ public class AdministrateurControllerTest {
 	
 
 	@Test
-	@WithMockUser(authorities = "ADMINISTRATEUR")
+	@WithMockUser(authorities = "Administrateur")
 	public void testCreerCompteResponsableFromDataAndRedirect() throws Exception {
 		//WHEN
 		String mail = "test@mail.fr";
@@ -192,7 +192,7 @@ public class AdministrateurControllerTest {
 		String nom = "Dalton";
 		String prenom = "Joe";
 		String dateDeNaissance = "20/05/1994";
-		String role = RoleCompteEnum.RESPONSABLE.toString();
+		String role = RoleCompteEnum.Responsable.toString();
 		
 		Responsable responsable = new Responsable(mail,mdp,nom,prenom,dateDeNaissance);
 		
@@ -214,7 +214,7 @@ public class AdministrateurControllerTest {
 	}
 	
 	@Test
-	@WithMockUser(authorities = "ADMINISTRATEUR")
+	@WithMockUser(authorities = "Administrateur")
 	public void testSupprimerCompte() throws Exception {
 		//WHEN
 		String mail = "admin@hotmail.fr";
@@ -232,7 +232,7 @@ public class AdministrateurControllerTest {
 	}
 	
 	@Test
-	@WithMockUser(authorities = "ADMINISTRATEUR")
+	@WithMockUser(authorities = "Administrateur")
 	public void testEditerCompte() throws Exception
 	{
 		//WHEN
@@ -255,7 +255,7 @@ public class AdministrateurControllerTest {
 			@Override
 			public List<CompteUtilisateur> getContent() {
 				// TODO Auto-generated method stub
-				return Arrays.asList(new AdministrateurBuilder().avecMail("admin@admin.fr").avecMdp("adm").avecNom("Admin").avecPrenom("Admin").avecRole(RoleCompteEnum.ADMINISTRATEUR.toString()).build());
+				return Arrays.asList(new AdministrateurBuilder().avecMail("admin@admin.fr").avecMdp("adm").avecNom("Admin").avecPrenom("Admin").avecRole(RoleCompteEnum.Administrateur.toString()).build());
 			}
 
 			@Override

@@ -23,36 +23,36 @@ public abstract class CompteUtilisateur implements UserDetails {
 	/**
 	 * 
 	 */
-	
+
 	private static final long serialVersionUID = 2450538310211221681L;
 	@Id
 	protected String mail;
 
 	protected String mdp;
-	
-	@OneToMany(fetch = FetchType.EAGER,cascade=CascadeType.ALL,orphanRemoval=true,mappedBy="compte")
+
+	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "compte")
 	protected Collection<Authority> authorities;
-	
+
 	protected String nom;
 	protected String prenom;
 
-	public CompteUtilisateur(){}
-	
+	public CompteUtilisateur() {
+	}
+
 	public CompteUtilisateur(String mail, String mdp, String nom, String prenom, String dateDeNaissance) {
 		this.mail = mail;
 		this.mdp = mdp;
 		this.nom = nom;
 		this.prenom = prenom;
 	}
-	
-	public CompteUtilisateur(CompteBean compteBean) throws ParseException
-	{
+
+	public CompteUtilisateur(CompteBean compteBean) throws ParseException {
 		this.mail = compteBean.getMail();
 		this.mdp = compteBean.getMdp();
 		this.nom = compteBean.getNom();
 		this.prenom = compteBean.getPrenom();
 	}
-	
+
 	@Override
 	public String getPassword() {
 		return this.mdp;
@@ -107,31 +107,6 @@ public abstract class CompteUtilisateur implements UserDetails {
 	public void setAuthorities(Collection<Authority> authorities) {
 		this.authorities = authorities;
 	}
-	
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((mail == null) ? 0 : mail.hashCode());
-		return result;
-	}
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		CompteUtilisateur other = (CompteUtilisateur) obj;
-		if (mail == null) {
-			if (other.mail != null)
-				return false;
-		} else if (!mail.equals(other.mail))
-			return false;
-		return true;
-	}
-
 
 	public String getNom() {
 		return nom;
@@ -147,5 +122,30 @@ public abstract class CompteUtilisateur implements UserDetails {
 
 	public void setPrenom(String prenom) {
 		this.prenom = prenom;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((mail == null) ? 0 : mail.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		CompteUtilisateur other = (CompteUtilisateur) obj;
+		if (mail == null) {
+			if (other.mail != null)
+				return false;
+		} else if (!mail.equals(other.mail))
+			return false;
+		return true;
 	}
 }

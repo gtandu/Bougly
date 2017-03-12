@@ -44,7 +44,7 @@ public class LoginController {
 
 		//COMPTE ADMIN
 		CompteUtilisateur admin = new Administrateur("admin@hotmail.fr","adm","MAPELLA","Corentin","31/05/1994");
-		compteService.checkUserMailAndSaveUser(admin, RoleCompteEnum.ADMINISTRATEUR.toString());
+		compteService.checkUserMailAndSaveUser(admin, RoleCompteEnum.Administrateur.toString());
 		
 		/**
 		// COMPTE ETUDIANT

@@ -1,10 +1,13 @@
 package fr.bougly.web.controller;
 
+import java.lang.reflect.Constructor;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.data.domain.Page;
 import org.springframework.format.Formatter;
 import org.springframework.http.HttpStatus;
@@ -18,8 +21,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.ModelAndView;
 
+import fr.bougly.exception.MailErrorException;
 import fr.bougly.model.Administrateur;
 import fr.bougly.model.CompteUtilisateur;
 import fr.bougly.model.Enseignant;
@@ -75,30 +80,18 @@ public class AdministrateurController {
 		
 	}
 	
+	@SuppressWarnings("rawtypes")
 	@RequestMapping(value=URL_CREER_COMPTE, method=RequestMethod.POST)
-	public String creerCompteFromData(@ModelAttribute(value="compte") CompteBean compteBean) throws Exception
+	public String creerCompteFromData(@ModelAttribute(value="compte") CompteBean compteBean, WebRequest request) throws Exception
 	{
+		String role = compteBean.getRole();
 		
-		if(compteBean.getRole().equalsIgnoreCase(RoleCompteEnum.ADMINISTRATEUR.toString()))
-		{
-			Administrateur administrateur = new Administrateur(compteBean);
-			compteService.checkUserMailAndSaveUser(administrateur, RoleCompteEnum.ADMINISTRATEUR.toString());
-		}
-		else if(compteBean.getRole().equalsIgnoreCase(RoleCompteEnum.RESPONSABLE.toString()))
-		{
-			Responsable responsable = new Responsable(compteBean);
-			compteService.checkUserMailAndSaveUser(responsable, RoleCompteEnum.RESPONSABLE.toString());
-		}
-		else if(compteBean.getRole().equalsIgnoreCase(RoleCompteEnum.ENSEIGNANT.toString()))
-		{
-			Enseignant enseignant = new Enseignant(compteBean);
-			compteService.checkUserMailAndSaveUser(enseignant, RoleCompteEnum.ENSEIGNANT.toString());
-		}
-		else
-		{
-			Etudiant etudiant = new Etudiant(compteBean);
-			compteService.checkUserMailAndSaveUser(etudiant, RoleCompteEnum.ETUDIANT.toString());
-		}
+		Class<?> myClass = Class.forName("fr.bougly.model."+role);
+		Class[] types = {CompteBean.class};
+		Constructor<?> constructor = myClass.getConstructor(types);
+		CompteUtilisateur compte = (CompteUtilisateur) constructor.newInstance(compteBean);
+		
+		compteService.checkUserMailAndSaveUser(compte, role);
 		
 		return "redirect:"+URL_CONTROLLEUR_ADMIN+URL_GESTION_COMPTE_PAGE;
 		

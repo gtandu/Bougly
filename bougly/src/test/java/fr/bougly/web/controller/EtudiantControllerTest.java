@@ -42,7 +42,7 @@ public class EtudiantControllerTest {
 
 
     @Test
-    @WithMockUser(authorities="ETUDIANT")
+    @WithMockUser(authorities="Etudiant")
     public void testShowLoginPage() throws Exception {
     	
         this.mockMvc.perform(get(URL_CONTROLLEUR_ETUDIANT+EtudiantController.URL_ACCUEIL_ETUDIANT_PAGE).accept(MediaType.TEXT_HTML))

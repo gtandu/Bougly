@@ -22,10 +22,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		.csrf().disable();
 		
 		http
-		.authorizeRequests().antMatchers("/responsable/**").hasAuthority(RoleCompteEnum.RESPONSABLE.toString()).and()
-		.authorizeRequests().antMatchers("/enseignant/**").hasAuthority(RoleCompteEnum.ENSEIGNANT.toString()).and()
-		.authorizeRequests().antMatchers("/etudiant/**").hasAuthority(RoleCompteEnum.ETUDIANT.toString()).and()
-		.authorizeRequests().antMatchers("/administrateur/**").hasAuthority(RoleCompteEnum.ADMINISTRATEUR.toString()).and()
+		.authorizeRequests().antMatchers("/responsable/**").hasAuthority(RoleCompteEnum.Responsable.toString()).and()
+		.authorizeRequests().antMatchers("/enseignant/**").hasAuthority(RoleCompteEnum.Enseignant.toString()).and()
+		.authorizeRequests().antMatchers("/etudiant/**").hasAuthority(RoleCompteEnum.Etudiant.toString()).and()
+		.authorizeRequests().antMatchers("/administrateur/**").hasAuthority(RoleCompteEnum.Administrateur.toString()).and()
 		.authorizeRequests().antMatchers("/css/**","/js/**","/fonts/**").permitAll() 
         .anyRequest().authenticated()
         .and()
