@@ -27,6 +27,7 @@ function deleteCompteByMailOnClick()
 		{
 			$.post(url, function(data, status){
 				htmlElement.remove();
+				Materialize.toast('Compte supprimé !', 3000, 'rounded')
 		    });
 		}
 		else
@@ -92,7 +93,7 @@ function postDataForEdit()
 		$.post("/administrateur/editerCompte.html",compteBean ,function(data){
 			if(data == "ERREUR")
 			{
-				Materialize.toast('Erreur lors de la modification !', 3000, 'rounded')
+				Materialize.toast('Erreur lors de la modification !', 3000, 'rounded');
 			}
 			else
 			{
@@ -100,7 +101,7 @@ function postDataForEdit()
 				ligneEdit.find('[data-nom]').attr("data-nom", compteBean.nom).text(compteBean.nom);
 				ligneEdit.find('[data-prenom]').attr("data-prenom", compteBean.prenom).text(compteBean.prenom);
 				ligneEdit.find('[data-numero_etudiant]').attr("data-numero_etudiant", compteBean.numeroEtudiant).text(compteBean.numeroEtudiant);
-				Materialize.toast('Modification(s) effectuée(s)', 3000, 'rounded')
+				Materialize.toast('Modification(s) effectuée(s)', 3000, 'rounded');
 			}
 		})
 		$('#modalEditCompte').modal('close');
