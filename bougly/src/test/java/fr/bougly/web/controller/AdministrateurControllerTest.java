@@ -34,6 +34,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
+import fr.bougly.builder.bean.CompteDtoBuilder;
 import fr.bougly.builder.model.AdministrateurBuilder;
 import fr.bougly.model.Administrateur;
 import fr.bougly.model.CompteUtilisateur;
@@ -42,7 +43,7 @@ import fr.bougly.model.Etudiant;
 import fr.bougly.model.Responsable;
 import fr.bougly.model.enumeration.RoleCompteEnum;
 import fr.bougly.service.CompteService;
-import fr.bougly.web.beans.CompteBean;
+import fr.bougly.web.dtos.CompteDto;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration
@@ -100,12 +101,12 @@ public class AdministrateurControllerTest {
 		String mdp = "toto";
 		String nom = "Dalton";
 		String prenom = "Joe";
-		String dateDeNaissance = "20/05/1994";
 		String numeroEtudiant = "20171000";
 		String role = RoleCompteEnum.Etudiant.toString();
-		Etudiant etudiant = new Etudiant(mail,mdp,nom,prenom,dateDeNaissance,numeroEtudiant);
+		CompteDto compteDto = new CompteDtoBuilder().avecMail(mail).avecMdp(mdp).avecNom(nom).avecPrenom(prenom).avecNumeroEtudiant(numeroEtudiant).build();
+		Etudiant etudiant = new Etudiant(compteDto);
 		
-		Mockito.when(compteService.checkUserMailAndSaveUser(any(CompteUtilisateur.class), anyString())).thenReturn(etudiant);
+		Mockito.when(compteService.saveNewUserAccount(any(CompteDto.class))).thenReturn(etudiant);
 		
 		//GIVEN
 		this.mockMvc
@@ -114,13 +115,12 @@ public class AdministrateurControllerTest {
 						.param("mail", mail)
 						.param("nom", nom)
 						.param("prenom", prenom)
-						.param("dateDeNaissance", dateDeNaissance)
 						.param("numeroEtudiant", numeroEtudiant)
 						.param("role",role))
 				.andExpect(status().isFound())
 				.andExpect(redirectedUrl(URL_CONTROLLEUR_ADMIN+AdministrateurController.URL_GESTION_COMPTE_PAGE));
 		
-		Mockito.verify(compteService).checkUserMailAndSaveUser(eq(etudiant), eq(role));
+		Mockito.verify(compteService).saveNewUserAccount(eq(compteDto));
 	}
 	
 	@Test
@@ -131,11 +131,11 @@ public class AdministrateurControllerTest {
 		String mdp = "toto";
 		String nom = "Dalton";
 		String prenom = "Joe";
-		String dateDeNaissance = "20/05/1994";
 		String role = RoleCompteEnum.Administrateur.toString();
-		Administrateur admin = new Administrateur(mail,mdp,nom,prenom,dateDeNaissance);
+		CompteDto compteDto = new CompteDtoBuilder().avecMail(mail).avecMdp(mdp).avecNom(nom).avecPrenom(prenom).build();
+		Administrateur admin = new Administrateur(compteDto);
 		
-		Mockito.when(compteService.checkUserMailAndSaveUser(any(CompteUtilisateur.class), anyString())).thenReturn(admin);
+		Mockito.when(compteService.saveNewUserAccount(any(CompteDto.class))).thenReturn(admin);
 		
 		//GIVEN
 		this.mockMvc
@@ -144,12 +144,11 @@ public class AdministrateurControllerTest {
 						.param("mail", mail)
 						.param("nom", nom)
 						.param("prenom", prenom)
-						.param("dateDeNaissance", dateDeNaissance)
 						.param("role",role))
 				.andExpect(status().isFound())
 				.andExpect(redirectedUrl(URL_CONTROLLEUR_ADMIN+AdministrateurController.URL_GESTION_COMPTE_PAGE));
 		
-		Mockito.verify(compteService).checkUserMailAndSaveUser(eq(admin), eq(role));
+		Mockito.verify(compteService).saveNewUserAccount(eq(compteDto));
 	}
 	
 	@Test
@@ -162,10 +161,10 @@ public class AdministrateurControllerTest {
 		String prenom = "Joe";
 		String dateDeNaissance = "20/05/1994";
 		String role = RoleCompteEnum.Enseignant.toString();
+		CompteDto compteDto = new CompteDtoBuilder().avecMail(mail).avecMdp(mdp).avecNom(nom).avecPrenom(prenom).build();
+		Enseignant enseignant = new Enseignant(compteDto);
 		
-		Enseignant enseignant = new Enseignant(mail,mdp,nom,prenom,dateDeNaissance);
-		
-		Mockito.when(compteService.checkUserMailAndSaveUser(any(CompteUtilisateur.class), anyString())).thenReturn(enseignant);
+		Mockito.when(compteService.saveNewUserAccount(any(CompteDto.class))).thenReturn(enseignant);
 		
 		//GIVEN
 		this.mockMvc
@@ -179,7 +178,7 @@ public class AdministrateurControllerTest {
 				.andExpect(status().isFound())
 				.andExpect(redirectedUrl(URL_CONTROLLEUR_ADMIN+AdministrateurController.URL_GESTION_COMPTE_PAGE));
 		
-		Mockito.verify(compteService).checkUserMailAndSaveUser(eq(enseignant), eq(role));
+		Mockito.verify(compteService).saveNewUserAccount(eq(compteDto));
 	}
 	
 
@@ -193,10 +192,10 @@ public class AdministrateurControllerTest {
 		String prenom = "Joe";
 		String dateDeNaissance = "20/05/1994";
 		String role = RoleCompteEnum.Responsable.toString();
+		CompteDto compteDto = new CompteDtoBuilder().avecMail(mail).avecMdp(mdp).avecNom(nom).avecPrenom(prenom).build();
+		Responsable responsable = new Responsable(compteDto);
 		
-		Responsable responsable = new Responsable(mail,mdp,nom,prenom,dateDeNaissance);
-		
-		Mockito.when(compteService.checkUserMailAndSaveUser(any(CompteUtilisateur.class), anyString())).thenReturn(responsable);
+		Mockito.when(compteService.saveNewUserAccount(any(CompteDto.class))).thenReturn(responsable);
 		
 		//GIVEN
 		this.mockMvc
@@ -210,7 +209,7 @@ public class AdministrateurControllerTest {
 				.andExpect(status().isFound())
 				.andExpect(redirectedUrl(URL_CONTROLLEUR_ADMIN+AdministrateurController.URL_GESTION_COMPTE_PAGE));
 		
-		Mockito.verify(compteService).checkUserMailAndSaveUser(eq(responsable), eq(role));
+		Mockito.verify(compteService).saveNewUserAccount(eq(compteDto));
 	}
 	
 	@Test
@@ -236,7 +235,7 @@ public class AdministrateurControllerTest {
 	public void testEditerCompte() throws Exception
 	{
 		//WHEN
-		doNothing().when(compteService).editerCompteWithCompteBean(any(CompteBean.class));
+		doNothing().when(compteService).editerCompteWithCompteBean(any(CompteDto.class));
 		
 		//GIVEN
 		this.mockMvc.perform(post(URL_CONTROLLEUR_ADMIN + AdministrateurController.URL_EDITER_COMPTE)
@@ -245,7 +244,7 @@ public class AdministrateurControllerTest {
 		
 		//THEN
 		
-		verify(compteService).editerCompteWithCompteBean(any(CompteBean.class));
+		verify(compteService).editerCompteWithCompteBean(any(CompteDto.class));
 	}
 
 	private Page<CompteUtilisateur> buildPageUtilisateur()

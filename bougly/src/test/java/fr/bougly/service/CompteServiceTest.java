@@ -24,7 +24,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 
-import fr.bougly.builder.bean.CompteBeanBuilder;
+import fr.bougly.builder.bean.CompteDtoBuilder;
 import fr.bougly.builder.model.AdministrateurBuilder;
 import fr.bougly.builder.model.EtudiantBuilder;
 import fr.bougly.exception.UserExistException;
@@ -35,17 +35,13 @@ import fr.bougly.model.enumeration.RoleCompteEnum;
 import fr.bougly.model.security.Authority;
 import fr.bougly.repository.CompteRepository;
 import fr.bougly.repository.security.AuthorityRepository;
-import fr.bougly.service.mail.ServiceMail;
-import fr.bougly.web.beans.CompteBean;
+import fr.bougly.web.dtos.CompteDto;
 
 @RunWith(MockitoJUnitRunner.class)
 public class CompteServiceTest {
 	
 	@InjectMocks
 	private CompteService compteService;
-	
-	@Mock
-	private ServiceMail serviceMail;
 	
 	@Mock
 	private CompteRepository compteRepository;
@@ -61,20 +57,17 @@ public class CompteServiceTest {
 		String mdp = "test";
 		String nom = "Dalton";
 		String prenom = "Joe";
-		String dateDeNaissance ="01/01/2000";
-		String role = "ADMIN";
-		Administrateur administrateur = new AdministrateurBuilder().avecMail(mail).avecMdp(mdp).avecNom(nom).avecPrenom(prenom).build();
+		CompteDto compteDto = new CompteDtoBuilder().avecMail(mail).avecMdp(mdp).avecNom(nom).avecPrenom(prenom).avecRole(RoleCompteEnum.Administrateur.toString()).build();
+		Administrateur administrateur = new Administrateur(compteDto);
 		when(compteRepository.findByMail(anyString())).thenReturn(null);
 		when(compteRepository.save(any(CompteUtilisateur.class))).thenReturn(administrateur);
-		doNothing().when(serviceMail).prepareAndSend(anyString(), anyString(), anyString());
 		
 		//GIVEN
-		CompteUtilisateur compte = compteService.checkUserMailAndSaveUser(administrateur, role);
+		CompteUtilisateur compte = compteService.saveNewUserAccount(compteDto);
 		
 		//THEN
 		verify(compteRepository).findByMail(mail);
 		verify(compteRepository).save(administrateur);
-		verify(serviceMail).prepareAndSend(eq(mail), eq(mail), anyString());
 		verify(authorityRepository).save(any(Authority.class));
 		assertThat(compte).isNotNull();
 		assertThat(compte).isEqualToComparingFieldByField(administrateur);
@@ -88,14 +81,12 @@ public class CompteServiceTest {
 		String mdp = "test";
 		String nom = "Dalton";
 		String prenom = "Joe";
-		String dateDeNaissance ="01/01/2000";
-		String role = "ADMIN";
-		Administrateur administrateur = new AdministrateurBuilder().avecMail(mail).avecMdp(mdp).avecNom(nom).avecPrenom(prenom).build();
-		
+		CompteDto compteDto = new CompteDtoBuilder().avecMail(mail).avecMdp(mdp).avecNom(nom).avecPrenom(prenom).build();
+		Administrateur administrateur = new Administrateur(compteDto);
 		when(compteRepository.findByMail(anyString())).thenReturn(administrateur);
 		
 		//GIVEN
-		compteService.checkUserMailAndSaveUser(administrateur, role);
+		compteService.saveNewUserAccount(compteDto);
 		
 		//THEN
 		
@@ -114,21 +105,13 @@ public class CompteServiceTest {
 		when(compteRepository.findAll()).thenReturn(listeComptes);
 		
 		//GIVEN
-		List<CompteBean> listeComptesBeans = compteService.findAllComptes();
+		List<CompteDto> listeComptesBeans = compteService.findAllComptes();
 		
 		//THEN
 		assertThat(listeComptesBeans).isNotNull();
 		assertThat(listeComptesBeans).hasSize(2);
 		
 	}
-	@Test
-	public void shouldGenerateMdp()
-	{
-		String mdp = compteService.generateMdp();
-		assertThat(mdp).isNotNull();
-		
-	}
-
 
 	@Test
 	public void testListAllByPage() throws Exception {
@@ -166,7 +149,7 @@ public class CompteServiceTest {
 		String prenom = "Bibi";
 		String dateDeNaissance = "01/01/2007";
 		String numeroEtudiant = "20174520";
-		CompteBean compteBean = new CompteBeanBuilder().avecMail(mail).avecRole(role).avecNom(nom).avecPrenom(prenom).avecNumeroEtudiant(numeroEtudiant).build();
+		CompteDto compteBean = new CompteDtoBuilder().avecMail(mail).avecRole(role).avecNom(nom).avecPrenom(prenom).avecNumeroEtudiant(numeroEtudiant).build();
 		Etudiant compte = mock(Etudiant.class);
 		when(compteRepository.findByMail(anyString())).thenReturn(compte);
 		

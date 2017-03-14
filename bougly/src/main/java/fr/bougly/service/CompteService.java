@@ -1,5 +1,7 @@
 package fr.bougly.service;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -18,19 +20,18 @@ import fr.bougly.model.CompteUtilisateur;
 import fr.bougly.model.Etudiant;
 import fr.bougly.model.enumeration.RoleCompteEnum;
 import fr.bougly.model.security.Authority;
+import fr.bougly.model.security.VerificationToken;
 import fr.bougly.repository.CompteRepository;
 import fr.bougly.repository.security.AuthorityRepository;
+import fr.bougly.repository.security.VerificationTokenRepository;
 import fr.bougly.service.helper.MapperBeanUtil;
-import fr.bougly.service.mail.ServiceMail;
-import fr.bougly.web.beans.CompteBean;
+import fr.bougly.web.dtos.CompteDto;
 
 @Service
 public class CompteService {
 	
 	//TODO Encrypt mdp
 	
-	@Autowired
-	private ServiceMail serviceMail;
 	
 	@Autowired
 	private AuthorityRepository authorityRepository;
@@ -38,30 +39,58 @@ public class CompteService {
 	@Autowired
 	private CompteRepository compteRepository;
 	
+	@Autowired
+	private VerificationTokenRepository tokenRepository;
+	
 	private static final int PAGE_SIZE = 5;
 	
-	public CompteUtilisateur checkUserMailAndSaveUser(CompteUtilisateur compte, String role) throws Exception
+	@SuppressWarnings("rawtypes")
+	public CompteUtilisateur saveNewUserAccount(CompteDto compteDto) throws UserExistException, ClassNotFoundException, NoSuchMethodException, SecurityException, InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException
 	{
-		CompteUtilisateur compteExiste = compteRepository.findByMail(compte.getMail());
 		
-		if(compteExiste != null)
-		{
-			throw new UserExistException("Utilisateur existe déjà");
-		}
-		compte.setMdp(generateMdp());
-		CompteUtilisateur compteSave = compteRepository.save(compte);
+		if (emailExist(compteDto.getMail())) {
+			String errorMessage = String.format("Un compte avec l'adresse email %s existe déjà.", compteDto.getMail());
+            throw new UserExistException(errorMessage);
+        }
 		
-		Authority saveAuthority = saveAuthority(compteSave, role);
-		compteSave.setAuthorities(Arrays.asList(saveAuthority));
+		String role = compteDto.getRole();
 		
-		serviceMail.prepareAndSend(compte.getMail(),compte.getMail(),compte.getMdp());
+		Class<?> myClass = Class.forName("fr.bougly.model."+role);
+		Class[] types = {CompteDto.class};
+		Constructor<?> constructor = myClass.getConstructor(types);
+		CompteUtilisateur compte = (CompteUtilisateur) constructor.newInstance(compteDto);
+		
+		CompteUtilisateur compteSave = saveRegisteredUser(compte,role);
 		
 		return compteSave;
 		
+		
+		
 	}
 	
+    public VerificationToken getVerificationToken(String VerificationToken) {
+        return tokenRepository.findByToken(VerificationToken);
+    }
+    public CompteUtilisateur saveRegisteredUser(CompteUtilisateur compte) {
+        CompteUtilisateur compteSave = compteRepository.save(compte);
+		return compteSave;
+    }
+    
+    public CompteUtilisateur saveRegisteredUser(CompteUtilisateur compte, String role) {
+        CompteUtilisateur compteSave = compteRepository.save(compte);
+        Authority saveAuthority = saveAuthority(compteSave, role);
+		compteSave.setAuthorities(Arrays.asList(saveAuthority));
+		
+		return compteSave;
+    }
+    
+    public void createVerificationToken(CompteUtilisateur compte, String token) {
+        VerificationToken myToken = new VerificationToken(token, compte);
+        tokenRepository.save(myToken);
+    }
+	
 	@SuppressWarnings({ "unchecked", "rawtypes" })
-	public List<CompteBean> findAllComptes()
+	public List<CompteDto> findAllComptes()
 	{
 		List listeComptes = compteRepository.findAll();
 		ArrayList listeComptesBeans = MapperBeanUtil.convertListCompteToListCompteBean(listeComptes);
@@ -72,12 +101,6 @@ public class CompteService {
 	{
 		Authority authority = new Authority(compte,role);
 		return authorityRepository.save(authority);
-	}
-	
-	
-	public String generateMdp()
-	{
-		return RandomStringUtils.randomAlphanumeric(RandomUtils.nextInt(0, 13) + 8);
 	}
 	
 	public Page<CompteUtilisateur> listAllByPage(Integer pageNumber) {
@@ -93,7 +116,7 @@ public class CompteService {
 	}
 	
 	@Transactional
-	public void editerCompteWithCompteBean(CompteBean compteBean){
+	public void editerCompteWithCompteBean(CompteDto compteBean){
 		CompteUtilisateur compteFromDb = compteRepository.findByMail(compteBean.getMail());
 		compteFromDb.setNom(compteBean.getNom());
 		compteFromDb.setPrenom(compteBean.getPrenom());
@@ -103,5 +126,14 @@ public class CompteService {
 			etudiant.setNumeroEtudiant(compteBean.getNumeroEtudiant());
 		}
 	}
+	
+	protected boolean emailExist(String email) {
+        CompteUtilisateur compte = compteRepository.findByMail(email);
+        if (compte != null) {
+            return true;
+        }
+        return false;
+    }
+
 
 }

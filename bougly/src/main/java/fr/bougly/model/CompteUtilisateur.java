@@ -14,7 +14,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import fr.bougly.model.security.Authority;
-import fr.bougly.web.beans.CompteBean;
+import fr.bougly.web.dtos.CompteDto;
 
 @Entity
 @Inheritance
@@ -35,18 +35,21 @@ public abstract class CompteUtilisateur implements UserDetails {
 
 	protected String nom;
 	protected String prenom;
+	protected boolean enabled = false;
 
 	public CompteUtilisateur() {
 	}
 
-	public CompteUtilisateur(String mail, String mdp, String nom, String prenom, String dateDeNaissance) {
+	// TODO Cree un compte au demarrage. A supprimer plus tard
+	public CompteUtilisateur(String mail, String mdp, String nom, String prenom) {
 		this.mail = mail;
 		this.mdp = mdp;
 		this.nom = nom;
 		this.prenom = prenom;
+		this.enabled = true;
 	}
 
-	public CompteUtilisateur(CompteBean compteBean) throws ParseException {
+	public CompteUtilisateur(CompteDto compteBean) throws ParseException {
 		this.mail = compteBean.getMail();
 		this.mdp = compteBean.getMdp();
 		this.nom = compteBean.getNom();
@@ -85,7 +88,7 @@ public abstract class CompteUtilisateur implements UserDetails {
 
 	@Override
 	public boolean isEnabled() {
-		return true;
+		return enabled;
 	}
 
 	public String getMail() {
@@ -124,6 +127,9 @@ public abstract class CompteUtilisateur implements UserDetails {
 		this.prenom = prenom;
 	}
 
+	public void setEnabled(boolean enabled) {
+		this.enabled = enabled;
+	}
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -142,10 +148,12 @@ public abstract class CompteUtilisateur implements UserDetails {
 			return false;
 		CompteUtilisateur other = (CompteUtilisateur) obj;
 		if (mail == null) {
-			if (other.mail != null)
+			if (other.getMail() != null)
 				return false;
-		} else if (!mail.equals(other.mail))
+		} else if (!mail.equals(other.getMail()))
 			return false;
 		return true;
 	}
+
+	
 }

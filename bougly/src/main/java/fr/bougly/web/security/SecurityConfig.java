@@ -8,6 +8,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import fr.bougly.model.enumeration.RoleCompteEnum;
+import fr.bougly.web.controller.LoginController;
 
 @Configuration
 @EnableWebSecurity
@@ -16,12 +17,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Autowired
 	CustomAuthenticationSuccessHandler customAuthenticationSuccessHandler;
 
+	@Autowired
+	CustomAuthenticationFailureHandler customAuthenticationFailureHandler;
+	
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http
 		.csrf().disable();
 		
 		http
+		.authorizeRequests().antMatchers(LoginController.URL_CONFIRM_ACCOUNT, LoginController.URL_CREATE_PASSWORD,"/error/**").permitAll().and()
 		.authorizeRequests().antMatchers("/responsable/**").hasAuthority(RoleCompteEnum.Responsable.toString()).and()
 		.authorizeRequests().antMatchers("/enseignant/**").hasAuthority(RoleCompteEnum.Enseignant.toString()).and()
 		.authorizeRequests().antMatchers("/etudiant/**").hasAuthority(RoleCompteEnum.Etudiant.toString()).and()
@@ -33,6 +38,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         .loginPage("/login.html")
         .defaultSuccessUrl("/accueilEtudiant.html",true)
         .successHandler(customAuthenticationSuccessHandler)
+        .failureHandler(customAuthenticationFailureHandler)
         .permitAll()
         .and()
         .logout()

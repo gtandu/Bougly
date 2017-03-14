@@ -4,17 +4,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 import fr.bougly.model.CompteUtilisateur;
-import fr.bougly.web.beans.CompteBean;
+import fr.bougly.web.dtos.CompteDto;
 
 public class MapperBeanUtil {
 	
-	public static ArrayList<CompteBean> convertListCompteToListCompteBean(List<CompteUtilisateur> listeComptes)
+	public static ArrayList<CompteDto> convertListCompteToListCompteBean(List<CompteUtilisateur> listeComptes)
 	{
 		ArrayList listeComptesBeans = new ArrayList<>();
 		
 		for(CompteUtilisateur compte : listeComptes)
 		{
-			CompteBean compteBean = new CompteBean(compte);
+			CompteDto compteBean = new CompteDto(compte);
 			listeComptesBeans.add(compteBean);
 		}
 		

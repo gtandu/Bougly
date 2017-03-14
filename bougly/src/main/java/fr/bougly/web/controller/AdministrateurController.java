@@ -5,6 +5,8 @@ import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.context.ApplicationEventPublisher;
@@ -31,9 +33,10 @@ import fr.bougly.model.Enseignant;
 import fr.bougly.model.Etudiant;
 import fr.bougly.model.Responsable;
 import fr.bougly.model.enumeration.RoleCompteEnum;
+import fr.bougly.model.security.OnRegistrationCompleteEvent;
 import fr.bougly.service.CompteService;
 import fr.bougly.service.helper.MapperBeanUtil;
-import fr.bougly.web.beans.CompteBean;
+import fr.bougly.web.dtos.CompteDto;
 
 
 @Controller
@@ -49,12 +52,15 @@ public class AdministrateurController {
 	@Autowired
 	CompteService compteService;
 	
+	@Autowired
+	ApplicationEventPublisher eventPublisher;
+	
 	@RequestMapping(value=URL_GESTION_COMPTE_PAGE, method=RequestMethod.GET)
 	public ModelAndView showPageGestionCompte(@RequestParam(defaultValue="1",required=true) Integer pageNumber)
 	{
 		Page<CompteUtilisateur> listeComptesPage = compteService.listAllByPage(pageNumber);
 		List<CompteUtilisateur> listeComptes = listeComptesPage.getContent();
-		ArrayList<CompteBean> listeComptesBean = MapperBeanUtil.convertListCompteToListCompteBean(listeComptes);
+		ArrayList<CompteDto> listeComptesBean = MapperBeanUtil.convertListCompteToListCompteBean(listeComptes);
 		int current = listeComptesPage.getNumber() + 1;
 	    int begin = Math.max(1, current - 5);
 	    int end = Math.min(begin + 10, listeComptesPage.getTotalPages());
@@ -74,7 +80,7 @@ public class AdministrateurController {
 	{
 		
 		ModelAndView model = new ModelAndView("creerCompte");
-		model.addObject("compte", new CompteBean());
+		model.addObject("compte", new CompteDto());
 		model.addObject("allRoles",RoleCompteEnum.listesAllRoles());
 		return model;
 		
@@ -82,16 +88,20 @@ public class AdministrateurController {
 	
 	@SuppressWarnings("rawtypes")
 	@RequestMapping(value=URL_CREER_COMPTE, method=RequestMethod.POST)
-	public String creerCompteFromData(@ModelAttribute(value="compte") CompteBean compteBean, WebRequest request) throws Exception
+	public String creerCompteFromData(@ModelAttribute(value="compte") CompteDto compteDto, HttpServletRequest request) throws Exception
 	{
-		String role = compteBean.getRole();
+
 		
-		Class<?> myClass = Class.forName("fr.bougly.model."+role);
-		Class[] types = {CompteBean.class};
-		Constructor<?> constructor = myClass.getConstructor(types);
-		CompteUtilisateur compte = (CompteUtilisateur) constructor.newInstance(compteBean);
+		CompteUtilisateur compteSave = compteService.saveNewUserAccount(compteDto);
 		
-		compteService.checkUserMailAndSaveUser(compte, role);
+		try {
+	        String appUrl = request.getContextPath();
+	        eventPublisher.publishEvent(new OnRegistrationCompleteEvent
+	          (compteSave, request.getLocale(), appUrl));
+	    } catch (Exception me) {
+	    	throw new MailErrorException("Erreur OnRegistrationCompleteEvent ");
+	       
+	    }
 		
 		return "redirect:"+URL_CONTROLLEUR_ADMIN+URL_GESTION_COMPTE_PAGE;
 		
@@ -114,7 +124,7 @@ public class AdministrateurController {
 	
 	@RequestMapping(value=URL_EDITER_COMPTE, method=RequestMethod.POST)
 	@ResponseBody
-	public String editerCompte(CompteBean compteBean)
+	public String editerCompte(CompteDto compteBean)
 	{
 			compteService.editerCompteWithCompteBean(compteBean);
 			return "OK";

@@ -4,7 +4,7 @@ import java.text.ParseException;
 
 import javax.persistence.Entity;
 
-import fr.bougly.web.beans.CompteBean;
+import fr.bougly.web.dtos.CompteDto;
 
 @Entity
 public class Administrateur extends CompteUtilisateur {
@@ -18,11 +18,11 @@ public class Administrateur extends CompteUtilisateur {
 		super();
 	}
 
-	public Administrateur(String mail, String mdp, String nom, String prenom, String dateDeNaissance) {
-		super(mail, mdp, nom, prenom, dateDeNaissance);
+	public Administrateur(String mail, String mdp, String nom, String prenom) {
+		super(mail, mdp, nom, prenom);
 	}
 
-	public Administrateur(CompteBean compteBean) throws ParseException {
+	public Administrateur(CompteDto compteBean) throws ParseException {
 		super(compteBean);
 	}
 	

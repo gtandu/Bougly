@@ -1,4 +1,4 @@
-package fr.bougly.web.beans;
+package fr.bougly.web.dtos;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.text.WordUtils;
@@ -7,7 +7,7 @@ import org.springframework.security.core.GrantedAuthority;
 import fr.bougly.model.CompteUtilisateur;
 import fr.bougly.model.Etudiant;
 
-public class CompteBean {
+public class CompteDto {
 	
 	private String mail;
 	private String mdp;
@@ -16,11 +16,11 @@ public class CompteBean {
 	private String prenom;
 	private String numeroEtudiant;
 	
-	public CompteBean() {
+	public CompteDto() {
 		super();
 	}
 	
-	public CompteBean(CompteUtilisateur compte) {
+	public CompteDto(CompteUtilisateur compte) {
 		this.mail = compte.getMail();
 		this.nom = compte.getNom();
 		this.prenom = compte.getPrenom();
@@ -73,6 +73,30 @@ public class CompteBean {
 	}
 	public void setNumeroEtudiant(String numeroEtudiant) {
 		this.numeroEtudiant = numeroEtudiant;
+	}
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((mail == null) ? 0 : mail.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		CompteDto other = (CompteDto) obj;
+		if (mail == null) {
+			if (other.getMail() != null)
+				return false;
+		} else if (!mail.equals(other.getMail()))
+			return false;
+		return true;
 	}
 	
 	

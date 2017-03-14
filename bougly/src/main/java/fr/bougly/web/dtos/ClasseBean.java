@@ -1,4 +1,4 @@
-package fr.bougly.web.beans;
+package fr.bougly.web.dtos;
 
 public class ClasseBean {
 

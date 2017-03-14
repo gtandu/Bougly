@@ -1,9 +1,16 @@
 package fr.bougly.web.controller;
 
+import java.util.Calendar;
+import java.util.Locale;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 import fr.bougly.model.Administrateur;
@@ -15,6 +22,7 @@ import fr.bougly.model.Responsable;
 import fr.bougly.model.enumeration.FormationEnum;
 import fr.bougly.model.enumeration.NiveauEnum;
 import fr.bougly.model.enumeration.RoleCompteEnum;
+import fr.bougly.model.security.VerificationToken;
 import fr.bougly.repository.ClasseRepository;
 import fr.bougly.service.ClasseService;
 import fr.bougly.service.CompteService;
@@ -24,11 +32,18 @@ public class LoginController {
 
 	
 	public static final String URL_LOGIN_PAGE = "/login.html";
+	public static final String URL_CONFIRM_ACCOUNT = "/confirmAccount.html";
+	public static final String URL_CREATE_PASSWORD = "/creerMdp.html";
+	public static final String URL_BAD_USER = "/error/badUser.html";
 	
 	@Autowired
 	private CompteService compteService;
+	
 	@Autowired
 	private ClasseService classeService;
+	
+	@Autowired
+	private MessageSource messages;
 
 	@RequestMapping(value = URL_LOGIN_PAGE, method = RequestMethod.GET)
 	public ModelAndView showLoginPage() throws Exception {
@@ -39,12 +54,53 @@ public class LoginController {
 		
 		return model;
 	}
+	
+	@RequestMapping(value = URL_CONFIRM_ACCOUNT, method = RequestMethod.GET)
+	public String confirmRegistration
+	  (WebRequest request, Model model, @RequestParam("token") String token) {
+	  
+	    Locale locale = request.getLocale();
+	     
+	    VerificationToken verificationToken = compteService.getVerificationToken(token);
+	    if (verificationToken == null) {
+	        String message = messages.getMessage("auth.message.invalidToken", null, locale);
+	        model.addAttribute("message", message);
+	        return URL_BAD_USER;
+	    }
+	     
+	    CompteUtilisateur compte = verificationToken.getCompte();
+	    Calendar cal = Calendar.getInstance();
+	    if ((verificationToken.getExpiryDate().getTime() - cal.getTime().getTime()) <= 0) {
+	        String messageValue = messages.getMessage("auth.message.expired", null, locale);
+	        model.addAttribute("message", messageValue);
+	        return URL_BAD_USER;
+	    } 
+	     
+	    compte.setEnabled(true); 
+	    compteService.saveRegisteredUser(compte); 
+	    return "redirect:"+URL_CREATE_PASSWORD+"?token=" + token;
+	}
+	
+	@RequestMapping(value = URL_CREATE_PASSWORD, method = RequestMethod.GET)
+	public String confirmRegistration(WebRequest request, @RequestParam("token") String token, Model model) {
+		
+		Locale locale = request.getLocale();
+	  
+		VerificationToken verificationToken = compteService.getVerificationToken(token);
+	    if (verificationToken == null) {
+	        String message = messages.getMessage("auth.message.invalidToken", null, locale);
+	        model.addAttribute("message", message);
+	        return URL_BAD_USER;
+	    }
+	     
+	    return "creerMdp"; 
+	}
 
 	private void initUser() throws Exception {
 
 		//COMPTE ADMIN
-		CompteUtilisateur admin = new Administrateur("admin@hotmail.fr","adm","MAPELLA","Corentin","31/05/1994");
-		compteService.checkUserMailAndSaveUser(admin, RoleCompteEnum.Administrateur.toString());
+		CompteUtilisateur admin = new Administrateur("admin@hotmail.fr","adm","MAPELLA","Corentin");
+		compteService.saveRegisteredUser(admin, RoleCompteEnum.Administrateur.toString());
 		
 		/**
 		// COMPTE ETUDIANT

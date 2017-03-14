@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <div th:replace="/include/header :: header"></div>
+    <title>Créer un nouveau mot de passe</title>
+    <meta charset="UTF-8" />
+
+</head>
+
+<body>
+
+    <main>
+        <div class="container">
+      	  <h3  class="header center teal-text text-lighten-2">Créer un nouveau mot de passe</h3>
+            <div class="row">
+                <form class="col s12" th:action="@{/creerMdp.html}" method="post">
+                    <div class="row">
+                        <div class="input-field col s6">
+                            <input id="password" class="" type="password" required="true"  />
+                            <label for="password" data-error="Erreur" data-success="Valide">Mot de passe <span class="required">*</span></label>
+                        </div>
+                        <div class="input-field col s6">
+                            <input id="confirm_password" class="" type="password" required="true"  />
+                            <label for="confirm_password" data-error="Erreur" data-success="Valide">Confirmation du mot de passe <span class="required">*</span></label>
+                        </div>
+                    </div>    
+                    <div class="row">
+                        <div class="input-field col s12">
+                            <button id="submitButton" class="btn waves-effect waves-light col s5 offset-s2" type="submit">Créer un nouveau mot de passe</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </main>
+    <div th:replace="/include/script :: script"></div>
+    <footer>
+        <div th:replace="/include/footer :: footer"></div>
+    </footer>
+    <script type="text/javascript" th:src="@{/js/lib/formChecker.js}"></script>
+</body>
+
+</html>

@@ -13,6 +13,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 
 import fr.bougly.builder.model.EtudiantBuilder;
 import fr.bougly.model.Etudiant;
+import fr.bougly.model.enumeration.RoleCompteEnum;
 import fr.bougly.repository.CompteRepository;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -28,7 +29,11 @@ public class CustomUserDetailsServiceTest {
 	public void testLoadUserByUsername() throws Exception {
 		//WHEN
 		String mail = "etudiant@hotmail.fr";
-		Etudiant compte = new EtudiantBuilder().build();
+		String mdp = "toto";
+		String nom = "Joe";
+		String prenom = "bibi";
+		String numeroEtudiant = "201718974";
+		Etudiant compte = new EtudiantBuilder().avecMail(mail).avecMdp(mdp).avecNom(nom).avecPrenom(prenom).avecNumeroEtudiant(numeroEtudiant).avecRole(RoleCompteEnum.Etudiant.toString()).build();
 		when(compteRepository.findByMail(anyString())).thenReturn(compte);
 		
 		//GIVEN

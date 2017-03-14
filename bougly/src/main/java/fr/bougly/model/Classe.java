@@ -5,7 +5,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
-import fr.bougly.web.beans.ClasseBean;
+import fr.bougly.web.dtos.ClasseBean;
 
 @Entity
 public class Classe {
