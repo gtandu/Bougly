@@ -1,6 +1,8 @@
 $(function() {
 	checkErrorOnSubmit();
 	checkEmailFormatOnInputFocusOut();
+	addMethodRegexInApiValidate();
+	validateForm()
 });
 
 /**
@@ -27,13 +29,10 @@ function checkEmailFormatOnInputFocusOut()
 		var emailValide = isValidEmail(inputEmail);
 		if(emailValide == false)
 		{
-			console.log('invalide');
-			console.log($(this));
 			$(this).addClass('invalid');
 		}
 		else
 		{
-			console.log('valide');
 			$(this).removeClass('invalid').addClass('valid');
 		}
 	});
@@ -77,4 +76,55 @@ function checkErrorOnSubmit()
 		}
 	})
 	
+}
+function addMethodRegexInApiValidate()
+{
+	jQuery.validator.addMethod(
+			  "regex",
+			   function(value, element, regexp) {
+			       if (regexp.constructor != RegExp)
+			          regexp = new RegExp(regexp);
+			       else if (regexp.global)
+			          regexp.lastIndex = 0;
+			          return this.optional(element) || regexp.test(value);
+			   },"erreur expression reguliere"
+			);
+}
+
+function validateForm()
+{
+	$("form").validate({
+	      rules: {
+	         "password":{
+	            "required": true,
+	            "minlength": 8,
+	            "regex": /[A-z0-9]{8,}/
+	         },
+	         "confirm_password": {
+	            "required": true,
+	            "equalTo": '#password'
+	         },
+	  },
+	//For custom messages
+    messages: {
+    	password:{
+            required: "Saisissez un mot de passe",
+            minlength: "Saisissez au moins 8 caractères (sans accents)"
+        },
+        confirm_password:{
+        	required:	"Resaisissez un mot de passe",
+        	equalTo: "Les mots de passes doivent être identiques"
+        }
+    },
+    errorElement : 'div',
+    errorPlacement: function(error, element) {
+      var placement = $(element).data('error');
+      if (placement) {
+        $(placement).append(error)
+      } else {
+        error.insertAfter(element);
+      }
+      
+    }
+	});
 }

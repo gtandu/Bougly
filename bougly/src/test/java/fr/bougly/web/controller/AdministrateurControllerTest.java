@@ -21,11 +21,13 @@ import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.MediaType;
+import org.springframework.security.core.token.TokenService;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -42,7 +44,11 @@ import fr.bougly.model.Enseignant;
 import fr.bougly.model.Etudiant;
 import fr.bougly.model.Responsable;
 import fr.bougly.model.enumeration.RoleCompteEnum;
+import fr.bougly.model.security.OnRegistrationCompleteEvent;
+import fr.bougly.model.security.VerificationToken;
 import fr.bougly.service.CompteService;
+import fr.bougly.service.VerificationTokenService;
+import fr.bougly.service.mail.RegistrationListener;
 import fr.bougly.web.dtos.CompteDto;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -59,6 +65,12 @@ public class AdministrateurControllerTest {
 
 	@MockBean
 	private CompteService compteService;
+	
+	@MockBean
+	private RegistrationListener registrationListener;
+	
+	@MockBean
+	private ApplicationEventPublisher eventPublisher;
 	
 	@Before
 	public void setup() {
@@ -107,6 +119,8 @@ public class AdministrateurControllerTest {
 		Etudiant etudiant = new Etudiant(compteDto);
 		
 		Mockito.when(compteService.saveNewUserAccount(any(CompteDto.class))).thenReturn(etudiant);
+		doNothing().when(eventPublisher).publishEvent(any(OnRegistrationCompleteEvent.class));
+		doNothing().when(registrationListener).onApplicationEvent(any(OnRegistrationCompleteEvent.class));
 		
 		//GIVEN
 		this.mockMvc
@@ -121,6 +135,7 @@ public class AdministrateurControllerTest {
 				.andExpect(redirectedUrl(URL_CONTROLLEUR_ADMIN+AdministrateurController.URL_GESTION_COMPTE_PAGE));
 		
 		Mockito.verify(compteService).saveNewUserAccount(eq(compteDto));
+		Mockito.verify(registrationListener).onApplicationEvent(any(OnRegistrationCompleteEvent.class));
 	}
 	
 	@Test
@@ -136,6 +151,8 @@ public class AdministrateurControllerTest {
 		Administrateur admin = new Administrateur(compteDto);
 		
 		Mockito.when(compteService.saveNewUserAccount(any(CompteDto.class))).thenReturn(admin);
+		doNothing().when(eventPublisher).publishEvent(any(ApplicationEventPublisher.class));
+		doNothing().when(registrationListener).onApplicationEvent(any(OnRegistrationCompleteEvent.class));
 		
 		//GIVEN
 		this.mockMvc
@@ -149,6 +166,7 @@ public class AdministrateurControllerTest {
 				.andExpect(redirectedUrl(URL_CONTROLLEUR_ADMIN+AdministrateurController.URL_GESTION_COMPTE_PAGE));
 		
 		Mockito.verify(compteService).saveNewUserAccount(eq(compteDto));
+		Mockito.verify(registrationListener).onApplicationEvent(any(OnRegistrationCompleteEvent.class));
 	}
 	
 	@Test
@@ -165,7 +183,9 @@ public class AdministrateurControllerTest {
 		Enseignant enseignant = new Enseignant(compteDto);
 		
 		Mockito.when(compteService.saveNewUserAccount(any(CompteDto.class))).thenReturn(enseignant);
-		
+		doNothing().when(eventPublisher).publishEvent(any(ApplicationEventPublisher.class));
+		doNothing().when(registrationListener).onApplicationEvent(any(OnRegistrationCompleteEvent.class));
+				
 		//GIVEN
 		this.mockMvc
 				.perform(post(URL_CONTROLLEUR_ADMIN + AdministrateurController.URL_CREER_COMPTE)
@@ -179,6 +199,7 @@ public class AdministrateurControllerTest {
 				.andExpect(redirectedUrl(URL_CONTROLLEUR_ADMIN+AdministrateurController.URL_GESTION_COMPTE_PAGE));
 		
 		Mockito.verify(compteService).saveNewUserAccount(eq(compteDto));
+		Mockito.verify(registrationListener).onApplicationEvent(any(OnRegistrationCompleteEvent.class));
 	}
 	
 
@@ -196,7 +217,8 @@ public class AdministrateurControllerTest {
 		Responsable responsable = new Responsable(compteDto);
 		
 		Mockito.when(compteService.saveNewUserAccount(any(CompteDto.class))).thenReturn(responsable);
-		
+		doNothing().when(registrationListener).onApplicationEvent(any(OnRegistrationCompleteEvent.class));
+				
 		//GIVEN
 		this.mockMvc
 				.perform(post(URL_CONTROLLEUR_ADMIN + AdministrateurController.URL_CREER_COMPTE)
@@ -210,6 +232,7 @@ public class AdministrateurControllerTest {
 				.andExpect(redirectedUrl(URL_CONTROLLEUR_ADMIN+AdministrateurController.URL_GESTION_COMPTE_PAGE));
 		
 		Mockito.verify(compteService).saveNewUserAccount(eq(compteDto));
+		Mockito.verify(registrationListener).onApplicationEvent(any(OnRegistrationCompleteEvent.class));
 	}
 	
 	@Test

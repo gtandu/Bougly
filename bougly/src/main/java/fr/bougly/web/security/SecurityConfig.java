@@ -8,6 +8,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import fr.bougly.model.enumeration.RoleCompteEnum;
+import fr.bougly.web.controller.GestionCompteController;
 import fr.bougly.web.controller.LoginController;
 
 @Configuration
@@ -26,7 +27,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		.csrf().disable();
 		
 		http
-		.authorizeRequests().antMatchers(LoginController.URL_CONFIRM_ACCOUNT, LoginController.URL_CREATE_PASSWORD,"/error/**").permitAll().and()
+		.authorizeRequests().antMatchers(GestionCompteController.URL_CONFIRM_ACCOUNT, GestionCompteController.URL_CREER_MDP,"/error/**").permitAll().and()
 		.authorizeRequests().antMatchers("/responsable/**").hasAuthority(RoleCompteEnum.Responsable.toString()).and()
 		.authorizeRequests().antMatchers("/enseignant/**").hasAuthority(RoleCompteEnum.Enseignant.toString()).and()
 		.authorizeRequests().antMatchers("/etudiant/**").hasAuthority(RoleCompteEnum.Etudiant.toString()).and()

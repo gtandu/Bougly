@@ -12,6 +12,9 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
+
 import fr.bougly.model.CompteUtilisateur;
 
 @Entity
@@ -24,8 +27,11 @@ public class VerificationToken {
     private Long id;
      
     private String token;
+    
+    private boolean expired;
    
     @OneToOne(targetEntity = CompteUtilisateur.class, fetch = FetchType.EAGER)
+    @Cascade(CascadeType.DELETE)
     @JoinColumn(nullable = false, name = "user_id")
     private CompteUtilisateur compte;
      
@@ -40,6 +46,7 @@ public class VerificationToken {
 	public VerificationToken(String token, CompteUtilisateur compte) {
 		this.token = token;
 		this.compte = compte;
+		this.expired = false;
 		this.expiryDate = calculateExpiryDate(EXPIRATION);
 	}
 
@@ -64,6 +71,14 @@ public class VerificationToken {
 
 	public void setToken(String token) {
 		this.token = token;
+	}
+
+	public boolean isExpired() {
+		return expired;
+	}
+
+	public void setExpired(boolean expired) {
+		this.expired = expired;
 	}
 
 	public CompteUtilisateur getCompte() {

@@ -6,8 +6,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import org.apache.commons.lang3.RandomStringUtils;
-import org.apache.commons.lang3.RandomUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -40,7 +38,7 @@ public class CompteService {
 	private CompteRepository compteRepository;
 	
 	@Autowired
-	private VerificationTokenRepository tokenRepository;
+	private VerificationTokenService tokenService;
 	
 	private static final int PAGE_SIZE = 5;
 	
@@ -60,23 +58,18 @@ public class CompteService {
 		Constructor<?> constructor = myClass.getConstructor(types);
 		CompteUtilisateur compte = (CompteUtilisateur) constructor.newInstance(compteDto);
 		
-		CompteUtilisateur compteSave = saveRegisteredUser(compte,role);
+		CompteUtilisateur compteSave = saveRegisteredUserByCompteAndRole(compte,role);
 		
 		return compteSave;
-		
-		
-		
 	}
 	
-    public VerificationToken getVerificationToken(String VerificationToken) {
-        return tokenRepository.findByToken(VerificationToken);
-    }
-    public CompteUtilisateur saveRegisteredUser(CompteUtilisateur compte) {
+    
+    public CompteUtilisateur saveRegisteredUserByCompte(CompteUtilisateur compte) {
         CompteUtilisateur compteSave = compteRepository.save(compte);
 		return compteSave;
     }
     
-    public CompteUtilisateur saveRegisteredUser(CompteUtilisateur compte, String role) {
+    public CompteUtilisateur saveRegisteredUserByCompteAndRole(CompteUtilisateur compte, String role) {
         CompteUtilisateur compteSave = compteRepository.save(compte);
         Authority saveAuthority = saveAuthority(compteSave, role);
 		compteSave.setAuthorities(Arrays.asList(saveAuthority));
@@ -84,10 +77,7 @@ public class CompteService {
 		return compteSave;
     }
     
-    public void createVerificationToken(CompteUtilisateur compte, String token) {
-        VerificationToken myToken = new VerificationToken(token, compte);
-        tokenRepository.save(myToken);
-    }
+    
 	
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public List<CompteDto> findAllComptes()
@@ -110,10 +100,28 @@ public class CompteService {
 	
 	public void deleteCompteByMail(String mail)
 	{
+		
 		CompteUtilisateur compteToDelete = compteRepository.findByMail(mail);
+		tokenService.deleteVerificationTokenByCompte(compteToDelete);
 		compteRepository.delete(compteToDelete);
 		
 	}
+	
+	public CompteUtilisateur editMotDePasse(String mail, String mdp)
+	{
+		CompteUtilisateur compte = compteRepository.findByMail(mail);
+		compte.setMdp(mdp);
+		return compteRepository.save(compte);
+	}
+	
+	public CompteUtilisateur activerCompte(String mail)
+	{
+		CompteUtilisateur compte = compteRepository.findByMail(mail);
+		compte.setEnabled(true);
+		return compteRepository.save(compte);
+	}
+	
+	
 	
 	@Transactional
 	public void editerCompteWithCompteBean(CompteDto compteBean){

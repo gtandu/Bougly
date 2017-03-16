@@ -4,7 +4,6 @@ import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
-import org.springframework.context.MessageSource;
 import org.springframework.mail.MailException;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -13,17 +12,15 @@ import org.springframework.stereotype.Service;
 
 import fr.bougly.model.CompteUtilisateur;
 import fr.bougly.model.security.OnRegistrationCompleteEvent;
-import fr.bougly.service.CompteService;
+import fr.bougly.service.VerificationTokenService;
+import fr.bougly.web.controller.GestionCompteController;
 import fr.bougly.web.controller.LoginController;
 
 @Service
 public class RegistrationListener implements ApplicationListener<OnRegistrationCompleteEvent> {
 
 	@Autowired
-	private CompteService compteService;
-
-	@Autowired
-	private MessageSource messages;
+	private VerificationTokenService tokenService;
 
 	@Autowired
 	private JavaMailSender mailSender;
@@ -39,11 +36,11 @@ public class RegistrationListener implements ApplicationListener<OnRegistrationC
 	private void confirmRegistration(OnRegistrationCompleteEvent event) {
 		CompteUtilisateur compte = event.getCompte();
 		String token = UUID.randomUUID().toString();
-		compteService.createVerificationToken(compte, token);
+		tokenService.createVerificationToken(compte, token);
 
 		String recipientAddress = compte.getMail();
 		String subject = "Confirmation de la création d'un compte";
-		String confirmationUrl = "http://localhost:8080" + event.getAppUrl() + LoginController.URL_CONFIRM_ACCOUNT+ "?token=" + token;
+		String confirmationUrl = "http://localhost:8080" + event.getAppUrl() + GestionCompteController.URL_CONFIRM_ACCOUNT+ "?token=" + token;
 
 
 		MimeMessagePreparator messagePreparator = mimeMessage -> {
