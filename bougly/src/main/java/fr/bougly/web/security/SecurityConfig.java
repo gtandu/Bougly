@@ -9,7 +9,6 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import fr.bougly.model.enumeration.RoleCompteEnum;
 import fr.bougly.web.controller.GestionCompteController;
-import fr.bougly.web.controller.LoginController;
 
 @Configuration
 @EnableWebSecurity

@@ -18,10 +18,8 @@ import fr.bougly.model.CompteUtilisateur;
 import fr.bougly.model.Etudiant;
 import fr.bougly.model.enumeration.RoleCompteEnum;
 import fr.bougly.model.security.Authority;
-import fr.bougly.model.security.VerificationToken;
 import fr.bougly.repository.CompteRepository;
 import fr.bougly.repository.security.AuthorityRepository;
-import fr.bougly.repository.security.VerificationTokenRepository;
 import fr.bougly.service.helper.MapperBeanUtil;
 import fr.bougly.web.dtos.CompteDto;
 

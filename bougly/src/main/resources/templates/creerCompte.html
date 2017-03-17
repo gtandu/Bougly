@@ -29,19 +29,19 @@
                     </div>
                     <div class="row">
                         <div class="input-field col s6">
-                            <input id="email" class="" placeholder="Ex : adresse@mail.fr" type="text" th:field="*{mail}" required="true"  />
+                            <input id="email" class="" placeholder="Ex : adresse@mail.fr" type="text" th:field="*{mail}"/>
                             <label for="mail" data-error="Erreur" data-success="Valide">Mail <span class="required">*</span></label>
                         </div>
                         <div class="input-field col s6">
-                            <input class="validate" placeholder="Ex : Doe" type="text" th:field="*{nom}" pattern="[\w'-]+" required="true" />
+                            <input name="nom" class="validate" placeholder="Ex : Doe" type="text" th:field="*{nom}" pattern="[\w'-]+" required="true" />
                             <label for="nom" data-error="Erreur" data-success="Valide">Nom <span class="required">*</span></label>
                         </div>
                         <div class="input-field col s6">
-                            <input class="validate" placeholder="Ex : John" type="text" th:field="*{prenom}" pattern="[\w'-]+" required="true"/>
+                            <input name="prenom" class="validate" placeholder="Ex : John" type="text" th:field="*{prenom}" pattern="[\w'-]+" required="true"/>
                             <label for="prenom" data-error="Erreur" data-success="Valide">Prénom <span class="required">*</span></label>
                         </div>
                         <div class="inputNumEtu input-field col s6">
-                            <input class="validate" placeholder="Ex : 20172345" type="text" th:field="*{numeroEtudiant}" pattern="[0-9]{8}" required="true"/>
+                            <input name="numeroEtudiant" class="validate" placeholder="Ex : 20172345" type="text" th:field="*{numeroEtudiant}" pattern="[0-9]{8}" required="true"/>
                             <label for="numeroEtudiant" data-error="Erreur" data-success="Valide">Numero étudiant <span class="required">*</span></label>
                         </div>
                     </div>

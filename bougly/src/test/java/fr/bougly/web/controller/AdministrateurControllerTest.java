@@ -27,7 +27,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.MediaType;
-import org.springframework.security.core.token.TokenService;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -45,9 +44,7 @@ import fr.bougly.model.Etudiant;
 import fr.bougly.model.Responsable;
 import fr.bougly.model.enumeration.RoleCompteEnum;
 import fr.bougly.model.security.OnRegistrationCompleteEvent;
-import fr.bougly.model.security.VerificationToken;
 import fr.bougly.service.CompteService;
-import fr.bougly.service.VerificationTokenService;
 import fr.bougly.service.mail.RegistrationListener;
 import fr.bougly.web.dtos.CompteDto;
 
