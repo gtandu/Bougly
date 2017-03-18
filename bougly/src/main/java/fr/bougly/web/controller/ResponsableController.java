@@ -7,6 +7,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import fr.bougly.model.Classe;
@@ -23,6 +25,7 @@ public class ResponsableController {
 	public static final String URL_GESTION_FILIERE = "/gestionFiliere.html";
 	public static final String URL_GESTION_CLASSE = "/gestionClasse.html";
 	public static final String URL_CREER_CLASSE = "/creerClasse.html";
+	public static final String URL_SUPPRIMER_CLASSE = "/supprimerClasse.html";
 
 	@Autowired
 	private ClasseService classeService;
@@ -34,7 +37,7 @@ public class ResponsableController {
 		model.addObject("listeClasses", listeClasses);
 		return model;
 	}
-
+	
 	@RequestMapping(value = URL_GESTION_FILIERE, method = RequestMethod.GET)
 	public ModelAndView showPageGestionFiliere() {
 		ModelAndView model = new ModelAndView("gestionFiliere");
@@ -52,22 +55,17 @@ public class ResponsableController {
 
 		return model;
 	}
-
+	
 	@RequestMapping(value = URL_CREER_CLASSE, method = RequestMethod.POST)
-	public String creerClasse(@ModelAttribute(value = "classe") ClasseBean classeBean) {
-
-		classeService.saveClasse(new Classe(classeBean));
-
-		return "redirect:" + URL_CONTROLLEUR_RESPONSABLE + URL_GESTION_CLASSE;
+	public String creerClasse(@ModelAttribute(value="classe") Classe classe) {
+		classeService.saveClasse(classe);
+		return "redirect:"+URL_CONTROLLEUR_RESPONSABLE+URL_GESTION_CLASSE;
 	}
-
-	/**
-	 * @RequestMapping(value=URL_CREER_CLASSE, method=RequestMethod.POST) public
-	 *                                         String
-	 *                                         creerClasseFromData(@ModelAttribute(value="classe")
-	 *                                         ClasseBean classeBean) throws
-	 *                                         Exception { return
-	 *                                         "redirect:"+URL_CONTROLLEUR_RESPONSABLE+URL_GESTION_CLASSE;
-	 *                                         }
-	 **/
+		
+	
+	@RequestMapping(value = URL_SUPPRIMER_CLASSE, method = RequestMethod.POST)
+	@ResponseBody
+	public void supprimerClasse(@RequestParam(value = "id") long id){
+		classeService.deleteClasseById(id);
+	}
 }

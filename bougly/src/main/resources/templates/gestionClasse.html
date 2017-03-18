@@ -7,14 +7,20 @@
     <title>Gestion des classes</title>
     <meta charset="UTF-8" />
 
+	<!--  
+	<link type="text/css" rel="stylesheet" th:href="@{/css/modifierClasse.css}" media="screen,projection" />
+	-->
+
 </head>
 
 <body>
     <header>
         <div th:replace="/include/nav :: nav"></div>
     </header>
+    
     <main>
         <div class="container">
+        <h3  class="header center teal-text text-lighten-2">Gestion des classes</h3>
             <div class="row">
                 <div id="tabCompte" class="col s12">
                 	<p style="display:none;"></p>
@@ -30,12 +36,13 @@
 
                         <tbody>
                             <tr th:each="classe : ${listeClasses}">
+                                <td style="display:none;" class="id" th:text="${classe.id}">1</td>
                                 <td th:text="${classe.nom}">M1MIAA</td>
                                 <td th:text="${classe.formation}">MIAGE</td>
                                 <td th:text="${classe.niveau}">M1</td>
                                 <td th:text="${classe.moyenne}">12</td>
-                                <td><i class="small material-icons deleteIcon">clear</i></td>
-                                <td></td>
+                                <td><i class="small material-icons editIcon">edit</i></td>
+                                <td><i class="small material-icons deleteIcon" >clear</i></td>
                             </tr>
                         </tbody>
                     </table>
@@ -46,9 +53,17 @@
                     <a class="waves-effect waves-light btn col s10 offset-s1" th:href="@{/responsable/creerClasse.html}">Créer une classe</a>
                 </div>
             </div>
+            
+            <!--  
+            <div th:replace="/include/modifierClasse :: modifierClasse"></div>
+            <button id="popup" onclick="div_show()">Popup</button>
+            -->
+            
         </div>
     </main>
+    
     <div th:replace="/include/script :: script"></div>
+    <script type="text/javascript" th:src="@{/js/gestionClasse.js}"></script>
     
     <footer>
         <div th:replace="/include/footer :: footer"></div>

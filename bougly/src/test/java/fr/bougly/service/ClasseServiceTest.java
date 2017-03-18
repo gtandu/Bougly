@@ -18,7 +18,7 @@ public class ClasseServiceTest {
 	private ClasseRepository classeRepository;
 	@InjectMocks
 	private ClasseService classeService;
-
+	
 	@Test
 	public void testSaveClasse() throws Exception {
 		//WHEN
@@ -29,6 +29,20 @@ public class ClasseServiceTest {
 				
 		//THEN
 		verify(classeRepository).save(any(Classe.class));
+	}
+
+	
+	@Test
+	public void testDeleteClasseById() throws Exception {
+		//WHEN
+		long n = 0;
+		doNothing().when(classeRepository).delete(anyLong());
+		
+		//GIVEN
+		classeService.deleteClasseById(n);
+				
+		//THEN
+		verify(classeRepository).delete(anyLong());
 	}
 
 }

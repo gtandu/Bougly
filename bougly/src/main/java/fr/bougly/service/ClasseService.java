@@ -23,4 +23,8 @@ public class ClasseService {
 		return classeRepository.findAll();
 	}
 	
+	public void deleteClasseById(long classeId){
+		classeRepository.delete(classeId);
+	}
+	
 }
