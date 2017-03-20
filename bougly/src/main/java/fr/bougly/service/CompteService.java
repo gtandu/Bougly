@@ -13,6 +13,9 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException;
+
+import fr.bougly.exception.NumeroEtudiantExistException;
 import fr.bougly.exception.UserExistException;
 import fr.bougly.model.CompteUtilisateur;
 import fr.bougly.model.Etudiant;
@@ -41,13 +44,19 @@ public class CompteService {
 	private static final int PAGE_SIZE = 5;
 	
 	@SuppressWarnings("rawtypes")
-	public CompteUtilisateur saveNewUserAccount(CompteDto compteDto) throws UserExistException, ClassNotFoundException, NoSuchMethodException, SecurityException, InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException
+	public CompteUtilisateur saveNewUserAccount(CompteDto compteDto) throws Exception
 	{
 		
 		if (emailExist(compteDto.getMail())) {
 			String errorMessage = String.format("Un compte avec l'adresse email %s existe déjà.", compteDto.getMail());
             throw new UserExistException(errorMessage);
         }
+		
+		if(numeroEtudiantExist(compteDto.getNumeroEtudiant()))
+		{
+			String errorMessage = String.format("Un compte avec le numero étudiant %s existe déjà.", compteDto.getNumeroEtudiant());
+            throw new NumeroEtudiantExistException(errorMessage);
+		}
 		
 		String role = compteDto.getRole();
 		
@@ -67,12 +76,12 @@ public class CompteService {
 		return compteSave;
     }
     
-    public CompteUtilisateur saveRegisteredUserByCompteAndRole(CompteUtilisateur compte, String role) {
+    public CompteUtilisateur saveRegisteredUserByCompteAndRole(CompteUtilisateur compte, String role) throws MySQLIntegrityConstraintViolationException{
         CompteUtilisateur compteSave = compteRepository.save(compte);
-        Authority saveAuthority = saveAuthority(compteSave, role);
+		Authority saveAuthority = saveAuthority(compteSave, role);
 		compteSave.setAuthorities(Arrays.asList(saveAuthority));
-		
 		return compteSave;
+		
     }
     
     
@@ -140,6 +149,15 @@ public class CompteService {
         }
         return false;
     }
+	
+	protected boolean numeroEtudiantExist(String numeroEtudiant)
+	{
+		Etudiant compte = compteRepository.findByNumeroEtudiant(numeroEtudiant);
+        if (compte != null) {
+            return true;
+        }
+        return false;
+	}
 
 
 }

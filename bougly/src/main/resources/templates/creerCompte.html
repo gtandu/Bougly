@@ -2,12 +2,9 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
 <head>
-
     <div th:replace="/include/header :: header"></div>
     <title>Créer compte</title>
     <meta charset="UTF-8" />
-    <link type="text/css" rel="stylesheet" th:href="@{/css/creerCompte.css}" />
-
 </head>
 
 <body>
@@ -19,32 +16,40 @@
       	  <h3  class="header center teal-text text-lighten-2">Créer un compte</h3>
             <div class="row">
                 <form class="col s12" th:action="@{/administrateur/creerCompte.html}" th:object="${compte}" method="post">
+                    <div th:if="${mailExistant != null || numeroEtudiantExistant != null}" class="row">
+                        <div class="collection center" style="border-color: red;">
+                        	<a th:if="${mailExistant} != null" class="collection-item red-text text">Le compte <b><span th:text="${mail}"></span></b> existe déjà.</a>
+                        	<a th:if="${numeroEtudiantExistant} != null" class="collection-item red-text text">Le numéro étudiant <b><span th:text="${numeroEtudiant}"></span></b> existe déjà.</a>
+                        </div>
+                    </div>
                     <div class="row">
-                        <div class="input-field col s12">
+                        <div class="input-field col s6 offset-s3">
                         	<select th:field="*{role}">
 								<option th:each="role : ${allRoles}" th:value="${role}" th:text="${role}">Wireframe</option>
 							</select>
                             <label>Roles</label>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="input-field col s6">
-                            <input id="email" class="" placeholder="Ex : adresse@mail.fr" type="text" th:field="*{mail}"/>
-                            <label for="mail" data-error="Erreur" data-success="Valide">Mail <span class="required">*</span></label>
-                        </div>
-                        <div class="input-field col s6">
-                            <input name="nom" class="validate" placeholder="Ex : Doe" type="text" th:field="*{nom}" pattern="[\w'-]+" required="true" />
-                            <label for="nom" data-error="Erreur" data-success="Valide">Nom <span class="required">*</span></label>
-                        </div>
-                        <div class="input-field col s6">
-                            <input name="prenom" class="validate" placeholder="Ex : John" type="text" th:field="*{prenom}" pattern="[\w'-]+" required="true"/>
-                            <label for="prenom" data-error="Erreur" data-success="Valide">Prénom <span class="required">*</span></label>
-                        </div>
-                        <div class="inputNumEtu input-field col s6">
-                            <input name="numeroEtudiant" class="validate" placeholder="Ex : 20172345" type="text" th:field="*{numeroEtudiant}" pattern="[0-9]{8}" required="true"/>
-                            <label for="numeroEtudiant" data-error="Erreur" data-success="Valide">Numero étudiant <span class="required">*</span></label>
-                        </div>
-                    </div>
+	                    <div class="row">
+	                        <div class="input-field col s6">
+	                            <label for="mail">Mail <span class="required">*</span></label>
+	                            <input id="email" class="" placeholder="Ex : adresse@mail.fr" type="text" th:field="*{mail}"/>
+	                        </div>
+	                        <div class="input-field col s6">
+	                            <label for="nom">Nom <span class="required">*</span></label>
+	                            <input name="nom" class="" placeholder="Ex : Doe" type="text" th:field="*{nom}"/>
+	                        </div>
+	                   	</div>
+	                   	<div class="row">
+	                        <div class="input-field col s6">
+	                            <label for="prenom">Prénom <span class="required">*</span></label>
+	                            <input name="prenom" class="" placeholder="Ex : John" type="text" th:field="*{prenom}"/>
+	                        </div>
+	                        <div class="inputNumEtu input-field col s6">
+	                            <label for="numeroEtudiant">Numero étudiant <span class="required">*</span></label>
+	                            <input name="numeroEtudiant" class="validate" placeholder="Ex : 20172345" type="text" th:field="*{numeroEtudiant}"/>
+	                        </div>
+	                    </div>
                     <div class="row">
                         <div class="input-field col s12">
                             <a class="waves-effect waves-light btn col s5" th:href="@{/administrateur/gestionCompte.html}">Gestion des comptes</a>

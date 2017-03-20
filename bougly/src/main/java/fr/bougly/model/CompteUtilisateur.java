@@ -4,6 +4,7 @@ import java.text.ParseException;
 import java.util.Collection;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
@@ -26,6 +27,7 @@ public abstract class CompteUtilisateur implements UserDetails {
 
 	private static final long serialVersionUID = 2450538310211221681L;
 	@Id
+	@Column(unique=true)
 	protected String mail;
 
 	protected String mdp;

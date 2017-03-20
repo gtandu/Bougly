@@ -3,30 +3,29 @@ package fr.bougly.web.controller;
 import static org.mockito.Matchers.*;
 import static org.mockito.Mockito.*;
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.ApplicationEvent;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.MediaType;
+import org.springframework.mail.MailSendException;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -37,6 +36,8 @@ import org.springframework.web.context.WebApplicationContext;
 
 import fr.bougly.builder.bean.CompteDtoBuilder;
 import fr.bougly.builder.model.AdministrateurBuilder;
+import fr.bougly.exception.NumeroEtudiantExistException;
+import fr.bougly.exception.UserExistException;
 import fr.bougly.model.Administrateur;
 import fr.bougly.model.CompteUtilisateur;
 import fr.bougly.model.Enseignant;
@@ -92,11 +93,39 @@ public class AdministrateurControllerTest {
 
 	@Test
 	@WithMockUser(authorities = "Administrateur")
-	public void testShowPageCreerCompte() throws Exception {
+	public void testShowPageCreerCompteWithoutError() throws Exception {
 		this.mockMvc
 				.perform(get(URL_CONTROLLEUR_ADMIN + AdministrateurController.URL_CREER_COMPTE)
 						.accept(MediaType.TEXT_HTML))
 				.andExpect(status().isOk())
+				.andExpect(model().attributeExists("compte"))
+				.andExpect(model().attributeExists("allRoles"))
+				.andExpect(view().name("creerCompte"));
+	}
+	
+	@Test
+	@WithMockUser(authorities = "Administrateur")
+	public void testShowPageCreerCompteWithErrorMailExist() throws Exception {
+		this.mockMvc
+				.perform(get(URL_CONTROLLEUR_ADMIN + AdministrateurController.URL_CREER_COMPTE)
+						.accept(MediaType.TEXT_HTML).param("error", "true").param("mail", "test@hotmail.fr"))
+				.andExpect(status().isOk())
+				.andExpect(model().attributeExists("error"))
+				.andExpect(model().attributeExists("mailExistant"))
+				.andExpect(model().attributeExists("compte"))
+				.andExpect(model().attributeExists("allRoles"))
+				.andExpect(view().name("creerCompte"));
+	}
+	
+	@Test
+	@WithMockUser(authorities = "Administrateur")
+	public void testShowPageCreerCompteWithErrorNumeroEtudiantExist() throws Exception {
+		this.mockMvc
+				.perform(get(URL_CONTROLLEUR_ADMIN + AdministrateurController.URL_CREER_COMPTE)
+						.accept(MediaType.TEXT_HTML).param("error", "true").param("numeroEtudiant", "20171000"))
+				.andExpect(status().isOk())
+				.andExpect(model().attributeExists("error"))
+				.andExpect(model().attributeExists("numeroEtudiantExistant"))
 				.andExpect(model().attributeExists("compte"))
 				.andExpect(model().attributeExists("allRoles"))
 				.andExpect(view().name("creerCompte"));
@@ -230,6 +259,96 @@ public class AdministrateurControllerTest {
 		
 		Mockito.verify(compteService).saveNewUserAccount(eq(compteDto));
 		Mockito.verify(registrationListener).onApplicationEvent(any(OnRegistrationCompleteEvent.class));
+	}
+	
+	@Test
+	@WithMockUser(authorities = "Administrateur")
+	public void testCreerCompteEtudiantFromDataAndRedirectWithErrorUserExistException() throws Exception {
+		//WHEN
+		String mail = "test@mail.fr";
+		String mdp = "toto";
+		String nom = "Dalton";
+		String prenom = "Joe";
+		String numeroEtudiant = "20171000";
+		String role = RoleCompteEnum.Etudiant.toString();
+		CompteDto compteDto = new CompteDtoBuilder().avecMail(mail).avecMdp(mdp).avecNom(nom).avecPrenom(prenom).avecNumeroEtudiant(numeroEtudiant).build();
+		
+		doThrow(UserExistException.class).when(compteService).saveNewUserAccount(any(CompteDto.class));
+		
+		//GIVEN
+		this.mockMvc
+				.perform(post(URL_CONTROLLEUR_ADMIN + AdministrateurController.URL_CREER_COMPTE)
+						.accept(MediaType.TEXT_HTML)
+						.param("mail", mail)
+						.param("nom", nom)
+						.param("prenom", prenom)
+						.param("numeroEtudiant", numeroEtudiant)
+						.param("role",role))
+				.andExpect(status().isFound())
+				.andExpect(flash().attributeExists("mail"))
+				.andExpect(redirectedUrl(URL_CONTROLLEUR_ADMIN+AdministrateurController.URL_CREER_COMPTE+"?error=true"));
+		
+		Mockito.verify(compteService).saveNewUserAccount(eq(compteDto));
+	}
+	
+	@Test
+	@WithMockUser(authorities = "Administrateur")
+	public void testCreerCompteEtudiantFromDataAndRedirectWithErrorNumeroEtudiantExistException() throws Exception {
+		//WHEN
+		String mail = "test@mail.fr";
+		String mdp = "toto";
+		String nom = "Dalton";
+		String prenom = "Joe";
+		String numeroEtudiant = "20171000";
+		String role = RoleCompteEnum.Etudiant.toString();
+		CompteDto compteDto = new CompteDtoBuilder().avecMail(mail).avecMdp(mdp).avecNom(nom).avecPrenom(prenom).avecNumeroEtudiant(numeroEtudiant).build();
+		
+		doThrow(NumeroEtudiantExistException.class).when(compteService).saveNewUserAccount(any(CompteDto.class));
+		
+		//GIVEN
+		this.mockMvc
+				.perform(post(URL_CONTROLLEUR_ADMIN + AdministrateurController.URL_CREER_COMPTE)
+						.accept(MediaType.TEXT_HTML)
+						.param("mail", mail)
+						.param("nom", nom)
+						.param("prenom", prenom)
+						.param("numeroEtudiant", numeroEtudiant)
+						.param("role",role))
+				.andExpect(status().isFound())
+				.andExpect(flash().attributeExists("numeroEtudiant"))
+				.andExpect(redirectedUrl(URL_CONTROLLEUR_ADMIN+AdministrateurController.URL_CREER_COMPTE+"?error=true"));
+		
+		Mockito.verify(compteService).saveNewUserAccount(eq(compteDto));
+	}
+	
+	@Test(expected=MailSendException.class)
+	@Ignore
+	@WithMockUser(authorities = "Administrateur")
+	public void testCreerCompteEtudiantFromDataAndThrowErrorMailSendException() throws Exception {
+		//WHEN
+		String mail = "test@mail.fr";
+		String mdp = "toto";
+		String nom = "Dalton";
+		String prenom = "Joe";
+		String numeroEtudiant = "20171000";
+		String role = RoleCompteEnum.Etudiant.toString();
+		CompteDto compteDto = new CompteDtoBuilder().avecMail(mail).avecMdp(mdp).avecNom(nom).avecPrenom(prenom).avecNumeroEtudiant(numeroEtudiant).build();
+		Etudiant etudiant = new Etudiant(compteDto);
+		
+		Mockito.when(compteService.saveNewUserAccount(any(CompteDto.class))).thenReturn(etudiant);
+		doThrow(MailSendException.class).when(eventPublisher).publishEvent(any(OnRegistrationCompleteEvent.class));
+		
+		//GIVEN
+		this.mockMvc
+				.perform(post(URL_CONTROLLEUR_ADMIN + AdministrateurController.URL_CREER_COMPTE)
+						.accept(MediaType.TEXT_HTML)
+						.param("mail", mail)
+						.param("nom", nom)
+						.param("prenom", prenom)
+						.param("numeroEtudiant", numeroEtudiant)
+						.param("role",role));
+		
+		Mockito.verify(compteService).saveNewUserAccount(eq(compteDto));
 	}
 	
 	@Test

@@ -2,7 +2,9 @@ package fr.bougly.model;
 
 import java.text.ParseException;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Id;
 
 import fr.bougly.web.dtos.CompteDto;
 
@@ -13,6 +15,8 @@ public class Etudiant extends CompteUtilisateur {
 	 * 
 	 */
 	private static final long serialVersionUID = 7482134180300000186L;
+	
+	@Column(unique=true)
 	private String numeroEtudiant;
 	private float moyenneGenerale;
 	

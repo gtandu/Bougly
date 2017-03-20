@@ -22,6 +22,7 @@ import org.springframework.data.domain.Sort;
 import fr.bougly.builder.bean.CompteDtoBuilder;
 import fr.bougly.builder.model.AdministrateurBuilder;
 import fr.bougly.builder.model.EtudiantBuilder;
+import fr.bougly.exception.NumeroEtudiantExistException;
 import fr.bougly.exception.UserExistException;
 import fr.bougly.model.Administrateur;
 import fr.bougly.model.CompteUtilisateur;
@@ -74,7 +75,7 @@ public class CompteServiceTest {
 	}
 
 	@Test(expected = UserExistException.class)
-	public void testSaveNewUserAccountThrowException() throws Exception {
+	public void testSaveNewUserAccountThrowUserExistException() throws Exception {
 		// WHEN
 		String mail = "test@test.fr";
 		String mdp = "test";
@@ -84,6 +85,25 @@ public class CompteServiceTest {
 				.build();
 		Administrateur administrateur = new Administrateur(compteDto);
 		when(compteRepository.findByMail(anyString())).thenReturn(administrateur);
+
+		// GIVEN
+		compteService.saveNewUserAccount(compteDto);
+
+		// THEN
+
+	}
+	
+	@Test(expected = NumeroEtudiantExistException.class)
+	public void testSaveNewUserAccountThrowNumeroEtudiantExistException() throws Exception {
+		// WHEN
+		String mail = "test@test.fr";
+		String mdp = "test";
+		String nom = "Dalton";
+		String prenom = "Joe";
+		CompteDto compteDto = new CompteDtoBuilder().avecMail(mail).avecMdp(mdp).avecNom(nom).avecPrenom(prenom)
+				.build();
+		Etudiant etudiant = new Etudiant(compteDto);
+		when(compteRepository.findByNumeroEtudiant(anyString())).thenReturn(etudiant);
 
 		// GIVEN
 		compteService.saveNewUserAccount(compteDto);
