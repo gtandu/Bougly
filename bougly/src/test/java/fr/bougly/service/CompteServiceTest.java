@@ -207,7 +207,7 @@ public class CompteServiceTest {
 		// THEN
 		verify(passwordEncoder).encode(anyString());
 		verify(compteRepository).findByMail(eq(mail));
-		verify(etudiant).setMdp(eq(mdp));
+		verify(etudiant).setMdp(eq(encodeMdp));
 		verify(compteRepository).save(any(CompteUtilisateur.class));
 
 	}
@@ -227,6 +227,43 @@ public class CompteServiceTest {
 		verify(compteRepository).findByMail(eq(mail));
 		verify(etudiant).setEnabled(eq(true));
 		verify(compteRepository).save(any(CompteUtilisateur.class));
+	}
+
+	@Test
+	public void testSaveRegisteredUserByCompteAndRole() throws Exception {
+		// WHEN
+		String role = RoleCompteEnum.Etudiant.toString();
+		Etudiant etudiant = mock(Etudiant.class);
+		Authority authority = new Authority();
+		String encodeMdp = "$2a$11$jUSXAcwSkFitEehMx6f7fuhSePdaJd1CFo990tYa.NbexPhvo8dO6";
+	
+		when(passwordEncoder.encode(anyString())).thenReturn(encodeMdp);
+		when(compteRepository.save(any(CompteUtilisateur.class))).thenReturn(etudiant);
+		when(authorityRepository.save(any(Authority.class))).thenReturn(authority);
+	
+		// GIVEN
+		compteService.saveRegisteredUserByCompteAndRole(etudiant, role);
+	
+		// THEN
+		verify(passwordEncoder).encode(anyString());
+		verify(compteRepository).save(any(CompteUtilisateur.class));
+		verify(etudiant).setMdp(eq(encodeMdp));
+		verify(etudiant).setAuthorities(anyCollectionOf(Authority.class));
+		verify(authorityRepository).save(any(Authority.class));
+	}
+
+	@Test
+	public void testSaveRegisteredUserByCompte() throws Exception {
+		// WHEN
+		Etudiant etudiant = new Etudiant();
+		when(compteRepository.save(any(CompteUtilisateur.class))).thenReturn(etudiant);
+	
+		// GIVEN
+		compteService.saveRegisteredUserByCompte(etudiant);
+	
+		// THEN
+		verify(compteRepository).save(any(CompteUtilisateur.class));
+	
 	}
 
 	private Page<CompteUtilisateur> buildPageUtilisateur() {
@@ -330,42 +367,6 @@ public class CompteServiceTest {
 				return null;
 			}
 		};
-	}
-
-	@Test
-	public void testSaveRegisteredUserByCompte() throws Exception {
-		// WHEN
-		Etudiant etudiant = new Etudiant();
-		when(compteRepository.save(any(CompteUtilisateur.class))).thenReturn(etudiant);
-
-		// GIVEN
-		compteService.saveRegisteredUserByCompte(etudiant);
-
-		// THEN
-		verify(compteRepository).save(any(CompteUtilisateur.class));
-
-	}
-
-	@Test
-	public void testSaveRegisteredUserByCompteAndRole() throws Exception {
-		// WHEN
-		String role = RoleCompteEnum.Etudiant.toString();
-		Etudiant etudiant = mock(Etudiant.class);
-		Authority authority = new Authority();
-		String encodeMdp = "$2a$11$jUSXAcwSkFitEehMx6f7fuhSePdaJd1CFo990tYa.NbexPhvo8dO6";
-
-		when(passwordEncoder.encode(anyString())).thenReturn(encodeMdp);
-		when(compteRepository.save(any(CompteUtilisateur.class))).thenReturn(etudiant);
-		when(authorityRepository.save(any(Authority.class))).thenReturn(authority);
-
-		// GIVEN
-		compteService.saveRegisteredUserByCompteAndRole(etudiant, role);
-
-		// THEN
-		verify(passwordEncoder).encode(anyString());
-		verify(compteRepository).save(any(CompteUtilisateur.class));
-		verify(etudiant).setAuthorities(anyCollectionOf(Authority.class));
-		verify(authorityRepository).save(any(Authority.class));
 	}
 
 }
