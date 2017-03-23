@@ -5,11 +5,12 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import fr.bougly.model.CompteUtilisateur;
 import fr.bougly.repository.CompteRepository;
 
-@Component
+@Service
 public class CustomUserDetailsService implements UserDetailsService {
 
 	@Autowired
@@ -27,9 +28,7 @@ public class CustomUserDetailsService implements UserDetailsService {
 				throw new UsernameNotFoundException(errorMessage);
 			}
 
-			return new org.springframework.security.core.userdetails.User(compte.getMail(),
-					compte.getPassword().toLowerCase(), compte.isEnabled(), accountNonExpired, credentialsNonExpired,
-					accountNonLocked, compte.getAuthorities());
+			return compte;
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}

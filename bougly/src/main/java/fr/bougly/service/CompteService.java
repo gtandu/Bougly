@@ -1,7 +1,6 @@
 package fr.bougly.service;
 
 import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -10,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -40,6 +40,9 @@ public class CompteService {
 	
 	@Autowired
 	private VerificationTokenService tokenService;
+	
+	@Autowired
+	private BCryptPasswordEncoder passwordEncoder;
 	
 	private static final int PAGE_SIZE = 5;
 	
@@ -77,7 +80,8 @@ public class CompteService {
     }
     
     public CompteUtilisateur saveRegisteredUserByCompteAndRole(CompteUtilisateur compte, String role) throws MySQLIntegrityConstraintViolationException{
-        CompteUtilisateur compteSave = compteRepository.save(compte);
+    	compte.setMdp(passwordEncoder.encode(compte.getMdp()));
+    	CompteUtilisateur compteSave = compteRepository.save(compte);
 		Authority saveAuthority = saveAuthority(compteSave, role);
 		compteSave.setAuthorities(Arrays.asList(saveAuthority));
 		return compteSave;
@@ -117,7 +121,7 @@ public class CompteService {
 	public CompteUtilisateur editMotDePasse(String mail, String mdp)
 	{
 		CompteUtilisateur compte = compteRepository.findByMail(mail);
-		compte.setMdp(mdp);
+		compte.setMdp(passwordEncoder.encode(mdp));
 		return compteRepository.save(compte);
 	}
 	
