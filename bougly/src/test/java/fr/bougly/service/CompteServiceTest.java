@@ -235,7 +235,7 @@ public class CompteServiceTest {
 	}
 
 	@Test
-	public void testSaveRegisteredUserByCompteAndRole() throws Exception {
+	public void testSaveRegisteredUserByCompteAndRoleNoMdp() throws Exception {
 		// WHEN
 		String role = RoleCompteEnum.Etudiant.toString();
 		Etudiant etudiant = mock(Etudiant.class);
@@ -250,10 +250,30 @@ public class CompteServiceTest {
 		compteService.saveRegisteredUserByCompteAndRole(etudiant, role);
 	
 		// THEN
-		verify(passwordEncoder).encode(anyString());
 		verify(compteRepository).save(any(CompteUtilisateur.class));
 		verify(etudiant).setMdp(eq(encodeMdp));
 		verify(etudiant).setAuthorities(anyCollectionOf(Authority.class));
+		verify(authorityRepository).save(any(Authority.class));
+	}
+	
+	@Test
+	public void testSaveRegisteredUserByCompteAndRoleWithMdp() throws Exception {
+		// WHEN
+		String role = RoleCompteEnum.Etudiant.toString();
+		Etudiant etudiant = new EtudiantBuilder().avecMail("test@hotmail.fr").avecMdp("test").build();
+		Authority authority = new Authority();
+		String encodeMdp = "$2a$11$jUSXAcwSkFitEehMx6f7fuhSePdaJd1CFo990tYa.NbexPhvo8dO6";
+	
+		when(passwordEncoder.encode(anyString())).thenReturn(encodeMdp);
+		when(compteRepository.save(any(CompteUtilisateur.class))).thenReturn(etudiant);
+		when(authorityRepository.save(any(Authority.class))).thenReturn(authority);
+	
+		// GIVEN
+		compteService.saveRegisteredUserByCompteAndRole(etudiant, role);
+	
+		// THEN
+		verify(passwordEncoder).encode(anyString());
+		verify(compteRepository).save(any(CompteUtilisateur.class));
 		verify(authorityRepository).save(any(Authority.class));
 	}
 
