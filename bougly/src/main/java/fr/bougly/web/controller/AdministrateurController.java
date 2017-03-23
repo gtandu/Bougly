@@ -1,6 +1,5 @@
 package fr.bougly.web.controller;
 
-import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,9 +21,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException;
-
-import fr.bougly.exception.MailErrorException;
 import fr.bougly.exception.NumeroEtudiantExistException;
 import fr.bougly.exception.UserExistException;
 import fr.bougly.model.CompteUtilisateur;

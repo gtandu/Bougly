@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import fr.bougly.model.CompteUtilisateur;
@@ -18,9 +17,6 @@ public class CustomUserDetailsService implements UserDetailsService {
 
 	@Override
 	public UserDetails loadUserByUsername(String mail) throws UsernameNotFoundException {
-		boolean accountNonExpired = true;
-		boolean credentialsNonExpired = true;
-		boolean accountNonLocked = true;
 		try {
 			CompteUtilisateur compte = compteRepository.findByMail(mail);
 			if (compte == null) {

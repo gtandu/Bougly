@@ -80,7 +80,10 @@ public class CompteService {
     }
     
     public CompteUtilisateur saveRegisteredUserByCompteAndRole(CompteUtilisateur compte, String role) throws MySQLIntegrityConstraintViolationException{
-    	compte.setMdp(passwordEncoder.encode(compte.getMdp()));
+    	if(compte.getMdp() != null)
+    	{
+    		compte.setMdp(passwordEncoder.encode(compte.getMdp()));
+    	}
     	CompteUtilisateur compteSave = compteRepository.save(compte);
 		Authority saveAuthority = saveAuthority(compteSave, role);
 		compteSave.setAuthorities(Arrays.asList(saveAuthority));
