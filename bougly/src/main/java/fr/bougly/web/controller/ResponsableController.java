@@ -13,7 +13,7 @@ import fr.bougly.model.Classe;
 import fr.bougly.model.enumeration.FormationEnum;
 import fr.bougly.model.enumeration.NiveauEnum;
 import fr.bougly.service.ClasseService;
-import fr.bougly.web.beans.ClasseBean;
+import fr.bougly.web.dtos.ClasseBean;
 
 @Controller
 @RequestMapping(value = "/responsable")

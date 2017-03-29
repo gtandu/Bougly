@@ -1,18 +1,21 @@
 package fr.bougly.service;
 
+import java.lang.reflect.Constructor;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import org.apache.commons.lang3.RandomStringUtils;
-import org.apache.commons.lang3.RandomUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException;
+
+import fr.bougly.exception.NumeroEtudiantExistException;
 import fr.bougly.exception.UserExistException;
 import fr.bougly.model.CompteUtilisateur;
 import fr.bougly.model.Etudiant;
@@ -21,16 +24,13 @@ import fr.bougly.model.security.Authority;
 import fr.bougly.repository.CompteRepository;
 import fr.bougly.repository.security.AuthorityRepository;
 import fr.bougly.service.helper.MapperBeanUtil;
-import fr.bougly.service.mail.ServiceMail;
-import fr.bougly.web.beans.CompteBean;
+import fr.bougly.web.dtos.CompteDto;
 
 @Service
 public class CompteService {
 	
 	//TODO Encrypt mdp
 	
-	@Autowired
-	private ServiceMail serviceMail;
 	
 	@Autowired
 	private AuthorityRepository authorityRepository;
@@ -38,30 +38,63 @@ public class CompteService {
 	@Autowired
 	private CompteRepository compteRepository;
 	
+	@Autowired
+	private VerificationTokenService tokenService;
+	
+	@Autowired
+	private BCryptPasswordEncoder passwordEncoder;
+	
 	private static final int PAGE_SIZE = 5;
 	
-	public CompteUtilisateur checkUserMailAndSaveUser(CompteUtilisateur compte, String role) throws Exception
+	@SuppressWarnings("rawtypes")
+	public CompteUtilisateur saveNewUserAccount(CompteDto compteDto) throws Exception
 	{
-		CompteUtilisateur compteExiste = compteRepository.findByMail(compte.getMail());
 		
-		if(compteExiste != null)
+		if (emailExist(compteDto.getMail())) {
+			String errorMessage = String.format("Un compte avec l'adresse email %s existe déjà.", compteDto.getMail());
+            throw new UserExistException(errorMessage);
+        }
+		
+		if(numeroEtudiantExist(compteDto.getNumeroEtudiant()))
 		{
-			throw new UserExistException("Utilisateur existe déjà");
+			String errorMessage = String.format("Un compte avec le numero étudiant %s existe déjà.", compteDto.getNumeroEtudiant());
+            throw new NumeroEtudiantExistException(errorMessage);
 		}
-		compte.setMdp(generateMdp());
-		CompteUtilisateur compteSave = compteRepository.save(compte);
 		
-		Authority saveAuthority = saveAuthority(compteSave, role);
-		compteSave.setAuthorities(Arrays.asList(saveAuthority));
+		String role = compteDto.getRole();
 		
-		serviceMail.prepareAndSend(compte.getMail(),compte.getMail(),compte.getMdp());
+		Class<?> myClass = Class.forName("fr.bougly.model."+role);
+		Class[] types = {CompteDto.class};
+		Constructor<?> constructor = myClass.getConstructor(types);
+		CompteUtilisateur compte = (CompteUtilisateur) constructor.newInstance(compteDto);
+		
+		CompteUtilisateur compteSave = saveRegisteredUserByCompteAndRole(compte,role);
 		
 		return compteSave;
-		
 	}
 	
+    
+    public CompteUtilisateur saveRegisteredUserByCompte(CompteUtilisateur compte) {
+        CompteUtilisateur compteSave = compteRepository.save(compte);
+		return compteSave;
+    }
+    
+    public CompteUtilisateur saveRegisteredUserByCompteAndRole(CompteUtilisateur compte, String role) throws MySQLIntegrityConstraintViolationException{
+    	if(compte.getMdp() != null)
+    	{
+    		compte.setMdp(passwordEncoder.encode(compte.getMdp()));
+    	}
+    	CompteUtilisateur compteSave = compteRepository.save(compte);
+		Authority saveAuthority = saveAuthority(compteSave, role);
+		compteSave.setAuthorities(Arrays.asList(saveAuthority));
+		return compteSave;
+		
+    }
+    
+    
+	
 	@SuppressWarnings({ "unchecked", "rawtypes" })
-	public List<CompteBean> findAllComptes()
+	public List<CompteDto> findAllComptes()
 	{
 		List listeComptes = compteRepository.findAll();
 		ArrayList listeComptesBeans = MapperBeanUtil.convertListCompteToListCompteBean(listeComptes);
@@ -74,12 +107,6 @@ public class CompteService {
 		return authorityRepository.save(authority);
 	}
 	
-	
-	public String generateMdp()
-	{
-		return RandomStringUtils.randomAlphanumeric(RandomUtils.nextInt(0, 13) + 8);
-	}
-	
 	public Page<CompteUtilisateur> listAllByPage(Integer pageNumber) {
 		PageRequest request = new PageRequest(pageNumber-1, PAGE_SIZE, Sort.Direction.ASC, "mail");
 		return compteRepository.findAll(request);
@@ -87,21 +114,57 @@ public class CompteService {
 	
 	public void deleteCompteByMail(String mail)
 	{
+		
 		CompteUtilisateur compteToDelete = compteRepository.findByMail(mail);
+		tokenService.deleteVerificationTokenByCompte(compteToDelete);
 		compteRepository.delete(compteToDelete);
 		
 	}
 	
+	public CompteUtilisateur editMotDePasse(String mail, String mdp)
+	{
+		CompteUtilisateur compte = compteRepository.findByMail(mail);
+		compte.setMdp(passwordEncoder.encode(mdp));
+		return compteRepository.save(compte);
+	}
+	
+	public CompteUtilisateur activerCompte(String mail)
+	{
+		CompteUtilisateur compte = compteRepository.findByMail(mail);
+		compte.setEnabled(true);
+		return compteRepository.save(compte);
+	}
+	
+	
+	
 	@Transactional
-	public void editerCompteWithCompteBean(CompteBean compteBean){
+	public void editerCompteWithCompteBean(CompteDto compteBean){
 		CompteUtilisateur compteFromDb = compteRepository.findByMail(compteBean.getMail());
 		compteFromDb.setNom(compteBean.getNom());
 		compteFromDb.setPrenom(compteBean.getPrenom());
-		if(compteBean.getRole() == RoleCompteEnum.ETUDIANT.toString())
+		if(compteBean.getRole() == RoleCompteEnum.Etudiant.toString())
 		{
 			Etudiant etudiant = (Etudiant) compteFromDb;
 			etudiant.setNumeroEtudiant(compteBean.getNumeroEtudiant());
 		}
 	}
+	
+	protected boolean emailExist(String email) {
+        CompteUtilisateur compte = compteRepository.findByMail(email);
+        if (compte != null) {
+            return true;
+        }
+        return false;
+    }
+	
+	protected boolean numeroEtudiantExist(String numeroEtudiant)
+	{
+		Etudiant compte = compteRepository.findByNumeroEtudiant(numeroEtudiant);
+        if (compte != null) {
+            return true;
+        }
+        return false;
+	}
+
 
 }

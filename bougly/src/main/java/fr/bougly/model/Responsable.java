@@ -5,7 +5,7 @@ import java.util.ArrayList;
 
 import javax.persistence.Entity;
 
-import fr.bougly.web.beans.CompteBean;
+import fr.bougly.web.dtos.CompteDto;
 
 @Entity
 public class Responsable extends Enseignant {
@@ -17,16 +17,16 @@ public class Responsable extends Enseignant {
 		super();
 	}
 
-	public Responsable(String mail, String mdp, String nom, String prenom, String dateDeNaissance) {
-		super(mail, mdp, nom, prenom, dateDeNaissance);
+	public Responsable(String mail, String mdp, String nom, String prenom) {
+		super(mail, mdp, nom, prenom);
 	}
 	
-	public Responsable(String mail, String mdp, String nom, String prenom, String dateDeNaissance, ArrayList<Classe> lesClasses) {
-		super(mail, mdp, nom, prenom, dateDeNaissance);
+	public Responsable(String mail, String mdp, String nom, String prenom, ArrayList<Classe> lesClasses) {
+		super(mail, mdp, nom, prenom);
 		lesClasses = new ArrayList<Classe> ();
 	}
 
-	public Responsable(CompteBean compteBean) throws ParseException {
+	public Responsable(CompteDto compteBean) throws ParseException {
 		super(compteBean);
 	}
 

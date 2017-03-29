@@ -2,6 +2,7 @@ package fr.bougly.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyCollectionOf;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.doNothing;
@@ -23,10 +24,12 @@ import org.springframework.core.convert.converter.Converter;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
-import fr.bougly.builder.bean.CompteBeanBuilder;
+import fr.bougly.builder.bean.CompteDtoBuilder;
 import fr.bougly.builder.model.AdministrateurBuilder;
 import fr.bougly.builder.model.EtudiantBuilder;
+import fr.bougly.exception.NumeroEtudiantExistException;
 import fr.bougly.exception.UserExistException;
 import fr.bougly.model.Administrateur;
 import fr.bougly.model.CompteUtilisateur;
@@ -35,160 +38,267 @@ import fr.bougly.model.enumeration.RoleCompteEnum;
 import fr.bougly.model.security.Authority;
 import fr.bougly.repository.CompteRepository;
 import fr.bougly.repository.security.AuthorityRepository;
-import fr.bougly.service.mail.ServiceMail;
-import fr.bougly.web.beans.CompteBean;
+import fr.bougly.web.dtos.CompteDto;
 
 @RunWith(MockitoJUnitRunner.class)
 public class CompteServiceTest {
-	
+
 	@InjectMocks
 	private CompteService compteService;
-	
+
 	@Mock
-	private ServiceMail serviceMail;
-	
+	private VerificationTokenService verificationTokenService;
+
 	@Mock
 	private CompteRepository compteRepository;
-	
+
 	@Mock
 	private AuthorityRepository authorityRepository;
 
-	
+	@Mock
+	private BCryptPasswordEncoder passwordEncoder;
+
 	@Test
-	public void shouldCallCheckUserMailAndSaveUser() throws Exception {
-		//WHEN
+	public void testSaveNewUserAccount() throws Exception {
+		// WHEN
 		String mail = "test@test.fr";
 		String mdp = "test";
 		String nom = "Dalton";
 		String prenom = "Joe";
-		String dateDeNaissance ="01/01/2000";
-		String role = "ADMIN";
-		Administrateur administrateur = new AdministrateurBuilder().avecMail(mail).avecMdp(mdp).avecNom(nom).avecPrenom(prenom).build();
+		CompteDto compteDto = new CompteDtoBuilder().avecMail(mail).avecMdp(mdp).avecNom(nom).avecPrenom(prenom)
+				.avecRole(RoleCompteEnum.Administrateur.toString()).build();
+		Administrateur administrateur = new Administrateur(compteDto);
+
 		when(compteRepository.findByMail(anyString())).thenReturn(null);
 		when(compteRepository.save(any(CompteUtilisateur.class))).thenReturn(administrateur);
-		doNothing().when(serviceMail).prepareAndSend(anyString(), anyString(), anyString());
-		
-		//GIVEN
-		CompteUtilisateur compte = compteService.checkUserMailAndSaveUser(administrateur, role);
-		
-		//THEN
+
+		// GIVEN
+		CompteUtilisateur compte = compteService.saveNewUserAccount(compteDto);
+
+		// THEN
 		verify(compteRepository).findByMail(mail);
 		verify(compteRepository).save(administrateur);
-		verify(serviceMail).prepareAndSend(eq(mail), eq(mail), anyString());
 		verify(authorityRepository).save(any(Authority.class));
+
 		assertThat(compte).isNotNull();
 		assertThat(compte).isEqualToComparingFieldByField(administrateur);
 	}
-	
-	
-	@Test(expected=UserExistException.class)
-	public void shouldCallCheckUserMailAndSaveUserThrowException() throws Exception {
-		//WHEN
+
+	@Test(expected = UserExistException.class)
+	public void testSaveNewUserAccountThrowUserExistException() throws Exception {
+		// WHEN
 		String mail = "test@test.fr";
 		String mdp = "test";
 		String nom = "Dalton";
 		String prenom = "Joe";
-		String dateDeNaissance ="01/01/2000";
-		String role = "ADMIN";
-		Administrateur administrateur = new AdministrateurBuilder().avecMail(mail).avecMdp(mdp).avecNom(nom).avecPrenom(prenom).build();
-		
+		CompteDto compteDto = new CompteDtoBuilder().avecMail(mail).avecMdp(mdp).avecNom(nom).avecPrenom(prenom)
+				.build();
+		Administrateur administrateur = new Administrateur(compteDto);
 		when(compteRepository.findByMail(anyString())).thenReturn(administrateur);
-		
-		//GIVEN
-		compteService.checkUserMailAndSaveUser(administrateur, role);
-		
-		//THEN
-		
+
+		// GIVEN
+		compteService.saveNewUserAccount(compteDto);
+
+		// THEN
+
 	}
-	
-	
+
+	@Test(expected = NumeroEtudiantExistException.class)
+	public void testSaveNewUserAccountThrowNumeroEtudiantExistException() throws Exception {
+		// WHEN
+		String mail = "test@test.fr";
+		String mdp = "test";
+		String nom = "Dalton";
+		String prenom = "Joe";
+		CompteDto compteDto = new CompteDtoBuilder().avecMail(mail).avecMdp(mdp).avecNom(nom).avecPrenom(prenom)
+				.build();
+		Etudiant etudiant = new Etudiant(compteDto);
+		when(compteRepository.findByNumeroEtudiant(anyString())).thenReturn(etudiant);
+
+		// GIVEN
+		compteService.saveNewUserAccount(compteDto);
+
+		// THEN
+
+	}
+
 	@Test
-	public void shouldFindAllComptes()
-	{
-		//WHEN
+	public void shouldFindAllComptes() {
+		// WHEN
 		List<CompteUtilisateur> listeComptes = new ArrayList<>();
-		Etudiant etudiant = new EtudiantBuilder().avecRole(RoleCompteEnum.ETUDIANT.toString()).avecMail("etu@mail.fr").avecNom("Dalton").avecPrenom("Joe").avecMoyenneGenerale(17).avecNumeroEtudiant("20175406").build();
-		Administrateur administrateur = new AdministrateurBuilder().avecRole(RoleCompteEnum.ADMINISTRATEUR.toString()).avecMail("adm@mail.fr").avecNom("Adm").avecPrenom("Adm").build();
+		Etudiant etudiant = new EtudiantBuilder().avecRole(RoleCompteEnum.Etudiant.toString()).avecMail("etu@mail.fr")
+				.avecNom("Dalton").avecPrenom("Joe").avecMoyenneGenerale(17).avecNumeroEtudiant("20175406").build();
+		Administrateur administrateur = new AdministrateurBuilder().avecRole(RoleCompteEnum.Administrateur.toString())
+				.avecMail("adm@mail.fr").avecNom("Adm").avecPrenom("Adm").build();
 		listeComptes.add(etudiant);
 		listeComptes.add(administrateur);
 		when(compteRepository.findAll()).thenReturn(listeComptes);
-		
-		//GIVEN
-		List<CompteBean> listeComptesBeans = compteService.findAllComptes();
-		
-		//THEN
+
+		// GIVEN
+		List<CompteDto> listeComptesBeans = compteService.findAllComptes();
+
+		// THEN
 		assertThat(listeComptesBeans).isNotNull();
 		assertThat(listeComptesBeans).hasSize(2);
-		
-	}
-	@Test
-	public void shouldGenerateMdp()
-	{
-		String mdp = compteService.generateMdp();
-		assertThat(mdp).isNotNull();
-		
-	}
 
+	}
 
 	@Test
 	public void testListAllByPage() throws Exception {
-		//WHEN
+		// WHEN
 		Page<CompteUtilisateur> comptePage = buildPageUtilisateur();
 		when(compteRepository.findAll(any(Pageable.class))).thenReturn(comptePage);
-		//GIVEN
+		// GIVEN
 		compteService.listAllByPage(1);
-		//THEN
+		// THEN
 		verify(compteRepository).findAll(any(Pageable.class));
 	}
-	
+
 	@Test
 	public void shouldDeleteCompteByMail() throws Exception {
-		//WHEN
+		// WHEN
 		String mail = "admin@hotmail.fr";
 		Etudiant etudiant = new Etudiant();
 		when(compteRepository.findByMail(anyString())).thenReturn(etudiant);
+		doNothing().when(verificationTokenService).deleteVerificationTokenByCompte(any(CompteUtilisateur.class));
 		doNothing().when(compteRepository).delete(any(CompteUtilisateur.class));
-		//GIVEN
+		// GIVEN
 		compteService.deleteCompteByMail(mail);
-		
-		//THEN
+
+		// THEN
 		verify(compteRepository).findByMail(eq(mail));
+		verify(verificationTokenService).deleteVerificationTokenByCompte(eq(etudiant));
 		verify(compteRepository).delete(etudiant);
 	}
-	
+
 	@Test
-	public void shouldEditerCompte()
-	{
-		//WHEN
+	public void shouldEditerCompte() {
+		// WHEN
 		String mail = "etudiant@hotmail.fr";
-		String role = RoleCompteEnum.ETUDIANT.toString();
+		String role = RoleCompteEnum.Etudiant.toString();
 		String nom = "Joe";
 		String prenom = "Bibi";
-		String dateDeNaissance = "01/01/2007";
 		String numeroEtudiant = "20174520";
-		CompteBean compteBean = new CompteBeanBuilder().avecMail(mail).avecRole(role).avecNom(nom).avecPrenom(prenom).avecNumeroEtudiant(numeroEtudiant).build();
+		CompteDto compteBean = new CompteDtoBuilder().avecMail(mail).avecRole(role).avecNom(nom).avecPrenom(prenom)
+				.avecNumeroEtudiant(numeroEtudiant).build();
 		Etudiant compte = mock(Etudiant.class);
 		when(compteRepository.findByMail(anyString())).thenReturn(compte);
-		
-		//GIVEN
+
+		// GIVEN
 		compteService.editerCompteWithCompteBean(compteBean);
-		
-		//THEN
+
+		// THEN
 		verify(compteRepository).findByMail(eq(mail));
 		verify(compte).setNom(eq(nom));
 		verify(compte).setPrenom(eq(prenom));
 		verify(compte).setNumeroEtudiant(eq(numeroEtudiant));
 	}
 
+	@Test
+	public void testEditMotDePasse() throws Exception {
+		// WHEN
+		String mail = "etudiant@hotmail.Fr";
+		String mdp = "azerty";
+		Etudiant etudiant = mock(Etudiant.class);
+		String encodeMdp = "$2a$11$jUSXAcwSkFitEehMx6f7fuhSePdaJd1CFo990tYa.NbexPhvo8dO6";
 
-	private Page<CompteUtilisateur> buildPageUtilisateur()
-	{
+		when(passwordEncoder.encode(anyString())).thenReturn(encodeMdp);
+		when(compteRepository.findByMail(anyString())).thenReturn(etudiant);
+		when(compteRepository.save(any(CompteUtilisateur.class))).thenReturn(etudiant);
+
+		// GIVEN
+		compteService.editMotDePasse(mail, mdp);
+
+		// THEN
+		verify(passwordEncoder).encode(anyString());
+		verify(compteRepository).findByMail(eq(mail));
+		verify(etudiant).setMdp(eq(encodeMdp));
+		verify(compteRepository).save(any(CompteUtilisateur.class));
+
+	}
+
+	@Test
+	public void testActiverCompte() throws Exception {
+		// WHEN
+		String mail = "etudiant@hotmail.Fr";
+		Etudiant etudiant = mock(Etudiant.class);
+		when(compteRepository.findByMail(anyString())).thenReturn(etudiant);
+		when(compteRepository.save(any(CompteUtilisateur.class))).thenReturn(etudiant);
+
+		// GIVEN
+		compteService.activerCompte(mail);
+
+		// THEN
+		verify(compteRepository).findByMail(eq(mail));
+		verify(etudiant).setEnabled(eq(true));
+		verify(compteRepository).save(any(CompteUtilisateur.class));
+	}
+
+	@Test
+	public void testSaveRegisteredUserByCompteAndRoleNoMdp() throws Exception {
+		// WHEN
+		String role = RoleCompteEnum.Etudiant.toString();
+		Etudiant etudiant = mock(Etudiant.class);
+		Authority authority = new Authority();
+		String encodeMdp = "$2a$11$jUSXAcwSkFitEehMx6f7fuhSePdaJd1CFo990tYa.NbexPhvo8dO6";
+	
+		when(passwordEncoder.encode(anyString())).thenReturn(encodeMdp);
+		when(compteRepository.save(any(CompteUtilisateur.class))).thenReturn(etudiant);
+		when(authorityRepository.save(any(Authority.class))).thenReturn(authority);
+	
+		// GIVEN
+		compteService.saveRegisteredUserByCompteAndRole(etudiant, role);
+	
+		// THEN
+		verify(compteRepository).save(any(CompteUtilisateur.class));
+		verify(etudiant).setAuthorities(anyCollectionOf(Authority.class));
+		verify(authorityRepository).save(any(Authority.class));
+	}
+	
+	@Test
+	public void testSaveRegisteredUserByCompteAndRoleWithMdp() throws Exception {
+		// WHEN
+		String role = RoleCompteEnum.Etudiant.toString();
+		Etudiant etudiant = new EtudiantBuilder().avecMail("test@hotmail.fr").avecMdp("test").build();
+		Authority authority = new Authority();
+		String encodeMdp = "$2a$11$jUSXAcwSkFitEehMx6f7fuhSePdaJd1CFo990tYa.NbexPhvo8dO6";
+	
+		when(passwordEncoder.encode(anyString())).thenReturn(encodeMdp);
+		when(compteRepository.save(any(CompteUtilisateur.class))).thenReturn(etudiant);
+		when(authorityRepository.save(any(Authority.class))).thenReturn(authority);
+	
+		// GIVEN
+		compteService.saveRegisteredUserByCompteAndRole(etudiant, role);
+	
+		// THEN
+		verify(passwordEncoder).encode(anyString());
+		verify(compteRepository).save(any(CompteUtilisateur.class));
+		verify(authorityRepository).save(any(Authority.class));
+	}
+
+	@Test
+	public void testSaveRegisteredUserByCompte() throws Exception {
+		// WHEN
+		Etudiant etudiant = new Etudiant();
+		when(compteRepository.save(any(CompteUtilisateur.class))).thenReturn(etudiant);
+	
+		// GIVEN
+		compteService.saveRegisteredUserByCompte(etudiant);
+	
+		// THEN
+		verify(compteRepository).save(any(CompteUtilisateur.class));
+	
+	}
+
+	private Page<CompteUtilisateur> buildPageUtilisateur() {
 		return new Page<CompteUtilisateur>() {
 
 			@Override
 			public List<CompteUtilisateur> getContent() {
 				// TODO Auto-generated method stub
-				return Arrays.asList(new AdministrateurBuilder().avecMail("admin@admin.fr").avecMdp("adm").avecNom("Admin").avecPrenom("Admin").avecRole(RoleCompteEnum.ADMINISTRATEUR.toString()).build());
+				return Arrays
+						.asList(new AdministrateurBuilder().avecMail("admin@admin.fr").avecMdp("adm").avecNom("Admin")
+								.avecPrenom("Admin").avecRole(RoleCompteEnum.Administrateur.toString()).build());
 			}
 
 			@Override

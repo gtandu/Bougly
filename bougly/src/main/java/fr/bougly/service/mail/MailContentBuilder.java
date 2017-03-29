@@ -8,18 +8,14 @@ import org.thymeleaf.context.Context;
 @Service
 public class MailContentBuilder {
  
+	 
+	@Autowired
     private TemplateEngine templateEngine;
  
-    @Autowired
-    public MailContentBuilder(TemplateEngine templateEngine) {
-        this.templateEngine = templateEngine;
-    }
- 
-    public String build(String login, String mdp) {
+    public String buildConfirmationAccount(String confirmationUrl) {
         Context context = new Context();
-        context.setVariable("login", login);
-        context.setVariable("mdp", mdp);
-        return templateEngine.process("mailTemplate", context);
+        context.setVariable("confirmationUrl", confirmationUrl);
+        return templateEngine.process("confirmationAccountTemplate", context);
     }
  
 }

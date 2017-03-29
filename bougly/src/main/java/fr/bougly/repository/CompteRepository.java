@@ -6,12 +6,13 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.stereotype.Repository;
 
 import fr.bougly.model.CompteUtilisateur;
+import fr.bougly.model.Etudiant;
 
 @Repository
 public interface CompteRepository extends PagingAndSortingRepository<CompteUtilisateur, Long>{
 	
 	public CompteUtilisateur findByMail(String mail);
-	
+	public Etudiant findByNumeroEtudiant(String numeroEtudiant);
 	public List<CompteUtilisateur> findAll();
 
 }

@@ -2,9 +2,11 @@ package fr.bougly.model;
 
 import java.text.ParseException;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Id;
 
-import fr.bougly.web.beans.CompteBean;
+import fr.bougly.web.dtos.CompteDto;
 
 @Entity
 public class Etudiant extends CompteUtilisateur {
@@ -13,6 +15,8 @@ public class Etudiant extends CompteUtilisateur {
 	 * 
 	 */
 	private static final long serialVersionUID = 7482134180300000186L;
+	
+	@Column(unique=true)
 	private String numeroEtudiant;
 	private float moyenneGenerale;
 	
@@ -22,14 +26,14 @@ public class Etudiant extends CompteUtilisateur {
 		super();
 	}
 
-	public Etudiant(String mail, String mdp, String nom, String prenom, String dateDeNaissance, String numeroEtudiant) {
-		super(mail, mdp, nom, prenom, dateDeNaissance);
+	public Etudiant(String mail, String mdp, String nom, String prenom, String numeroEtudiant) {
+		super(mail, mdp, nom, prenom);
 		this.numeroEtudiant = numeroEtudiant;
 	}
 	
 	
 
-	public Etudiant(CompteBean compteBean) throws ParseException {
+	public Etudiant(CompteDto compteBean) throws ParseException {
 		super(compteBean);
 		this.numeroEtudiant = compteBean.getNumeroEtudiant();
 	}

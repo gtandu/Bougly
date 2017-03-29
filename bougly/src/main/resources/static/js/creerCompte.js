@@ -15,7 +15,7 @@ function hideAttributOnRoleNoEtudiant() {
 		currentRole = $(this).val();
 		console.log(currentRole);
 		
-		if (currentRole != "ETUDIANT") {
+		if (currentRole != "Etudiant") {
 			$(".inputNumEtu").hide(function(){
 				$("#numeroEtudiant").removeAttr('required');
 				$("#numeroEtudiant").removeClass('invalid');

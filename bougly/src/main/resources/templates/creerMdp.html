@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <div th:replace="/include/header :: header"></div>
+    <title>Créer un nouveau mot de passe</title>
+    <meta charset="UTF-8" />
+    <link type="text/css" rel="stylesheet" th:href="@{css/login.css}" />
+    <link type="text/css" rel="stylesheet" th:href="@{css/creerMdp.css}" />
+
+</head>
+
+<body>
+
+    <main>
+        <div class="container">
+        <div class="row">
+	        <div class="col s12 l12">
+				<div class="section">
+					<p class="center-align white-text">Bienvenue sur DipTrack.</p>
+					<p class="center-align white-text">Votre compte sera activé apres la création de votre mot de passe.</p>
+				</div>
+			</div>
+		</div>
+            <div class="row">
+            	<div class="card-panel col s12 m8 l8 offset-l2 offset-m2">
+	                <form class="design_formulaire_content" th:object="${compte}" th:action="@{'/creerMdp.html?token='+${#httpServletRequest.getParameter('token')}}" method="post">
+	                	<input type="hidden" th:value="*{mail}" th:field="*{mail}"/>
+	                    <div class="row">
+	                    	<div class="col s12">
+		                        <div class="input-field col s11">
+		                        	<i class="material-icons prefix">vpn_key</i>
+		                            <label for="password" class="active">Mot de passe <span class="required">*</span></label>
+		                            <input id="password" name="password" class="" type="password" placeholder="Saisissez votre mot de passe" th:field="*{mdp}"/>
+		                        </div>
+		                        <div class="input-field col s11">
+		                        	<i class="material-icons prefix">vpn_key</i>
+		                            <label for="confirm_password" class="active">Confirmer mot de passe <span class="required">*</span></label>
+		                            <input id="confirm_password" name="confirm_password" class="" type="password" placeholder="Resaisissez votre mot de passe"/>
+		                        </div>
+		                	</div>
+	                    </div>
+	                    <div class="row">
+                            <div class="input-field col s12">
+                                <button id="" class="btn waves-effect waves-light col s10 offset-s1" type="submit">Créer mot de passe</button>
+                            </div>
+                        </div>
+	                </form>
+	       		</div>
+            </div>
+        </div>
+    </main>
+    <div th:replace="/include/script :: script"></div>
+    <footer>
+        <div th:replace="/include/footer :: footer"></div>
+    </footer>
+    <script type="text/javascript" th:src="@{/js/lib/formChecker.js}"></script>
+</body>
+
+</html>
