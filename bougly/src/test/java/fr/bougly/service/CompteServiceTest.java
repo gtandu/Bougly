@@ -251,7 +251,6 @@ public class CompteServiceTest {
 	
 		// THEN
 		verify(compteRepository).save(any(CompteUtilisateur.class));
-		verify(etudiant).setMdp(eq(encodeMdp));
 		verify(etudiant).setAuthorities(anyCollectionOf(Authority.class));
 		verify(authorityRepository).save(any(Authority.class));
 	}
