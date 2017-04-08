@@ -5,12 +5,16 @@ $(function(){
     $('.modal').modal();
 })
 
+ $(document).ready(function() {
+    $('select').material_select();
+  });
+
 function deleteClasse(){
 	$(".deleteIcon").click(function(){
 		var id = $(this).parent().parent().find(".id").text();
 		var ligne = $(this).parent().parent();
 		var url = "/responsable/supprimerClasse.html?id="+id;
-				
+		
 		$.post(url, function(id, status){
 			ligne.remove();
 			});
@@ -45,13 +49,15 @@ function insertDataFromTD(){
 		
 		var id = $("#input_id").val();
 		var nom = $("#input_nom").val();
+		var niveau = $("#input_niveau").val();
+		var formation = $("#input_formation").val();
 		var moyenne = $("#input_moyenne").val();
 		
 		var compteBean = {
 				"id" : id,
 				"nom": nom,
-				"formation": "",
-				"niveau" : "",
+				"formation": formation,
+				"niveau" : niveau,
 				"moyenne": moyenne
 		}
 		
