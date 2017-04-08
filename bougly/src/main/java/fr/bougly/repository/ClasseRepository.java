@@ -11,4 +11,5 @@ import fr.bougly.model.Classe;
 public interface ClasseRepository extends CrudRepository<Classe,Long>{
 	
 	public List<Classe> findAll();
+	
 }

@@ -2,6 +2,7 @@ package fr.bougly.web.beans;
 
 public class ClasseBean {
 
+	private long id;
 	private String nom;
 	private String niveau;
 	private String formation;
@@ -9,6 +10,14 @@ public class ClasseBean {
 
 	public ClasseBean(){
 		super();
+	}
+	
+	public long getId(){
+		return id;
+	}
+	
+	public void setId(long id){
+		this.id = id;
 	}
 	
 	public String getNom() {

@@ -26,6 +26,7 @@ public class ResponsableController {
 	public static final String URL_GESTION_CLASSE = "/gestionClasse.html";
 	public static final String URL_CREER_CLASSE = "/creerClasse.html";
 	public static final String URL_SUPPRIMER_CLASSE = "/supprimerClasse.html";
+	public static final String URL_MODIFIER_CLASSE = "/modifierClasse.html";
 
 	@Autowired
 	private ClasseService classeService;
@@ -35,6 +36,8 @@ public class ResponsableController {
 		ModelAndView model = new ModelAndView("gestionClasse");
 		List<Classe> listeClasses = classeService.findAllClasse();
 		model.addObject("listeClasses", listeClasses);
+		model.addObject("listeNiveaux", NiveauEnum.allNiveau());
+		model.addObject("listeFormations", FormationEnum.allFormation());
 		return model;
 	}
 	
@@ -62,10 +65,15 @@ public class ResponsableController {
 		return "redirect:"+URL_CONTROLLEUR_RESPONSABLE+URL_GESTION_CLASSE;
 	}
 		
-	
 	@RequestMapping(value = URL_SUPPRIMER_CLASSE, method = RequestMethod.POST)
 	@ResponseBody
 	public void supprimerClasse(@RequestParam(value = "id") long id){
 		classeService.deleteClasseById(id);
+	}
+	
+	@RequestMapping(value = URL_MODIFIER_CLASSE, method = RequestMethod.POST)
+	@ResponseBody
+	public void modifierClasse(ClasseBean classeBean){
+		classeService.updateClasseWithClasseBean(classeBean);
 	}
 }
