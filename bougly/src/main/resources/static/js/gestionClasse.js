@@ -64,7 +64,13 @@ function insertDataFromTD(){
 		var url = "/responsable/modifierClasse.html";
 		$.post(url,compteBean,function(){
 			$('#modalEditClasse').modal('close');
-			location.reload();
+
+			var ligne = $('tbody').find('[data-id="'+compteBean.id+'"]').parents('tr');
+			
+			ligne.find('[data-nom]').attr("data-nom",compteBean.nom).text(compteBean.nom);
+			ligne.find('[data-formation]').attr("data-formation",compteBean.formation).text(compteBean.formation);
+			ligne.find('[data-niveau]').attr("data-niveau",compteBean.niveau).text(compteBean.niveau);
+			ligne.find('[data-moyenne]').attr("data-moyenne",compteBean.moyenne).text(compteBean.moyenne);
 		});
 		});
 	}
