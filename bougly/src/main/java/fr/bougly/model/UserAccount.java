@@ -15,11 +15,11 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import fr.bougly.model.security.Authority;
-import fr.bougly.web.dtos.CompteDto;
+import fr.bougly.web.dtos.AccountDto;
 
 @Entity
 @Inheritance
-public abstract class CompteUtilisateur implements UserDetails {
+public abstract class UserAccount implements UserDetails {
 
 	/**
 	 * 
@@ -30,37 +30,37 @@ public abstract class CompteUtilisateur implements UserDetails {
 	@Column(unique=true)
 	protected String mail;
 
-	protected String mdp;
+	protected String password;
 
-	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "compte")
+	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "account")
 	protected Collection<Authority> authorities;
 
-	protected String nom;
-	protected String prenom;
+	protected String lastName;
+	protected String firstName;
 	protected boolean enabled = false;
 
-	public CompteUtilisateur() {
+	public UserAccount() {
 	}
 
 	// TODO Cree un compte au demarrage. A supprimer plus tard
-	public CompteUtilisateur(String mail, String mdp, String nom, String prenom) {
+	public UserAccount(String mail, String password, String lastName, String firstName) {
 		this.mail = mail;
-		this.mdp = mdp;
-		this.nom = nom;
-		this.prenom = prenom;
+		this.password = password;
+		this.lastName = lastName;
+		this.firstName = firstName;
 		this.enabled = true;
 	}
 
-	public CompteUtilisateur(CompteDto compteBean) throws ParseException {
-		this.mail = compteBean.getMail();
-		this.mdp = compteBean.getMdp();
-		this.nom = compteBean.getNom();
-		this.prenom = compteBean.getPrenom();
+	public UserAccount(AccountDto accountDto) throws ParseException {
+		this.mail = accountDto.getMail();
+		this.password = accountDto.getPassword();
+		this.lastName = accountDto.getLastName();
+		this.firstName = accountDto.getFirstName();
 	}
 
 	@Override
 	public String getPassword() {
-		return this.mdp;
+		return this.password;
 	}
 
 	@Override
@@ -101,32 +101,28 @@ public abstract class CompteUtilisateur implements UserDetails {
 		this.mail = mail;
 	}
 
-	public String getMdp() {
-		return mdp;
-	}
-
-	public void setMdp(String mdp) {
-		this.mdp = mdp;
+	public void setPassword(String password) {
+		this.password = password;
 	}
 
 	public void setAuthorities(Collection<Authority> authorities) {
 		this.authorities = authorities;
 	}
 
-	public String getNom() {
-		return nom;
+	public String getLastName() {
+		return lastName;
 	}
 
-	public void setNom(String nom) {
-		this.nom = nom;
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
 	}
 
-	public String getPrenom() {
-		return prenom;
+	public String getFirstName() {
+		return firstName;
 	}
 
-	public void setPrenom(String prenom) {
-		this.prenom = prenom;
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
 	}
 
 	public void setEnabled(boolean enabled) {
@@ -148,7 +144,7 @@ public abstract class CompteUtilisateur implements UserDetails {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		CompteUtilisateur other = (CompteUtilisateur) obj;
+		UserAccount other = (UserAccount) obj;
 		if (mail == null) {
 			if (other.getMail() != null)
 				return false;

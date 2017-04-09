@@ -10,7 +10,7 @@ import javax.persistence.ManyToOne;
 
 import org.springframework.security.core.GrantedAuthority;
 
-import fr.bougly.model.CompteUtilisateur;
+import fr.bougly.model.UserAccount;
 
 @Entity
 public class Authority implements GrantedAuthority {
@@ -25,7 +25,7 @@ public class Authority implements GrantedAuthority {
 	private long id;
 	
 	@ManyToOne(fetch = FetchType.EAGER,cascade=CascadeType.ALL)
-	private CompteUtilisateur compte;
+	private UserAccount account;
 	
 	
 	private String role;
@@ -38,9 +38,9 @@ public class Authority implements GrantedAuthority {
 		this.role = role;
 	}
 	
-	public Authority(CompteUtilisateur compte, String role) {
+	public Authority(UserAccount account, String role) {
 		super();
-		this.compte = compte;
+		this.account = account;
 		this.role = role;
 	}
 
@@ -52,12 +52,12 @@ public class Authority implements GrantedAuthority {
 		this.id = id;
 	}
 
-	public CompteUtilisateur getCompte() {
-		return compte;
+	public UserAccount getAccount() {
+		return account;
 	}
 
-	public void setCompte(CompteUtilisateur compte) {
-		this.compte = compte;
+	public void setAccount(UserAccount account) {
+		this.account = account;
 	}
 
 	public String getRole() {

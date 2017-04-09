@@ -12,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
-import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
@@ -20,32 +19,29 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration
 @SpringBootTest
-public class EtudiantControllerTest {
+public class StudentControllerTest {
 
 	private MockMvc mockMvc;
-    
+
 	@Autowired
 	private WebApplicationContext wac;
-	
-	private final String URL_CONTROLLEUR_ETUDIANT = "/etudiant";
-	
+
+	private final String URL_STUDENT_CONTROLLER = "/etudiant";
+
 	@Before
 	public void setup() {
-		mockMvc = MockMvcBuilders
-				.webAppContextSetup(wac)
-				.alwaysDo(MockMvcResultHandlers.print())
-				.apply(springSecurity())
-				.build();
+		mockMvc = MockMvcBuilders.webAppContextSetup(wac).alwaysDo(MockMvcResultHandlers.print())
+				.apply(springSecurity()).build();
 	}
 
+	@Test
+	@WithMockUser(authorities = "Student")
+	public void testShowLoginPage() throws Exception {
 
-    @Test
-    @WithMockUser(authorities="Etudiant")
-    public void testShowLoginPage() throws Exception {
-    	
-        this.mockMvc.perform(get(URL_CONTROLLEUR_ETUDIANT+EtudiantController.URL_ACCUEIL_ETUDIANT_PAGE).accept(MediaType.TEXT_HTML))
-                .andExpect(status().isOk()).andExpect(view().name("accueilEtudiant"));
-    }
+		this.mockMvc
+				.perform(get(URL_STUDENT_CONTROLLER + StudentController.URL_STUDENT_HOME_PAGE)
+						.accept(MediaType.TEXT_HTML))
+				.andExpect(status().isOk()).andExpect(view().name("accueilEtudiant"));
+	}
 }

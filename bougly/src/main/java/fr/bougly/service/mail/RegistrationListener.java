@@ -12,10 +12,10 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.mail.javamail.MimeMessagePreparator;
 import org.springframework.stereotype.Service;
 
-import fr.bougly.model.CompteUtilisateur;
+import fr.bougly.model.UserAccount;
 import fr.bougly.model.security.OnRegistrationCompleteEvent;
 import fr.bougly.service.VerificationTokenService;
-import fr.bougly.web.controller.GestionCompteController;
+import fr.bougly.web.controller.ManageAccountController;
 
 @Service
 public class RegistrationListener implements ApplicationListener<OnRegistrationCompleteEvent> {
@@ -38,13 +38,13 @@ public class RegistrationListener implements ApplicationListener<OnRegistrationC
 	}
 
 	private void confirmRegistration(OnRegistrationCompleteEvent event) {
-		CompteUtilisateur compte = event.getCompte();
+		UserAccount compte = event.getAccount();
 		
 		String token = generateToken(compte);
 
 		String recipientAddress = compte.getMail();
 		String subject = messages.getMessage("mail.subject.confirmationCompte", null, null);
-		String confirmationUrl = "http://localhost:8080" + event.getAppUrl() + GestionCompteController.URL_CONFIRM_ACCOUNT+ "?token=" + token;
+		String confirmationUrl = "http://localhost:8080" + event.getAppUrl() + ManageAccountController.URL_CONFIRM_ACCOUNT+ "?token=" + token;
 
 
 		MimeMessagePreparator messagePreparator = mimeMessage -> {
@@ -62,7 +62,7 @@ public class RegistrationListener implements ApplicationListener<OnRegistrationC
 		}
 	}
 
-	private String generateToken(CompteUtilisateur compte) {
+	private String generateToken(UserAccount compte) {
 		String token = UUID.randomUUID().toString();
 		tokenService.createVerificationToken(compte, token);
 		return token;

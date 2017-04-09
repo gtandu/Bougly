@@ -30,14 +30,14 @@
                         </thead>
 
                         <tbody>
-                            <tr th:each="compte : ${listeComptes}">
-                                <td th:attr="data-role=${compte.role}" th:text="${compte.role}">Administrateur</td>
-                                <td th:attr="data-mail=${compte.mail}" th:text="${compte.mail}">admin@hotmail.fr</td>
-                                <td th:attr="data-nom=${compte.nom}" th:text="${compte.nom}">Dalton</td>
-                                <td th:attr="data-prenom=${compte.prenom}" th:text="${compte.prenom}">Joe</td>
-                                <td th:attr="data-numero_etudiant=${compte.numeroEtudiant}" th:text="${compte.numeroEtudiant}">20172000</td>
+                            <tr th:each="accountDto : ${accountDtoList}">
+                                <td th:attr="data-role=${accountDto.role}" th:text="${accountDto.role}">Administrateur</td>
+                                <td th:attr="data-mail=${accountDto.mail}" th:text="${accountDto.mail}">admin@hotmail.fr</td>
+                                <td th:attr="data-nom=${accountDto.lastName}" th:text="${accountDto.lastName}">Dalton</td>
+                                <td th:attr="data-prenom=${accountDto.firstName}" th:text="${accountDto.firstName}">Joe</td>
+                                <td th:attr="data-numero_etudiant=${accountDto.studentNumber}" th:text="${accountDto.studentNumber}">20172000</td>
                                 <td><a href="#modalEditCompte"><i class="small material-icons editIcon">edit</i></a></td>
-                                <td><i class="small material-icons deleteIcon" th:attr="data-mail=${compte.mail}">clear</i></td>
+                                <td><i class="small material-icons deleteIcon" th:attr="data-mail=${accountDto.mail}">clear</i></td>
                                 <td></td>
                             </tr>
                         </tbody>

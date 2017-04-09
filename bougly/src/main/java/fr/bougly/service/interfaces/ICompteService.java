@@ -1,9 +1,9 @@
 package fr.bougly.service.interfaces;
 
-import fr.bougly.model.CompteUtilisateur;
+import fr.bougly.model.UserAccount;
 
 public interface ICompteService {
 	
-	public CompteUtilisateur saveUser(CompteUtilisateur compteAdmin) throws Exception;
+	public UserAccount saveUser(UserAccount compteAdmin) throws Exception;
 
 }

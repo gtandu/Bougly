@@ -3,22 +3,22 @@ package fr.bougly.service.helper;
 import java.util.ArrayList;
 import java.util.List;
 
-import fr.bougly.model.CompteUtilisateur;
-import fr.bougly.web.dtos.CompteDto;
+import fr.bougly.model.UserAccount;
+import fr.bougly.web.dtos.AccountDto;
 
 public class MapperBeanUtil {
 	
-	public static ArrayList<CompteDto> convertListCompteToListCompteBean(List<CompteUtilisateur> listeComptes)
+	public static ArrayList<AccountDto> convertAccountListToAccountDtoList(List<UserAccount> accountList)
 	{
-		ArrayList listeComptesBeans = new ArrayList<>();
+		ArrayList<AccountDto> accountDtoList = new ArrayList<>();
 		
-		for(CompteUtilisateur compte : listeComptes)
+		for(UserAccount account : accountList)
 		{
-			CompteDto compteBean = new CompteDto(compte);
-			listeComptesBeans.add(compteBean);
+			AccountDto accountDto = new AccountDto(account);
+			accountDtoList.add(accountDto);
 		}
 		
-		return listeComptesBeans;
+		return accountDtoList;
 	}
 
 }

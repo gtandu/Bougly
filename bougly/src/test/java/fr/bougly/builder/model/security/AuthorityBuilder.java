@@ -1,27 +1,27 @@
 package fr.bougly.builder.model.security;
 
-import fr.bougly.model.CompteUtilisateur;
+import fr.bougly.model.UserAccount;
 import fr.bougly.model.security.Authority;
 
 public class AuthorityBuilder {
 	
 	private Authority authority = new Authority();
 	
-	public AuthorityBuilder avecId(long id)
+	public AuthorityBuilder withId(long id)
 	{
 		this.authority.setId(id);
 		return this;
 		
 	}
 	
-	public AuthorityBuilder avecCompte(CompteUtilisateur compte)
+	public AuthorityBuilder withAccount(UserAccount account)
 	{
-		this.authority.setCompte(compte);
+		this.authority.setAccount(account);
 		return this;
 		
 	}
 	
-	public AuthorityBuilder avecRole(String role)
+	public AuthorityBuilder withRole(String role)
 	{
 		this.authority.setRole(role);
 		return this;
