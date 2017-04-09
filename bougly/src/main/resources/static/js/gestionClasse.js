@@ -35,8 +35,8 @@ function getDataFromCurrentRow(){
 		
 		$("#input_id").val(id);
 		$("#input_nom").val(nom);
-		$("#input_formation").val(formation);
-		$("#input_niveau").val(niveau);
+		$("#select_niveau").find('div > input').val(niveau);
+		$("#select_formation").find('div > input').val(formation);
 		$("#input_moyenne").val(moyenne);
 		
 		});
@@ -49,8 +49,8 @@ function insertDataFromTD(){
 		
 		var id = $("#input_id").val();
 		var nom = $("#input_nom").val();
-		var niveau = $("#input_niveau").val();
-		var formation = $("#input_formation").val();
+		var niveau = $("#select_niveau").find('div > input').val();
+		var formation = $("#select_formation").find('div > input').val();
 		var moyenne = $("#input_moyenne").val();
 		
 		var compteBean = {
@@ -64,6 +64,7 @@ function insertDataFromTD(){
 		var url = "/responsable/modifierClasse.html";
 		$.post(url,compteBean,function(){
 			$('#modalEditClasse').modal('close');
+			location.reload();
 		});
 		});
 	}

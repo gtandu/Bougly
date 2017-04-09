@@ -45,8 +45,7 @@ public class LoginController {
 		//COMPTE ADMIN
 		CompteUtilisateur admin = new Administrateur("admin@hotmail.fr","adm","MAPELLA","Corentin","31/05/1994");
 		compteService.checkUserMailAndSaveUser(admin, RoleCompteEnum.ADMINISTRATEUR.toString());
-		
-		/**
+
 		// COMPTE ETUDIANT
 		CompteUtilisateur etudiant = new Etudiant("etudiant@hotmail.fr","etu","TANDU","Glodie","21/05/1994","20156351");
 		//etudiant = etudiantService.saveUser(etudiant);
@@ -57,9 +56,10 @@ public class LoginController {
 		
 		//COMPTE RESPONSABLE
 		CompteUtilisateur responsable = new Responsable("responsable@hotmail.fr","res","ONYME","Anne","21/05/1994");
+		compteService.checkUserMailAndSaveUser(responsable, RoleCompteEnum.RESPONSABLE.toString());
 		
 
-		**/
+	
 		
 		//CLASSE
 		Classe classe = new Classe("MIAGE", NiveauEnum.M1.toString(), FormationEnum.APPRENTISSAGE.toString());

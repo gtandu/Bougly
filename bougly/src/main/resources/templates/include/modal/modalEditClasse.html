@@ -19,17 +19,17 @@
        			   	<label>Nom</label>
 				</div>
 
-				<div class="input-field col s12">
+				<div id="select_niveau" class="input-field col s12">
 					 <select>
-                     	<option th:each="niveau : ${listeNiveaux}" id="input-niveau"
+                     	<option th:each="niveau : ${listeNiveaux}"
                      	th:value="${niveau}" th:text="${niveau}">L3</option>
                      </select>
-                     <label>Niveau de formation</label>
+                     <label>Niveau d'étude</label>
 				</div>	
 				
-				<div class="input-field col s12">
+				<div id="select_formation" class="input-field col s12">
 					 <select>
-                     	<option th:each="formation : ${listeFormations}" id="input-formation"
+                     	<option th:each="formation : ${listeFormations}"
                      	th:value="${formation}" th:text="${formation}"> Apprentissage </option>
                      </select>
                      <label>Niveau de formation</label>
