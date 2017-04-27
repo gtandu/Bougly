@@ -1,0 +1,52 @@
+<meta charset="UTF-8" />
+
+<div th:fragment="modalEditClasse" id="modalEditClasse" class="modal">
+
+	<div class="modal-content">
+		<h4 class="header center teal-text text-lighten-2">Modifier une classe</h4>
+		<br />
+
+		<form id="formEditClasse">
+
+			<div class="row">
+
+				<div style="display:none;" class="input-field col s12">
+					<input  id="input_id" type="text" class="validate"/>
+				</div>
+				
+				<div class="input-field col s12">
+					<input placeholder="Ex : MIAGE" id="input_nom" type="text" class="validate"/>
+       			   	<label>Nom</label>
+				</div>
+
+				<div id="select_niveau" class="input-field col s12">
+					 <select>
+                     	<option th:each="niveau : ${listeNiveaux}"
+                     	th:value="${niveau}" th:text="${niveau}">L3</option>
+                     </select>
+                     <label>Niveau d'étude</label>
+				</div>	
+				
+				<div id="select_formation" class="input-field col s12">
+					 <select>
+                     	<option th:each="formation : ${listeFormations}"
+                     	th:value="${formation}" th:text="${formation}"> Apprentissage </option>
+                     </select>
+                     <label>Niveau de formation</label>
+				</div>	
+				
+				<div class="input-field col s12">
+					<input placeholder="Ex : 12,4" id="input_moyenne" type="text" class="validate"/>
+       			   	<label for="moyenne">Moyenne</label>
+				</div>	
+
+				<div class="modal-footer">
+					<a href="#!" class=" modal-action modal-close waves-effect waves-light btn-flat">Fermer</a>
+					<button id="submitButton" class="waves-effect waves-light btn-flat" type="submit">Modifier</button>
+				</div>
+				
+			</div>
+		</form>
+
+	</div>
+</div>

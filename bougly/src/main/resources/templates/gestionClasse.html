@@ -13,46 +13,55 @@
     <header>
         <div th:replace="/include/nav :: nav"></div>
     </header>
+    
     <main>
         <div class="container">
+        <h3  class="header center teal-text text-lighten-2">Gestion des classes</h3>
             <div class="row">
-                <div id="tabCompte" class="col s12">
-                	<p style="display:none;"></p>
+                <div id="tabClasse" class="col s12">
                     <table class="bordered striped highlight centered responsive-table">
                         <thead>
                             <tr>
                                 <th>Nom</th>
-                                <th>Formation</th>
                                 <th>Niveau</th>
+                                <th>Formation</th>
                                 <th>Moyenne</th>
                             </tr>
                         </thead>
 
                         <tbody>
                             <tr th:each="classe : ${listeClasses}">
-                                <td th:text="${classe.nom}">M1MIAA</td>
-                                <td th:text="${classe.formation}">MIAGE</td>
-                                <td th:text="${classe.niveau}">M1</td>
-                                <td th:text="${classe.moyenne}">12</td>
+                                <td style="display:none;" class="id" th:attr="data-id=${classe.id}" th:text="${classe.id}">1</td>
+                                <td th:attr="data-nom=${classe.nom}" th:text="${classe.nom}">M1MIAA</td>
+                                <td th:attr="data-niveau=${classe.niveau}" th:text="${classe.niveau}">M1</td>
+                                <td th:attr="data-formation=${classe.formation}" th:text="${classe.formation}">MIAGE</td>
+                                <td th:attr="data-moyenne=${classe.moyenne}" th:text="${classe.moyenne}">12</td>
+                                <td><a class="black-text text-darken-2" href="#modalEditClasse"><i class="small material-icons editIcon">edit</i></a></td>
                                 <td><i class="small material-icons deleteIcon">clear</i></td>
-                                <td></td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
             </div>
+            
             <div class="row">
                 <div class="col s12">
                     <a class="waves-effect waves-light btn col s10 offset-s1" th:href="@{/responsable/creerClasse.html}">Créer une classe</a>
                 </div>
             </div>
+            
+            <div th:replace="/include/modal/modalEditClasse :: modalEditClasse"></div>
+            
         </div>
     </main>
+    
     <div th:replace="/include/script :: script"></div>
+    <script type="text/javascript" th:src="@{/js/gestionClasse.js}"></script>
     
     <footer>
         <div th:replace="/include/footer :: footer"></div>
     </footer>
+    
 </body>
 
 </html>

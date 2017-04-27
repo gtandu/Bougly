@@ -1,7 +1,7 @@
 package fr.bougly.web.controller;
 
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
@@ -29,7 +29,7 @@ public class ResponsableControllerTest {
 	@Autowired
 	private WebApplicationContext wac;
 	
-	private final String URL_CONTROLLEuR_FILIERE = "/responsable";
+	private final String URL_CONTROLLEUR_FILIERE = "/responsable";
 
 	@Before
 	public void setup() {
@@ -43,8 +43,11 @@ public class ResponsableControllerTest {
 	@Test
 	@WithMockUser(authorities = "Responsable")
 	public void testShowPageGestionFiliere() throws Exception {
-		mockMvc.perform(get(URL_CONTROLLEuR_FILIERE+ResponsableController.URL_GESTION_FILIERE).accept(MediaType.TEXT_HTML))
+		mockMvc.perform(get(URL_CONTROLLEUR_FILIERE+ResponsableController.URL_GESTION_FILIERE).accept(MediaType.TEXT_HTML))
 				.andExpect(status().isOk()).andExpect(view().name("gestionFiliere"));
 	}
 
+	@Test
+	public void testCreerClasse() throws Exception {
+	}
 }

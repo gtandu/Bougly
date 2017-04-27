@@ -26,6 +26,14 @@ public class Classe {
 		this.formation = formation;
 	}
 	
+	public long getId() {
+		return id;
+	}
+
+	public void setId(long id) {
+		this.id = id;
+	}
+
 	public Classe(ClasseBean classeBean) {
 		this.nom = classeBean.getNom();
 		this.niveau = classeBean.getNiveau();
