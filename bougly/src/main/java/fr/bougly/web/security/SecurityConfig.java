@@ -11,9 +11,9 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
-import fr.bougly.model.enumeration.RoleCompteEnum;
+import fr.bougly.model.enumeration.RoleAccountEnum;
 import fr.bougly.service.security.CustomUserDetailsService;
-import fr.bougly.web.controller.GestionCompteController;
+import fr.bougly.web.controller.ManageAccountController;
 
 @Configuration
 @EnableWebSecurity
@@ -39,11 +39,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		.csrf().disable();
 		
 		http
-		.authorizeRequests().antMatchers(GestionCompteController.URL_CONFIRM_ACCOUNT, GestionCompteController.URL_CREER_MDP,"/error/**").permitAll().and()
-		.authorizeRequests().antMatchers("/responsable/**").hasAuthority(RoleCompteEnum.Responsable.toString()).and()
-		.authorizeRequests().antMatchers("/enseignant/**").hasAuthority(RoleCompteEnum.Enseignant.toString()).and()
-		.authorizeRequests().antMatchers("/etudiant/**").hasAuthority(RoleCompteEnum.Etudiant.toString()).and()
-		.authorizeRequests().antMatchers("/administrateur/**").hasAuthority(RoleCompteEnum.Administrateur.toString()).and()
+		.authorizeRequests().antMatchers(ManageAccountController.URL_CONFIRM_ACCOUNT, ManageAccountController.URL_CREATE_PASSWORD,"/error/**").permitAll().and()
+		.authorizeRequests().antMatchers("/responsable/**").hasAuthority(RoleAccountEnum.Responsible.toString()).and()
+		.authorizeRequests().antMatchers("/enseignant/**").hasAuthority(RoleAccountEnum.Teacher.toString()).and()
+		.authorizeRequests().antMatchers("/etudiant/**").hasAuthority(RoleAccountEnum.Student.toString()).and()
+		.authorizeRequests().antMatchers("/administrateur/**").hasAuthority(RoleAccountEnum.Administrator.toString()).and()
 		.authorizeRequests().antMatchers("/css/**","/js/**","/fonts/**").permitAll() 
         .anyRequest().authenticated()
         .and()

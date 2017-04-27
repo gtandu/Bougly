@@ -8,6 +8,4 @@ import fr.bougly.model.security.Authority;
 @Repository
 public interface AuthorityRepository extends CrudRepository<Authority, Long> {
 	
-	public Authority findByCompte(String mail);
-
 }

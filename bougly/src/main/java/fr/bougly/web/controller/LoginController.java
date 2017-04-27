@@ -5,15 +5,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
-
-import fr.bougly.model.Administrateur;
+import fr.bougly.model.Administrator;
 import fr.bougly.model.Classe;
-import fr.bougly.model.CompteUtilisateur;
+import fr.bougly.model.UserAccount;
 import fr.bougly.model.enumeration.FormationEnum;
 import fr.bougly.model.enumeration.NiveauEnum;
-import fr.bougly.model.enumeration.RoleCompteEnum;
+import fr.bougly.model.enumeration.RoleAccountEnum;
 import fr.bougly.service.ClasseService;
-import fr.bougly.service.CompteService;
+import fr.bougly.service.AccountService;
 
 @Controller
 public class LoginController {
@@ -22,10 +21,10 @@ public class LoginController {
 	
 
 	@Autowired
-	private CompteService compteService;
+	private AccountService accountService;
 	
 	@Autowired
-	private ClasseService classeService;
+	private ClasseService classService;
 	
 	@RequestMapping(value = URL_LOGIN_PAGE, method = RequestMethod.GET)
 	public ModelAndView showLoginPage() throws Exception {
@@ -40,8 +39,8 @@ public class LoginController {
 	private void initUser() throws Exception {
 
 		// COMPTE ADMIN
-		CompteUtilisateur admin = new Administrateur("admin@hotmail.fr", "adm", "MAPELLA", "Corentin");
-		compteService.saveRegisteredUserByCompteAndRole(admin, RoleCompteEnum.Administrateur.toString());
+		UserAccount admin = new Administrator("admin@hotmail.fr", "adm", "MAPELLA", "Corentin");
+		accountService.saveRegisteredUserByAccountAndRole(admin, RoleAccountEnum.Administrator.toString());
 
 		/**
 		 * // COMPTE ETUDIANT CompteUtilisateur etudiant = new
@@ -60,7 +59,7 @@ public class LoginController {
 
 		// CLASSE
 		Classe classe = new Classe("MIAGE", NiveauEnum.M1.toString(), FormationEnum.APPRENTISSAGE.toString());
-		classeService.saveClasse(classe);
+		classService.saveClasse(classe);
 
 		/**
 		 * //FILIERE Filiere miage = new Filiere("Méthodes informatiques

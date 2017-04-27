@@ -6,12 +6,12 @@ import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 @RequestMapping(value="/enseignant")
-public class EnseignantController {
+public class TeacherController {
 	
-	public static final String URL_GESTION_FILIERE_PAGE = "/gestionFiliere.html";
+	public static final String URL_COURSE_MANAGEMENT = "/gestionFiliere.html";
 	
-	@RequestMapping(value = URL_GESTION_FILIERE_PAGE)
-	public ModelAndView showGestionFilierePage()
+	@RequestMapping(value = URL_COURSE_MANAGEMENT)
+	public ModelAndView showPageCourseManagement()
 	{
 		ModelAndView model = new ModelAndView();
 		model.setViewName("gestionFiliere");

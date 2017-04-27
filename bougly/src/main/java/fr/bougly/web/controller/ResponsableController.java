@@ -22,16 +22,16 @@ import fr.bougly.web.dtos.ClasseBean;
 public class ResponsableController {
 
 	public static final String URL_CONTROLLEUR_RESPONSABLE = "/responsable";
-	public static final String URL_GESTION_FILIERE = "/gestionFiliere.html";
-	public static final String URL_GESTION_CLASSE = "/gestionClasse.html";
-	public static final String URL_CREER_CLASSE = "/creerClasse.html";
 	public static final String URL_SUPPRIMER_CLASSE = "/supprimerClasse.html";
 	public static final String URL_MODIFIER_CLASSE = "/modifierClasse.html";
+	public static final String URL_COURSE_MANAGEMENT = "/gestionFiliere.html";
+	public static final String URL_CLASS_MANAGEMENT = "/gestionClasse.html";
+	public static final String URL_CREATE_CLASS = "/creerClasse.html";
 
 	@Autowired
 	private ClasseService classeService;
 
-	@RequestMapping(value = URL_GESTION_CLASSE, method = RequestMethod.GET)
+	@RequestMapping(value = URL_CLASS_MANAGEMENT, method = RequestMethod.GET)
 	public ModelAndView showPageGestionClasse() {
 		ModelAndView model = new ModelAndView("gestionClasse");
 		List<Classe> listeClasses = classeService.findAllClasse();
@@ -40,14 +40,14 @@ public class ResponsableController {
 		model.addObject("listeFormations", FormationEnum.allFormation());
 		return model;
 	}
-	
-	@RequestMapping(value = URL_GESTION_FILIERE, method = RequestMethod.GET)
+
+	@RequestMapping(value = URL_COURSE_MANAGEMENT, method = RequestMethod.GET)
 	public ModelAndView showPageGestionFiliere() {
 		ModelAndView model = new ModelAndView("gestionFiliere");
 		return model;
 	}
 
-	@RequestMapping(value = URL_CREER_CLASSE, method = RequestMethod.GET)
+	@RequestMapping(value = URL_CREATE_CLASS, method = RequestMethod.GET)
 	public ModelAndView showPageCreerClasse() {
 		ClasseBean classeBean = new ClasseBean();
 		ModelAndView model = new ModelAndView("creerClasse");
@@ -58,22 +58,24 @@ public class ResponsableController {
 
 		return model;
 	}
-	
-	@RequestMapping(value = URL_CREER_CLASSE, method = RequestMethod.POST)
-	public String creerClasse(@ModelAttribute(value="classe") Classe classe) {
-		classeService.saveClasse(classe);
-		return "redirect:"+URL_CONTROLLEUR_RESPONSABLE+URL_GESTION_CLASSE;
-	}
-		
+
 	@RequestMapping(value = URL_SUPPRIMER_CLASSE, method = RequestMethod.POST)
 	@ResponseBody
-	public void supprimerClasse(@RequestParam(value = "id") long id){
+	public void supprimerClasse(@RequestParam(value = "id") long id) {
 		classeService.deleteClasseById(id);
 	}
-	
+
 	@RequestMapping(value = URL_MODIFIER_CLASSE, method = RequestMethod.POST)
 	@ResponseBody
-	public void modifierClasse(ClasseBean classeBean){
+	public void modifierClasse(ClasseBean classeBean) {
 		classeService.updateClasseWithClasseBean(classeBean);
+	}
+
+	@RequestMapping(value = URL_CREATE_CLASS, method = RequestMethod.POST)
+	public String creerClasse(@ModelAttribute(value = "classe") ClasseBean classeBean) {
+
+		classeService.saveClasse(new Classe(classeBean));
+
+		return "redirect:" + URL_CONTROLLEUR_RESPONSABLE + URL_CLASS_MANAGEMENT;
 	}
 }

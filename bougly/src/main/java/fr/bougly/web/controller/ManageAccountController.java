@@ -12,27 +12,27 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.context.request.WebRequest;
 
-import fr.bougly.model.CompteUtilisateur;
+import fr.bougly.model.UserAccount;
 import fr.bougly.model.security.VerificationToken;
-import fr.bougly.service.CompteService;
+import fr.bougly.service.AccountService;
 import fr.bougly.service.VerificationTokenService;
-import fr.bougly.web.dtos.CompteDto;
+import fr.bougly.web.dtos.AccountDto;
 
 @Controller
-public class GestionCompteController{
+public class ManageAccountController{
 
 	@Autowired
-	private CompteService compteService;
+	private AccountService accountService;
 	
 	@Autowired
 	private VerificationTokenService tokenService;
 	
 	@Autowired
-	private MessageSource messages;
+	private MessageSource messagesSource;
 	
 	public static final String URL_CONFIRM_ACCOUNT = "/confirmAccount.html";
-	public static final String PAGE_ERREUR_CONFIRMATION_COMPTE = "/erreurConfirmationCompte";
-	public static final String URL_CREER_MDP = "/creerMdp.html";
+	public static final String PAGE_ERROR_CONFIRM_ACCOUNT = "/erreurConfirmationCompte";
+	public static final String URL_CREATE_PASSWORD = "/creerMdp.html";
 	
 	@RequestMapping(value = URL_CONFIRM_ACCOUNT, method = RequestMethod.GET)
 	public String confirmRegistration(WebRequest request, Model model, @RequestParam("token") String token) {
@@ -51,14 +51,14 @@ public class GestionCompteController{
 			return showPageErrorToken(model, "auth.message.expiredToken", locale, verificationToken);
 		}
 
-		CompteUtilisateur compte = verificationToken.getCompte();
-		compte.setEnabled(true);
-		compteService.saveRegisteredUserByCompte(compte);
-		return "redirect:" + URL_CREER_MDP + "?token=" + token;
+		UserAccount account = verificationToken.getAccount();
+		account.setEnabled(true);
+		accountService.saveRegisteredUserByAccount(account);
+		return "redirect:" + URL_CREATE_PASSWORD + "?token=" + token;
 	}
 	
-	@RequestMapping(value = URL_CREER_MDP, method = RequestMethod.GET)
-	public String showPageCreerMotDePasse(WebRequest request, @RequestParam("token") String token, Model model) {
+	@RequestMapping(value = URL_CREATE_PASSWORD, method = RequestMethod.GET)
+	public String showPageCreatePassword(WebRequest request, @RequestParam("token") String token, Model model) {
 
 		Locale locale = request.getLocale();
 
@@ -72,28 +72,28 @@ public class GestionCompteController{
 			return showPageErrorToken(model, "auth.message.expiredToken", locale, verificationToken);
 		}
 		
-		CompteDto compteDto = new CompteDto();
-		compteDto.setMail(verificationToken.getCompte().getMail());
-		model.addAttribute("compte", compteDto);
+		AccountDto accountDto = new AccountDto();
+		accountDto.setMail(verificationToken.getAccount().getMail());
+		model.addAttribute("accountDto", accountDto);
 		return "creerMdp";
 	}
 	
-	@RequestMapping(value = URL_CREER_MDP, method = RequestMethod.POST)
-	public String creerMotDePasse(WebRequest request, @RequestParam("token") String token, CompteDto compteDto) {
+	@RequestMapping(value = URL_CREATE_PASSWORD, method = RequestMethod.POST)
+	public String creerMotDePasse(WebRequest request, @RequestParam("token") String token, AccountDto accountDto) {
 
-		String mail = compteDto.getMail();
-		String mdp = compteDto.getMdp();
-		compteService.editMotDePasse(mail, mdp);
-		compteService.activerCompte(mail);
-		tokenService.desactiveToken(token);
+		String mail = accountDto.getMail();
+		String password = accountDto.getPassword();
+		accountService.editPassword(mail, password);
+		accountService.activeAccount(mail);
+		tokenService.disableToken(token);
 
 		return "compteActive";
 	}
 	
 	private String showPageErrorToken(Model model, String messagePropertiesError, Locale locale, VerificationToken verificationToken) {
-		String message = messages.getMessage(messagePropertiesError, null, locale);
+		String message = messagesSource.getMessage(messagePropertiesError, null, locale);
 		model.addAttribute("message", message);
-		return PAGE_ERREUR_CONFIRMATION_COMPTE;
+		return PAGE_ERROR_CONFIRM_ACCOUNT;
 	}
 
 }

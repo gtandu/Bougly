@@ -4,7 +4,7 @@ import java.util.Locale;
 
 import org.springframework.context.ApplicationEvent;
 
-import fr.bougly.model.CompteUtilisateur;
+import fr.bougly.model.UserAccount;
 
 public class OnRegistrationCompleteEvent extends ApplicationEvent {
 	/**
@@ -13,11 +13,11 @@ public class OnRegistrationCompleteEvent extends ApplicationEvent {
 	private static final long serialVersionUID = -7096826582160653808L;
 	private String appUrl;
 	private Locale locale;
-	private CompteUtilisateur compte;
+	private UserAccount account;
 
-	public OnRegistrationCompleteEvent(CompteUtilisateur compte, Locale locale, String appUrl) {
-		super(compte);
-		this.compte = compte;
+	public OnRegistrationCompleteEvent(UserAccount account, Locale locale, String appUrl) {
+		super(account);
+		this.account = account;
 		this.locale = locale;
 		this.appUrl = appUrl;
 	}
@@ -38,12 +38,12 @@ public class OnRegistrationCompleteEvent extends ApplicationEvent {
 		this.locale = locale;
 	}
 
-	public CompteUtilisateur getCompte() {
-		return compte;
+	public UserAccount getAccount() {
+		return account;
 	}
 
-	public void setCompte(CompteUtilisateur compte) {
-		this.compte = compte;
+	public void setAccount(UserAccount account) {
+		this.account = account;
 	}
 	
 	

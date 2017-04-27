@@ -1,7 +1,12 @@
 package fr.bougly.service;
 
-import static org.mockito.Matchers.*;
-import static org.mockito.Mockito.*;
+import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyLong;
+import static org.mockito.Matchers.eq;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -14,7 +19,7 @@ import fr.bougly.model.Classe;
 import fr.bougly.model.enumeration.FormationEnum;
 import fr.bougly.model.enumeration.NiveauEnum;
 import fr.bougly.repository.ClasseRepository;
-import fr.bougly.web.beans.ClasseBean;
+import fr.bougly.web.dtos.ClasseBean;
 
 @RunWith(MockitoJUnitRunner.class)
 public class ClasseServiceTest {
@@ -22,52 +27,47 @@ public class ClasseServiceTest {
 	private ClasseRepository classeRepository;
 	@InjectMocks
 	private ClasseService classeService;
-	
+
 	@Test
 	public void testSaveClasse() throws Exception {
-		//WHEN
-		when(classeRepository.save(any(Classe.class))).thenReturn(new Classe());	
-		
-		//GIVEN
+		// WHEN
+		when(classeRepository.save(any(Classe.class))).thenReturn(new Classe());
+
+		// GIVEN
 		classeService.saveClasse(new Classe());
-				
-		//THEN
+
+		// THEN
 		verify(classeRepository).save(any(Classe.class));
 	}
 
-	
 	@Test
 	public void testDeleteClasseById() throws Exception {
-		//WHEN
+		// WHEN
 		long n = 0;
 		doNothing().when(classeRepository).delete(anyLong());
-		
-		//GIVEN
+
+		// GIVEN
 		classeService.deleteClasseById(n);
-				
-		//THEN
+
+		// THEN
 		verify(classeRepository).delete(anyLong());
 	}
-	
+
 	@Test
-	public void testUpdateClasseWithClasseBean(){
-		//WHEN
-		ClasseBean classeBean = new ClasseBeanBuilder()
-											.withId(20)
-											.withNom("BIO")
-											.withNiveau(NiveauEnum.L2.toString())
-											.withFormation(FormationEnum.INITIALE.toString())
-											.withMoyenne(12).build();
-		
+	public void testUpdateClasseWithClasseBean() {
+		// WHEN
+		ClasseBean classeBean = new ClasseBeanBuilder().withId(20).withNom("BIO").withNiveau(NiveauEnum.L2.toString())
+				.withFormation(FormationEnum.INITIALE.toString()).withMoyenne(12).build();
+
 		Classe classe = mock(Classe.class);
-		
+
 		when(classeRepository.findOne(anyLong())).thenReturn(classe);
 		when(classeRepository.save(any(Classe.class))).thenReturn(classe);
-		
-		//GIVEN
+
+		// GIVEN
 		classeService.updateClasseWithClasseBean(classeBean);
-		
-		//THEN
+
+		// THEN
 		verify(classeRepository).findOne(anyLong());
 		verify(classe).setNom(eq(classeBean.getNom()));
 		verify(classe).setFormation(eq(classeBean.getFormation()));
