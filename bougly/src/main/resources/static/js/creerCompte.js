@@ -1,6 +1,7 @@
 $(function() {
 	$('select').material_select();
 	hideAttributOnRoleNoEtudiant();
+	validateForm();
 })
 
 /**
@@ -13,7 +14,6 @@ function hideAttributOnRoleNoEtudiant() {
 	$('select').change(function() {
 		
 		currentRole = $(this).val();
-		console.log(currentRole);
 		
 		if (currentRole != "Etudiant") {
 			$(".inputNumEtu").hide(function(){
