@@ -17,6 +17,7 @@ function deleteClasse(){
 		
 		$.post(url, function(id, status){
 			ligne.remove();
+			Materialize.toast('Classe supprimée !', 3000, 'rounded');
 			});
 		}
 	)
