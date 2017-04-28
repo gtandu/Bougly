@@ -4,7 +4,7 @@ $(function(){
 	fillModalWithData();
 	//Init modal
 	$('.modal').modal();
-	postDataForEdit();
+	validateForm(postDataForEdit);
 	
 })
 
@@ -51,15 +51,13 @@ function fillModalWithData()
 		var mail = $(this).parents('tr').find('[data-mail]').attr("data-mail");
 		var nom = $(this).parents('tr').find('[data-nom]').attr("data-nom");
 		var prenom = $(this).parents('tr').find('[data-prenom]').attr("data-prenom");
-		var dateDeNaissance = $(this).parents('tr').find('[data-date_de_naissance]').attr("data-date_de_naissance");
 		var numeroEtudiant = $(this).parents('tr').find('[data-numero_etudiant]').attr("data-numero_etudiant");
 		
 		$("#roleInput").val(role);
 		$("#email").text(mail);
 		$("#emailInput").val(mail);
-		$("#nom").val(nom);
-		$("#prenom").val(prenom);
-		$("#dateDeNaissance").val(dateDeNaissance);
+		$("#lastName").val(nom);
+		$("#firstName").val(prenom);
 		if(numeroEtudiant == null)
 		{
 			$("#inputNumEtu").hide();
@@ -77,17 +75,15 @@ function fillModalWithData()
 	})
 }
 
-function postDataForEdit()
+function postDataForEdit(form)
 {
-	$("#formEditCompte").submit(function(event){
-		event.preventDefault();
-		var $form = $( this );
+		var $form = $(form);
 		var compteBean = {
 				"mail" : $form.find("input[name='email']").val(),
 				"role" : $form.find("input[name='role']").val(),
-				"nom" : $form.find("input[name='nom']").val(),
-				"prenom" : $form.find("input[name='prenom']").val(),
-				"numeroEtudiant" : $form.find("input[name='numeroEtudiant']").val()
+				"lastName" : $form.find("input[name='lastName']").val(),
+				"firstName" : $form.find("input[name='firstName']").val(),
+				"studentNumber" : $form.find("input[name='studentNumber']").val()
 		};
 		$.post("/administrateur/editerCompte.html",compteBean ,function(data){
 			if(data == "ERREUR")
@@ -97,12 +93,11 @@ function postDataForEdit()
 			else
 			{
 				var ligneEdit = $('tbody').find('[data-mail="'+compteBean.mail+'"]').parents('tr');
-				ligneEdit.find('[data-nom]').attr("data-nom", compteBean.nom).text(compteBean.nom);
-				ligneEdit.find('[data-prenom]').attr("data-prenom", compteBean.prenom).text(compteBean.prenom);
-				ligneEdit.find('[data-numero_etudiant]').attr("data-numero_etudiant", compteBean.numeroEtudiant).text(compteBean.numeroEtudiant);
+				ligneEdit.find('[data-nom]').attr("data-nom", compteBean.lastName).text(compteBean.lastName);
+				ligneEdit.find('[data-prenom]').attr("data-prenom", compteBean.firstName).text(compteBean.firstName);
+				ligneEdit.find('[data-numero_etudiant]').attr("data-numero_etudiant", compteBean.studentNumber).text(compteBean.studentNumber);
 				Materialize.toast('Modification(s) effectuée(s)', 3000, 'rounded');
 			}
 		})
 		$('#modalEditCompte').modal('close');
-	})
 }

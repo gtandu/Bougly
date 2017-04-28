@@ -18,8 +18,8 @@ import com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationExceptio
 
 import fr.bougly.exception.StudentNumberExistException;
 import fr.bougly.exception.UserExistException;
-import fr.bougly.model.UserAccount;
 import fr.bougly.model.Student;
+import fr.bougly.model.UserAccount;
 import fr.bougly.model.enumeration.RoleAccountEnum;
 import fr.bougly.model.security.Authority;
 import fr.bougly.repository.AccountRepository;
@@ -135,7 +135,7 @@ public class AccountService {
 	}
 	
 	
-	
+	@Transactional
 	public void editAccountFromCompteBean(AccountDto accountDto){
 		UserAccount accountFromDb = accountRepository.findByMail(accountDto.getMail());
 		accountFromDb.setLastName(accountDto.getLastName());
