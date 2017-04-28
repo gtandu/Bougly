@@ -36,8 +36,9 @@
                                 <td th:attr="data-niveau=${classe.niveau}" th:text="${classe.niveau}">M1</td>
                                 <td th:attr="data-formation=${classe.formation}" th:text="${classe.formation}">MIAGE</td>
                                 <td th:attr="data-moyenne=${classe.moyenne}" th:text="${classe.moyenne}">12</td>
-                                <td><a class="black-text text-darken-2" href="#modalEditClasse"><i class="small material-icons editIcon">edit</i></a></td>
-                                <td><i class="small material-icons deleteIcon">clear</i></td>
+                                <td><a class="black-text text-darken-2" href="#modalEditClasse">
+                                <i class="small material-icons editIcon">edit</i></a></td>
+                                <td><i class="small material-icons deleteIcon" onclick="Materialize.toast('Classe supprimée !', 1500)">clear</i></td>
                             </tr>
                         </tbody>
                     </table>
@@ -57,6 +58,7 @@
     
     <div th:replace="/include/script :: script"></div>
     <script type="text/javascript" th:src="@{/js/gestionClasse.js}"></script>
+    <script type="text/javascript" th:src="@{/js/lib/formChecker.js}"></script>
     
     <footer>
         <div th:replace="/include/footer :: footer"></div>

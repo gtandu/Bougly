@@ -111,6 +111,12 @@ function validateForm() {
 			"numeroEtudiant" : {
 				"required" : true,
 				"regex" : /[0-9]{8}/
+			},
+			
+			//CLASSE
+			"nom_classe" : {
+				"required" : true,
+				"regex" : /^([A-Za-z0-9])+$/
 			}
 		},
 		// For custom messages
@@ -140,6 +146,11 @@ function validateForm() {
 				regex	:	"Le numéro étudiant est composé de 8 chiffres",
 			},
 			
+			//CLASSE
+			nom_classe : {
+				required : "Saisissez l'intitulé de votre classe",
+				regex	:	"Le format saisie est incorrecte",
+			}
 		},
 		errorElement : 'div',
 		errorPlacement : function(error, element) {

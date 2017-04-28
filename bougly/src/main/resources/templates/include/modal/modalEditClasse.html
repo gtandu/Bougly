@@ -15,7 +15,7 @@
 				</div>
 				
 				<div class="input-field col s12">
-					<input placeholder="Ex : MIAGE" id="input_nom" type="text" class="validate"/>
+					<input placeholder="" name="nom_classe" id="input_nom" type="text"/>
        			   	<label>Nom</label>
 				</div>
 
@@ -34,15 +34,10 @@
                      </select>
                      <label>Niveau de formation</label>
 				</div>	
-				
-				<div class="input-field col s12">
-					<input placeholder="Ex : 12,4" id="input_moyenne" type="text" class="validate"/>
-       			   	<label for="moyenne">Moyenne</label>
-				</div>	
 
 				<div class="modal-footer">
+					<button id="submitButton" class="waves-effect waves-light btn" type="submit" onclick="Materialize.toast('Classe modifiée !', 1500)">Modifier</button>
 					<a href="#!" class=" modal-action modal-close waves-effect waves-light btn-flat">Fermer</a>
-					<button id="submitButton" class="waves-effect waves-light btn-flat" type="submit">Modifier</button>
 				</div>
 				
 			</div>
