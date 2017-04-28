@@ -60,7 +60,7 @@ public class AccountServiceTest {
 		String lastName = "Dalton";
 		String firstName = "Joe";
 		AccountDto accountDto = new AccountDtoBuilder().withMail(mail).withPassword(password).withLastName(lastName)
-				.withFirstName(firstName).withRole(RoleAccountEnum.Administrator.toString()).build();
+				.withFirstName(firstName).withRole(RoleAccountEnum.Administrator.getRole()).build();
 		Administrator administrator = new Administrator(accountDto);
 
 		when(accountRepository.findByMail(anyString())).thenReturn(null);
