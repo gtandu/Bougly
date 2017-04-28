@@ -23,19 +23,19 @@
                 <form th:action="@{/responsable/creerClasse.html}" th:object="${classe}" method="post">
                     
                     <div class="input-field col s6">
-                            <input id="nom" placeholder="Ex : MIAGE" type="text" th:field="*{nom}" required="true"  />
-                            <label for="nom" data-error="Invalide" data-success="Valide">Nom <span class="required">*</span></label>
+                            <input id="nom" placeholder="Ex : MIAGE" name="nom_classe" type="text" th:field="*{nom}"  />
+                            <label for="nom">Nom <span class="required">*</span></label>
                     </div>
 
                     <div class="input-field col s6">
-                        <select th:field="*{niveau}" required="true">
+                        <select th:field="*{niveau}">
                         <option th:each="niveau : ${listeNiveaux}" th:value="${niveau}" th:text="${niveau}"></option>
                         </select>
                         <label>Niveau de formation</label>
                     </div>
 
                     <div class="input-field col s6">
-                        <select th:field="*{formation}" required="true">
+                        <select th:field="*{formation}">
                         <option th:each="formation : ${listeFormations}" th:value="${formation}" th:text="${formation}"></option>
                         </select>
                         <label>Type de formation</label>
@@ -55,6 +55,7 @@
 
     <div th:replace="/include/script :: script"></div>
     <script type="text/javascript" th:src="@{/js/creerClasse.js}"></script>
+    <script type="text/javascript" th:src="@{/js/lib/formCheckerClasse.js}"></script>
 
     <footer>
         <div th:replace="/include/footer :: footer"></div>

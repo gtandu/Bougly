@@ -1,8 +1,8 @@
 $(function(){
 	deleteClasse();
 	getDataFromCurrentRow();
-	insertDataFromTD();
     $('.modal').modal();
+    validateForm(insertDataFromTD);
 })
 
  $(document).ready(function() {
@@ -28,11 +28,11 @@ function getDataFromCurrentRow(){
 		
 		var ligne = $(this).parent().parent().parent();
 		
-		var id = ligne.find("[data-id]").data("id");
-		var nom = ligne.find("[data-nom]").data("nom");
-		var formation = ligne.find("[data-formation]").data("formation");
-		var niveau = ligne.find("[data-niveau]").data("niveau");
-		var moyenne = ligne.find("[data-moyenne]").data("moyenne");
+		var id = ligne.find("[data-id]").attr("data-id");
+		var nom = ligne.find("[data-nom]").attr("data-nom");
+		var formation = ligne.find("[data-formation]").attr("data-formation");
+		var niveau = ligne.find("[data-niveau]").attr("data-niveau");
+		var moyenne = ligne.find("[data-moyenne]").attr("data-moyenne");
 		
 		$("#input_id").val(id);
 		$("#input_nom").val(nom);
@@ -40,13 +40,11 @@ function getDataFromCurrentRow(){
 		$("#select_formation").find('div > input').val(formation);
 		$("#input_moyenne").val(moyenne);
 		
+		
 		});
 	}
 
 function insertDataFromTD(){
-	$("#formEditClasse").submit(function(event){
-		
-		event.preventDefault();
 		
 		var id = $("#input_id").val();
 		var nom = $("#input_nom").val();
@@ -54,7 +52,7 @@ function insertDataFromTD(){
 		var formation = $("#select_formation").find('div > input').val();
 		var moyenne = $("#input_moyenne").val();
 		
-		var compteBean = {
+		var classeBean = {
 				"id" : id,
 				"nom": nom,
 				"formation": formation,
@@ -63,15 +61,14 @@ function insertDataFromTD(){
 		}
 		
 		var url = "/responsable/modifierClasse.html";
-		$.post(url,compteBean,function(){
+		$.post(url,classeBean,function(){
 			$('#modalEditClasse').modal('close');
 
-			var ligne = $('tbody').find('[data-id="'+compteBean.id+'"]').parents('tr');
+			var ligne = $('tbody').find('[data-id="'+classeBean.id+'"]').parents('tr');
 			
-			ligne.find('[data-nom]').attr("data-nom",compteBean.nom).text(compteBean.nom);
-			ligne.find('[data-formation]').attr("data-formation",compteBean.formation).text(compteBean.formation);
-			ligne.find('[data-niveau]').attr("data-niveau",compteBean.niveau).text(compteBean.niveau);
-			ligne.find('[data-moyenne]').attr("data-moyenne",compteBean.moyenne).text(compteBean.moyenne);
-		});
+			ligne.find('[data-nom]').attr("data-nom",classeBean.nom).text(classeBean.nom);
+			ligne.find('[data-formation]').attr("data-formation",classeBean.formation).text(classeBean.formation);
+			ligne.find('[data-niveau]').attr("data-niveau",classeBean.niveau).text(classeBean.niveau);
+			ligne.find('[data-moyenne]').attr("data-moyenne",classeBean.moyenne).text(classeBean.moyenne);
 		});
 	}
