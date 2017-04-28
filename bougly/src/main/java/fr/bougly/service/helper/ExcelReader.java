@@ -2,7 +2,6 @@ package fr.bougly.service.helper;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -18,13 +17,13 @@ import fr.bougly.web.dtos.AccountDto;
 public class ExcelReader {
 	
 	
-	public static List<AccountDto> createAccountFromExcelFile(InputStream excelFile) throws IOException
+	public static List createAccountFromExcelFile(InputStream excelFile) throws IOException
 	{
 		
         Workbook workbook = new HSSFWorkbook(excelFile);
         Sheet datatypeSheet = workbook.getSheetAt(0);
         Iterator<Row> iterator = datatypeSheet.iterator();
-        List<AccountDto> listAccountDto = new ArrayList<>();
+        AccountDtoListFromExcel accountDtoListFromExcel = new AccountDtoListFromExcel();
         while (iterator.hasNext()) {
 
             Row currentRow = iterator.next();
@@ -37,13 +36,17 @@ public class ExcelReader {
                 	account.setLastName(currentCell.getStringCellValue());
                 	currentCell = cellIterator.next();
                 	account.setFirstName(currentCell.getStringCellValue());
-                	listAccountDto.add(account);
+                	currentCell = cellIterator.next();
+                	account.setStudentNumber(String.valueOf((int) currentCell.getNumericCellValue()));
+                	currentCell = cellIterator.next();
+                	account.setMail(currentCell.getStringCellValue());
+                	accountDtoListFromExcel.add(account);
                 }
             }
             
         }
         workbook.close();
-		return listAccountDto;
+		return accountDtoListFromExcel.getListAccountDto();
 		
 	}
 

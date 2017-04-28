@@ -16,6 +16,7 @@ public class AccountDto {
 	private String lastName;
 	private String firstName;
 	private String studentNumber;
+	private boolean errorExcel;
 	
 	public AccountDto() {
 		super();
@@ -76,28 +77,49 @@ public class AccountDto {
 	public void setStudentNumber(String studentNumber) {
 		this.studentNumber = studentNumber;
 	}
+	
+	
+	public boolean isErrorExcel() {
+		return errorExcel;
+	}
+
+	public void setErrorExcel(boolean errorExcel) {
+		this.errorExcel = errorExcel;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((mail == null) ? 0 : mail.hashCode());
+		result = prime * result + ((mail == null || studentNumber == null) ? 0 : mail.hashCode()+studentNumber.hashCode());
 		return result;
 	}
 
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
+		{
 			return true;
+		}
 		if (obj == null)
+		{
 			return false;
+		}
 		if (getClass() != obj.getClass())
+		{
 			return false;
+		}
+		
 		AccountDto other = (AccountDto) obj;
 		if (mail == null) {
 			if (other.getMail() != null)
+			{
 				return false;
-		} else if (!mail.equals(other.getMail()))
+			}
+		} else if (!mail.equals(other.getMail()) && !studentNumber.equals(other.getMail()))
+		{
 			return false;
+		}
 		return true;
 	}
 	
