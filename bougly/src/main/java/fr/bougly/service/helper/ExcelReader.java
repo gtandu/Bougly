@@ -11,13 +11,16 @@ import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
+import org.springframework.stereotype.Service;
 
+import fr.bougly.model.enumeration.RoleAccountEnum;
 import fr.bougly.web.dtos.AccountDto;
 
+@Service
 public class ExcelReader {
 	
 	
-	public static List createAccountFromExcelFile(InputStream excelFile) throws IOException
+	public List<AccountDto> createAccountFromExcelFile(InputStream excelFile) throws IOException
 	{
 		
         Workbook workbook = new HSSFWorkbook(excelFile);
@@ -40,6 +43,7 @@ public class ExcelReader {
                 	account.setStudentNumber(String.valueOf((int) currentCell.getNumericCellValue()));
                 	currentCell = cellIterator.next();
                 	account.setMail(currentCell.getStringCellValue());
+                	account.setRole(RoleAccountEnum.Student.getRole());
                 	accountDtoListFromExcel.add(account);
                 }
             }

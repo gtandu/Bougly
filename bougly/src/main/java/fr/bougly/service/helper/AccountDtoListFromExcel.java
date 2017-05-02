@@ -28,7 +28,7 @@ public class AccountDtoListFromExcel {
 	}
 
 
-	public List getListAccountDto() {
+	public List<AccountDto> getListAccountDto() {
 		return listAccountDto;
 	}
 

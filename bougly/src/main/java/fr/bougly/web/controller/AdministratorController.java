@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -39,12 +40,10 @@ public class AdministratorController {
 	public static final String URL_CREATE_ACCOUNT = "/creerCompte.html";
 	public static final String URL_DELETE_ACCOUNT = "/supprimerCompte.html";
 	public static final String URL_EDIT_ACCOUNT = "/editerCompte.html";
+	public static final String URL_UPLOAD_EXCEL_FILE = "/uploadExcel.html";
 
 	@Autowired
 	private AccountService accountService;
-
-	@Autowired
-	private ApplicationEventPublisher eventPublisher;
 
 	@RequestMapping(value = URL_MANAGE_ACCOUNT, method = RequestMethod.GET)
 	public ModelAndView showPageManageAccount(@RequestParam(defaultValue = "1", required = true) Integer pageNumber) {
@@ -92,9 +91,7 @@ public class AdministratorController {
 			HttpServletRequest request, RedirectAttributes redirectAttributes) throws Exception {
 		UserAccount savedAccount = null;
 		try {
-			savedAccount = accountService.saveNewUserAccount(accountDto);
-			String appUrl = request.getContextPath();
-			eventPublisher.publishEvent(new OnRegistrationCompleteEvent(savedAccount, request.getLocale(), appUrl));
+			accountService.saveUserAccountAndPublishEventRegistration(accountDto, request);
 			return "redirect:" + URL_ADMINISTRATOR_CONTROLLER + URL_MANAGE_ACCOUNT;
 		} catch (UserExistException e) {
 			redirectAttributes.addFlashAttribute("mail", accountDto.getMail());
@@ -107,6 +104,18 @@ public class AdministratorController {
 		}
 
 	}
+	
+	@RequestMapping(value = URL_UPLOAD_EXCEL_FILE, method = RequestMethod.POST)
+    public ModelAndView handleFileUpload(@RequestParam("file") MultipartFile accountExcelFile, HttpServletRequest request,
+                                   RedirectAttributes redirectAttributes) throws Exception {
+		
+		ModelAndView model = new ModelAndView("resultatCreationComptes");
+        List<AccountDto> listAccountFromExcelFile = accountService.createAccountFromExcelFile(accountExcelFile, request);
+        model.addObject("listAccountFromExcelFile", listAccountFromExcelFile);
+
+        return model;
+    }
+
 
 	@RequestMapping(value = URL_DELETE_ACCOUNT, method = RequestMethod.POST)
 	@ResponseBody

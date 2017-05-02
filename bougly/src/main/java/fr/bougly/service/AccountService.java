@@ -1,18 +1,23 @@
 package fr.bougly.service;
 
+import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.assertj.core.util.VisibleForTesting;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException;
 
@@ -22,8 +27,10 @@ import fr.bougly.model.Student;
 import fr.bougly.model.UserAccount;
 import fr.bougly.model.enumeration.RoleAccountEnum;
 import fr.bougly.model.security.Authority;
+import fr.bougly.model.security.OnRegistrationCompleteEvent;
 import fr.bougly.repository.AccountRepository;
 import fr.bougly.repository.security.AuthorityRepository;
+import fr.bougly.service.helper.ExcelReader;
 import fr.bougly.service.helper.MapperBeanUtil;
 import fr.bougly.web.dtos.AccountDto;
 
@@ -41,6 +48,12 @@ public class AccountService {
 	
 	@Autowired
 	private BCryptPasswordEncoder passwordEncoder;
+	
+	@Autowired
+	private ExcelReader excelReader;
+	
+	@Autowired
+	private ApplicationEventPublisher eventPublisher;
 	
 	private static final int PAGE_SIZE = 5;
 	
@@ -145,6 +158,28 @@ public class AccountService {
 			Student student = (Student) accountFromDb;
 			student.setStudentNumber(accountDto.getStudentNumber());
 		}
+	}
+	
+	public List<AccountDto> createAccountFromExcelFile(MultipartFile accountExcelFile, HttpServletRequest request) throws Exception
+	{
+		
+		List<AccountDto> listAccountFromExcelFile = excelReader.createAccountFromExcelFile(accountExcelFile.getInputStream());
+		for(AccountDto account : listAccountFromExcelFile)
+		{
+			if(!account.isErrorExcel())
+			{
+				saveUserAccountAndPublishEventRegistration(account, request);
+			}
+		}
+		return listAccountFromExcelFile;
+	}
+	
+	public void saveUserAccountAndPublishEventRegistration(AccountDto accountDto, HttpServletRequest request)
+			throws Exception {
+		UserAccount savedAccount;
+		savedAccount = saveNewUserAccount(accountDto);
+		String appUrl = request.getContextPath();
+		eventPublisher.publishEvent(new OnRegistrationCompleteEvent(savedAccount, request.getLocale(), appUrl));
 	}
 	
 	@VisibleForTesting
