@@ -38,7 +38,7 @@ public class ResponsibleControllerTest {
 	@Test
 	@WithMockUser(authorities = "Responsible")
 	public void testShowPageGestionFiliere() throws Exception {
-		mockMvc.perform(get(URL_RESPONSIBLE_CONTROLLER + ResponsableController.URL_COURSE_MANAGEMENT)
+		mockMvc.perform(get(URL_RESPONSIBLE_CONTROLLER + ResponsibleController.URL_COURSE_MANAGEMENT)
 				.accept(MediaType.TEXT_HTML)).andExpect(status().isOk()).andExpect(view().name("gestionFiliere"));
 	}
 

@@ -14,66 +14,66 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import fr.bougly.builder.bean.ClasseBeanBuilder;
-import fr.bougly.model.Classe;
+import fr.bougly.builder.bean.GradeDtoBuilder;
+import fr.bougly.model.Grade;
 import fr.bougly.model.enumeration.FormationEnum;
-import fr.bougly.model.enumeration.NiveauEnum;
-import fr.bougly.repository.ClasseRepository;
-import fr.bougly.web.dtos.ClasseBean;
+import fr.bougly.model.enumeration.LevelEnum;
+import fr.bougly.repository.GradeRepository;
+import fr.bougly.web.dtos.GradeDto;
 
 @RunWith(MockitoJUnitRunner.class)
 public class ClasseServiceTest {
 	@Mock
-	private ClasseRepository classeRepository;
+	private GradeRepository gradeRepository;
 	@InjectMocks
-	private ClasseService classeService;
+	private GradeService gradeService;
 
 	@Test
-	public void testSaveClasse() throws Exception {
+	public void testSaveClass() throws Exception {
 		// WHEN
-		when(classeRepository.save(any(Classe.class))).thenReturn(new Classe());
+		when(gradeRepository.save(any(Grade.class))).thenReturn(new Grade());
 
 		// GIVEN
-		classeService.saveClasse(new Classe());
+		gradeService.saveGrade(new Grade());
 
 		// THEN
-		verify(classeRepository).save(any(Classe.class));
+		verify(gradeRepository).save(any(Grade.class));
 	}
 
 	@Test
-	public void testDeleteClasseById() throws Exception {
+	public void testDeleteClassById() throws Exception {
 		// WHEN
 		long n = 0;
-		doNothing().when(classeRepository).delete(anyLong());
+		doNothing().when(gradeRepository).delete(anyLong());
 
 		// GIVEN
-		classeService.deleteClasseById(n);
+		gradeService.deleteGradeById(n);
 
 		// THEN
-		verify(classeRepository).delete(anyLong());
+		verify(gradeRepository).delete(anyLong());
 	}
 
 	@Test
-	public void testUpdateClasseWithClasseBean() {
+	public void testUpdateGradeWithGradeDto() {
 		// WHEN
-		ClasseBean classeBean = new ClasseBeanBuilder().withId(20).withNom("BIO").withNiveau(NiveauEnum.L2.toString())
-				.withFormation(FormationEnum.INITIALE.toString()).withMoyenne(12).build();
+		GradeDto gradeDto = new GradeDtoBuilder().withId(20).withName("BIO").withLevel(LevelEnum.L2.toString())
+				.withFormation(FormationEnum.INITIALE.toString()).withAverage(12).build();
 
-		Classe classe = mock(Classe.class);
+		Grade grade = mock(Grade.class);
 
-		when(classeRepository.findOne(anyLong())).thenReturn(classe);
-		when(classeRepository.save(any(Classe.class))).thenReturn(classe);
+		when(gradeRepository.findOne(anyLong())).thenReturn(grade);
+		when(gradeRepository.save(any(Grade.class))).thenReturn(grade);
 
 		// GIVEN
-		classeService.updateClasseWithClasseBean(classeBean);
+		gradeService.updateGradeWithGradeDto(gradeDto);
 
 		// THEN
-		verify(classeRepository).findOne(anyLong());
-		verify(classe).setNom(eq(classeBean.getNom()));
-		verify(classe).setFormation(eq(classeBean.getFormation()));
-		verify(classe).setNiveau(eq(classeBean.getNiveau()));
-		verify(classe).setMoyenne(eq(classeBean.getMoyenne()));
-		verify(classeRepository).save(any(Classe.class));
+		verify(gradeRepository).findOne(anyLong());
+		verify(grade).setName(eq(gradeDto.getName()));
+		verify(grade).setFormation(eq(gradeDto.getFormation()));
+		verify(grade).setLevel(eq(gradeDto.getLevel()));
+		verify(grade).setAverage(eq(gradeDto.getAverage()));
+		verify(gradeRepository).save(any(Grade.class));
 	}
 
 }

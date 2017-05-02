@@ -23,13 +23,13 @@
                 <form th:action="@{/responsable/creerClasse.html}" th:object="${classe}" method="post">
                     
                     <div class="input-field col s6">
-                            <input id="nom" placeholder="Ex : MIAGE" name="nom_classe" type="text" th:field="*{nom}"  />
+                            <input id="nom" placeholder="Ex : MIAGE" name="nom_classe" type="text" th:field="*{name}"  />
                             <label for="nom">Nom <span class="required">*</span></label>
                     </div>
 
                     <div class="input-field col s6">
-                        <select th:field="*{niveau}">
-                        <option th:each="niveau : ${listeNiveaux}" th:value="${niveau}" th:text="${niveau}"></option>
+                        <select th:field="*{level}">
+                        <option th:each="level : ${listeNiveaux}" th:value="${level}" th:text="${level}"></option>
                         </select>
                         <label>Niveau de formation</label>
                     </div>

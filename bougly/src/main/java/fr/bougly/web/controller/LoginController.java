@@ -9,7 +9,7 @@ import fr.bougly.model.Administrator;
 import fr.bougly.model.Responsible;
 import fr.bougly.model.UserAccount;
 import fr.bougly.model.enumeration.RoleAccountEnum;
-import fr.bougly.service.ClasseService;
+import fr.bougly.service.GradeService;
 import fr.bougly.service.AccountService;
 
 @Controller
@@ -22,7 +22,7 @@ public class LoginController {
 	private AccountService accountService;
 	
 	@Autowired
-	private ClasseService classService;
+	private GradeService gradeService;
 	
 	@RequestMapping(value = URL_LOGIN_PAGE, method = RequestMethod.GET)
 	public ModelAndView showLoginPage() throws Exception {

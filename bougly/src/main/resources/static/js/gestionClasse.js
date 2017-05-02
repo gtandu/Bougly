@@ -54,10 +54,10 @@ function insertDataFromTD(){
 		
 		var classeBean = {
 				"id" : id,
-				"nom": nom,
+				"nom": name,
 				"formation": formation,
-				"niveau" : niveau,
-				"moyenne": moyenne
+				"niveau" : level,
+				"moyenne": average
 		}
 		
 		var url = "/responsable/modifierClasse.html";
