@@ -10,6 +10,8 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -131,11 +133,9 @@ public class AdministratorControllerTest {
 		String role = RoleAccountEnum.Student.toString();
 		AccountDto compteDto = new AccountDtoBuilder().withMail(mail).withPassword(password).withLastName(lastName)
 				.withFirstName(firstName).withStudentNumber(studentNumber).build();
-		Student etudiant = new Student(compteDto);
 
-		Mockito.when(accountService.saveNewUserAccount(any(AccountDto.class))).thenReturn(etudiant);
+		doNothing().when(accountService).saveUserAccountAndPublishEventRegistration(any(AccountDto.class), any(HttpServletRequest.class));
 		doNothing().when(eventPublisher).publishEvent(any(OnRegistrationCompleteEvent.class));
-		doNothing().when(registrationListener).onApplicationEvent(any(OnRegistrationCompleteEvent.class));
 
 		// GIVEN
 		this.mockMvc
@@ -145,8 +145,7 @@ public class AdministratorControllerTest {
 				.andExpect(status().isFound())
 				.andExpect(redirectedUrl(URL_CONTROLLEUR_ADMIN + AdministratorController.URL_MANAGE_ACCOUNT));
 
-		Mockito.verify(accountService).saveNewUserAccount(eq(compteDto));
-		Mockito.verify(registrationListener).onApplicationEvent(any(OnRegistrationCompleteEvent.class));
+		Mockito.verify(accountService).saveUserAccountAndPublishEventRegistration(eq(compteDto), any(HttpServletRequest.class));
 	}
 
 	@Test
@@ -160,11 +159,9 @@ public class AdministratorControllerTest {
 		String role = RoleAccountEnum.Administrator.toString();
 		AccountDto compteDto = new AccountDtoBuilder().withMail(mail).withPassword(password).withLastName(lastName)
 				.withFirstName(firstName).build();
-		Administrator admin = new Administrator(compteDto);
 
-		Mockito.when(accountService.saveNewUserAccount(any(AccountDto.class))).thenReturn(admin);
+		doNothing().when(accountService).saveUserAccountAndPublishEventRegistration(any(AccountDto.class), any(HttpServletRequest.class));
 		doNothing().when(eventPublisher).publishEvent(any(ApplicationEventPublisher.class));
-		doNothing().when(registrationListener).onApplicationEvent(any(OnRegistrationCompleteEvent.class));
 
 		// GIVEN
 		this.mockMvc
@@ -174,8 +171,7 @@ public class AdministratorControllerTest {
 				.andExpect(status().isFound())
 				.andExpect(redirectedUrl(URL_CONTROLLEUR_ADMIN + AdministratorController.URL_MANAGE_ACCOUNT));
 
-		Mockito.verify(accountService).saveNewUserAccount(eq(compteDto));
-		Mockito.verify(registrationListener).onApplicationEvent(any(OnRegistrationCompleteEvent.class));
+		Mockito.verify(accountService).saveUserAccountAndPublishEventRegistration(eq(compteDto), any(HttpServletRequest.class));
 	}
 
 	@Test
@@ -190,11 +186,9 @@ public class AdministratorControllerTest {
 		String role = RoleAccountEnum.Teacher.toString();
 		AccountDto compteDto = new AccountDtoBuilder().withMail(mail).withPassword(password).withLastName(lastName)
 				.withFirstName(firstName).build();
-		Teacher enseignant = new Teacher(compteDto);
 
-		Mockito.when(accountService.saveNewUserAccount(any(AccountDto.class))).thenReturn(enseignant);
+		doNothing().when(accountService).saveUserAccountAndPublishEventRegistration(any(AccountDto.class), any(HttpServletRequest.class));
 		doNothing().when(eventPublisher).publishEvent(any(ApplicationEventPublisher.class));
-		doNothing().when(registrationListener).onApplicationEvent(any(OnRegistrationCompleteEvent.class));
 
 		// GIVEN
 		this.mockMvc
@@ -204,8 +198,7 @@ public class AdministratorControllerTest {
 				.andExpect(status().isFound())
 				.andExpect(redirectedUrl(URL_CONTROLLEUR_ADMIN + AdministratorController.URL_MANAGE_ACCOUNT));
 
-		Mockito.verify(accountService).saveNewUserAccount(eq(compteDto));
-		Mockito.verify(registrationListener).onApplicationEvent(any(OnRegistrationCompleteEvent.class));
+		Mockito.verify(accountService).saveUserAccountAndPublishEventRegistration(eq(compteDto), any(HttpServletRequest.class));
 	}
 
 	@Test
@@ -219,10 +212,8 @@ public class AdministratorControllerTest {
 		String role = RoleAccountEnum.Responsible.toString();
 		AccountDto compteDto = new AccountDtoBuilder().withMail(mail).withPassword(password).withLastName(lastName)
 				.withFirstName(firstName).build();
-		Responsible responsable = new Responsible(compteDto);
 
-		Mockito.when(accountService.saveNewUserAccount(any(AccountDto.class))).thenReturn(responsable);
-		doNothing().when(registrationListener).onApplicationEvent(any(OnRegistrationCompleteEvent.class));
+		doNothing().when(accountService).saveUserAccountAndPublishEventRegistration(any(AccountDto.class), any(HttpServletRequest.class));
 
 		// GIVEN
 		this.mockMvc
@@ -232,8 +223,7 @@ public class AdministratorControllerTest {
 				.andExpect(status().isFound())
 				.andExpect(redirectedUrl(URL_CONTROLLEUR_ADMIN + AdministratorController.URL_MANAGE_ACCOUNT));
 
-		Mockito.verify(accountService).saveNewUserAccount(eq(compteDto));
-		Mockito.verify(registrationListener).onApplicationEvent(any(OnRegistrationCompleteEvent.class));
+		Mockito.verify(accountService).saveUserAccountAndPublishEventRegistration(eq(compteDto), any(HttpServletRequest.class));
 	}
 
 	@Test
@@ -249,7 +239,7 @@ public class AdministratorControllerTest {
 		AccountDto compteDto = new AccountDtoBuilder().withMail(mail).withPassword(password).withLastName(lastName)
 				.withFirstName(firstName).withStudentNumber(studentNumber).build();
 
-		doThrow(UserExistException.class).when(accountService).saveNewUserAccount(any(AccountDto.class));
+		doThrow(UserExistException.class).when(accountService).saveUserAccountAndPublishEventRegistration(any(AccountDto.class), any(HttpServletRequest.class));
 
 		// GIVEN
 		this.mockMvc
@@ -259,7 +249,7 @@ public class AdministratorControllerTest {
 				.andExpect(status().isFound()).andExpect(flash().attributeExists("mail")).andExpect(redirectedUrl(
 						URL_CONTROLLEUR_ADMIN + AdministratorController.URL_CREATE_ACCOUNT + "?error=true"));
 
-		Mockito.verify(accountService).saveNewUserAccount(eq(compteDto));
+		Mockito.verify(accountService).saveUserAccountAndPublishEventRegistration(eq(compteDto), any(HttpServletRequest.class));
 	}
 
 	@Test
@@ -275,7 +265,7 @@ public class AdministratorControllerTest {
 		AccountDto compteDto = new AccountDtoBuilder().withMail(mail).withPassword(password).withLastName(lastName)
 				.withFirstName(firstName).withStudentNumber(studentNumber).build();
 
-		doThrow(StudentNumberExistException.class).when(accountService).saveNewUserAccount(any(AccountDto.class));
+		doThrow(StudentNumberExistException.class).when(accountService).saveUserAccountAndPublishEventRegistration(any(AccountDto.class), any(HttpServletRequest.class));
 
 		// GIVEN
 		this.mockMvc
@@ -286,7 +276,7 @@ public class AdministratorControllerTest {
 				.andExpect(redirectedUrl(
 						URL_CONTROLLEUR_ADMIN + AdministratorController.URL_CREATE_ACCOUNT + "?error=true"));
 
-		Mockito.verify(accountService).saveNewUserAccount(eq(compteDto));
+		Mockito.verify(accountService).saveUserAccountAndPublishEventRegistration(eq(compteDto), any(HttpServletRequest.class));
 	}
 
 	@Test(expected = MailSendException.class)

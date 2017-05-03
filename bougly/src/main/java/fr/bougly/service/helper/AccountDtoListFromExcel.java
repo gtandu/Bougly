@@ -7,7 +7,7 @@ import fr.bougly.web.dtos.AccountDto;
 
 public class AccountDtoListFromExcel {
 	
-	private List listAccountDto;
+	private ArrayList listAccountDto;
 	
 	public AccountDtoListFromExcel()
 	{
@@ -19,9 +19,11 @@ public class AccountDtoListFromExcel {
 	{
 		for(int i=0; i<listAccountDto.size(); i++)
 		{
-			if(listAccountDto.get(i).equals(account))
+			AccountDto currentAccountInList = (AccountDto) listAccountDto.get(i);
+			if(currentAccountInList.equals(account))
 			{
 				account.setErrorExcel(true);
+				currentAccountInList.setErrorExcel(true);
 			}
 		}
 		this.listAccountDto.add(account);

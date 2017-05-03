@@ -5,6 +5,7 @@ $(function(){
 	//Init modal
 	$('.modal').modal();
 	validateForm(postDataForEdit);
+	submitFile();
 	
 })
 
@@ -100,4 +101,12 @@ function postDataForEdit(form)
 			}
 		})
 		$('#modalEditCompte').modal('close');
+}
+
+function submitFile()
+{
+	$("#submitFile").click(function(){
+		$('#excel')[0].submit();
+	})
+	
 }

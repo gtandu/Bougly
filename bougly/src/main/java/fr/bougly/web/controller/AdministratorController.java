@@ -7,7 +7,6 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
-import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.data.domain.Page;
 import org.springframework.mail.MailSendException;
 import org.springframework.stereotype.Controller;
@@ -26,7 +25,6 @@ import fr.bougly.exception.StudentNumberExistException;
 import fr.bougly.exception.UserExistException;
 import fr.bougly.model.UserAccount;
 import fr.bougly.model.enumeration.RoleAccountEnum;
-import fr.bougly.model.security.OnRegistrationCompleteEvent;
 import fr.bougly.service.AccountService;
 import fr.bougly.service.helper.MapperBeanUtil;
 import fr.bougly.web.dtos.AccountDto;
@@ -106,11 +104,21 @@ public class AdministratorController {
 	}
 	
 	@RequestMapping(value = URL_UPLOAD_EXCEL_FILE, method = RequestMethod.POST)
-    public ModelAndView handleFileUpload(@RequestParam("file") MultipartFile accountExcelFile, HttpServletRequest request,
+    public String handleFileUpload(@RequestParam("file") MultipartFile accountExcelFile, HttpServletRequest request,
                                    RedirectAttributes redirectAttributes) throws Exception {
 		
-		ModelAndView model = new ModelAndView("resultatCreationComptes");
         List<AccountDto> listAccountFromExcelFile = accountService.createAccountFromExcelFile(accountExcelFile, request);
+        redirectAttributes.addFlashAttribute("listAccountFromExcelFile", listAccountFromExcelFile);
+
+        return "redirect:"+URL_ADMINISTRATOR_CONTROLLER+URL_UPLOAD_EXCEL_FILE;
+    }
+	
+	@RequestMapping(value = URL_UPLOAD_EXCEL_FILE, method = RequestMethod.GET)
+    public ModelAndView showResultPage(@ModelAttribute("listAccountFromExcelFile") List<AccountDto> listAccountFromExcelFile, HttpServletRequest request)
+    		 throws Exception {
+		
+		ModelAndView model = new ModelAndView("resultatCreationComptes");
+        
         model.addObject("listAccountFromExcelFile", listAccountFromExcelFile);
 
         return model;
