@@ -27,12 +27,18 @@ public class ResponsibleController {
 	public static final String URL_DELETE_GRADE = "/supprimerClasse.html";
 	public static final String URL_EDIT_GRADE = "/modifierClasse.html";
 	
+	public static final String URL_HOME_PAGE_RESPONSIBLE = "/homePageResponsible.html";
 	public static final String URL_COURSE_MANAGEMENT = "/gestionFiliere.html";
 	public static final String URL_GRADE_MANAGEMENT = "/gestionClasse.html";
 
 	@Autowired
 	private GradeService gradeService;
 
+	@RequestMapping(value = URL_HOME_PAGE_RESPONSIBLE, method = RequestMethod.GET)
+	public ModelAndView showPageHomePageResponsible() {
+		return new ModelAndView("homePageResponsible");
+	}
+	
 	@RequestMapping(value = URL_GRADE_MANAGEMENT, method = RequestMethod.GET)
 	public ModelAndView showPageClassManagement() {
 		ModelAndView model = new ModelAndView("gestionClasse");
@@ -45,8 +51,7 @@ public class ResponsibleController {
 
 	@RequestMapping(value = URL_COURSE_MANAGEMENT, method = RequestMethod.GET)
 	public ModelAndView showPageCourseManagement() {
-		ModelAndView model = new ModelAndView("gestionFiliere");
-		return model;
+		return new ModelAndView("gestionFiliere");
 	}
 
 	@RequestMapping(value = URL_CREATE_GRADE, method = RequestMethod.GET)

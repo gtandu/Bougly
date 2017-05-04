@@ -17,6 +17,7 @@ public class Grade {
 	private String level;
 	private String formation;
 	private float average;
+	private Responsible responsible;
 
 	public Grade(){}
 	
@@ -70,5 +71,13 @@ public class Grade {
 
 	public void setAverage(float average) {
 		this.average = average;
+	}
+
+	public Responsible getResponsible() {
+		return responsible;
+	}
+
+	public void setResponsible(Responsible responsible) {
+		this.responsible = responsible;
 	}
 }
