@@ -4,20 +4,28 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Matchers.*;
 import static org.mockito.Mockito.*;
 
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Spy;
 import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.verification.VerificationMode;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import fr.bougly.builder.bean.AccountDtoBuilder;
@@ -32,12 +40,14 @@ import fr.bougly.model.enumeration.RoleAccountEnum;
 import fr.bougly.model.security.Authority;
 import fr.bougly.repository.AccountRepository;
 import fr.bougly.repository.security.AuthorityRepository;
+import fr.bougly.service.helper.ExcelReader;
 import fr.bougly.web.dtos.AccountDto;
 
 @RunWith(MockitoJUnitRunner.class)
 public class AccountServiceTest {
 
 	@InjectMocks
+	@Spy
 	private AccountService accountService;
 
 	@Mock
@@ -51,6 +61,12 @@ public class AccountServiceTest {
 
 	@Mock
 	private BCryptPasswordEncoder passwordEncoder;
+	
+	@Mock
+	private ExcelReader excelReader;
+	
+	@Mock
+	private ApplicationEventPublisher eventPublisher;
 
 	@Test
 	public void testSaveNewUserAccount() throws Exception {
@@ -282,6 +298,54 @@ public class AccountServiceTest {
 		// THEN
 		verify(accountRepository).save(any(UserAccount.class));
 
+	}
+
+	@Test
+	public void testCreateAccountFromExcelFile() throws Exception {
+		//WHEN
+		
+		ClassLoader classloader = Thread.currentThread().getContextClassLoader();
+		MockMultipartFile excelFile = new MockMultipartFile("file",
+				classloader.getResourceAsStream("excel/listStudents.xls"));
+		
+		AccountDto accountDto1 = new AccountDtoBuilder().withFirstName("Joe").withLastName("Dalton")
+				.withMail("test@test.fr").withStudentNumber("20012000").build();
+		AccountDto accountDto2 = new AccountDtoBuilder().withFirstName("Joe").withLastName("Biceps")
+				.withMail("test2@test.fr").withStudentNumber("20012001").build();
+		ArrayList<AccountDto> listAccountFromExcelFile = new ArrayList<>();
+		listAccountFromExcelFile.add(accountDto1);
+		listAccountFromExcelFile.add(accountDto2);
+		
+		when(excelReader.createAccountFromExcelFile(any(InputStream.class))).thenReturn(listAccountFromExcelFile);
+		doNothing().when(accountService).saveUserAccountAndPublishEventRegistration(any(AccountDto.class),any(HttpServletRequest.class));
+		
+		//GIVEN
+		accountService.createAccountFromExcelFile(excelFile, null);
+		
+		//THEN
+		
+		verify(excelReader).createAccountFromExcelFile(any(InputStream.class));
+		verify(accountService, atLeastOnce()).saveUserAccountAndPublishEventRegistration(any(AccountDto.class),any(HttpServletRequest.class));
+		
+		assertThat(listAccountFromExcelFile).isNotNull();
+	}
+
+	@Test
+	public void testSaveUserAccountAndPublishEventRegistration() throws Exception {
+		//WHEN
+		AccountDto accountDto = new AccountDtoBuilder().withFirstName("Joe").withLastName("Dalton")
+				.withMail("test@test.fr").withStudentNumber("20012000").build();
+		Student student = new Student(accountDto);
+		
+		HttpServletRequest request = mock(HttpServletRequest.class);
+		
+		doReturn(student).when(accountService).saveNewUserAccount(any(AccountDto.class));
+		
+		//GIVEN
+		accountService.saveUserAccountAndPublishEventRegistration(accountDto, request);
+		
+		//THEN
+		verify(accountService).saveNewUserAccount(eq(accountDto));
 	}
 
 	private Page<UserAccount> buildPageUtilisateur() {

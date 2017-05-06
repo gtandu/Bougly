@@ -34,7 +34,7 @@ import fr.bougly.web.dtos.AccountDto;
 @RequestMapping(value = "/administrateur")
 public class AdministratorController {
 
-	private static final String LIST_ACCOUNT_FROM_EXCEL_FILE = "listAccountFromExcelFile";
+	public static final String LIST_ACCOUNT_FROM_EXCEL_FILE = "listAccountFromExcelFile";
 	private static final String URL_ADMINISTRATOR_CONTROLLER = "/administrateur";
 	public static final String URL_MANAGE_ACCOUNT = "/gestionCompte.html";
 	public static final String URL_CREATE_ACCOUNT = "/creerCompte.html";
@@ -105,8 +105,7 @@ public class AdministratorController {
 	}
 
 	@RequestMapping(value = URL_UPLOAD_EXCEL_FILE, method = RequestMethod.POST)
-	public String handleFileUpload(@RequestParam("file") MultipartFile accountExcelFile, HttpServletRequest request,
-			RedirectAttributes redirectAttributes) throws Exception {
+	public String handleExcelFileUpload(@RequestParam("file") MultipartFile accountExcelFile, HttpServletRequest request) throws Exception {
 
 		ArrayList<AccountDto> listAccountFromExcelFile = accountService.createAccountFromExcelFile(accountExcelFile,
 				request);
@@ -117,7 +116,7 @@ public class AdministratorController {
 	}
 
 	@RequestMapping(value = URL_UPLOAD_EXCEL_FILE, method = RequestMethod.GET)
-	public ModelAndView showResultPage(HttpServletRequest request) throws Exception {
+	public ModelAndView showResultPageFromExcelFile(HttpServletRequest request) throws Exception {
 
 		final HttpSession session = request.getSession();
 		ModelAndView model = new ModelAndView("resultatCreationComptes");

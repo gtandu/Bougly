@@ -50,9 +50,11 @@ public class AccountService {
 
 	@Autowired
 	private ExcelReader excelReader;
-
+	
 	@Autowired
 	private ApplicationEventPublisher eventPublisher;
+
+	 
 
 	private static final int PAGE_SIZE = 5;
 
@@ -163,8 +165,7 @@ public class AccountService {
 
 	public void saveUserAccountAndPublishEventRegistration(AccountDto accountDto, HttpServletRequest request)
 			throws Exception {
-		UserAccount savedAccount;
-		savedAccount = saveNewUserAccount(accountDto);
+		UserAccount savedAccount = saveNewUserAccount(accountDto);
 		String appUrl = request.getContextPath();
 		eventPublisher.publishEvent(new OnRegistrationCompleteEvent(savedAccount, request.getLocale(), appUrl));
 	}
