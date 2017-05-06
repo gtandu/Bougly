@@ -21,23 +21,22 @@ public class Authority implements GrantedAuthority {
 	private static final long serialVersionUID = -3256627377746354807L;
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
-	
-	@ManyToOne(fetch = FetchType.EAGER,cascade=CascadeType.ALL)
+
+	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	private UserAccount account;
-	
-	
+
 	private String role;
-	
-	public Authority(){}
-	
-	
+
+	public Authority() {
+	}
+
 	public Authority(String role) {
 		super();
 		this.role = role;
 	}
-	
+
 	public Authority(UserAccount account, String role) {
 		super();
 		this.account = account;
@@ -73,6 +72,5 @@ public class Authority implements GrantedAuthority {
 		// TODO Auto-generated method stub
 		return this.role;
 	}
-
 
 }

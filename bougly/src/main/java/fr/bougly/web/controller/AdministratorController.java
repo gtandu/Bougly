@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
@@ -33,6 +34,7 @@ import fr.bougly.web.dtos.AccountDto;
 @RequestMapping(value = "/administrateur")
 public class AdministratorController {
 
+	private static final String LIST_ACCOUNT_FROM_EXCEL_FILE = "listAccountFromExcelFile";
 	private static final String URL_ADMINISTRATOR_CONTROLLER = "/administrateur";
 	public static final String URL_MANAGE_ACCOUNT = "/gestionCompte.html";
 	public static final String URL_CREATE_ACCOUNT = "/creerCompte.html";
@@ -87,7 +89,6 @@ public class AdministratorController {
 	@RequestMapping(value = URL_CREATE_ACCOUNT, method = RequestMethod.POST)
 	public String createAccountFromDtoData(@ModelAttribute(value = "accountDto") AccountDto accountDto,
 			HttpServletRequest request, RedirectAttributes redirectAttributes) throws Exception {
-		UserAccount savedAccount = null;
 		try {
 			accountService.saveUserAccountAndPublishEventRegistration(accountDto, request);
 			return "redirect:" + URL_ADMINISTRATOR_CONTROLLER + URL_MANAGE_ACCOUNT;
@@ -102,28 +103,29 @@ public class AdministratorController {
 		}
 
 	}
-	
+
 	@RequestMapping(value = URL_UPLOAD_EXCEL_FILE, method = RequestMethod.POST)
-    public String handleFileUpload(@RequestParam("file") MultipartFile accountExcelFile, HttpServletRequest request,
-                                   RedirectAttributes redirectAttributes) throws Exception {
-		
-        List<AccountDto> listAccountFromExcelFile = accountService.createAccountFromExcelFile(accountExcelFile, request);
-        redirectAttributes.addFlashAttribute("listAccountFromExcelFile", listAccountFromExcelFile);
+	public String handleFileUpload(@RequestParam("file") MultipartFile accountExcelFile, HttpServletRequest request,
+			RedirectAttributes redirectAttributes) throws Exception {
 
-        return "redirect:"+URL_ADMINISTRATOR_CONTROLLER+URL_UPLOAD_EXCEL_FILE;
-    }
-	
+		ArrayList<AccountDto> listAccountFromExcelFile = accountService.createAccountFromExcelFile(accountExcelFile,
+				request);
+		HttpSession session = request.getSession();
+		session.setAttribute(LIST_ACCOUNT_FROM_EXCEL_FILE, listAccountFromExcelFile);
+
+		return "redirect:" + URL_ADMINISTRATOR_CONTROLLER + URL_UPLOAD_EXCEL_FILE;
+	}
+
 	@RequestMapping(value = URL_UPLOAD_EXCEL_FILE, method = RequestMethod.GET)
-    public ModelAndView showResultPage(@ModelAttribute("listAccountFromExcelFile") List<AccountDto> listAccountFromExcelFile, HttpServletRequest request)
-    		 throws Exception {
-		
+	public ModelAndView showResultPage(HttpServletRequest request) throws Exception {
+
+		final HttpSession session = request.getSession();
 		ModelAndView model = new ModelAndView("resultatCreationComptes");
-        
-        model.addObject("listAccountFromExcelFile", listAccountFromExcelFile);
 
-        return model;
-    }
+		model.addObject(LIST_ACCOUNT_FROM_EXCEL_FILE, session.getAttribute(LIST_ACCOUNT_FROM_EXCEL_FILE));
 
+		return model;
+	}
 
 	@RequestMapping(value = URL_DELETE_ACCOUNT, method = RequestMethod.POST)
 	@ResponseBody

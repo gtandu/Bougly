@@ -27,7 +27,7 @@ public abstract class UserAccount implements UserDetails {
 
 	private static final long serialVersionUID = 2450538310211221681L;
 	@Id
-	@Column(unique=true)
+	@Column(unique = true)
 	protected String mail;
 
 	protected String password;
@@ -128,6 +128,7 @@ public abstract class UserAccount implements UserDetails {
 	public void setEnabled(boolean enabled) {
 		this.enabled = enabled;
 	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -138,20 +139,26 @@ public abstract class UserAccount implements UserDetails {
 
 	@Override
 	public boolean equals(Object obj) {
-		if (this == obj)
+		if (this == obj) {
 			return true;
-		if (obj == null)
+		}
+		if (obj == null) {
 			return false;
-		if (getClass() != obj.getClass())
+		}
+		if (getClass() != obj.getClass()) {
 			return false;
+		}
+
 		UserAccount other = (UserAccount) obj;
+
 		if (mail == null) {
-			if (other.getMail() != null)
+			if (other.getMail() != null) {
 				return false;
-		} else if (!mail.equals(other.getMail()))
+			}
+		} else if (!mail.equals(other.getMail())) {
 			return false;
+		}
 		return true;
 	}
 
-	
 }
