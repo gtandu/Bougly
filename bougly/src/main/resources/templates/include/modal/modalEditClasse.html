@@ -15,21 +15,21 @@
 				</div>
 				
 				<div class="input-field col s12">
-					<input placeholder="" name="nom" id="input_nom" type="text"/>
+					<input placeholder="" name="name" id="input_name" type="text"/>
        			   	<label>Nom</label>
 				</div>
 
-				<div id="select_niveau" class="input-field col s12">
+				<div id="select_level" class="input-field col s6">
 					 <select>
-                     	<option th:each="niveau : ${listeNiveaux}"
-                     	th:value="${niveau}" th:text="${niveau}">L3</option>
+                     	<option th:each="level : ${levelList}"
+                     	th:value="${level}" th:text="${level}">L3</option>
                      </select>
                      <label>Niveau d'étude</label>
 				</div>	
 				
-				<div id="select_formation" class="input-field col s12">
+				<div id="select_formation" class="input-field col s6">
 					 <select>
-                     	<option th:each="formation : ${listeFormations}"
+                     	<option th:each="formation : ${formationList}"
                      	th:value="${formation}" th:text="${formation}"> Apprentissage </option>
                      </select>
                      <label>Niveau de formation</label>

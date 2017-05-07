@@ -29,16 +29,14 @@ function getDataFromCurrentRow(){
 		var ligne = $(this).parent().parent().parent();
 		
 		var id = ligne.find("[data-id]").attr("data-id");
-		var nom = ligne.find("[data-nom]").attr("data-nom");
+		var name = ligne.find("[data-name]").attr("data-name");
 		var formation = ligne.find("[data-formation]").attr("data-formation");
-		var niveau = ligne.find("[data-niveau]").attr("data-niveau");
-		var moyenne = ligne.find("[data-moyenne]").attr("data-moyenne");
+		var level = ligne.find("[data-level]").attr("data-level");
 		
 		$("#input_id").val(id);
-		$("#input_nom").val(nom);
-		$("#select_niveau").find('div > input').val(niveau);
+		$("#input_name").val(name);
+		$("#select_level").find('div > input').val(level);
 		$("#select_formation").find('div > input').val(formation);
-		$("#input_moyenne").val(moyenne);
 		
 		
 		});
@@ -47,28 +45,25 @@ function getDataFromCurrentRow(){
 function insertDataFromTD(){
 		
 		var id = $("#input_id").val();
-		var nom = $("#input_nom").val();
-		var niveau = $("#select_niveau").find('div > input').val();
+		var name = $("#input_name").val();
+		var level = $("#select_level").find('div > input').val();
 		var formation = $("#select_formation").find('div > input').val();
-		var moyenne = $("#input_moyenne").val();
 		
-		var classeBean = {
+		var gradeDto = {
 				"id" : id,
-				"nom": name,
+				"name": name,
 				"formation": formation,
-				"niveau" : level,
-				"moyenne": average
+				"level" : level,
 		}
 		
 		var url = "/responsable/modifierClasse.html";
-		$.post(url,classeBean,function(){
+		$.post(url,gradeDto,function(){
 			$('#modalEditClasse').modal('close');
 
-			var ligne = $('tbody').find('[data-id="'+classeBean.id+'"]').parents('tr');
+			var ligne = $('tbody').find('[data-id="'+gradeDto.id+'"]').parents('tr');
 			
-			ligne.find('[data-nom]').attr("data-nom",classeBean.nom).text(classeBean.nom);
-			ligne.find('[data-formation]').attr("data-formation",classeBean.formation).text(classeBean.formation);
-			ligne.find('[data-niveau]').attr("data-niveau",classeBean.niveau).text(classeBean.niveau);
-			ligne.find('[data-moyenne]').attr("data-moyenne",classeBean.moyenne).text(classeBean.moyenne);
+			ligne.find('[data-name]').attr("data-name",gradeDto.name).text(gradeDto.name);
+			ligne.find('[data-formation]').attr("data-formation",gradeDto.formation).text(gradeDto.formation);
+			ligne.find('[data-level]').attr("data-level",gradeDto.level).text(gradeDto.level);
 		});
 	}

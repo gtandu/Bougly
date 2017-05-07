@@ -32,10 +32,10 @@
                         <tbody>
                             <tr th:each="grade : ${gradeList}">
                                 <td style="display:none;" class="id" th:attr="data-id=${grade.id}" th:text="${grade.id}">1</td>
-                                <td th:attr="data-nom=${grade.name}" th:text="${grade.name}">M1MIAA</td>
-                                <td th:attr="data-niveau=${grade.level}" th:text="${grade.level}">M1</td>
+                                <td th:attr="data-name=${grade.name}" th:text="${grade.name}">M1MIAA</td>
+                                <td th:attr="data-level=${grade.level}" th:text="${grade.level}">M1</td>
                                 <td th:attr="data-formation=${grade.formation}" th:text="${grade.formation}">MIAGE</td>
-                                <td th:attr="data-moyenne=${grade.average}" th:text="${grade.average}">12</td>
+                                <td th:attr="data-average=${grade.average}" th:text="${grade.average}">12</td>
                                 <td><a class="black-text text-darken-2" href="#modalEditClasse">
                                 <i class="small material-icons editIcon">edit</i></a></td>
                                 <td><i class="small material-icons deleteIcon">clear</i></td>
