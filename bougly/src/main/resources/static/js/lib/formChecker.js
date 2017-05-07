@@ -12,8 +12,8 @@ function addMethodRegexInApiValidate() {
 	}, "erreur expression reguliere");
 }
 
-function validateForm(functionCallBackValidate) {
-	return $("form").validate({
+function validateForm(form, functionCallBackValidate) {
+	return form.validate({
 		rules : {
 			"mdp" : {
 				"required" : true,
@@ -80,11 +80,11 @@ function validateForm(functionCallBackValidate) {
 
 		},
 		
-		submitHandler: function(form) {
+		submitHandler: function() {
 		    // do other things for a valid form
 			if(functionCallBackValidate != undefined)
 			{
-				functionCallBackValidate(form);				
+				functionCallBackValidate();				
 			}
 			else
 			{
@@ -93,3 +93,4 @@ function validateForm(functionCallBackValidate) {
 		  }
 	});
 }
+

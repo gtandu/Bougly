@@ -1,7 +1,7 @@
 $(function() {
 	$('select').material_select();
 	hideAttributOnRoleNoEtudiant();
-	validateForm();
+	validateForm($("#formCreerUnCompte"));
 })
 
 /**

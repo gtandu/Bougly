@@ -54,9 +54,7 @@ public class AccountService {
 	@Autowired
 	private ApplicationEventPublisher eventPublisher;
 
-	 
-
-	private static final int PAGE_SIZE = 5;
+	private static final int PAGE_SIZE = 8;
 
 	@SuppressWarnings("rawtypes")
 	public UserAccount saveNewUserAccount(AccountDto accountDto) throws Exception {
@@ -81,14 +79,40 @@ public class AccountService {
 		Constructor<?> constructor = myClass.getConstructor(types);
 		UserAccount account = (UserAccount) constructor.newInstance(accountDto);
 
-		UserAccount savedAccount = saveRegisteredUserByAccountAndRole(account, role);
+		return saveRegisteredUserByAccountAndRole(account, role);
+	}
+	
+	@SuppressWarnings("rawtypes")
+	public UserAccount saveNewUserAccountFromExcelFile(AccountDto accountDto) throws Exception {
 
-		return savedAccount;
+		if (emailExist(accountDto.getMail())) {
+			String errorMessage = String.format("Un compte avec l'adresse email %s existe déjà.", accountDto.getMail());
+			accountDto.setErrorExcel(true);
+			return null;
+		}
+
+		if (studentNumberExist(accountDto.getStudentNumber())) {
+			String errorMessage = String.format("Un compte avec le numero étudiant %s existe déjà.",
+					accountDto.getStudentNumber());
+			accountDto.setErrorExcel(true);
+			return null;
+		}
+
+		RoleAccountEnum roleEnum = RoleAccountEnum.getRoleFromString(accountDto.getRole());
+
+		String role = roleEnum.toString();
+
+		Class<?> myClass = Class.forName("fr.bougly.model." + role);
+		Class[] types = { AccountDto.class };
+		Constructor<?> constructor = myClass.getConstructor(types);
+		UserAccount account = (UserAccount) constructor.newInstance(accountDto);
+
+		return saveRegisteredUserByAccountAndRole(account, role);
+
 	}
 
 	public UserAccount saveRegisteredUserByAccount(UserAccount account) {
-		UserAccount compteSave = accountRepository.save(account);
-		return compteSave;
+		return accountRepository.save(account);
 	}
 
 	public UserAccount saveRegisteredUserByAccountAndRole(UserAccount account, String role)
@@ -106,8 +130,7 @@ public class AccountService {
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public List<AccountDto> findAllComptes() {
 		List accountList = accountRepository.findAll();
-		ArrayList accountDtoList = MapperBeanUtil.convertAccountListToAccountDtoList(accountList);
-		return accountDtoList;
+		return MapperBeanUtil.convertAccountListToAccountDtoList(accountList);
 	}
 
 	public Authority saveAuthority(UserAccount account, String role) {
@@ -144,7 +167,7 @@ public class AccountService {
 		UserAccount accountFromDb = accountRepository.findByMail(accountDto.getMail());
 		accountFromDb.setLastName(accountDto.getLastName());
 		accountFromDb.setFirstName(accountDto.getFirstName());
-		if (accountDto.getRole() == RoleAccountEnum.Student.toString()) {
+		if (accountDto.getRole().equals(RoleAccountEnum.Student.toString())) {
 			Student student = (Student) accountFromDb;
 			student.setStudentNumber(accountDto.getStudentNumber());
 		}
@@ -157,7 +180,7 @@ public class AccountService {
 				.createAccountFromExcelFile(accountExcelFile.getInputStream());
 		for (AccountDto account : listAccountFromExcelFile) {
 			if (!account.isErrorExcel()) {
-				saveUserAccountAndPublishEventRegistration(account, request);
+				saveUserAccountAndPublishEventRegistrationFromExcelFile(account, request);
 			}
 		}
 		return listAccountFromExcelFile;
@@ -168,6 +191,16 @@ public class AccountService {
 		UserAccount savedAccount = saveNewUserAccount(accountDto);
 		String appUrl = request.getContextPath();
 		eventPublisher.publishEvent(new OnRegistrationCompleteEvent(savedAccount, request.getLocale(), appUrl));
+	}
+	
+	public void saveUserAccountAndPublishEventRegistrationFromExcelFile(AccountDto accountDto, HttpServletRequest request)
+			throws Exception {
+		UserAccount savedAccount = saveNewUserAccountFromExcelFile(accountDto);
+		String appUrl = request.getContextPath();
+		if(savedAccount != null)
+		{
+			eventPublisher.publishEvent(new OnRegistrationCompleteEvent(savedAccount, request.getLocale(), appUrl));
+		}
 	}
 
 	@VisibleForTesting

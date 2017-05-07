@@ -4,7 +4,7 @@ $(function(){
 	fillModalWithData();
 	//Init modal
 	$('.modal').modal();
-	validateForm(postDataForEdit);
+	validateForm($("#formEditCompte"), postDataForEdit);
 	submitFile();
 	
 })
@@ -76,15 +76,15 @@ function fillModalWithData()
 	})
 }
 
-function postDataForEdit(form)
+function postDataForEdit()
 {
-		var $form = $(form);
+		var form = $("#formEditCompte");
 		var compteBean = {
-				"mail" : $form.find("input[name='email']").val(),
-				"role" : $form.find("input[name='role']").val(),
-				"lastName" : $form.find("input[name='lastName']").val(),
-				"firstName" : $form.find("input[name='firstName']").val(),
-				"studentNumber" : $form.find("input[name='studentNumber']").val()
+				"mail" : form.find("input[name='email']").val(),
+				"role" : form.find("input[name='role']").val(),
+				"lastName" : form.find("input[name='lastName']").val(),
+				"firstName" : form.find("input[name='firstName']").val(),
+				"studentNumber" : form.find("input[name='studentNumber']").val()
 		};
 		$.post("/administrateur/editerCompte.html",compteBean ,function(data){
 			if(data == "ERREUR")

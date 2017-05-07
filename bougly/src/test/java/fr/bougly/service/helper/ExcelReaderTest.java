@@ -24,7 +24,7 @@ public class ExcelReaderTest {
 	public void testCreateAccountFromExcelFile() throws Exception {
 		
 		ClassLoader classloader = Thread.currentThread().getContextClassLoader();
-		InputStream file = classloader.getResourceAsStream("excel/listStudents.xls");
+		InputStream file = classloader.getResourceAsStream("excel/listStudents3.xls");
 		ArrayList<AccountDto> createAccountFromExcelFile = excelReader.createAccountFromExcelFile(file);
 		
 		System.out.println(createAccountFromExcelFile);
