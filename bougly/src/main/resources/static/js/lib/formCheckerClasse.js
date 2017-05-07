@@ -15,14 +15,14 @@ function addMethodRegexInApiValidate() {
 function validateForm(functionCallBackValidate) {
 	return $("form").validate({
 		rules : {
-			"nom" : {
+			"name" : {
 				"required" : true,
 				"regex" : /^([A-Za-z0-9])+$/
 			}
 		},
 
 		messages : {
-			nom : {
+			name : {
 				required : "Saisissez l'intitulé de votre classe",
 				regex	:	"Le format saisie est incorrecte",
 			}
