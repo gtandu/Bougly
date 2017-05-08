@@ -3,6 +3,8 @@ package fr.bougly.web.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -12,9 +14,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import fr.bougly.model.Grade;
+import fr.bougly.model.UserAccount;
 import fr.bougly.model.enumeration.FormationEnum;
 import fr.bougly.model.enumeration.LevelEnum;
+import fr.bougly.repository.AccountRepository;
+import fr.bougly.service.AccountService;
 import fr.bougly.service.GradeService;
+import fr.bougly.web.dtos.AccountDto;
 import fr.bougly.web.dtos.GradeDto;
 
 @Controller
@@ -30,13 +36,27 @@ public class ResponsibleController {
 	public static final String URL_HOME_PAGE_RESPONSIBLE = "/homePageResponsible.html";
 	public static final String URL_COURSE_MANAGEMENT = "/gestionFiliere.html";
 	public static final String URL_GRADE_MANAGEMENT = "/gestionClasse.html";
-
+	
+	@Autowired
+	private AccountService accountService;
+	
 	@Autowired
 	private GradeService gradeService;
 
 	@RequestMapping(value = URL_HOME_PAGE_RESPONSIBLE, method = RequestMethod.GET)
 	public ModelAndView showPageHomePageResponsible() {
-		return new ModelAndView("homePageResponsible");
+		ModelAndView model = new ModelAndView("homePageResponsible");
+		List<Grade> gradeList = gradeService.findAllGrade();
+		
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+	    UserAccount account = accountService.findByMail(auth.getName());
+		
+	    model.addObject("account", account);
+		model.addObject("gradeList", gradeList);
+		model.addObject("levelList", LevelEnum.allLevel());
+		model.addObject("formationList", FormationEnum.allFormation());
+		
+		return model;
 	}
 	
 	@RequestMapping(value = URL_GRADE_MANAGEMENT, method = RequestMethod.GET)

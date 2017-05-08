@@ -112,6 +112,10 @@ public class AccountService {
 		return accountRepository.findAll(request);
 	}
 	
+	public UserAccount findByMail(String mail){
+		return accountRepository.findByMail(mail);
+	}
+	
 	public void deleteAccountByMail(String mail)
 	{
 		UserAccount accountToDelete = accountRepository.findByMail(mail);
