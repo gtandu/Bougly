@@ -1,91 +1,84 @@
 <!DOCTYPE html>
-<html >
+<html>
 
 <head>
 
-    <div th:replace="/include/header :: header"></div>
-    <title>Accueil</title>
-    <meta charset="UTF-8" />
+<div th:replace="/include/header :: header"></div>
+<title>Accueil</title>
+<meta charset="UTF-8" />
+
+<link type="text/css" rel="stylesheet" th:href="@{/css/homePageResponsible.css}" media="screen,projection" />
 
 </head>
 
 <body>
-    <header>
-        <div th:replace="/include/responsibleNav :: responsibleNav"></div>
-    </header>
-    
-    <main>
-    <br />
-		<div class="container">
-			<div class="row">
-			
-				<div class="card small col s7">
-		            <div class="card-content">
-		              
-						<div id="tabCompte" class="col s12">
-                	<p id="currentUser" th:attr="data-user=${#authentication.name}" style="display:none;"></p>
-                    <table class="bordered striped highlight centered responsive-table">
-                        <thead>
-                            <tr>
-                                <th>Type de compte</th>
-                                <th>Adresse email</th>
-                                <th>Nom</th>
-                                <th>Prenom</th>
-                                <th>Numero étudiant</th>
-                            </tr>
-                        </thead>
+	<header>
+		<div th:replace="/include/responsibleNav :: responsibleNav"></div>
+	</header>
 
-                        <tbody>
-                            <tr th:each="accountDto : ${accountDtoList}">
-                                <td th:attr="data-role=${accountDto.role}" th:text="${accountDto.role}">Administrateur</td>
-                                <td th:attr="data-mail=${accountDto.mail}" th:text="${accountDto.mail}">admin@hotmail.fr</td>
-                                <td th:attr="data-nom=${accountDto.lastName}" th:text="${accountDto.lastName}">Dalton</td>
-                                <td th:attr="data-prenom=${accountDto.firstName}" th:text="${accountDto.firstName}">Joe</td>
-                                <td th:attr="data-numero_etudiant=${accountDto.studentNumber}" th:text="${accountDto.studentNumber}">20172000</td>
-                                <td><a href="#modalEditCompte"><i class="small material-icons editIcon">edit</i></a></td>
-                                <td><i class="small material-icons deleteIcon" th:attr="data-mail=${accountDto.mail}">clear</i></td>
-                                <td></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
+	<main> <br />
+	<div class="container">
+		<div class="row">
 
-		            </div>
-		            <div class="card-action">
-		              <span class="card-title activator grey-text text-darken-4">Card Title<i class="material-icons right">more_vert</i></span>
-		            </div>
-    
-		          </div>
-			
-		        <div class="card small col s4 offset-s1">
-		            <div class="card-image">
-		              <img src="/img/Card.png"/>
-		              <span class="card-title">Profil</span>
-		            </div>
-		            <div class="card-content">
-		              <p>I am a very simple card. I am good at containing small bits of information.
-		              I am convenient because I require little markup to use effectively.</p>
-		            </div>
-		            <div class="card-action">
-		              <span class="card-title activator grey-text text-darken-4">Card Title<i class="material-icons right">more_vert</i></span>
-		            </div>
-		            
-		            <div class="card-reveal">
-				      <span class="card-title grey-text text-darken-4">Card Title<i class="material-icons right">close</i></span>
-				      <p>Here is some more information about this product that is only revealed once clicked on.</p>
-				    </div>
-    
-		          </div>
-          	</div>
-		</div>  
-    </main>
-    
-    <div th:replace="/include/script :: script"></div>
-    
-    <footer>
-        <div th:replace="/include/footer :: footer"></div>
-    </footer>
-    
+			<div class="col s8 m8 l8">
+
+				<div class="card-panel #00897b teal darken-1">
+					<span class="card-title-panel white-text"> Vos Classes </span>
+					<p class="white-text">Le Lorem Ipsum est simplement du faux texte
+					 employé dans la composition et la mise en page avant impression.
+					  Le Lorem Ipsum est le faux texte standard de l'imprimerie depuis les années 1500,
+					   quand un peintre anonyme assembla ensemble des morceaux de texte pour réaliser 
+					   un livre spécimen de polices de texte. Il n'a pas fait que survivre cinq siècles,
+					    mais s'est aussi adapté à la bureautique informatique, sans que son contenu n'en soit modifié.
+					     Il a été popularisé dans les années 1960 grâce à la vente de feuilles Letraset contenant
+					      des passages du Lorem Ipsum, et, plus récemment, par son inclusion dans des applications
+					       de mise en page de texte, comme Aldus PageMaker.</p>
+				</div>
+
+			</div>
+
+			<div class="col s4 m4 l4">
+
+				<div class="card">
+					<div class="card-image">
+						<img src="/img/wallpaper-card.png"/>
+						<span class="card-title" th:text ="${account.firstName}+' '+${account.LastName}">CardTitle </span>
+						<a class="activator btn-floating halfway-fab waves-effect waves-light #26a69a teal lighten-1">
+							<i class="material-icons">perm_identity</i>
+						</a>
+					</div>
+					
+					<div class="card-content">
+						<p> 
+							<i class="material-icons cyan-text text-darken-2">email</i>
+							<span th:text ="${account.mail}">CardTitle </span>
+						</p>
+						<p> 
+							<i class="material-icons cyan-text text-darken-2">visibility</i>
+							<span> Responsable </span>
+						</p>
+					</div>
+					
+					<div class="card-reveal">
+						<i class="card-title material-icons right">close</i>
+						<span class="card-title" th:text ="${account.firstName}+' '+${account.LastName}"></span>
+						<p>Vous retrouverez ci-dessous les informations de votre compte.</p>
+					</div>
+				</div>
+
+			</div>
+
+		</div>
+	</div>
+	</main>
+
+	<div th:replace="/include/script :: script"></div>
+	<script type="text/javascript" th:src="@{/js/lib/Chart.js}"></script>
+
+	<footer>
+		<div th:replace="/include/footer :: footer"></div>
+	</footer>
+
 </body>
 
 </html>
