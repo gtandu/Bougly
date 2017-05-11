@@ -3,7 +3,7 @@ $(function(){
 	  var gjCountAndRedirectStatus = false; //prevent from seting multiple Interval
 
 	  //call
-	      gjCountAndRedirect(10, "/login.html");
+	      gjCountAndRedirect(5, "/login.html");
 });
 
 function gjCountAndRedirect(secounds, url) {

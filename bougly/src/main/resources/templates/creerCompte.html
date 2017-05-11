@@ -11,11 +11,12 @@
     <header>
         <div th:replace="/include/nav :: nav"></div>
     </header>
-    <main>
+    	<div th:replace="/include/preloader :: preloader"></div>
+    <main id="content">
         <div class="container">
       	  <h3  class="header center teal-text text-lighten-2">Créer un compte</h3>
             <div class="row">
-                <form class="col s12" th:action="@{/administrateur/creerCompte.html}" th:object="${accountDto}" method="post">
+                <form id="formCreerUnCompte" class="col s12" th:action="@{/administrateur/creerCompte.html}" th:object="${accountDto}" method="post">
                     <div th:if="${mailExist != null || studentNumberExist != null}" class="row">
                         <div class="collection center" style="border-color: red;">
                         	<a th:if="${mailExist} != null" class="collection-item red-text text">Le compte <b><span th:text="${mail}"></span></b> existe déjà.</a>
@@ -33,21 +34,21 @@
 	                    <div class="row">
 	                        <div class="input-field col s6">
 	                            <label for="mail">Mail <span class="required">*</span></label>
-	                            <input id="email" class="" placeholder="Ex : adresse@mail.fr" type="text" th:field="*{mail}"/>
+	                            <input id="email" placeholder="Ex : adresse@mail.fr" type="text" th:field="*{mail}"/>
 	                        </div>
 	                        <div class="input-field col s6">
 	                            <label for="nom">Nom <span class="required">*</span></label>
-	                            <input name="nom" class="" placeholder="Ex : Doe" type="text" th:field="*{lastName}"/>
+	                            <input placeholder="Ex : Doe" type="text" th:field="*{lastName}"/>
 	                        </div>
 	                   	</div>
 	                   	<div class="row">
 	                        <div class="input-field col s6">
 	                            <label for="prenom">Prénom <span class="required">*</span></label>
-	                            <input name="prenom" class="" placeholder="Ex : John" type="text" th:field="*{firstName}"/>
+	                            <input placeholder="Ex : John" type="text" th:field="*{firstName}"/>
 	                        </div>
 	                        <div class="inputNumEtu input-field col s6">
 	                            <label for="numeroEtudiant">Numero étudiant <span class="required">*</span></label>
-	                            <input name="numeroEtudiant" class="validate" placeholder="Ex : 20172345" type="text" th:field="*{studentNumber}"/>
+	                            <input placeholder="Ex : 20172345" type="text" th:field="*{studentNumber}"/>
 	                        </div>
 	                    </div>
                     <div class="row">
@@ -66,6 +67,8 @@
     </footer>
     <script type="text/javascript" th:src="@{/js/creerCompte.js}"></script>
     <script type="text/javascript" th:src="@{/js/lib/formChecker.js}"></script>
+    <!-- Should be at the end of scripts -->
+    <div th:replace="/include/preloader-script :: preloader-script"></div>
 </body>
 
 </html>

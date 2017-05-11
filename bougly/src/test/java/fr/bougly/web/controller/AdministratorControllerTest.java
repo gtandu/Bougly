@@ -1,14 +1,28 @@
 package fr.bougly.web.controller;
 
-import static org.mockito.Matchers.*;
-import static org.mockito.Mockito.*;
+import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyString;
+import static org.mockito.Matchers.eq;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.flash;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.request;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.junit.Before;
 import org.junit.Ignore;
@@ -25,21 +39,21 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.MediaType;
 import org.springframework.mail.MailSendException;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
+import org.springframework.web.multipart.MultipartFile;
 
 import fr.bougly.builder.bean.AccountDtoBuilder;
 import fr.bougly.builder.model.AdministratorBuilder;
 import fr.bougly.exception.StudentNumberExistException;
 import fr.bougly.exception.UserExistException;
-import fr.bougly.model.Administrator;
-import fr.bougly.model.Responsible;
 import fr.bougly.model.Student;
-import fr.bougly.model.Teacher;
 import fr.bougly.model.UserAccount;
 import fr.bougly.model.enumeration.RoleAccountEnum;
 import fr.bougly.model.security.OnRegistrationCompleteEvent;
@@ -131,11 +145,10 @@ public class AdministratorControllerTest {
 		String role = RoleAccountEnum.Student.toString();
 		AccountDto compteDto = new AccountDtoBuilder().withMail(mail).withPassword(password).withLastName(lastName)
 				.withFirstName(firstName).withStudentNumber(studentNumber).build();
-		Student etudiant = new Student(compteDto);
 
-		Mockito.when(accountService.saveNewUserAccount(any(AccountDto.class))).thenReturn(etudiant);
+		doNothing().when(accountService).saveUserAccountAndPublishEventRegistration(any(AccountDto.class),
+				any(HttpServletRequest.class));
 		doNothing().when(eventPublisher).publishEvent(any(OnRegistrationCompleteEvent.class));
-		doNothing().when(registrationListener).onApplicationEvent(any(OnRegistrationCompleteEvent.class));
 
 		// GIVEN
 		this.mockMvc
@@ -145,8 +158,8 @@ public class AdministratorControllerTest {
 				.andExpect(status().isFound())
 				.andExpect(redirectedUrl(URL_CONTROLLEUR_ADMIN + AdministratorController.URL_MANAGE_ACCOUNT));
 
-		Mockito.verify(accountService).saveNewUserAccount(eq(compteDto));
-		Mockito.verify(registrationListener).onApplicationEvent(any(OnRegistrationCompleteEvent.class));
+		Mockito.verify(accountService).saveUserAccountAndPublishEventRegistration(eq(compteDto),
+				any(HttpServletRequest.class));
 	}
 
 	@Test
@@ -160,11 +173,10 @@ public class AdministratorControllerTest {
 		String role = RoleAccountEnum.Administrator.toString();
 		AccountDto compteDto = new AccountDtoBuilder().withMail(mail).withPassword(password).withLastName(lastName)
 				.withFirstName(firstName).build();
-		Administrator admin = new Administrator(compteDto);
 
-		Mockito.when(accountService.saveNewUserAccount(any(AccountDto.class))).thenReturn(admin);
+		doNothing().when(accountService).saveUserAccountAndPublishEventRegistration(any(AccountDto.class),
+				any(HttpServletRequest.class));
 		doNothing().when(eventPublisher).publishEvent(any(ApplicationEventPublisher.class));
-		doNothing().when(registrationListener).onApplicationEvent(any(OnRegistrationCompleteEvent.class));
 
 		// GIVEN
 		this.mockMvc
@@ -174,8 +186,8 @@ public class AdministratorControllerTest {
 				.andExpect(status().isFound())
 				.andExpect(redirectedUrl(URL_CONTROLLEUR_ADMIN + AdministratorController.URL_MANAGE_ACCOUNT));
 
-		Mockito.verify(accountService).saveNewUserAccount(eq(compteDto));
-		Mockito.verify(registrationListener).onApplicationEvent(any(OnRegistrationCompleteEvent.class));
+		Mockito.verify(accountService).saveUserAccountAndPublishEventRegistration(eq(compteDto),
+				any(HttpServletRequest.class));
 	}
 
 	@Test
@@ -190,11 +202,10 @@ public class AdministratorControllerTest {
 		String role = RoleAccountEnum.Teacher.toString();
 		AccountDto compteDto = new AccountDtoBuilder().withMail(mail).withPassword(password).withLastName(lastName)
 				.withFirstName(firstName).build();
-		Teacher enseignant = new Teacher(compteDto);
 
-		Mockito.when(accountService.saveNewUserAccount(any(AccountDto.class))).thenReturn(enseignant);
+		doNothing().when(accountService).saveUserAccountAndPublishEventRegistration(any(AccountDto.class),
+				any(HttpServletRequest.class));
 		doNothing().when(eventPublisher).publishEvent(any(ApplicationEventPublisher.class));
-		doNothing().when(registrationListener).onApplicationEvent(any(OnRegistrationCompleteEvent.class));
 
 		// GIVEN
 		this.mockMvc
@@ -204,8 +215,8 @@ public class AdministratorControllerTest {
 				.andExpect(status().isFound())
 				.andExpect(redirectedUrl(URL_CONTROLLEUR_ADMIN + AdministratorController.URL_MANAGE_ACCOUNT));
 
-		Mockito.verify(accountService).saveNewUserAccount(eq(compteDto));
-		Mockito.verify(registrationListener).onApplicationEvent(any(OnRegistrationCompleteEvent.class));
+		Mockito.verify(accountService).saveUserAccountAndPublishEventRegistration(eq(compteDto),
+				any(HttpServletRequest.class));
 	}
 
 	@Test
@@ -219,10 +230,9 @@ public class AdministratorControllerTest {
 		String role = RoleAccountEnum.Responsible.toString();
 		AccountDto compteDto = new AccountDtoBuilder().withMail(mail).withPassword(password).withLastName(lastName)
 				.withFirstName(firstName).build();
-		Responsible responsable = new Responsible(compteDto);
 
-		Mockito.when(accountService.saveNewUserAccount(any(AccountDto.class))).thenReturn(responsable);
-		doNothing().when(registrationListener).onApplicationEvent(any(OnRegistrationCompleteEvent.class));
+		doNothing().when(accountService).saveUserAccountAndPublishEventRegistration(any(AccountDto.class),
+				any(HttpServletRequest.class));
 
 		// GIVEN
 		this.mockMvc
@@ -232,8 +242,8 @@ public class AdministratorControllerTest {
 				.andExpect(status().isFound())
 				.andExpect(redirectedUrl(URL_CONTROLLEUR_ADMIN + AdministratorController.URL_MANAGE_ACCOUNT));
 
-		Mockito.verify(accountService).saveNewUserAccount(eq(compteDto));
-		Mockito.verify(registrationListener).onApplicationEvent(any(OnRegistrationCompleteEvent.class));
+		Mockito.verify(accountService).saveUserAccountAndPublishEventRegistration(eq(compteDto),
+				any(HttpServletRequest.class));
 	}
 
 	@Test
@@ -249,7 +259,8 @@ public class AdministratorControllerTest {
 		AccountDto compteDto = new AccountDtoBuilder().withMail(mail).withPassword(password).withLastName(lastName)
 				.withFirstName(firstName).withStudentNumber(studentNumber).build();
 
-		doThrow(UserExistException.class).when(accountService).saveNewUserAccount(any(AccountDto.class));
+		doThrow(UserExistException.class).when(accountService)
+				.saveUserAccountAndPublishEventRegistration(any(AccountDto.class), any(HttpServletRequest.class));
 
 		// GIVEN
 		this.mockMvc
@@ -259,7 +270,8 @@ public class AdministratorControllerTest {
 				.andExpect(status().isFound()).andExpect(flash().attributeExists("mail")).andExpect(redirectedUrl(
 						URL_CONTROLLEUR_ADMIN + AdministratorController.URL_CREATE_ACCOUNT + "?error=true"));
 
-		Mockito.verify(accountService).saveNewUserAccount(eq(compteDto));
+		Mockito.verify(accountService).saveUserAccountAndPublishEventRegistration(eq(compteDto),
+				any(HttpServletRequest.class));
 	}
 
 	@Test
@@ -275,7 +287,8 @@ public class AdministratorControllerTest {
 		AccountDto compteDto = new AccountDtoBuilder().withMail(mail).withPassword(password).withLastName(lastName)
 				.withFirstName(firstName).withStudentNumber(studentNumber).build();
 
-		doThrow(StudentNumberExistException.class).when(accountService).saveNewUserAccount(any(AccountDto.class));
+		doThrow(StudentNumberExistException.class).when(accountService)
+				.saveUserAccountAndPublishEventRegistration(any(AccountDto.class), any(HttpServletRequest.class));
 
 		// GIVEN
 		this.mockMvc
@@ -286,7 +299,8 @@ public class AdministratorControllerTest {
 				.andExpect(redirectedUrl(
 						URL_CONTROLLEUR_ADMIN + AdministratorController.URL_CREATE_ACCOUNT + "?error=true"));
 
-		Mockito.verify(accountService).saveNewUserAccount(eq(compteDto));
+		Mockito.verify(accountService).saveUserAccountAndPublishEventRegistration(eq(compteDto),
+				any(HttpServletRequest.class));
 	}
 
 	@Test(expected = MailSendException.class)
@@ -345,6 +359,57 @@ public class AdministratorControllerTest {
 		// THEN
 
 		verify(accountService).editAccountFromCompteBean(any(AccountDto.class));
+	}
+
+	@Test
+	@WithMockUser(authorities = "Administrator")
+	public void testHandleExcelFileUpload() throws Exception {
+		// WHEN
+		ClassLoader classloader = Thread.currentThread().getContextClassLoader();
+		MockMultipartFile excelFile = new MockMultipartFile("file",
+				classloader.getResourceAsStream("excel/listStudents.xls"));
+
+		AccountDto accountDto1 = new AccountDtoBuilder().withFirstName("Joe").withLastName("Dalton")
+				.withMail("test@test.fr").withStudentNumber("20012000").build();
+		AccountDto accountDto2 = new AccountDtoBuilder().withFirstName("Joe").withLastName("Biceps")
+				.withMail("test2@test.fr").withStudentNumber("20012001").build();
+		ArrayList<AccountDto> listAccountFromExcelFile = new ArrayList<>();
+		listAccountFromExcelFile.add(accountDto1);
+		listAccountFromExcelFile.add(accountDto2);
+
+		when(accountService.createAccountFromExcelFile(any(MultipartFile.class), any(HttpServletRequest.class)))
+				.thenReturn(listAccountFromExcelFile);
+
+		// GIVEN
+		mockMvc.perform(MockMvcRequestBuilders
+				.fileUpload(URL_CONTROLLEUR_ADMIN + AdministratorController.URL_UPLOAD_EXCEL_FILE).file(excelFile))
+				.andExpect(status().is3xxRedirection()).andExpect(request().sessionAttribute(
+						AdministratorController.LIST_ACCOUNT_FROM_EXCEL_FILE, listAccountFromExcelFile));
+
+		// THEN
+		verify(accountService).createAccountFromExcelFile(any(MultipartFile.class), any(HttpServletRequest.class));
+	}
+
+	@Test
+	@WithMockUser(authorities = "Administrator")
+	public void testShowResultPageFromExcelFile() throws Exception {
+		// WHEN
+		
+		AccountDto accountDto1 = new AccountDtoBuilder().withFirstName("Joe").withLastName("Dalton")
+				.withMail("test@test.fr").withStudentNumber("20012000").build();
+		AccountDto accountDto2 = new AccountDtoBuilder().withFirstName("Joe").withLastName("Biceps")
+				.withMail("test2@test.fr").withStudentNumber("20012001").build();
+		ArrayList<AccountDto> listAccountFromExcelFile = new ArrayList<>();
+		listAccountFromExcelFile.add(accountDto1);
+		listAccountFromExcelFile.add(accountDto2);
+	
+		// GIVEN
+		mockMvc.perform(get(URL_CONTROLLEUR_ADMIN + AdministratorController.URL_UPLOAD_EXCEL_FILE).sessionAttr(AdministratorController.LIST_ACCOUNT_FROM_EXCEL_FILE, listAccountFromExcelFile))
+				.andExpect(status().isOk())
+				.andExpect(model().attributeExists(AdministratorController.LIST_ACCOUNT_FROM_EXCEL_FILE))
+				.andExpect(view().name("resultatCreationComptes"));
+	
+		// THEN
 	}
 
 	private Page<UserAccount> buildUserPage() {

@@ -13,7 +13,8 @@
 
 <body>
 
-    <main>
+    	<div th:replace="/include/preloader :: preloader"></div>
+    <main id="content">
         <div class="container">
         <div class="row">
 	        <div class="col s12 l12">
@@ -56,6 +57,8 @@
         <div th:replace="/include/footer :: footer"></div>
     </footer>
     <script type="text/javascript" th:src="@{/js/lib/formChecker.js}"></script>
+    <!-- Should be at the end of scripts -->
+    <div th:replace="/include/preloader-script :: preloader-script"></div>
 </body>
 
 </html>

@@ -4,10 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
-import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.data.domain.Page;
 import org.springframework.mail.MailSendException;
 import org.springframework.stereotype.Controller;
@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -25,7 +26,6 @@ import fr.bougly.exception.StudentNumberExistException;
 import fr.bougly.exception.UserExistException;
 import fr.bougly.model.UserAccount;
 import fr.bougly.model.enumeration.RoleAccountEnum;
-import fr.bougly.model.security.OnRegistrationCompleteEvent;
 import fr.bougly.service.AccountService;
 import fr.bougly.service.helper.MapperBeanUtil;
 import fr.bougly.web.dtos.AccountDto;
@@ -34,17 +34,16 @@ import fr.bougly.web.dtos.AccountDto;
 @RequestMapping(value = "/administrateur")
 public class AdministratorController {
 
+	public static final String LIST_ACCOUNT_FROM_EXCEL_FILE = "listAccountFromExcelFile";
 	private static final String URL_ADMINISTRATOR_CONTROLLER = "/administrateur";
 	public static final String URL_MANAGE_ACCOUNT = "/gestionCompte.html";
 	public static final String URL_CREATE_ACCOUNT = "/creerCompte.html";
 	public static final String URL_DELETE_ACCOUNT = "/supprimerCompte.html";
 	public static final String URL_EDIT_ACCOUNT = "/editerCompte.html";
+	public static final String URL_UPLOAD_EXCEL_FILE = "/uploadExcel.html";
 
 	@Autowired
 	private AccountService accountService;
-
-	@Autowired
-	private ApplicationEventPublisher eventPublisher;
 
 	@RequestMapping(value = URL_MANAGE_ACCOUNT, method = RequestMethod.GET)
 	public ModelAndView showPageManageAccount(@RequestParam(defaultValue = "1", required = true) Integer pageNumber) {
@@ -90,11 +89,8 @@ public class AdministratorController {
 	@RequestMapping(value = URL_CREATE_ACCOUNT, method = RequestMethod.POST)
 	public String createAccountFromDtoData(@ModelAttribute(value = "accountDto") AccountDto accountDto,
 			HttpServletRequest request, RedirectAttributes redirectAttributes) throws Exception {
-		UserAccount savedAccount = null;
 		try {
-			savedAccount = accountService.saveNewUserAccount(accountDto);
-			String appUrl = request.getContextPath();
-			eventPublisher.publishEvent(new OnRegistrationCompleteEvent(savedAccount, request.getLocale(), appUrl));
+			accountService.saveUserAccountAndPublishEventRegistration(accountDto, request);
 			return "redirect:" + URL_ADMINISTRATOR_CONTROLLER + URL_MANAGE_ACCOUNT;
 		} catch (UserExistException e) {
 			redirectAttributes.addFlashAttribute("mail", accountDto.getMail());
@@ -106,6 +102,28 @@ public class AdministratorController {
 			throw new MailSendException("Error when system try to send mail to " + accountDto.getMail());
 		}
 
+	}
+
+	@RequestMapping(value = URL_UPLOAD_EXCEL_FILE, method = RequestMethod.POST)
+	public String handleExcelFileUpload(@RequestParam("file") MultipartFile accountExcelFile, HttpServletRequest request) throws Exception {
+
+		ArrayList<AccountDto> listAccountFromExcelFile = accountService.createAccountFromExcelFile(accountExcelFile,
+				request);
+		HttpSession session = request.getSession();
+		session.setAttribute(LIST_ACCOUNT_FROM_EXCEL_FILE, listAccountFromExcelFile);
+
+		return "redirect:" + URL_ADMINISTRATOR_CONTROLLER + URL_UPLOAD_EXCEL_FILE;
+	}
+
+	@RequestMapping(value = URL_UPLOAD_EXCEL_FILE, method = RequestMethod.GET)
+	public ModelAndView showResultPageFromExcelFile(HttpServletRequest request) throws Exception {
+
+		final HttpSession session = request.getSession();
+		ModelAndView model = new ModelAndView("resultatCreationComptes");
+
+		model.addObject(LIST_ACCOUNT_FROM_EXCEL_FILE, session.getAttribute(LIST_ACCOUNT_FROM_EXCEL_FILE));
+
+		return model;
 	}
 
 	@RequestMapping(value = URL_DELETE_ACCOUNT, method = RequestMethod.POST)

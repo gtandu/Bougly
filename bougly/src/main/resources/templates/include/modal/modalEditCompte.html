@@ -2,7 +2,7 @@
 <div th:fragment="modalEditCompte" id="modalEditCompte" class="modal">
     <div class="modal-content">
         <h4>Editer</h4>
-        <form action="/" id="formEditCompte">
+        <form id="formEditCompte">
             <div class="row">
             	<input id="roleInput" type="hidden" name="role" value=""/>
                 <div class="input-field col s6">
@@ -11,16 +11,16 @@
                     <label class ="active" for="email" data-error="Erreur" data-success="Valide">Mail <span class="required"></span></label>
                 </div>
                 <div class="input-field col s6">
-                    <input id="nom" name="nom" class="validate" placeholder="Ex : Doe" type="text" pattern="[\w'-]+" required="true" />
-                    <label for="nom" data-error="Erreur" data-success="Valide">Nom <span class="required">*</span></label>
+                    <input id="lastName" name="lastName" placeholder="Ex : Doe" type="text" />
+                    <label for="nom">Nom <span class="required">*</span></label>
                 </div>
                 <div class="input-field col s6">
-                    <input id="prenom" name="prenom" class="validate" placeholder="Ex : John" type="text" pattern="[\w'-]+" required="true" />
-                    <label for="prenom" data-error="Erreur" data-success="Valide">Prenom <span class="required">*</span></label>
+                    <input id="firstName" name="firstName" placeholder="Ex : John" type="text"/>
+                    <label for="prenom">Prenom <span class="required">*</span></label>
                 </div>
                 <div id="inputNumEtu" class="input-field col s6">
-                    <input id="numeroEtudiant" name="numeroEtudiant" class="validate" placeholder="Ex : 20172345" type="text" pattern="[0-9]{8}" required="true" />
-                    <label for="numeroEtudiant" data-error="Erreur" data-success="Valide">Numero Ã©tudiant <span class="required">*</span></label>
+                    <input id="studenNumber" name="studenNumber" placeholder="Ex : 20172345" type="text"/>
+                    <label for="numeroEtudiant">Numero étudiant <span class="required">*</span></label>
                 </div>
             </div>
             <div class="modal-footer">
