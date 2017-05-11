@@ -88,7 +88,7 @@ function validateForm(form, functionCallBackValidate) {
 			}
 			else
 			{
-				form.submit();
+				form.unbind().submit();
 			}
 		  }
 	});
