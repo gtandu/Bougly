@@ -28,24 +28,24 @@ public class RegistrationListener implements ApplicationListener<OnRegistrationC
 
 	@Autowired
 	private MailContentBuilder mailContentBuilder;
-	
-	@Autowired 
+
+	@Autowired
 	private MessageSource messages;
 
 	@Override
-	public void onApplicationEvent(OnRegistrationCompleteEvent event) {
+	public void onApplicationEvent(OnRegistrationCompleteEvent event) throws MailException {
 		this.confirmRegistration(event);
 	}
 
 	private void confirmRegistration(OnRegistrationCompleteEvent event) {
 		UserAccount compte = event.getAccount();
-		
+
 		String token = generateToken(compte);
 
 		String recipientAddress = compte.getMail();
 		String subject = messages.getMessage("mail.subject.confirmationCompte", null, null);
-		String confirmationUrl = "http://localhost:8080" + event.getAppUrl() + ManageAccountController.URL_CONFIRM_ACCOUNT+ "?token=" + token;
-
+		String confirmationUrl = "http://localhost:8080" + event.getAppUrl()
+				+ ManageAccountController.URL_CONFIRM_ACCOUNT + "?token=" + token;
 
 		MimeMessagePreparator messagePreparator = mimeMessage -> {
 			MimeMessageHelper messageHelper = new MimeMessageHelper(mimeMessage);
@@ -54,7 +54,7 @@ public class RegistrationListener implements ApplicationListener<OnRegistrationC
 			String content = mailContentBuilder.buildConfirmationAccount(confirmationUrl);
 			messageHelper.setText(content, true);
 		};
-		
+
 		try {
 			mailSender.send(messagePreparator);
 		} catch (MailException e) {

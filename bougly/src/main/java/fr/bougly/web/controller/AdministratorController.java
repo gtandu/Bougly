@@ -9,7 +9,6 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.data.domain.Page;
-import org.springframework.mail.MailSendException;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
@@ -85,7 +84,6 @@ public class AdministratorController {
 
 	}
 
-	@SuppressWarnings({ "rawtypes", "finally" })
 	@RequestMapping(value = URL_CREATE_ACCOUNT, method = RequestMethod.POST)
 	public String createAccountFromDtoData(@ModelAttribute(value = "accountDto") AccountDto accountDto,
 			HttpServletRequest request, RedirectAttributes redirectAttributes) throws Exception {
@@ -98,14 +96,13 @@ public class AdministratorController {
 		} catch (StudentNumberExistException e) {
 			redirectAttributes.addFlashAttribute("studentNumber", accountDto.getStudentNumber());
 			return "redirect:" + URL_ADMINISTRATOR_CONTROLLER + URL_CREATE_ACCOUNT + "?error=true";
-		} catch (MailSendException me) {
-			throw new MailSendException("Error when system try to send mail to " + accountDto.getMail());
 		}
 
 	}
 
 	@RequestMapping(value = URL_UPLOAD_EXCEL_FILE, method = RequestMethod.POST)
-	public String handleExcelFileUpload(@RequestParam("file") MultipartFile accountExcelFile, HttpServletRequest request) throws Exception {
+	public String handleExcelFileUpload(@RequestParam("file") MultipartFile accountExcelFile,
+			HttpServletRequest request) throws Exception {
 
 		ArrayList<AccountDto> listAccountFromExcelFile = accountService.createAccountFromExcelFile(accountExcelFile,
 				request);

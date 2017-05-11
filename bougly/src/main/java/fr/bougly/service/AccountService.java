@@ -50,7 +50,7 @@ public class AccountService {
 
 	@Autowired
 	private ExcelReader excelReader;
-	
+
 	@Autowired
 	private ApplicationEventPublisher eventPublisher;
 
@@ -81,19 +81,22 @@ public class AccountService {
 
 		return saveRegisteredUserByAccountAndRole(account, role);
 	}
-	
+
 	@SuppressWarnings("rawtypes")
 	public UserAccount saveNewUserAccountFromExcelFile(AccountDto accountDto) throws Exception {
 
 		if (emailExist(accountDto.getMail())) {
-			String errorMessage = String.format("Un compte avec l'adresse email %s existe déjà.", accountDto.getMail());
+			// TODO LOG
+			// String errorMessage = String.format("Un compte avec l'adresse
+			// email %s existe déjà.", accountDto.getMail());
 			accountDto.setErrorExcel(true);
 			return null;
 		}
 
 		if (studentNumberExist(accountDto.getStudentNumber())) {
-			String errorMessage = String.format("Un compte avec le numero étudiant %s existe déjà.",
-					accountDto.getStudentNumber());
+			// TODO LOG
+			// String errorMessage = String.format("Un compte avec le numero
+			// étudiant %s existe déjà.",accountDto.getStudentNumber());
 			accountDto.setErrorExcel(true);
 			return null;
 		}
@@ -186,19 +189,19 @@ public class AccountService {
 		return listAccountFromExcelFile;
 	}
 
+	@Transactional
 	public void saveUserAccountAndPublishEventRegistration(AccountDto accountDto, HttpServletRequest request)
 			throws Exception {
 		UserAccount savedAccount = saveNewUserAccount(accountDto);
 		String appUrl = request.getContextPath();
 		eventPublisher.publishEvent(new OnRegistrationCompleteEvent(savedAccount, request.getLocale(), appUrl));
 	}
-	
-	public void saveUserAccountAndPublishEventRegistrationFromExcelFile(AccountDto accountDto, HttpServletRequest request)
-			throws Exception {
+
+	public void saveUserAccountAndPublishEventRegistrationFromExcelFile(AccountDto accountDto,
+			HttpServletRequest request) throws Exception {
 		UserAccount savedAccount = saveNewUserAccountFromExcelFile(accountDto);
 		String appUrl = request.getContextPath();
-		if(savedAccount != null)
-		{
+		if (savedAccount != null) {
 			eventPublisher.publishEvent(new OnRegistrationCompleteEvent(savedAccount, request.getLocale(), appUrl));
 		}
 	}
@@ -206,19 +209,13 @@ public class AccountService {
 	@VisibleForTesting
 	protected boolean emailExist(String email) {
 		UserAccount account = accountRepository.findByMail(email);
-		if (account != null) {
-			return true;
-		}
-		return false;
+		return account != null ? true : false;
 	}
 
 	@VisibleForTesting
 	protected boolean studentNumberExist(String studentNumber) {
 		Student account = accountRepository.findByStudentNumber(studentNumber);
-		if (account != null) {
-			return true;
-		}
-		return false;
+		return account != null ? true : false;
 	}
 
 }

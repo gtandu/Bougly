@@ -303,32 +303,6 @@ public class AdministratorControllerTest {
 				any(HttpServletRequest.class));
 	}
 
-	@Test(expected = MailSendException.class)
-	@Ignore
-	@WithMockUser(authorities = "Administrator")
-	public void testCreateAccountStudentFromDataAndThrowErrorMailSendException() throws Exception {
-		// WHEN
-		String mail = "test@mail.fr";
-		String password = "toto";
-		String lastName = "Dalton";
-		String firstName = "Joe";
-		String studentNumber = "20171000";
-		String role = RoleAccountEnum.Student.toString();
-		AccountDto compteDto = new AccountDtoBuilder().withMail(mail).withPassword(password).withLastName(lastName)
-				.withFirstName(firstName).withStudentNumber(studentNumber).build();
-		Student etudiant = new Student(compteDto);
-
-		Mockito.when(accountService.saveNewUserAccount(any(AccountDto.class))).thenReturn(etudiant);
-		doThrow(MailSendException.class).when(eventPublisher).publishEvent(any(OnRegistrationCompleteEvent.class));
-
-		// GIVEN
-		this.mockMvc.perform(post(URL_CONTROLLEUR_ADMIN + AdministratorController.URL_CREATE_ACCOUNT)
-				.accept(MediaType.TEXT_HTML).param("mail", mail).param("lastName", lastName)
-				.param("firstName", firstName).param("studentNumber", studentNumber).param("role", role));
-
-		Mockito.verify(accountService).saveNewUserAccount(eq(compteDto));
-	}
-
 	@Test
 	@WithMockUser(authorities = "Administrator")
 	public void testDeleteAccount() throws Exception {
@@ -394,7 +368,7 @@ public class AdministratorControllerTest {
 	@WithMockUser(authorities = "Administrator")
 	public void testShowResultPageFromExcelFile() throws Exception {
 		// WHEN
-		
+
 		AccountDto accountDto1 = new AccountDtoBuilder().withFirstName("Joe").withLastName("Dalton")
 				.withMail("test@test.fr").withStudentNumber("20012000").build();
 		AccountDto accountDto2 = new AccountDtoBuilder().withFirstName("Joe").withLastName("Biceps")
@@ -402,13 +376,14 @@ public class AdministratorControllerTest {
 		ArrayList<AccountDto> listAccountFromExcelFile = new ArrayList<>();
 		listAccountFromExcelFile.add(accountDto1);
 		listAccountFromExcelFile.add(accountDto2);
-	
+
 		// GIVEN
-		mockMvc.perform(get(URL_CONTROLLEUR_ADMIN + AdministratorController.URL_UPLOAD_EXCEL_FILE).sessionAttr(AdministratorController.LIST_ACCOUNT_FROM_EXCEL_FILE, listAccountFromExcelFile))
+		mockMvc.perform(get(URL_CONTROLLEUR_ADMIN + AdministratorController.URL_UPLOAD_EXCEL_FILE)
+				.sessionAttr(AdministratorController.LIST_ACCOUNT_FROM_EXCEL_FILE, listAccountFromExcelFile))
 				.andExpect(status().isOk())
 				.andExpect(model().attributeExists(AdministratorController.LIST_ACCOUNT_FROM_EXCEL_FILE))
 				.andExpect(view().name("resultatCreationComptes"));
-	
+
 		// THEN
 	}
 
