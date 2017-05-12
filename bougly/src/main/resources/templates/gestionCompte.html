@@ -27,6 +27,7 @@
                                 <th>Nom</th>
                                 <th>Prenom</th>
                                 <th>Numero étudiant</th>
+                                <th>Etat du compte</th>
                             </tr>
                         </thead>
 
@@ -37,6 +38,10 @@
                                 <td th:attr="data-nom=${accountDto.lastName}" th:text="${accountDto.lastName}">Dalton</td>
                                 <td th:attr="data-prenom=${accountDto.firstName}" th:text="${accountDto.firstName}">Joe</td>
                                 <td th:attr="data-numero_etudiant=${accountDto.studentNumber}" th:text="${accountDto.studentNumber}">20172000</td>
+                                <th:block th:switch="${accountDto.accountStatus}">
+                                    <td th:case="false"><i class="material-icons accountStatus-confirm">report_problem</i></td>
+                                    <td th:case="true"><i class="material-icons accountStatus-ok">verified_user</i></td>
+                                </th:block> 
                                 <td><a href="#modalEditCompte"><i class="small material-icons editIcon">edit</i></a></td>
                                 <td><i class="small material-icons deleteIcon" th:attr="data-mail=${accountDto.mail}">clear</i></td>
                                 <td></td>
