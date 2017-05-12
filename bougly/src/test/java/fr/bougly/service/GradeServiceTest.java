@@ -1,12 +1,10 @@
 package fr.bougly.service;
 
-import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.anyLong;
-import static org.mockito.Matchers.eq;
-import static org.mockito.Mockito.doNothing;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Matchers.*;
+import static org.mockito.Mockito.*;
+
+import java.util.ArrayList;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -15,6 +13,7 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import fr.bougly.builder.bean.GradeDtoBuilder;
+import fr.bougly.builder.model.GradeBuilder;
 import fr.bougly.model.Grade;
 import fr.bougly.model.enumeration.FormationEnum;
 import fr.bougly.model.enumeration.LevelEnum;
@@ -22,7 +21,7 @@ import fr.bougly.repository.GradeRepository;
 import fr.bougly.web.dtos.GradeDto;
 
 @RunWith(MockitoJUnitRunner.class)
-public class ClasseServiceTest {
+public class GradeServiceTest {
 	@Mock
 	private GradeRepository gradeRepository;
 	@InjectMocks
@@ -72,8 +71,24 @@ public class ClasseServiceTest {
 		verify(grade).setName(eq(gradeDto.getName()));
 		verify(grade).setFormation(eq(gradeDto.getFormation()));
 		verify(grade).setLevel(eq(gradeDto.getLevel()));
-		verify(grade).setAverage(eq(gradeDto.getAverage()));
 		verify(gradeRepository).save(any(Grade.class));
+	}
+
+	@Test
+	public void testFindAllGrade() throws Exception {
+				// WHEN
+				ArrayList<Grade> listGrades = new ArrayList<>();
+				Grade g1 = new GradeBuilder().withId(5).withName("M1MIAA").withFormation("APPRENTISSAGE").withLevel("M1").withAverage(10).build();
+				Grade g2 = new GradeBuilder().withId(6).withName("M2MIAI").withFormation("INITIAL").withLevel("L3").withAverage(12).build();
+				listGrades.add(g1);
+				listGrades.add(g2);
+				when(gradeRepository.findAll()).thenReturn(listGrades);
+
+				// GIVEN
+				gradeService.findAllGrade();
+
+				// THEN
+				verify(gradeRepository).findAll();
 	}
 
 }
