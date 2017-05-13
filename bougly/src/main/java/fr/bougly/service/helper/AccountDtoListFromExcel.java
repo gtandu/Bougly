@@ -30,5 +30,4 @@ public class AccountDtoListFromExcel {
 	public void setListAccountDto(ArrayList listAccountDto) {
 		this.listAccountDto = listAccountDto;
 	}
-
 }

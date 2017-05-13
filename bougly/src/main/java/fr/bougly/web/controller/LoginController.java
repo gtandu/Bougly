@@ -6,12 +6,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 import fr.bougly.model.Administrator;
-import fr.bougly.model.Classe;
+import fr.bougly.model.Responsible;
 import fr.bougly.model.UserAccount;
-import fr.bougly.model.enumeration.FormationEnum;
-import fr.bougly.model.enumeration.NiveauEnum;
 import fr.bougly.model.enumeration.RoleAccountEnum;
-import fr.bougly.service.ClasseService;
+import fr.bougly.service.GradeService;
 import fr.bougly.service.AccountService;
 
 @Controller
@@ -24,7 +22,7 @@ public class LoginController {
 	private AccountService accountService;
 	
 	@Autowired
-	private ClasseService classService;
+	private GradeService gradeService;
 	
 	@RequestMapping(value = URL_LOGIN_PAGE, method = RequestMethod.GET)
 	public ModelAndView showLoginPage() throws Exception {
@@ -42,29 +40,12 @@ public class LoginController {
 		UserAccount admin = new Administrator("admin@hotmail.fr", "adm", "MAPELLA", "Corentin");
 		accountService.saveRegisteredUserByAccountAndRole(admin, RoleAccountEnum.Administrator.toString());
 
-		/**
-		 * // COMPTE ETUDIANT CompteUtilisateur etudiant = new
-		 * Etudiant("etudiant@hotmail.fr","etu","TANDU","Glodie","21/05/1994","20156351");
-		 * //etudiant = etudiantService.saveUser(etudiant);
-		 * 
-		 * //COMPTE ENSEIGNANT CompteUtilisateur enseignant = new
-		 * Enseignant("enseignant@hotmail.fr","ens","FINN","José","31/05/1994");
-		 * //enseignant = enseignantService.saveUser(enseignant);
-		 * 
-		 * //COMPTE RESPONSABLE CompteUtilisateur responsable = new
-		 * Responsable("responsable@hotmail.fr","res","ONYME","Anne","21/05/1994");
-		 * 
-		 * 
-		 **/
+		//COMPTE RESPONSABLE
+		UserAccount responsible = new Responsible("mapella.corentin@gmail.com","res","MAPELLA","Corentin");
+		accountService.saveRegisteredUserByAccountAndRole(responsible, RoleAccountEnum.Responsible.toString());
 
 		// CLASSE
-		Classe classe = new Classe("MIAGE", NiveauEnum.M1.toString(), FormationEnum.APPRENTISSAGE.toString());
-		classService.saveClasse(classe);
-
-		/**
-		 * //FILIERE Filiere miage = new Filiere("Méthodes informatiques
-		 * appliquées à la gestion des entreprises", 10);
-		 * FiliereRepository.save(miage);
-		 **/
+		//Classe classe = new Classe("MIAGE", NiveauEnum.M1.toString(), FormationEnum.APPRENTISSAGE.toString());
+		//classService.saveClasse(classe);
 	}
 }

@@ -1,8 +1,8 @@
 $(function(){
 	deleteClasse();
 	getDataFromCurrentRow();
-	insertDataFromTD();
     $('.modal').modal();
+    validateForm(insertDataFromTD);
 })
 
  $(document).ready(function() {
@@ -17,6 +17,7 @@ function deleteClasse(){
 		
 		$.post(url, function(id, status){
 			ligne.remove();
+			Materialize.toast('Classe supprimée !', 3000, 'rounded');
 			});
 		}
 	)
@@ -27,50 +28,42 @@ function getDataFromCurrentRow(){
 		
 		var ligne = $(this).parent().parent().parent();
 		
-		var id = ligne.find("[data-id]").data("id");
-		var nom = ligne.find("[data-nom]").data("nom");
-		var formation = ligne.find("[data-formation]").data("formation");
-		var niveau = ligne.find("[data-niveau]").data("niveau");
-		var moyenne = ligne.find("[data-moyenne]").data("moyenne");
+		var id = ligne.find("[data-id]").attr("data-id");
+		var name = ligne.find("[data-name]").attr("data-name");
+		var formation = ligne.find("[data-formation]").attr("data-formation");
+		var level = ligne.find("[data-level]").attr("data-level");
 		
 		$("#input_id").val(id);
-		$("#input_nom").val(nom);
-		$("#select_niveau").find('div > input').val(niveau);
+		$("#input_name").val(name);
+		$("#select_level").find('div > input').val(level);
 		$("#select_formation").find('div > input').val(formation);
-		$("#input_moyenne").val(moyenne);
+		
 		
 		});
 	}
 
 function insertDataFromTD(){
-	$("#formEditClasse").submit(function(event){
-		
-		event.preventDefault();
 		
 		var id = $("#input_id").val();
-		var nom = $("#input_nom").val();
-		var niveau = $("#select_niveau").find('div > input').val();
+		var name = $("#input_name").val();
+		var level = $("#select_level").find('div > input').val();
 		var formation = $("#select_formation").find('div > input').val();
-		var moyenne = $("#input_moyenne").val();
 		
-		var compteBean = {
+		var gradeDto = {
 				"id" : id,
-				"nom": nom,
+				"name": name,
 				"formation": formation,
-				"niveau" : niveau,
-				"moyenne": moyenne
+				"level" : level,
 		}
 		
 		var url = "/responsable/modifierClasse.html";
-		$.post(url,compteBean,function(){
+		$.post(url,gradeDto,function(){
 			$('#modalEditClasse').modal('close');
 
-			var ligne = $('tbody').find('[data-id="'+compteBean.id+'"]').parents('tr');
+			var ligne = $('tbody').find('[data-id="'+gradeDto.id+'"]').parents('tr');
 			
-			ligne.find('[data-nom]').attr("data-nom",compteBean.nom).text(compteBean.nom);
-			ligne.find('[data-formation]').attr("data-formation",compteBean.formation).text(compteBean.formation);
-			ligne.find('[data-niveau]').attr("data-niveau",compteBean.niveau).text(compteBean.niveau);
-			ligne.find('[data-moyenne]').attr("data-moyenne",compteBean.moyenne).text(compteBean.moyenne);
-		});
+			ligne.find('[data-name]').attr("data-name",gradeDto.name).text(gradeDto.name);
+			ligne.find('[data-formation]').attr("data-formation",gradeDto.formation).text(gradeDto.formation);
+			ligne.find('[data-level]').attr("data-level",gradeDto.level).text(gradeDto.level);
 		});
 	}

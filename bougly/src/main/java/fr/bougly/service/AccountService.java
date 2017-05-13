@@ -145,6 +145,10 @@ public class AccountService {
 		PageRequest request = new PageRequest(pageNumber - 1, PAGE_SIZE, Sort.Direction.ASC, "mail");
 		return accountRepository.findAll(request);
 	}
+	
+	public UserAccount findByMail(String mail){
+		return accountRepository.findByMail(mail);
+	}
 
 	public void deleteAccountByMail(String mail) {
 		UserAccount accountToDelete = accountRepository.findByMail(mail);

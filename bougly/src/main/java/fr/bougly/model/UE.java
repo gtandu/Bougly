@@ -7,8 +7,8 @@ public class UE {
 	private String nom;
 	private int coefficientUE;
 	private int seuilCompensation;
-	private Matiere matiere;
-	private ArrayList<Semestre> lesSemestres;
+	private Subject subject;
+	private ArrayList<Semester> lesSemestres;
 
 	public UE(){}
 	
@@ -50,22 +50,22 @@ public class UE {
 	}
 
 
-	public Matiere getMatiere() {
-		return matiere;
+	public Subject getMatiere() {
+		return subject;
 	}
 
 
-	public void setMatiere(Matiere matiere) {
-		this.matiere = matiere;
+	public void setMatiere(Subject subject) {
+		this.subject = subject;
 	}
 
 
-	public ArrayList<Semestre> getLesSemestres() {
+	public ArrayList<Semester> getLesSemestres() {
 		return lesSemestres;
 	}
 
 
-	public void setLesSemestres(ArrayList<Semestre> lesSemestres) {
+	public void setLesSemestres(ArrayList<Semester> lesSemestres) {
 		this.lesSemestres = lesSemestres;
 	}
 	

@@ -11,7 +11,7 @@ import fr.bougly.web.dtos.AccountDto;
 public class Responsible extends Teacher {
 
 	private static final long serialVersionUID = 1303624143421117304L;
-	protected ArrayList<Classe> lesClasses ;
+	protected ArrayList<Grade> lesClasses ;
 	
 	public Responsible() {
 		super();
@@ -21,20 +21,20 @@ public class Responsible extends Teacher {
 		super(mail, password, lastName, firstName);
 	}
 	
-	public Responsible(String mail, String password, String lastName, String firstName, ArrayList<Classe> lesClasses) {
+	public Responsible(String mail, String password, String lastName, String firstName, ArrayList<Grade> lesClasses) {
 		super(mail, password, lastName, firstName);
-		lesClasses = new ArrayList<Classe> ();
+		lesClasses = new ArrayList<Grade> ();
 	}
 
 	public Responsible(AccountDto accountDto) throws ParseException {
 		super(accountDto);
 	}
 
-	public ArrayList<Classe> getLesClasses() {
+	public ArrayList<Grade> getLesClasses() {
 		return lesClasses;
 	}
 
-	public void setLesClasses(ArrayList<Classe> lesClasses) {
+	public void setLesClasses(ArrayList<Grade> lesClasses) {
 		this.lesClasses = lesClasses;
 	}
 	

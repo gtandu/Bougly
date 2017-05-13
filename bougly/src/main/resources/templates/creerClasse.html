@@ -13,7 +13,7 @@
 
 <body>
     <header>
-        <div th:replace="/include/nav :: nav"></div>
+        <div th:replace="/include/responsibleNav :: responsibleNav"></div>
     </header>
 
     	<div th:replace="/include/preloader :: preloader"></div>
@@ -24,19 +24,19 @@
                 <form th:action="@{/responsable/creerClasse.html}" th:object="${classe}" method="post">
                     
                     <div class="input-field col s6">
-                            <input id="nom" placeholder="Ex : MIAGE" type="text" th:field="*{nom}" required="true"  />
-                            <label for="nom" data-error="Invalide" data-success="Valide">Nom <span class="required">*</span></label>
+                            <input id="nom" placeholder="Ex : MIAGE" name="nom_classe" type="text" th:field="*{name}"  />
+                            <label for="nom">Nom <span class="required">*</span></label>
                     </div>
 
                     <div class="input-field col s6">
-                        <select th:field="*{niveau}" required="true">
-                        <option th:each="niveau : ${listeNiveaux}" th:value="${niveau}" th:text="${niveau}"></option>
+                        <select th:field="*{level}">
+                        <option th:each="level : ${listeNiveaux}" th:value="${level}" th:text="${level}"></option>
                         </select>
                         <label>Niveau de formation</label>
                     </div>
 
                     <div class="input-field col s6">
-                        <select th:field="*{formation}" required="true">
+                        <select th:field="*{formation}">
                         <option th:each="formation : ${listeFormations}" th:value="${formation}" th:text="${formation}"></option>
                         </select>
                         <label>Type de formation</label>
@@ -44,7 +44,7 @@
 
                     <div class="row">
                         <div class="input-field col s12">
-                            <a class="waves-effect waves-light btn col s5" th:href="@{/administrateur/gestionCompte.html}">Retour</a>
+                            <a class="waves-effect waves-light btn col s5" th:href="@{/responsable/gestionClasse.html}">Retour</a>
                             <button id="submitButton" class="btn waves-effect waves-light col s5 offset-s2" type="submit">Créer la classe</button>
                         </div>
                     </div>
