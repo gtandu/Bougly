@@ -40,6 +40,7 @@ import fr.bougly.builder.model.StudentBuilder;
 import fr.bougly.exception.StudentNumberExistException;
 import fr.bougly.exception.UserExistException;
 import fr.bougly.model.Administrator;
+import fr.bougly.model.Responsible;
 import fr.bougly.model.Student;
 import fr.bougly.model.UserAccount;
 import fr.bougly.model.enumeration.RoleAccountEnum;
@@ -536,6 +537,18 @@ public class AccountServiceTest {
 				return null;
 			}
 		};
+	}
+
+	@Test
+	public void testFindByMail() throws Exception {
+		//WHEN
+		when(accountRepository.findByMail(anyString())).thenReturn(new Responsible());
+		
+		//GIVEN
+		accountService.findByMail("toto@gmail.com");
+		
+		//THEN
+		verify(accountRepository).findByMail(anyString());
 	}
 
 }
