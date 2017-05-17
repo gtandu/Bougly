@@ -1,5 +1,7 @@
 package fr.bougly.web.controller;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,18 +20,20 @@ import fr.bougly.service.AccountService;
 public class LoginController {
 
 	public static final String URL_LOGIN_PAGE = "/login.html";
-	
 
 	@Autowired
 	private AccountService accountService;
-	
+
 	@Autowired
 	private ClasseService classService;
-	
+
+	private final Logger logger = LoggerFactory.getLogger(this.getClass());
+
 	@RequestMapping(value = URL_LOGIN_PAGE, method = RequestMethod.GET)
 	public ModelAndView showLoginPage() throws Exception {
 
-		//initUser();
+		// initUser();
+		logger.info("Show login page");
 		ModelAndView model = new ModelAndView();
 		model.setViewName("login");
 
