@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 import fr.bougly.model.Administrator;
 import fr.bougly.model.Responsible;
+import fr.bougly.model.Teacher;
 import fr.bougly.model.UserAccount;
 import fr.bougly.model.enumeration.RoleAccountEnum;
 import fr.bougly.service.GradeService;
@@ -20,9 +21,6 @@ public class LoginController {
 
 	@Autowired
 	private AccountService accountService;
-	
-	@Autowired
-	private GradeService gradeService;
 	
 	@RequestMapping(value = URL_LOGIN_PAGE, method = RequestMethod.GET)
 	public ModelAndView showLoginPage() throws Exception {
@@ -44,8 +42,8 @@ public class LoginController {
 		UserAccount responsible = new Responsible("mapella.corentin@gmail.com","res","MAPELLA","Corentin");
 		accountService.saveRegisteredUserByAccountAndRole(responsible, RoleAccountEnum.Responsible.toString());
 
-		// CLASSE
-		//Classe classe = new Classe("MIAGE", NiveauEnum.M1.toString(), FormationEnum.APPRENTISSAGE.toString());
-		//classService.saveClasse(classe);
+		// COMPTE ADMIN
+		UserAccount enseignant = new Teacher("enseignant@hotmail.fr", "ens", "MAPELLA", "Corentin");
+		accountService.saveRegisteredUserByAccountAndRole(enseignant, RoleAccountEnum.Teacher.toString());
 	}
 }

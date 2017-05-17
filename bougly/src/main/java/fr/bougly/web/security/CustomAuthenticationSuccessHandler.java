@@ -31,7 +31,7 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
 			} else if (currentRole.getAuthority().equalsIgnoreCase(RoleAccountEnum.Administrator.toString())) {
 				response.sendRedirect(response.encodeURL("/administrateur/gestionCompte.html"));
 			} else if (currentRole.getAuthority().equalsIgnoreCase(RoleAccountEnum.Teacher.toString())) {
-				response.sendRedirect(response.encodeURL("/enseignant/gestionMatiere.html"));
+				response.sendRedirect(response.encodeURL("/enseignant/homePageTeacher.html"));
 			} else {
 				response.sendRedirect(response.encodeURL("/responsable/homePageResponsible.html"));
 			}
