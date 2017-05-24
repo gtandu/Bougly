@@ -1,14 +1,28 @@
 package fr.diptrack.model;
 
-import java.util.ArrayList;
+import java.util.List;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+
+@Entity
 public class UE {
-
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private long id;
 	private String nom;
-	private int coefficientUE;
+	private int coefficientUe;
 	private int seuilCompensation;
-	private Matiere matiere;
-	private ArrayList<Semestre> lesSemestres;
+	@ManyToOne(cascade = { CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH })
+	private Semestre semestre;
+
+	@OneToMany(cascade = { CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH })
+	private List<Matiere> lesMatieres;
 
 	public UE() {
 	}
@@ -16,8 +30,16 @@ public class UE {
 	public UE(String nom, int coefficientUE, int seuilCompensation) {
 		super();
 		this.nom = nom;
-		this.coefficientUE = coefficientUE;
+		this.coefficientUe = coefficientUE;
 		this.seuilCompensation = seuilCompensation;
+	}
+
+	public long getId() {
+		return id;
+	}
+
+	public void setId(long id) {
+		this.id = id;
 	}
 
 	public String getNom() {
@@ -28,12 +50,12 @@ public class UE {
 		this.nom = nom;
 	}
 
-	public int getCoefficientUE() {
-		return coefficientUE;
+	public int getCoefficientUe() {
+		return coefficientUe;
 	}
 
-	public void setCoefficientUE(int coefficientUE) {
-		this.coefficientUE = coefficientUE;
+	public void setCoefficientUe(int coefficientUE) {
+		this.coefficientUe = coefficientUE;
 	}
 
 	public int getSeuilCompensation() {
@@ -44,20 +66,20 @@ public class UE {
 		this.seuilCompensation = seuilCompensation;
 	}
 
-	public Matiere getMatiere() {
-		return matiere;
+	public Semestre getSemestre() {
+		return semestre;
 	}
 
-	public void setMatiere(Matiere matiere) {
-		this.matiere = matiere;
+	public void setSemestre(Semestre semestre) {
+		this.semestre = semestre;
 	}
 
-	public ArrayList<Semestre> getLesSemestres() {
-		return lesSemestres;
+	public List<Matiere> getLesMatieres() {
+		return lesMatieres;
 	}
 
-	public void setLesSemestres(ArrayList<Semestre> lesSemestres) {
-		this.lesSemestres = lesSemestres;
+	public void setLesMatieres(List<Matiere> lesMatieres) {
+		this.lesMatieres = lesMatieres;
 	}
 
 }

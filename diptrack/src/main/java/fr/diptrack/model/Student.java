@@ -2,8 +2,10 @@ package fr.diptrack.model;
 
 import java.text.ParseException;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
 
 import fr.diptrack.web.dtos.AccountDto;
 
@@ -18,6 +20,8 @@ public class Student extends UserAccount {
 	@Column(unique = true)
 	private String studentNumber;
 	private float average;
+	@ManyToOne(cascade = { CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH })
+	private Classe classe;
 
 	public Student() {
 		super();
@@ -47,6 +51,14 @@ public class Student extends UserAccount {
 
 	public void setAverage(float average) {
 		this.average = average;
+	}
+
+	public Classe getClasse() {
+		return classe;
+	}
+
+	public void setClasse(Classe classe) {
+		this.classe = classe;
 	}
 
 }

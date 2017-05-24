@@ -1,9 +1,15 @@
 package fr.diptrack.model;
 
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 import fr.diptrack.web.dtos.ClasseBean;
 
@@ -17,6 +23,16 @@ public class Classe {
 	private String niveau;
 	private String formation;
 	private float moyenne;
+	@ManyToOne(cascade = { CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH })
+	private Filiere filiere;
+
+	@ManyToMany(cascade = { CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST,
+			CascadeType.REFRESH }, mappedBy = "lesClasses")
+	private List<Teacher> lesEnseignants;
+
+	@OneToMany(cascade = { CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST,
+			CascadeType.REFRESH }, mappedBy = "classe")
+	private List<Student> lesEtudiants;
 
 	public Classe() {
 	}
@@ -31,6 +47,14 @@ public class Classe {
 		this.nom = classeBean.getNom();
 		this.niveau = classeBean.getNiveau();
 		this.formation = classeBean.getFormation();
+	}
+
+	public long getId() {
+		return id;
+	}
+
+	public void setId(long id) {
+		this.id = id;
 	}
 
 	public String getNom() {
@@ -64,4 +88,21 @@ public class Classe {
 	public void setMoyenne(float moyenne) {
 		this.moyenne = moyenne;
 	}
+
+	public Filiere getFiliere() {
+		return filiere;
+	}
+
+	public void setFiliere(Filiere filiere) {
+		this.filiere = filiere;
+	}
+
+	public List<Teacher> getLesEnseignants() {
+		return lesEnseignants;
+	}
+
+	public void setLesEnseignants(List<Teacher> lesEnseignants) {
+		this.lesEnseignants = lesEnseignants;
+	}
+
 }

@@ -1,41 +1,29 @@
 package fr.diptrack.model;
 
-import java.text.ParseException;
-import java.util.ArrayList;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-
-import fr.diptrack.web.dtos.AccountDto;
+import javax.persistence.OneToMany;
 
 @Entity
 public class Responsible extends Teacher {
 
 	private static final long serialVersionUID = 1303624143421117304L;
-	protected ArrayList<Classe> lesClasses;
+	@OneToMany(cascade = { CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH,
+			CascadeType.REMOVE }, mappedBy = "responsible")
+	private List<Filiere> lesFilieres;
 
 	public Responsible() {
 		super();
 	}
 
-	public Responsible(String mail, String password, String lastName, String firstName) {
-		super(mail, password, lastName, firstName);
+	public List<Filiere> getLesFilieres() {
+		return lesFilieres;
 	}
 
-	public Responsible(String mail, String password, String lastName, String firstName, ArrayList<Classe> lesClasses) {
-		super(mail, password, lastName, firstName);
-		lesClasses = new ArrayList<Classe>();
-	}
-
-	public Responsible(AccountDto accountDto) throws ParseException {
-		super(accountDto);
-	}
-
-	public ArrayList<Classe> getLesClasses() {
-		return lesClasses;
-	}
-
-	public void setLesClasses(ArrayList<Classe> lesClasses) {
-		this.lesClasses = lesClasses;
+	public void setLesFilieres(List<Filiere> lesFilieres) {
+		this.lesFilieres = lesFilieres;
 	}
 
 }

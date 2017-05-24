@@ -1,24 +1,21 @@
 package fr.diptrack.model;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+
+@Entity
 public class Matiere {
 
+	@Id
 	private String nom;
 	private String description;
+	private int ects;
 	private int coefficient;
 	private int seuilCompensation;
 	private boolean rattrapage;
-	private UE ue;
-	private RegleMCC regleMCC;
-	
-	public Matiere(){}
 
-	public Matiere(String nom, String description, int coefficient, int seuilCompensation, boolean rattrapage) {
+	public Matiere() {
 		super();
-		this.nom = nom;
-		this.description = description;
-		this.coefficient = coefficient;
-		this.seuilCompensation = seuilCompensation;
-		this.rattrapage = rattrapage;
 	}
 
 	public String getNom() {
@@ -35,6 +32,14 @@ public class Matiere {
 
 	public void setDescription(String description) {
 		this.description = description;
+	}
+
+	public int getEcts() {
+		return ects;
+	}
+
+	public void setEcts(int ects) {
+		this.ects = ects;
 	}
 
 	public int getCoefficient() {
@@ -61,20 +66,4 @@ public class Matiere {
 		this.rattrapage = rattrapage;
 	}
 
-	public UE getUe() {
-		return ue;
-	}
-
-	public void setUe(UE ue) {
-		this.ue = ue;
-	}
-
-	public RegleMCC getRegleMCC() {
-		return regleMCC;
-	}
-
-	public void setRegleMCC(RegleMCC regleMCC) {
-		this.regleMCC = regleMCC;
-	}
-	
 }
