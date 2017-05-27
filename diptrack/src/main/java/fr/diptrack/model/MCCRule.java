@@ -1,5 +1,6 @@
 package fr.diptrack.model;
 
+import javax.persistence.Entity;
 
 public class MCCRule {
 

@@ -19,27 +19,25 @@ import fr.diptrack.model.UserAccount;
 
 @Entity
 public class VerificationToken {
-	//Expire une semaine
-    private static final int EXPIRATION = 60 * 168;
- 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
-     
-    private String token;
-    
-    private boolean expired;
-   
-    @OneToOne(targetEntity = UserAccount.class, fetch = FetchType.EAGER)
-    @Cascade(CascadeType.DELETE)
-    @JoinColumn(nullable = false, name = "user_id")
-    private UserAccount account;
-     
-    private Date expiryDate;
-    
-    
-    
-    public VerificationToken() {
+	// Expire une semaine
+	private static final int EXPIRATION = 60 * 168;
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private Long id;
+
+	private String token;
+
+	private boolean expired;
+
+	@OneToOne(targetEntity = UserAccount.class, fetch = FetchType.EAGER)
+	@Cascade(CascadeType.DELETE)
+	@JoinColumn(nullable = false, name = "user_id")
+	private UserAccount account;
+
+	private Date expiryDate;
+
+	public VerificationToken() {
 		super();
 	}
 
@@ -51,11 +49,11 @@ public class VerificationToken {
 	}
 
 	private Date calculateExpiryDate(int expiryTimeInMinutes) {
-        Calendar cal = Calendar.getInstance();
-        cal.setTime(new Timestamp(cal.getTime().getTime()));
-        cal.add(Calendar.MINUTE, expiryTimeInMinutes);
-        return new Date(cal.getTime().getTime());
-    }
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(new Timestamp(cal.getTime().getTime()));
+		cal.add(Calendar.MINUTE, expiryTimeInMinutes);
+		return new Date(cal.getTime().getTime());
+	}
 
 	public Long getId() {
 		return id;
@@ -96,5 +94,5 @@ public class VerificationToken {
 	public void setExpiryDate(Date expiryDate) {
 		this.expiryDate = expiryDate;
 	}
-     
+
 }

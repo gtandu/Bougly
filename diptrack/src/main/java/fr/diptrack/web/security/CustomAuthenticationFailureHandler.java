@@ -33,16 +33,11 @@ public class CustomAuthenticationFailureHandler extends SimpleUrlAuthenticationF
 
 		if (exception.getClass() == BadCredentialsException.class) {
 			errorMessage = messages.getMessage("auth.message.badPassword", null, null);
+		} else if (exception.getClass() == DisabledException.class) {
+			errorMessage = messages.getMessage("auth.message.disabled", null, null);
+		} else if (exception.getClass() == InternalAuthenticationServiceException.class) {
+			errorMessage = messages.getMessage("auth.message.userNotExist", null, null);
 		}
-		else if(exception.getClass() == DisabledException.class)
-		{
-			errorMessage = messages.getMessage("auth.message.disabled",null,null);
-		}
-		else if(exception.getClass() == InternalAuthenticationServiceException.class)
-		{
-			errorMessage = messages.getMessage("auth.message.userNotExist",null,null);
-		}
-		
 
 		request.getSession().setAttribute(WebAttributes.AUTHENTICATION_EXCEPTION, errorMessage);
 	}

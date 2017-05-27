@@ -25,10 +25,5 @@ public class Administrator extends UserAccount {
 	public Administrator(AccountDto accountDto) throws ParseException {
 		super(accountDto);
 	}
-	
-	
-
-
-
 
 }

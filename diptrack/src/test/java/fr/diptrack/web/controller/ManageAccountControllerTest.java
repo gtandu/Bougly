@@ -146,7 +146,8 @@ public class ManageAccountControllerTest {
 
 		// GIVEN
 		this.mockMvc
-				.perform(get(ManageAccountController.URL_CREATE_PASSWORD).param("token", token).accept(MediaType.TEXT_HTML))
+				.perform(get(ManageAccountController.URL_CREATE_PASSWORD).param("token", token)
+						.accept(MediaType.TEXT_HTML))
 				.andExpect(status().isOk()).andExpect(model().attributeExists("accountDto"))
 				.andExpect(view().name("creerMdp"));
 
@@ -164,7 +165,8 @@ public class ManageAccountControllerTest {
 
 		// GIVEN
 		this.mockMvc
-				.perform(get(ManageAccountController.URL_CREATE_PASSWORD).param("token", token).accept(MediaType.TEXT_HTML))
+				.perform(get(ManageAccountController.URL_CREATE_PASSWORD).param("token", token)
+						.accept(MediaType.TEXT_HTML))
 				.andExpect(status().isOk()).andExpect(model().attributeExists("message"))
 				.andExpect(view().name(ManageAccountController.PAGE_ERROR_CONFIRM_ACCOUNT));
 
@@ -186,7 +188,8 @@ public class ManageAccountControllerTest {
 
 		// GIVEN
 		this.mockMvc
-				.perform(get(ManageAccountController.URL_CREATE_PASSWORD).param("token", token).accept(MediaType.TEXT_HTML))
+				.perform(get(ManageAccountController.URL_CREATE_PASSWORD).param("token", token)
+						.accept(MediaType.TEXT_HTML))
 				.andExpect(status().isOk()).andExpect(model().attributeExists("message"))
 				.andExpect(view().name(ManageAccountController.PAGE_ERROR_CONFIRM_ACCOUNT));
 
@@ -212,7 +215,8 @@ public class ManageAccountControllerTest {
 
 		// GIVEN
 		this.mockMvc
-				.perform(post(ManageAccountController.URL_CREATE_PASSWORD).param("token", token).accept(MediaType.TEXT_HTML))
+				.perform(post(ManageAccountController.URL_CREATE_PASSWORD).param("token", token)
+						.accept(MediaType.TEXT_HTML))
 				.andExpect(status().isOk()).andExpect(request().attribute("accountDto", Matchers.any(AccountDto.class)))
 				.andExpect(view().name("compteActive"));
 

@@ -4,9 +4,9 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class BouglyApplication {
+public class DiptrackApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(BouglyApplication.class, args);
+		SpringApplication.run(DiptrackApplication.class, args);
 	}
 }

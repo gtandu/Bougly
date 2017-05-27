@@ -1,8 +1,12 @@
 package fr.diptrack.service;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Matchers.*;
-import static org.mockito.Mockito.*;
+import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyLong;
+import static org.mockito.Matchers.eq;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
 
@@ -18,7 +22,6 @@ import fr.diptrack.model.Grade;
 import fr.diptrack.model.enumeration.FormationEnum;
 import fr.diptrack.model.enumeration.LevelEnum;
 import fr.diptrack.repository.GradeRepository;
-import fr.diptrack.service.GradeService;
 import fr.diptrack.web.dtos.GradeDto;
 
 @RunWith(MockitoJUnitRunner.class)

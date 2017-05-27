@@ -1,14 +1,19 @@
 package fr.diptrack.model;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+
+@Entity
 public class Subject {
 
+	@Id
 	private String name;
 	private String description;
 	private int coefficient;
 	private int threshold;
 	private boolean resit;
-	private UE ue;
-	private MCCRule mccRule;
+	//private UE ue;
+	//private MCCRule mccRule;
 	
 	public Subject(){}
 
@@ -61,6 +66,7 @@ public class Subject {
 		this.resit = resit;
 	}
 
+	/*
 	public UE getUe() {
 		return ue;
 	}
@@ -76,5 +82,5 @@ public class Subject {
 	public void setMCCRule(MCCRule mccRule) {
 		this.mccRule = mccRule;
 	}
-	
+	*/
 }

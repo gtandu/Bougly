@@ -11,5 +11,4 @@ import fr.diptrack.model.Grade;
 public interface GradeRepository extends CrudRepository<Grade,Long>{
 	
 	public List<Grade> findAll();
-	
 }

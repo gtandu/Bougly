@@ -3,9 +3,9 @@ package fr.diptrack.builder.bean;
 import fr.diptrack.web.dtos.AccountDto;
 
 public class AccountDtoBuilder {
-	
+
 	private AccountDto accountDto = new AccountDto();
-	
+
 	public AccountDtoBuilder withMail(String mail) {
 		this.accountDto.setMail(mail);
 		return this;
@@ -15,12 +15,12 @@ public class AccountDtoBuilder {
 		this.accountDto.setPassword(password);
 		return this;
 	}
-	
+
 	public AccountDtoBuilder withRole(String role) {
 		this.accountDto.setRole(role);
 		return this;
 	}
-	
+
 	public AccountDtoBuilder withLastName(String lastName) {
 		this.accountDto.setLastName(lastName);
 		return this;
@@ -35,7 +35,6 @@ public class AccountDtoBuilder {
 		this.accountDto.setStudentNumber(studentNumber);
 		return this;
 	}
-
 
 	public AccountDto build() {
 		return accountDto;

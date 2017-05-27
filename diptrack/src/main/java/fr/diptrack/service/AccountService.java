@@ -7,7 +7,6 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.assertj.core.util.VisibleForTesting;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.data.domain.Page;
@@ -35,6 +34,8 @@ import fr.diptrack.web.dtos.AccountDto;
 
 @Service
 public class AccountService {
+
+	private static final String PACKAGE_MODEL = "fr.diptrack.model.";
 
 	@Autowired
 	private AuthorityRepository authorityRepository;
@@ -74,7 +75,7 @@ public class AccountService {
 
 		String role = roleEnum.toString();
 
-		Class<?> myClass = Class.forName("fr.diptrack.model." + role);
+		Class<?> myClass = Class.forName(PACKAGE_MODEL + role);
 		Class[] types = { AccountDto.class };
 		Constructor<?> constructor = myClass.getConstructor(types);
 		UserAccount account = (UserAccount) constructor.newInstance(accountDto);
@@ -104,8 +105,7 @@ public class AccountService {
 		RoleAccountEnum roleEnum = RoleAccountEnum.getRoleFromString(accountDto.getRole());
 
 		String role = roleEnum.toString();
-
-		Class<?> myClass = Class.forName("fr.diptrack.model." + role);
+		Class<?> myClass = Class.forName(PACKAGE_MODEL + role);
 		Class[] types = { AccountDto.class };
 		Constructor<?> constructor = myClass.getConstructor(types);
 		UserAccount account = (UserAccount) constructor.newInstance(accountDto);
@@ -210,13 +210,11 @@ public class AccountService {
 		}
 	}
 
-	@VisibleForTesting
 	protected boolean emailExist(String email) {
 		UserAccount account = accountRepository.findByMail(email);
 		return account != null ? true : false;
 	}
 
-	@VisibleForTesting
 	protected boolean studentNumberExist(String studentNumber) {
 		Student account = accountRepository.findByStudentNumber(studentNumber);
 		return account != null ? true : false;

@@ -45,7 +45,5 @@ public class OnRegistrationCompleteEvent extends ApplicationEvent {
 	public void setAccount(UserAccount account) {
 		this.account = account;
 	}
-	
-	
 
 }

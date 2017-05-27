@@ -33,15 +33,14 @@ public class StudentBuilder extends UserAccountBuilder {
 		this.student.setPassword(mdp);
 		return this;
 	}
-	
+
 	@Override
 	public StudentBuilder withRole(String role) {
 		Collection<Authority> authorities = Arrays.asList(new Authority(role));
-		this.student.setAuthorities(authorities );
+		this.student.setAuthorities(authorities);
 		return this;
 	}
 
-	
 	public StudentBuilder withStudentNumber(String studentNumber) {
 		student.setStudentNumber(studentNumber);
 		return this;
@@ -51,14 +50,9 @@ public class StudentBuilder extends UserAccountBuilder {
 		student.setAverage(average);
 		return this;
 	}
-	
+
 	public Student build() {
 		return student;
 	}
-
-	
-
-	
-	
 
 }

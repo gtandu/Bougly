@@ -2,9 +2,10 @@ package fr.diptrack.model;
 
 import java.text.ParseException;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 
 import fr.diptrack.web.dtos.AccountDto;
 
@@ -15,12 +16,12 @@ public class Student extends UserAccount {
 	 * 
 	 */
 	private static final long serialVersionUID = 7482134180300000186L;
-	
-	@Column(unique=true)
+
+	@Column(unique = true)
 	private String studentNumber;
 	private float average;
-	
-	
+	@ManyToOne(cascade = { CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH })
+	private Grade grade;
 
 	public Student() {
 		super();
@@ -30,8 +31,6 @@ public class Student extends UserAccount {
 		super(mail, password, lastName, firstName);
 		this.studentNumber = studentNumber;
 	}
-	
-	
 
 	public Student(AccountDto accountDto) throws ParseException {
 		super(accountDto);
@@ -53,5 +52,13 @@ public class Student extends UserAccount {
 	public void setAverage(float average) {
 		this.average = average;
 	}
-	
+
+	public Grade getGrade() {
+		return grade;
+	}
+
+	public void setGrade(Grade grade) {
+		this.grade = grade;
+	}
+
 }

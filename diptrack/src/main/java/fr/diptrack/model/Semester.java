@@ -1,19 +1,44 @@
 package fr.diptrack.model;
 
-import java.util.ArrayList;
+import java.util.List;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+
+@Entity
 public class Semester {
 
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private long id;
 	private int number;
 	private boolean resit;
-	private ArrayList<Branch> branches;
-	private ArrayList<UE> UEs;
+	private int ects;
+	@ManyToOne(cascade = { CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH,
+			CascadeType.REMOVE })
+	private Branch branch;
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "semester")
+	private List<UE> listUe;
+
 	
 	public Semester(){}
 	
 	public Semester(int number, boolean resit) {
 		this.number = number;
 		this.resit = resit;
+	}
+
+	public long getId() {
+		return id;
+	}
+
+	public void setId(long id) {
+		this.id = id;
 	}
 
 	public int getNumber() {
@@ -28,24 +53,38 @@ public class Semester {
 		return resit;
 	}
 
-	public void getResit(boolean resit) {
+	public void setResit(boolean resit) {
 		this.resit = resit;
 	}
 
-	public ArrayList<Branch> getBranches() {
-		return branches;
+	public int getEcts() {
+		return ects;
 	}
 
-	public void setBranches(ArrayList<Branch> branches) {
-		this.branches = branches;
+	public void setEcts(int ects) {
+		this.ects = ects;
 	}
 
-	public ArrayList<UE> getUEs() {
-		return UEs;
+	public Branch getBranch() {
+		return branch;
 	}
 
-	public void setUEs(ArrayList<UE> UEs) {
-		this.UEs = UEs;
+	public void setBranch(Branch branch) {
+		this.branch = branch;
 	}
+
+	public List<UE> getListUe() {
+		return listUe;
+	}
+
+	public void setListUe(List<UE> listUe) {
+		this.listUe = listUe;
+	}
+
+
+	
+	
+
+
 	
 }

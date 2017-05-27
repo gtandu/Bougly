@@ -5,3 +5,13 @@
 .editIcon {
 	color: black;
 }
+
+.accountStatus-confirm
+{
+	color : orange;
+}
+
+.accountStatus-ok
+{
+	color : green;
+}

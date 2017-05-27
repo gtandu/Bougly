@@ -19,31 +19,30 @@ import fr.diptrack.service.VerificationTokenService;
 import fr.diptrack.web.dtos.AccountDto;
 
 @Controller
-public class ManageAccountController{
+public class ManageAccountController {
 
 	@Autowired
 	private AccountService accountService;
-	
+
 	@Autowired
 	private VerificationTokenService tokenService;
-	
+
 	@Autowired
 	private MessageSource messagesSource;
-	
+
 	public static final String URL_CONFIRM_ACCOUNT = "/confirmAccount.html";
 	public static final String PAGE_ERROR_CONFIRM_ACCOUNT = "/erreurConfirmationCompte";
 	public static final String URL_CREATE_PASSWORD = "/creerMdp.html";
-	
+
 	@RequestMapping(value = URL_CONFIRM_ACCOUNT, method = RequestMethod.GET)
 	public String confirmRegistration(WebRequest request, Model model, @RequestParam("token") String token) {
 
 		Locale locale = request.getLocale();
 
 		VerificationToken verificationToken = tokenService.getVerificationToken(token);
-		
-		
+
 		if (verificationToken == null) {
-			return showPageErrorToken(model,"auth.message.invalidToken", locale, verificationToken);
+			return showPageErrorToken(model, "auth.message.invalidToken", locale, verificationToken);
 		}
 
 		Calendar cal = Calendar.getInstance();
@@ -56,14 +55,14 @@ public class ManageAccountController{
 		accountService.saveRegisteredUserByAccount(account);
 		return "redirect:" + URL_CREATE_PASSWORD + "?token=" + token;
 	}
-	
+
 	@RequestMapping(value = URL_CREATE_PASSWORD, method = RequestMethod.GET)
 	public String showPageCreatePassword(WebRequest request, @RequestParam("token") String token, Model model) {
 
 		Locale locale = request.getLocale();
 
 		VerificationToken verificationToken = tokenService.getVerificationToken(token);
-		
+
 		if (verificationToken == null) {
 			return showPageErrorToken(model, "auth.message.invalidToken", locale, verificationToken);
 		}
@@ -71,13 +70,13 @@ public class ManageAccountController{
 		if (verificationToken.isExpired()) {
 			return showPageErrorToken(model, "auth.message.expiredToken", locale, verificationToken);
 		}
-		
+
 		AccountDto accountDto = new AccountDto();
 		accountDto.setMail(verificationToken.getAccount().getMail());
 		model.addAttribute("accountDto", accountDto);
 		return "creerMdp";
 	}
-	
+
 	@RequestMapping(value = URL_CREATE_PASSWORD, method = RequestMethod.POST)
 	public String creerMotDePasse(WebRequest request, @RequestParam("token") String token, AccountDto accountDto) {
 
@@ -89,8 +88,9 @@ public class ManageAccountController{
 
 		return "compteActive";
 	}
-	
-	private String showPageErrorToken(Model model, String messagePropertiesError, Locale locale, VerificationToken verificationToken) {
+
+	private String showPageErrorToken(Model model, String messagePropertiesError, Locale locale,
+			VerificationToken verificationToken) {
 		String message = messagesSource.getMessage(messagePropertiesError, null, locale);
 		model.addAttribute("message", message);
 		return PAGE_ERROR_CONFIRM_ACCOUNT;

@@ -9,10 +9,12 @@ import fr.diptrack.model.Student;
 import fr.diptrack.model.UserAccount;
 
 @Repository
-public interface AccountRepository extends PagingAndSortingRepository<UserAccount, Long>{
-	
+public interface AccountRepository extends PagingAndSortingRepository<UserAccount, Long> {
+
 	public UserAccount findByMail(String mail);
+
 	public Student findByStudentNumber(String studentNumber);
+
 	public List<UserAccount> findAll();
 
 }

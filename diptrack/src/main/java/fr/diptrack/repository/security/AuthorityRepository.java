@@ -7,5 +7,5 @@ import fr.diptrack.model.security.Authority;
 
 @Repository
 public interface AuthorityRepository extends CrudRepository<Authority, Long> {
-	
+
 }

@@ -1,10 +1,16 @@
 package fr.diptrack.model;
 
+
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import fr.diptrack.web.dtos.GradeDto;
 
 @Entity
@@ -18,6 +24,15 @@ public class Grade {
 	private String formation;
 	private float average;
 	private Responsible responsible;
+	@ManyToOne(cascade = { CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH })
+	private Branch branch;
+	@ManyToMany(cascade = { CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST,
+			CascadeType.REFRESH }, mappedBy = "listGrades")
+	private List<Teacher> listTeachers;
+
+	@OneToMany(cascade = { CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST,
+			CascadeType.REFRESH }, mappedBy = "grade")
+	private List<Student> listStudents;
 
 	public Grade(){}
 	
@@ -26,19 +41,19 @@ public class Grade {
 		this.level = level;
 		this.formation = formation;
 	}
-	
+
+	public Grade(GradeDto gradeDto) {
+		this.name = gradeDto.getName();
+		this.level = gradeDto.getLevel();
+		this.formation = gradeDto.getFormation();
+	}
+
 	public long getId() {
 		return id;
 	}
 
 	public void setId(long id) {
 		this.id = id;
-	}
-
-	public Grade(GradeDto gradeDto) {
-		this.name = gradeDto.getName();
-		this.level = gradeDto.getLevel();
-		this.formation = gradeDto.getFormation();
 	}
 
 	public String getName() {
@@ -80,4 +95,33 @@ public class Grade {
 	public void setResponsible(Responsible responsible) {
 		this.responsible = responsible;
 	}
+
+	public Branch getBranch() {
+		return branch;
+	}
+
+	public void setBranch(Branch branch) {
+		this.branch = branch;
+	}
+
+	public List<Teacher> getListTeachers() {
+		return listTeachers;
+	}
+
+	public void setListTeachers(List<Teacher> listTeachers) {
+		this.listTeachers = listTeachers;
+	}
+
+	public List<Student> getListStudents() {
+		return listStudents;
+	}
+
+	public void setListStudents(List<Student> listStudents) {
+		this.listStudents = listStudents;
+	}
+
+	
+	
+
+	
 }

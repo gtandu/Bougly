@@ -47,8 +47,6 @@ import fr.diptrack.model.enumeration.RoleAccountEnum;
 import fr.diptrack.model.security.Authority;
 import fr.diptrack.repository.AccountRepository;
 import fr.diptrack.repository.security.AuthorityRepository;
-import fr.diptrack.service.AccountService;
-import fr.diptrack.service.VerificationTokenService;
 import fr.diptrack.service.helper.ExcelReader;
 import fr.diptrack.web.dtos.AccountDto;
 
@@ -151,22 +149,22 @@ public class AccountServiceTest {
 		AccountDto accountDto = new AccountDtoBuilder().withMail(mail).withPassword(password).withLastName(lastName)
 				.withFirstName(firstName).withRole(RoleAccountEnum.Administrator.getRole()).build();
 		Administrator administrator = new Administrator(accountDto);
-	
+
 		when(accountRepository.findByMail(anyString())).thenReturn(null);
 		when(accountRepository.save(any(UserAccount.class))).thenReturn(administrator);
-	
+
 		// GIVEN
 		UserAccount account = accountService.saveNewUserAccountFromExcelFile(accountDto);
-	
+
 		// THEN
 		verify(accountRepository).findByMail(mail);
 		verify(accountRepository).save(administrator);
 		verify(authorityRepository).save(any(Authority.class));
-	
+
 		assertThat(account).isNotNull();
 		assertThat(account).isEqualToComparingFieldByField(administrator);
 	}
-	
+
 	@Test
 	public void testSaveNewUserAccountFromExcelFileUserExist() throws Exception {
 		// WHEN
@@ -178,7 +176,7 @@ public class AccountServiceTest {
 		UserAccount userAccountSave = accountService.saveNewUserAccountFromExcelFile(accountDto);
 
 		// THEN
-		
+
 		verify(accountDto).setErrorExcel(eq(true));
 		assertThat(userAccountSave).isNull();
 
@@ -195,7 +193,7 @@ public class AccountServiceTest {
 		UserAccount userAccountSave = accountService.saveNewUserAccountFromExcelFile(accountDto);
 
 		// THEN
-		
+
 		verify(accountDto).setErrorExcel(eq(true));
 		assertThat(userAccountSave).isNull();
 
@@ -419,7 +417,7 @@ public class AccountServiceTest {
 		// THEN
 		verify(accountService).saveNewUserAccount(eq(accountDto));
 	}
-	
+
 	@Test
 	public void testSaveUserAccountAndPublishEventRegistrationFromExcelFile() throws Exception {
 		// WHEN
