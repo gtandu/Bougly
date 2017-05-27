@@ -11,10 +11,10 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
-import fr.diptrack.web.dtos.ClasseBean;
+import fr.diptrack.web.dtos.GradeDto;
 
 @Entity
-public class Classe {
+public class Grade {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -24,7 +24,7 @@ public class Classe {
 	private String formation;
 	private float moyenne;
 	@ManyToOne(cascade = { CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH })
-	private Filiere filiere;
+	private Branch filiere;
 
 	@ManyToMany(cascade = { CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST,
 			CascadeType.REFRESH }, mappedBy = "lesClasses")
@@ -34,16 +34,16 @@ public class Classe {
 			CascadeType.REFRESH }, mappedBy = "classe")
 	private List<Student> lesEtudiants;
 
-	public Classe() {
+	public Grade() {
 	}
 
-	public Classe(String nom, String niveau, String formation) {
+	public Grade(String nom, String niveau, String formation) {
 		this.nom = nom;
 		this.niveau = niveau;
 		this.formation = formation;
 	}
 
-	public Classe(ClasseBean classeBean) {
+	public Grade(GradeDto classeBean) {
 		this.nom = classeBean.getNom();
 		this.niveau = classeBean.getNiveau();
 		this.formation = classeBean.getFormation();
@@ -89,11 +89,11 @@ public class Classe {
 		this.moyenne = moyenne;
 	}
 
-	public Filiere getFiliere() {
+	public Branch getFiliere() {
 		return filiere;
 	}
 
-	public void setFiliere(Filiere filiere) {
+	public void setFiliere(Branch filiere) {
 		this.filiere = filiere;
 	}
 

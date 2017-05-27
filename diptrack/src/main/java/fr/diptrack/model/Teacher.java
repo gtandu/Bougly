@@ -14,7 +14,7 @@ public class Teacher extends UserAccount {
 
 	private static final long serialVersionUID = -913408952163714543L;
 	@ManyToMany(cascade = { CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH })
-	private List<Classe> lesClasses;
+	private List<Grade> lesClasses;
 
 	public Teacher() {
 		super();
@@ -28,11 +28,11 @@ public class Teacher extends UserAccount {
 		super(accountDto);
 	}
 
-	public List<Classe> getLesClasses() {
+	public List<Grade> getLesClasses() {
 		return lesClasses;
 	}
 
-	public void setLesClasses(List<Classe> lesClasses) {
+	public void setLesClasses(List<Grade> lesClasses) {
 		this.lesClasses = lesClasses;
 	}
 

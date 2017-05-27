@@ -9,15 +9,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
-import fr.diptrack.model.Classe;
+import fr.diptrack.model.Grade;
 import fr.diptrack.model.enumeration.FormationEnum;
-import fr.diptrack.model.enumeration.NiveauEnum;
-import fr.diptrack.service.ClasseService;
-import fr.diptrack.web.dtos.ClasseBean;
+import fr.diptrack.model.enumeration.LevelEnum;
+import fr.diptrack.service.GradeService;
+import fr.diptrack.web.dtos.GradeDto;
 
 @Controller
 @RequestMapping(value = "/responsable")
-public class ResponsableController {
+public class ResponsibleController {
 
 	public static final String URL_CONTROLLEUR_RESPONSABLE = "/responsable";
 	public static final String URL_COURSE_MANAGEMENT = "/gestionFiliere.html";
@@ -25,12 +25,12 @@ public class ResponsableController {
 	public static final String URL_CREATE_CLASS = "/creerClasse.html";
 
 	@Autowired
-	private ClasseService classeService;
+	private GradeService classeService;
 
 	@RequestMapping(value = URL_CLASS_MANAGEMENT, method = RequestMethod.GET)
 	public ModelAndView showPageGestionClasse() {
 		ModelAndView model = new ModelAndView("gestionClasse");
-		List<Classe> listeClasses = classeService.findAllClasse();
+		List<Grade> listeClasses = classeService.findAllClasse();
 		model.addObject("listeClasses", listeClasses);
 		return model;
 	}
@@ -43,20 +43,20 @@ public class ResponsableController {
 
 	@RequestMapping(value = URL_CREATE_CLASS, method = RequestMethod.GET)
 	public ModelAndView showPageCreerClasse() {
-		ClasseBean classeBean = new ClasseBean();
+		GradeDto classeBean = new GradeDto();
 		ModelAndView model = new ModelAndView("creerClasse");
 
 		model.addObject("classe", classeBean);
-		model.addObject("listeNiveaux", NiveauEnum.allNiveau());
+		model.addObject("listeNiveaux", LevelEnum.allNiveau());
 		model.addObject("listeFormations", FormationEnum.allFormation());
 
 		return model;
 	}
 
 	@RequestMapping(value = URL_CREATE_CLASS, method = RequestMethod.POST)
-	public String creerClasse(@ModelAttribute(value = "classe") ClasseBean classeBean) {
+	public String creerClasse(@ModelAttribute(value = "classe") GradeDto classeBean) {
 
-		classeService.saveClasse(new Classe(classeBean));
+		classeService.saveClasse(new Grade(classeBean));
 
 		return "redirect:" + URL_CONTROLLEUR_RESPONSABLE + URL_CLASS_MANAGEMENT;
 	}

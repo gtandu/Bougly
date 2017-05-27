@@ -12,17 +12,17 @@ public class Responsible extends Teacher {
 	private static final long serialVersionUID = 1303624143421117304L;
 	@OneToMany(cascade = { CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH,
 			CascadeType.REMOVE }, mappedBy = "responsible")
-	private List<Filiere> lesFilieres;
+	private List<Branch> lesFilieres;
 
 	public Responsible() {
 		super();
 	}
 
-	public List<Filiere> getLesFilieres() {
+	public List<Branch> getLesFilieres() {
 		return lesFilieres;
 	}
 
-	public void setLesFilieres(List<Filiere> lesFilieres) {
+	public void setLesFilieres(List<Branch> lesFilieres) {
 		this.lesFilieres = lesFilieres;
 	}
 

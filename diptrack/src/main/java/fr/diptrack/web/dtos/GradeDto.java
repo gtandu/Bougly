@@ -1,13 +1,13 @@
 package fr.diptrack.web.dtos;
 
-public class ClasseBean {
+public class GradeDto {
 
 	private String nom;
 	private String niveau;
 	private String formation;
 	private float moyenne;
 
-	public ClasseBean() {
+	public GradeDto() {
 		super();
 	}
 

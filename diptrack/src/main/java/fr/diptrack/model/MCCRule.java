@@ -1,14 +1,14 @@
 package fr.diptrack.model;
 
-public class RegleMCC {
+public class MCCRule {
 
 	private String libelle;
-	private Matiere Matiere;
+	private Subject Matiere;
 
-	public RegleMCC() {
+	public MCCRule() {
 	}
 
-	public RegleMCC(String libelle) {
+	public MCCRule(String libelle) {
 		this.libelle = libelle;
 	}
 
@@ -20,11 +20,11 @@ public class RegleMCC {
 		this.libelle = libelle;
 	}
 
-	public Matiere getMatiere() {
+	public Subject getMatiere() {
 		return Matiere;
 	}
 
-	public void setMatiere(Matiere matiere) {
+	public void setMatiere(Subject matiere) {
 		Matiere = matiere;
 	}
 

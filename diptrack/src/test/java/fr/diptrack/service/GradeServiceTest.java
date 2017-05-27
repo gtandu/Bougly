@@ -10,27 +10,27 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import fr.diptrack.model.Classe;
-import fr.diptrack.repository.ClasseRepository;
-import fr.diptrack.service.ClasseService;
+import fr.diptrack.model.Grade;
+import fr.diptrack.repository.GradeRepository;
+import fr.diptrack.service.GradeService;
 
 @RunWith(MockitoJUnitRunner.class)
-public class ClasseServiceTest {
+public class GradeServiceTest {
 	@Mock
-	private ClasseRepository classeRepository;
+	private GradeRepository classeRepository;
 	@InjectMocks
-	private ClasseService classeService;
+	private GradeService classeService;
 
 	@Test
 	public void testSaveClasse() throws Exception {
 		// WHEN
-		when(classeRepository.save(any(Classe.class))).thenReturn(new Classe());
+		when(classeRepository.save(any(Grade.class))).thenReturn(new Grade());
 
 		// GIVEN
-		classeService.saveClasse(new Classe());
+		classeService.saveClasse(new Grade());
 
 		// THEN
-		verify(classeRepository).save(any(Classe.class));
+		verify(classeRepository).save(any(Grade.class));
 	}
 
 }

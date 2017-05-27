@@ -9,22 +9,22 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
 @Entity
-public class Filiere {
+public class Branch {
 
 	@Id
 	private String nom;
 	private int seuilCompensation;
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "filiere")
-	private List<Classe> lesClasses;
+	private List<Grade> lesClasses;
 	@ManyToOne(cascade = { CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH })
 	private Responsible responsible;
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "filiere")
-	private List<Semestre> lesSemestres;
+	private List<Semester> lesSemestres;
 
-	public Filiere() {
+	public Branch() {
 	}
 
-	public Filiere(String nom, int seuilCompensation) {
+	public Branch(String nom, int seuilCompensation) {
 		this.nom = nom;
 		this.seuilCompensation = seuilCompensation;
 	}
@@ -45,11 +45,11 @@ public class Filiere {
 		this.seuilCompensation = seuilCompensation;
 	}
 
-	public List<Classe> getLesClasses() {
+	public List<Grade> getLesClasses() {
 		return lesClasses;
 	}
 
-	public void setLesClasses(List<Classe> lesClasses) {
+	public void setLesClasses(List<Grade> lesClasses) {
 		this.lesClasses = lesClasses;
 	}
 
@@ -61,11 +61,11 @@ public class Filiere {
 		this.responsible = responsible;
 	}
 
-	public List<Semestre> getLesSemestres() {
+	public List<Semester> getLesSemestres() {
 		return lesSemestres;
 	}
 
-	public void setLesSemestres(List<Semestre> lesSemestres) {
+	public void setLesSemestres(List<Semester> lesSemestres) {
 		this.lesSemestres = lesSemestres;
 	}
 

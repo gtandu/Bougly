@@ -3,7 +3,7 @@ package fr.diptrack.model.enumeration;
 import java.util.Arrays;
 import java.util.List;
 
-public enum NiveauEnum {
+public enum LevelEnum {
 	L1, L2, L3, M1, M2;
 
 	public static List<String> allNiveau() {

@@ -21,7 +21,7 @@ public class Student extends UserAccount {
 	private String studentNumber;
 	private float average;
 	@ManyToOne(cascade = { CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH })
-	private Classe classe;
+	private Grade classe;
 
 	public Student() {
 		super();
@@ -53,11 +53,11 @@ public class Student extends UserAccount {
 		this.average = average;
 	}
 
-	public Classe getClasse() {
+	public Grade getClasse() {
 		return classe;
 	}
 
-	public void setClasse(Classe classe) {
+	public void setClasse(Grade classe) {
 		this.classe = classe;
 	}
 

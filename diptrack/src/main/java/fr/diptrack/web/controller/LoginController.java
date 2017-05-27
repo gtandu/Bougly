@@ -9,13 +9,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import fr.diptrack.model.Administrator;
-import fr.diptrack.model.Classe;
+import fr.diptrack.model.Grade;
 import fr.diptrack.model.UserAccount;
 import fr.diptrack.model.enumeration.FormationEnum;
-import fr.diptrack.model.enumeration.NiveauEnum;
+import fr.diptrack.model.enumeration.LevelEnum;
 import fr.diptrack.model.enumeration.RoleAccountEnum;
 import fr.diptrack.service.AccountService;
-import fr.diptrack.service.ClasseService;
+import fr.diptrack.service.GradeService;
 
 @Controller
 public class LoginController {
@@ -26,7 +26,7 @@ public class LoginController {
 	private AccountService accountService;
 
 	@Autowired
-	private ClasseService classService;
+	private GradeService classService;
 
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
@@ -63,7 +63,7 @@ public class LoginController {
 		 **/
 
 		// CLASSE
-		Classe classe = new Classe("MIAGE", NiveauEnum.M1.toString(), FormationEnum.APPRENTISSAGE.toString());
+		Grade classe = new Grade("MIAGE", LevelEnum.M1.toString(), FormationEnum.APPRENTISSAGE.toString());
 		classService.saveClasse(classe);
 
 		/**

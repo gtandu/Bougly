@@ -11,7 +11,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
 @Entity
-public class Semestre {
+public class Semester {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -21,12 +21,12 @@ public class Semestre {
 	private boolean rattrapage;
 	@ManyToOne(cascade = { CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH,
 			CascadeType.REMOVE })
-	private Filiere filiere;
+	private Branch filiere;
 
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "semestre")
 	private List<UE> lesUE;
 
-	public Semestre() {
+	public Semester() {
 	}
 
 	public long getId() {
@@ -37,7 +37,7 @@ public class Semestre {
 		this.id = id;
 	}
 
-	public Semestre(int numero, boolean rattrapage) {
+	public Semester(int numero, boolean rattrapage) {
 		this.numero = numero;
 		this.rattrapage = rattrapage;
 	}
@@ -66,11 +66,11 @@ public class Semestre {
 		this.rattrapage = rattrapage;
 	}
 
-	public Filiere getFiliere() {
+	public Branch getFiliere() {
 		return filiere;
 	}
 
-	public void setFiliere(Filiere filiere) {
+	public void setFiliere(Branch filiere) {
 		this.filiere = filiere;
 	}
 

@@ -4,7 +4,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 
 @Entity
-public class Matiere {
+public class Subject {
 
 	@Id
 	private String nom;
@@ -14,7 +14,7 @@ public class Matiere {
 	private int seuilCompensation;
 	private boolean rattrapage;
 
-	public Matiere() {
+	public Subject() {
 		super();
 	}
 

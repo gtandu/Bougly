@@ -19,10 +19,10 @@ public class UE {
 	private int coefficientUe;
 	private int seuilCompensation;
 	@ManyToOne(cascade = { CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH })
-	private Semestre semestre;
+	private Semester semestre;
 
 	@OneToMany(cascade = { CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH })
-	private List<Matiere> lesMatieres;
+	private List<Subject> lesMatieres;
 
 	public UE() {
 	}
@@ -66,19 +66,19 @@ public class UE {
 		this.seuilCompensation = seuilCompensation;
 	}
 
-	public Semestre getSemestre() {
+	public Semester getSemestre() {
 		return semestre;
 	}
 
-	public void setSemestre(Semestre semestre) {
+	public void setSemestre(Semester semestre) {
 		this.semestre = semestre;
 	}
 
-	public List<Matiere> getLesMatieres() {
+	public List<Subject> getLesMatieres() {
 		return lesMatieres;
 	}
 
-	public void setLesMatieres(List<Matiere> lesMatieres) {
+	public void setLesMatieres(List<Subject> lesMatieres) {
 		this.lesMatieres = lesMatieres;
 	}
 

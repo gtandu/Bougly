@@ -5,20 +5,20 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import fr.diptrack.model.Classe;
-import fr.diptrack.repository.ClasseRepository;
+import fr.diptrack.model.Grade;
+import fr.diptrack.repository.GradeRepository;
 
 @Service
-public class ClasseService {
+public class GradeService {
 
 	@Autowired
-	private ClasseRepository classeRepository;
+	private GradeRepository classeRepository;
 
-	public Classe saveClasse(Classe classe) {
+	public Grade saveClasse(Grade classe) {
 		return classeRepository.save(classe);
 	}
 
-	public List<Classe> findAllClasse() {
+	public List<Grade> findAllClasse() {
 		return classeRepository.findAll();
 	}
 
