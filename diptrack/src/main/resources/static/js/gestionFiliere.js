@@ -3,18 +3,46 @@
  */
 $(function(){
 	
-	addUeOnClick();
 	initJsGrid();
 	deleteUeOnClick();
+	addSemestreOnClick();
 })
 
+function addSemestreOnClick()
+{
+	
+	$("#btn-addSemestre").click(function(){
+		if($(".div-ue").length == 0)
+		{
+			$(".div-semestre").after("<div class='input-field col s12 div-ue'>" +
+					"<a id='btn-addUe' class='waves-effect waves-light btn'>" +
+					"<i class='material-icons left'>add</i>Ajouter un UE</a>" +
+					"</div>");
+			addUeOnClick();
+			$(".row-filiere").after("<div class='row row-semestre'>" +
+					"<div class='card-panel'>" +
+					"<div class='semestre1'>" +
+					"<div class='card-content'>" +
+					"<div class='row'>" +
+					"<div class='col s2'><span class='card-title'>Semestre 1</span></div>" +
+					"<div class='col s1 offset-s9 divIconDelete'><span><i class='small material-icons deleteIcon btn-deleteSemestre'>clear</i></span></div></div>" +
+			"</div></div></div>" +
+			"</div>");
+		}
+		else
+		{
+			
+		}
+	})
+	
+}
 function addUeOnClick()
 {
 	$("#btn-addUe").click(function(){
 		
 		if($(".row-Ue").length == 0)
 		{
-			$(".row-filiere").after("<div class='row row-Ue'>" +
+			$(".row-semestre .card-content").append("<div class='row row-Ue'>" +
 					"<div class='card-panel'>" +
 					"<div class='UE1'>" +
 					"<div class='card-content'>" +
@@ -38,8 +66,8 @@ function addUeOnClick()
 		deleteUeOnClick();
 		resetUeNumber();
 	})
-	
 }
+
 function resetUeNumber()
 {
 	 $.each($(".row-Ue"),function(index,value){
