@@ -8901,6 +8901,16 @@ button.picker__close:focus {
     cursor: pointer;
 }
 
+.reduceIcon:hover {
+	color: #00897b;
+    cursor: pointer;
+}
+
+.extendIcon:hover {
+	color: #00897b;
+    cursor: pointer;
+}
+
 .editIcon:hover {
     color: #26a69a;
     cursor: pointer;

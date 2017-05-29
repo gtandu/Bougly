@@ -1,99 +1,166 @@
 /**
  * 
  */
-$(function(){
-	
+$(function() {
+
 	initJsGrid();
 	deleteUeOnClick();
+	deleteSemeterOnClick();
 	addSemestreOnClick();
+	
 })
 
-function addSemestreOnClick()
-{
-	
-	$("#btn-addSemestre").click(function(){
-		if($(".div-ue").length == 0)
-		{
-			$(".div-semestre").after("<div class='input-field col s12 div-ue'>" +
-					"<a id='btn-addUe' class='waves-effect waves-light btn'>" +
-					"<i class='material-icons left'>add</i>Ajouter un UE</a>" +
-					"</div>");
-			addUeOnClick();
-			$(".row-filiere").after("<div class='row row-semestre'>" +
-					"<div class='card-panel'>" +
-					"<div class='semestre1'>" +
-					"<div class='card-content'>" +
-					"<div class='row'>" +
-					"<div class='col s2'><span class='card-title'>Semestre 1</span></div>" +
-					"<div class='col s1 offset-s9 divIconDelete'><span><i class='small material-icons deleteIcon btn-deleteSemestre'>clear</i></span></div></div>" +
-			"</div></div></div>" +
-			"</div>");
-		}
-		else
-		{
-			
-		}
-	})
-	
+function addSemestreOnClick() {
+
+	$("#btn-addSemestre")
+			.click(
+					function() {
+						if ($(".div-ue").length == 0) {
+							/*
+							 * Pas de bloc semestre existant
+							 */
+							$(".row-filiere")
+									.after(
+											"<div class='row row-semestre'>"
+													+ "<div class='card-panel'>"
+													+ "<div class='semestre'>"
+													+ "<div class='card-content card-content-semester'>"
+													+ "<div class='row'>"
+													+ "<div class='col s2'><span class='card-title card-title-semester'>Semestre 1</span></div>"
+													+ "<div class='col s1 offset-s9 divIconDelete'><span><i class='small material-icons toggleIcon reduceIcon btn-reduceSemestre'>remove</i></span><span><i class='small material-icons deleteIcon btn-deleteSemestre'>clear</i></span></div>"
+													+ "<div class='input-field col s12 div-ue'><a class='waves-effect waves-light btn btn-addUe'><i class='material-icons left'>add</i>Ajouter un UE</a></div>"
+													+ "</div>"
+													+ "</div></div></div>"
+													+ "</div>");
+						} else {
+							/*
+							 * On ajoute un bloc semestre apres le dernier
+							 * existant
+							 */
+							$(".row-semestre")
+									.last()
+									.after(
+											"<div class='row row-semestre'>"
+													+ "<div class='card-panel'>"
+													+ "<div class='semestre'>"
+													+ "<div class='card-content card-content-semester'>"
+													+ "<div class='row'>"
+													+ "<div class='col s2'><span class='card-title card-title-semester'>Semestre 1</span></div>"
+													+ "<div class='col s1 offset-s9 divIconDelete'><span><i class='small material-icons toggleIcon reduceIcon btn-reduceSemestre'>remove</i></span><span><i class='small material-icons deleteIcon btn-deleteSemestre'>clear</i></span></div>"
+													+ "<div class='input-field col s12 div-ue'><a class='waves-effect waves-light btn btn-addUe'><i class='material-icons left'>add</i>Ajouter un UE</a></div>"
+													+ "</div>"
+													+ "</div></div></div>"
+													+ "</div>");
+						}
+						addUeOnClick();
+						deleteSemeterOnClick();
+						resetSemesterNumber();
+						toggleIconOnClick();
+					})
+
 }
-function addUeOnClick()
-{
-	$("#btn-addUe").click(function(){
-		
-		if($(".row-Ue").length == 0)
-		{
-			$(".row-semestre .card-content").append("<div class='row row-Ue'>" +
-					"<div class='card-panel'>" +
-					"<div class='UE1'>" +
-					"<div class='card-content'>" +
-					"<div class='row'>" +
-					"<div class='col s2'><span class='card-title'>UE 1</span></div>" +
-					"<div class='col s1 offset-s9 divIconDelete'><span><i class='small material-icons deleteIcon btn-deleteUe'>clear</i></span></div></div>" +
-			"<div class='jsGrid'></div></div></div></div></div>");
-		}
-		else
-		{
-			$(".row-Ue").last().after("<div class='row row-Ue'>" +
-					"<div class='card-panel'>" +
-					"<div class='UE1'>" +
-					"<div class='card-content'>" +
-					"<div class='row'>" +
-					"<div class='col s2'><span class='card-title'></span></div>" +
-					"<div class='col s1 offset-s9 divIconDelete'><span><i class='small material-icons deleteIcon btn-deleteUe'>clear</i></span></div></div>" +
-			"<div class='jsGrid'></div></div></div></div></div>");
-		}
-		initJsGridLast();
-		deleteUeOnClick();
-		resetUeNumber();
-	})
+function addUeOnClick() {
+	$(".btn-addUe")
+			.off()
+			.click(
+					function() {
+						if ($(this).find(".row-Ue").length == 0) {
+							$(this)
+									.parents(".row-semestre .card-content")
+									.append(
+											"<div class='row row-Ue scale-transition'>"
+													+ "<div class='card-panel'>"
+													+ "<div class='UE'>"
+													+ "<div class='card-content card-content-ue'>"
+													+ "<div class='row'>"
+													+ "<div class='col s2'><span class='card-title card-title-ue'>UE 1</span></div>"
+													+ "<div class='col s1 offset-s9 divIconDelete'><span><i class='small material-icons toggleIcon reduceIcon btn-reduceSemestre'>remove</i></span><span><i class='small material-icons deleteIcon btn-deleteUe'>clear</i></span></div></div>"
+													+ "<div class='jsGrid'></div></div></div></div></div>");
+						} else {
+							$(this)
+									.parents(".row")
+									.find(".row-Ue")
+									.last()
+									.after(
+											"<div class='row row-Ue scale-transition'>"
+													+ "<div class='card-panel'>"
+													+ "<div class='UE'>"
+													+ "<div class='card-content card-content-ue'>"
+													+ "<div class='row'>"
+													+ "<div class='col s2'><span class='card-title card-title-ue'></span></div>"
+													+ "<div class='col s1 offset-s9 divIconDelete'><span><i class='small material-icons toggleIcon reduceIcon btn-reduceSemestre'>remove</i></span><span><i class='small material-icons deleteIcon btn-deleteUe'>clear</i></span></div></div>"
+													+ "<div class='jsGrid'></div></div></div></div></div>");
+						}
+						initJsGridLast($(this));
+						resetUeNumber($(this).parents(".card-content-semester"));
+						deleteUeOnClick();
+					})
 }
 
-function resetUeNumber()
-{
-	 $.each($(".row-Ue"),function(index,value){
-		 	var ueNumber = index +1;
-	        $(value).find(".card-title").text("UE "+ueNumber);
-	     });
-	
+function resetUeNumber(element) {
+	$.each($(element).find(".row-Ue"), function(index, value) {
+		var ueNumber = index + 1;
+		$(value).find(".card-title-ue").text("UE " + ueNumber);
+	});
+
 }
-function deleteUeOnClick()
-{
-	$(".btn-deleteUe").off().click(function(){
+
+function resetSemesterNumber() {
+	$.each($(".row-semestre"), function(index, value) {
+		var semesterNumber = index + 1;
+		$(value).find(".card-title-semester")
+				.text("Semestre " + semesterNumber);
+	});
+
+}
+function deleteUeOnClick() {
+	$(".btn-deleteUe").off().click(function() {
+		var test = $(this).parents(".card-content-semester");
 		$(this).parents(".row-Ue").remove();
-		resetUeNumber();
+		console.log(test);
+		resetUeNumber(test);
 	})
 }
 
-function initJsGridLast()
-{
+function deleteSemeterOnClick() {
+	$(".btn-deleteSemestre").off().click(function() {
+		$(this).parents(".row-semestre").remove();
+		resetSemesterNumber();
+	})
+}
+
+function toggleIconOnClick() {
+	$(".toggleIcon").off().click(
+			
+			function() {
+				var btnHtml = $(this);
+				$.each($(this).parents(".card-content-semester").find(
+						".scale-transition"), function(index, value) {
+					$(value).toggle();
+					console.log(btnHtml);
+					console.log(btnHtml.hasClass("extendIcon"));
+					if(btnHtml.hasClass("extendIcon"))
+					{
+						btnHtml.parent().html("<i class='small material-icons toggleIcon reduceIcon btn-reduceSemestre'>remove</i>");
+						toggleIconOnClick();
+					}
+					else
+					{
+						btnHtml.parent().html("<i class='small material-icons toggleIcon extendIcon btn-extendSemestre'>crop_3_2</i>");
+						toggleIconOnClick();
+					}
+					
+				});
+
+			})
+
+}
+
+function initJsGridLast(element) {
 	/*
-	var matiere = [ {
-		"Nom" : "Java",
-		"Description" : "Programmation J2EE",
-		"Coefficient" : 2,
-		"Seuil de compensation" : 7,
-		"Rattrapable" : 0
-	} ];*/
+	 * var matiere = [ { "Nom" : "Java", "Description" : "Programmation J2EE",
+	 * "Coefficient" : 2, "Seuil de compensation" : 7, "Rattrapable" : 0 } ];
+	 */
 
 	var reponse = [ {
 		Valeur : "Non",
@@ -103,65 +170,61 @@ function initJsGridLast()
 		Id : 1
 	}, ];
 
-	$(".jsGrid").last().jsGrid({
-		width : "100%",
-		height : "300px",
+	$(element).parents(".card-content-semester").find(".jsGrid").last().jsGrid(
+			{
+				width : "100%",
+				height : "300px",
 
-		inserting : true,
-		editing : true,
-		sorting : true,
-		paging : true,
-		
-		noDataContent: "",
+				inserting : true,
+				editing : true,
+				sorting : true,
+				paging : true,
 
-		/*data : matiere,*/
+				noDataContent : "",
 
-		fields : [ {
-			name : "Nom",
-			type : "text",
-			align : "center",
-			width : 100,
-			validate : "required"
-		}, {
-			name : "Description",
-			type : "text",
-			align : "center",
-			width : 200
-		}, {
-			name : "Coefficient",
-			type : "number",
-			align : "center",
-			width : 50
-		}, {
-			name : "Seuil de compensation",
-			type : "number",
-			align : "center",
-			width : 50
-		}, {
-			name : "Rattrapable",
-			type : "select",
-			align : "center",
-			items : reponse,
-			selectedIndex : 0,
-			valueField : "Id",
-			textField : "Valeur"
-		}, {
-			type : "control"
-		} ]
-	});
-	
+				/* data : matiere, */
+
+				fields : [ {
+					name : "Nom",
+					type : "text",
+					align : "center",
+					width : 100,
+					validate : "required"
+				}, {
+					name : "Description",
+					type : "text",
+					align : "center",
+					width : 200
+				}, {
+					name : "Coefficient",
+					type : "number",
+					align : "center",
+					width : 50
+				}, {
+					name : "Seuil de compensation",
+					type : "number",
+					align : "center",
+					width : 50
+				}, {
+					name : "Rattrapable",
+					type : "select",
+					align : "center",
+					items : reponse,
+					selectedIndex : 0,
+					valueField : "Id",
+					textField : "Valeur"
+				}, {
+					type : "control"
+				} ]
+			});
+
 }
 
-function initJsGrid()
-{
+function initJsGrid() {
 	/*
-	var matiere = [ {
-		"Nom" : "Java",
-		"Description" : "Programmation J2EE",
-		"Coefficient" : 2,
-		"Seuil de compensation" : 7,
-		"Rattrapable" : 0
-	} ];*/
+	 * var matiere = [ { "Nom" : "Java", "Description" : "Programmation J2EE",
+	 * "Coefficient" : 2, "Seuil de compensation" : 7, "Rattrapable" : 0 } ];
+	 */
 
 	var reponse = [ {
 		Valeur : "Non",
@@ -180,9 +243,9 @@ function initJsGrid()
 		sorting : true,
 		paging : true,
 
-		/*data : matiere,*/
-		
-		noDataContent: "",
+		/* data : matiere, */
+
+		noDataContent : "",
 
 		fields : [ {
 			name : "Nom",
@@ -217,5 +280,5 @@ function initJsGrid()
 			type : "control"
 		} ]
 	});
-	
+
 }
