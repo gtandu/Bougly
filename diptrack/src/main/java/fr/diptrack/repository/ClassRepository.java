@@ -5,10 +5,10 @@ import java.util.List;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
-import fr.diptrack.model.Grade;
+import fr.diptrack.model.Class;
 
 @Repository
-public interface GradeRepository extends CrudRepository<Grade,Long>{
+public interface ClassRepository extends CrudRepository<Class,Long>{
 	
-	public List<Grade> findAll();
+	public List<Class> findAll();
 }

@@ -1,10 +1,10 @@
 package fr.diptrack.builder.model;
 
-import fr.diptrack.model.Grade;
+import fr.diptrack.model.Class;
 
 public class GradeBuilder {
 
-	private Grade grade = new Grade();	
+	private Class grade = new Class();	
 	
 	public GradeBuilder withId(long id) {
 		this.grade.setId(id);
@@ -31,7 +31,7 @@ public class GradeBuilder {
 		return this;
 	}
 	
-	public Grade build() {
+	public Class build() {
 		return grade;
 	}
 

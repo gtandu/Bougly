@@ -2,31 +2,31 @@ package fr.diptrack.builder.bean;
 
 import fr.diptrack.web.dtos.GradeDto;
 
-public class GradeDtoBuilder {
+public class ClassDtoBuilder {
 
 	private GradeDto gradeDto = new GradeDto();
 
-	public GradeDtoBuilder withId(long id) {
+	public ClassDtoBuilder withId(long id) {
 		this.gradeDto.setId(id);
 		return this;
 	}
 
-	public GradeDtoBuilder withName(String name) {
+	public ClassDtoBuilder withName(String name) {
 		this.gradeDto.setName(name);
 		return this;
 	}
 
-	public GradeDtoBuilder withLevel(String level) {
+	public ClassDtoBuilder withLevel(String level) {
 		this.gradeDto.setLevel(level);
 		return this;
 	}
 
-	public GradeDtoBuilder withFormation(String formation) {
+	public ClassDtoBuilder withFormation(String formation) {
 		this.gradeDto.setFormation(formation);
 		return this;
 	}
 
-	public GradeDtoBuilder withAverage(float average) {
+	public ClassDtoBuilder withAverage(float average) {
 		this.gradeDto.setAverage(average);
 		return this;
 	}

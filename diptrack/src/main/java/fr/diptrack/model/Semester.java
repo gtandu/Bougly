@@ -21,7 +21,7 @@ public class Semester {
 	private int ects;
 	@ManyToOne(cascade = { CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH,
 			CascadeType.REMOVE })
-	private Branch branch;
+	private Course course;
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "semester")
 	private List<UE> listUe;
 
@@ -65,12 +65,12 @@ public class Semester {
 		this.ects = ects;
 	}
 
-	public Branch getBranch() {
-		return branch;
+	public Course getBranch() {
+		return course;
 	}
 
-	public void setBranch(Branch branch) {
-		this.branch = branch;
+	public void setBranch(Course course) {
+		this.course = course;
 	}
 
 	public List<UE> getListUe() {

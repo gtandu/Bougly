@@ -16,31 +16,31 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import fr.diptrack.builder.bean.GradeDtoBuilder;
+import fr.diptrack.builder.bean.ClassDtoBuilder;
 import fr.diptrack.builder.model.GradeBuilder;
-import fr.diptrack.model.Grade;
+import fr.diptrack.model.Class;
 import fr.diptrack.model.enumeration.FormationEnum;
 import fr.diptrack.model.enumeration.LevelEnum;
-import fr.diptrack.repository.GradeRepository;
+import fr.diptrack.repository.ClassRepository;
 import fr.diptrack.web.dtos.GradeDto;
 
 @RunWith(MockitoJUnitRunner.class)
-public class GradeServiceTest {
+public class ClassServiceTest {
 	@Mock
-	private GradeRepository gradeRepository;
+	private ClassRepository gradeRepository;
 	@InjectMocks
-	private GradeService gradeService;
+	private ClassService gradeService;
 
 	@Test
 	public void testSaveClass() throws Exception {
 		// WHEN
-		when(gradeRepository.save(any(Grade.class))).thenReturn(new Grade());
+		when(gradeRepository.save(any(Class.class))).thenReturn(new Class());
 
 		// GIVEN
-		gradeService.saveGrade(new Grade());
+		gradeService.saveGrade(new Class());
 
 		// THEN
-		verify(gradeRepository).save(any(Grade.class));
+		verify(gradeRepository).save(any(Class.class));
 	}
 
 	@Test
@@ -59,13 +59,13 @@ public class GradeServiceTest {
 	@Test
 	public void testUpdateGradeWithGradeDto() {
 		// WHEN
-		GradeDto gradeDto = new GradeDtoBuilder().withId(20).withName("BIO").withLevel(LevelEnum.L2.toString())
+		GradeDto gradeDto = new ClassDtoBuilder().withId(20).withName("BIO").withLevel(LevelEnum.L2.toString())
 				.withFormation(FormationEnum.INITIALE.toString()).withAverage(12).build();
 
-		Grade grade = mock(Grade.class);
+		Class grade = mock(Class.class);
 
 		when(gradeRepository.findOne(anyLong())).thenReturn(grade);
-		when(gradeRepository.save(any(Grade.class))).thenReturn(grade);
+		when(gradeRepository.save(any(Class.class))).thenReturn(grade);
 
 		// GIVEN
 		gradeService.updateGradeWithGradeDto(gradeDto);
@@ -75,15 +75,15 @@ public class GradeServiceTest {
 		verify(grade).setName(eq(gradeDto.getName()));
 		verify(grade).setFormation(eq(gradeDto.getFormation()));
 		verify(grade).setLevel(eq(gradeDto.getLevel()));
-		verify(gradeRepository).save(any(Grade.class));
+		verify(gradeRepository).save(any(Class.class));
 	}
 
 	@Test
 	public void testFindAllGrade() throws Exception {
 				// WHEN
-				ArrayList<Grade> listGrades = new ArrayList<>();
-				Grade g1 = new GradeBuilder().withId(5).withName("M1MIAA").withFormation("APPRENTISSAGE").withLevel("M1").withAverage(10).build();
-				Grade g2 = new GradeBuilder().withId(6).withName("M2MIAI").withFormation("INITIAL").withLevel("L3").withAverage(12).build();
+				ArrayList<Class> listGrades = new ArrayList<>();
+				Class g1 = new GradeBuilder().withId(5).withName("M1MIAA").withFormation("APPRENTISSAGE").withLevel("M1").withAverage(10).build();
+				Class g2 = new GradeBuilder().withId(6).withName("M2MIAI").withFormation("INITIAL").withLevel("L3").withAverage(12).build();
 				listGrades.add(g1);
 				listGrades.add(g2);
 				when(gradeRepository.findAll()).thenReturn(listGrades);

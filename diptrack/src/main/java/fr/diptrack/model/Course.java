@@ -8,26 +8,26 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
 @Entity
-public class Branch {
+public class Course {
 
 	@Id
 	private String name;
 	private int threshold;
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "branch")
-	private List<Grade> listGrade;
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "course")
+	private List<Class> listClass;
 	@ManyToOne(cascade = { CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH })
 	private Responsible responsible;
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "branch")
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "course")
 	private List<Semester> listSemester;
 
-public Branch(){}
+public Course(){}
 	
-	public Branch(String name, int threshold) {
+	public Course(String name, int threshold) {
 		this.name = name;
 		this.threshold = threshold;
 	}
 	
-	public Branch(String name, int threshold, Grade oneClass) {
+	public Course(String name, int threshold, Class oneClass) {
 		this.name = name;
 		this.threshold = threshold;
 	}
@@ -57,12 +57,12 @@ public Branch(){}
 		this.responsible = responsible;
 	}
 
-	public List<Grade> getListGrade() {
-		return listGrade;
+	public List<Class> getListGrade() {
+		return listClass;
 	}
 
-	public void setListGrade(List<Grade> listGrade) {
-		this.listGrade = listGrade;
+	public void setListGrade(List<Class> listClass) {
+		this.listClass = listClass;
 	}
 
 	public List<Semester> getListSemester() {

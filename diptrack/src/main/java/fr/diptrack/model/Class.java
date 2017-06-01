@@ -14,7 +14,7 @@ import javax.persistence.OneToMany;
 import fr.diptrack.web.dtos.GradeDto;
 
 @Entity
-public class Grade {
+public class Class {
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
@@ -25,24 +25,24 @@ public class Grade {
 	private float average;
 	private Responsible responsible;
 	@ManyToOne(cascade = { CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH })
-	private Branch branch;
+	private Course course;
 	@ManyToMany(cascade = { CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST,
-			CascadeType.REFRESH }, mappedBy = "listGrades")
+			CascadeType.REFRESH }, mappedBy = "listClasses")
 	private List<Teacher> listTeachers;
 
 	@OneToMany(cascade = { CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST,
-			CascadeType.REFRESH }, mappedBy = "grade")
+			CascadeType.REFRESH }, mappedBy = "studentClass")
 	private List<Student> listStudents;
 
-	public Grade(){}
+	public Class(){}
 	
-	public Grade(String name, String level, String formation) {
+	public Class(String name, String level, String formation) {
 		this.name = name;
 		this.level = level;
 		this.formation = formation;
 	}
 
-	public Grade(GradeDto gradeDto) {
+	public Class(GradeDto gradeDto) {
 		this.name = gradeDto.getName();
 		this.level = gradeDto.getLevel();
 		this.formation = gradeDto.getFormation();
@@ -96,12 +96,12 @@ public class Grade {
 		this.responsible = responsible;
 	}
 
-	public Branch getBranch() {
-		return branch;
+	public Course getBranch() {
+		return course;
 	}
 
-	public void setBranch(Branch branch) {
-		this.branch = branch;
+	public void setBranch(Course course) {
+		this.course = course;
 	}
 
 	public List<Teacher> getListTeachers() {

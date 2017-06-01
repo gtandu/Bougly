@@ -5,21 +5,21 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import fr.diptrack.model.Grade;
-import fr.diptrack.repository.GradeRepository;
+import fr.diptrack.model.Class;
+import fr.diptrack.repository.ClassRepository;
 import fr.diptrack.web.dtos.GradeDto;
 
 @Service
-public class GradeService {
+public class ClassService {
 
 	@Autowired
-	private GradeRepository gradeRepository;
+	private ClassRepository gradeRepository;
 
-	public Grade saveGrade(Grade grade) {
+	public Class saveGrade(Class grade) {
 		return gradeRepository.save(grade);
 	}
 
-	public List<Grade> findAllGrade() {
+	public List<Class> findAllGrade() {
 		return gradeRepository.findAll();
 	}
 
@@ -28,7 +28,7 @@ public class GradeService {
 	}
 
 	public void updateGradeWithGradeDto(GradeDto gradeDto) {
-		Grade grade = gradeRepository.findOne(gradeDto.getId());
+		Class grade = gradeRepository.findOne(gradeDto.getId());
 		grade.setName(gradeDto.getName());
 		grade.setFormation(gradeDto.getFormation());
 		grade.setLevel(gradeDto.getLevel());
