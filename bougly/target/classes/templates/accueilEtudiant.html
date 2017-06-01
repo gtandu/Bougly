@@ -1,0 +1,52 @@
+﻿<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <div th:replace="/include/header :: header"></div>
+    <title>Accueil</title>
+    <meta charset="UTF-8" />
+</head>
+
+<body>
+
+    <header>
+        <div th:replace="/include/nav :: nav"></div>
+    </header>
+
+    <div class="container">
+        <br />
+        <h2 class="header center teal-text text-lighten-2">Home Sweet Home</h2>
+        <br />
+    </div>
+
+
+    <div class="container">
+        <div class="section">
+            <div class="row">
+                <div class="col s12 m3">
+                    <h5>Moyenne</h5>
+                    <br />
+                    <h5>Prochain Partiel</h5>
+                    <br />
+                    <h5>Date du Prochain Partiel</h5>
+                    <br />
+                </div>
+
+                <div class="col s12 m4">
+                    <h5>12</h5>
+                    <br />
+                    <h5>Base de données</h5>
+                    <br />
+                    <h5>09/02/2017</h5>
+                    <br />
+                </div>
+            </div>
+        </div>
+    </div>
+    <div th:replace="/include/script :: script"></div>
+    <footer>
+        <div th:replace="/include/footer :: footer"></div>
+    </footer>
+</body>
+
+</html>
