@@ -44,7 +44,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		.authorizeRequests().antMatchers("/enseignant/**").hasAuthority(RoleAccountEnum.Teacher.toString()).and()
 		.authorizeRequests().antMatchers("/etudiant/**").hasAuthority(RoleAccountEnum.Student.toString()).and()
 		.authorizeRequests().antMatchers("/administrateur/**").hasAuthority(RoleAccountEnum.Administrator.toString()).and()
-		.authorizeRequests().antMatchers("/css/**","/js/**","/fonts/**").permitAll() 
+		.authorizeRequests().antMatchers("/css/**","/js/**","/fonts/**","/forgotPassword.html").permitAll() 
         .anyRequest().authenticated()
         .and()
         .formLogin()

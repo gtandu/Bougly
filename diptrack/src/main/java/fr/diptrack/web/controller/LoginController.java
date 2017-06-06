@@ -20,6 +20,7 @@ import fr.diptrack.service.AccountService;
 public class LoginController {
 
 	public static final String URL_LOGIN_PAGE = "/login.html";
+	public static final String URL_FORGOT_PASSWORD_PAGE = "/forgotPassword.html";
 
 	@Autowired
 	private AccountService accountService;
@@ -51,5 +52,13 @@ public class LoginController {
 		UserAccount responsible = new Responsible("judith.benzakki@diptrack.fr","res","BENZAKKI","Judith");
 		accountService.saveRegisteredUserByAccountAndRole(responsible, RoleAccountEnum.Responsible.toString());
 		
+	}
+	
+	@RequestMapping(value = URL_FORGOT_PASSWORD_PAGE, method = RequestMethod.GET)
+	public ModelAndView showForgotPasswordPage() throws Exception {
+		ModelAndView model = new ModelAndView();
+		model.setViewName("forgotPassword");
+
+		return model;
 	}
 }
