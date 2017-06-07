@@ -23,7 +23,6 @@ public class ForgotPassword {
 			};
 		
 		try {
-			System.err.println("En cours...");
 			this.mailSender.send(messagePreparator);
 			System.err.println("Succès");
 		} 
