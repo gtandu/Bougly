@@ -18,12 +18,14 @@ public class ForgotPassword {
 				
 				MimeMessageHelper messageHelper = new MimeMessageHelper(mimeMessage);
 				messageHelper.setTo("mapella.corentin@gmail.com");
-				messageHelper.setSubject("TEST");
+				messageHelper.setSubject("Réinitialisation du mot de passe");
 				messageHelper.setText("TEST");
 			};
 		
 		try {
+			System.err.println("En cours...");
 			this.mailSender.send(messagePreparator);
+			System.err.println("Succès");
 		} 
 		catch (MailException ex) {
 			System.err.println("Erreur");

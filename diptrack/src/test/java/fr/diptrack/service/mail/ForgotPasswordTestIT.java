@@ -9,14 +9,15 @@ import org.springframework.mail.javamail.JavaMailSender;
 
 @RunWith(MockitoJUnitRunner.class)
 public class ForgotPasswordTestIT {
+	
 	@Mock
 	private JavaMailSender mailSender;
+	
 	@InjectMocks
 	private ForgotPassword forgotPassword;
-
+	
 	@Test
 	public void testResetPassword() throws Exception {
 		forgotPassword.resetPassword();
-		
 	}
 }
