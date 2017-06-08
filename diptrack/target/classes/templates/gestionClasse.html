@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html >
+
+<head>
+
+    <div th:replace="/include/header :: header"></div>
+    <title>Gestion des classes</title>
+    <meta charset="UTF-8" />
+
+</head>
+
+<body>
+    <header>
+        <div th:replace="/include/responsibleNav :: responsibleNav"></div>
+    </header>
+    
+    	<div th:replace="/include/preloader :: preloader"></div>
+    <main id="content">
+        <div class="container">
+        <h3  class="header center teal-text text-lighten-2">Gestion des classes</h3>
+            <div class="row">
+                <div id="tabClasse" class="col s12">
+                    <table class="bordered striped highlight centered responsive-table">
+                        <thead>
+                            <tr>
+                                <th>Nom</th>
+                                <th>Niveau</th>
+                                <th>Formation</th>
+                                <th>Moyenne</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            <tr th:each="classe : ${classList}">
+                                <td style="display:none;" class='id' th:attr="data-id=${classe.id}" th:text="${classe.id}">1</td>
+                                <td th:attr="data-name=${classe.name}" th:text="${classe.name}">M1MIAA</td>
+                                <td th:attr="data-level=${classe.level}" th:text="${classe.level}">M1</td>
+                                <td th:attr="data-formation=${classe.formation}" th:text="${classe.formation}">MIAGE</td>
+                                <td th:attr="data-average=${classe.average}" th:text="${classe.average}">12</td>
+                                <td><a class="black-text text-darken-2" href="#modalEditClasse">
+                                <i class="small material-icons editIcon">edit</i></a></td>
+                                <td><i class="small material-icons deleteIcon">clear</i></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <div class="row">
+                <div class="col s12">
+                    <a class="btn waves-effect waves-light #00897b teal darken-1 col s10 offset-s1" th:href="@{/responsable/creerClasse.html}">Créer une classe</a>
+                </div>
+            </div>
+            
+            <div th:replace="/include/modal/modalEditClasse :: modalEditClasse"></div>
+            
+        </div>
+    </main>
+    
+    <div th:replace="/include/script :: script"></div>
+    <script type="text/javascript" th:src="@{/js/gestionClasse.js}"></script>
+    <!-- Should be at the end of scripts -->
+    <div th:replace="/include/preloader-script :: preloader-script"></div>
+    <footer>
+        <div th:replace="/include/footer :: footer"></div>
+    </footer>
+    
+</body>
+
+</html>

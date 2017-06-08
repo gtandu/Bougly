@@ -1,0 +1,65 @@
+﻿<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <div th:replace="/include/header :: header"></div>
+    <title>Portail de Connexion</title>
+    <meta charset="UTF-8" />
+    <link type="text/css" rel="stylesheet" th:href="@{css/login.css}" />
+
+</head>
+
+<body>
+
+	<div th:replace="/include/preloader :: preloader"></div>
+    <main id="content">
+        <div class="container">
+
+
+
+            <div class="row">
+                <div class="card-panel col s12 m8 l6 offset-l3 offset-m2 design_formulaire">
+                    <form method="post" class="design_formulaire_content">
+                        <div th:if="${session['SPRING_SECURITY_LAST_EXCEPTION']}" class="row">
+                            <div class="collection center" style="border-color: red;">
+                                <a class="collection-item red-text text" th:text="${session['SPRING_SECURITY_LAST_EXCEPTION']}">Erreur
+								connection</a>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="input-field col s11">
+                                <i class="material-icons prefix">perm_identity</i> <input id="username" type="email" name="username" class="validate" placeholder="Saisissez votre identifiant" /> <label for="email" class="active">E-mail</label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="input-field col s11">
+                                <i class="material-icons prefix">vpn_key</i> <input id="password" type="password" name="password" class="validate" placeholder="Saisissez votre mot de passe" /> <label for="password" class="active">Mot de Passe</label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="input-field col s12">
+                                <button class="btn waves-effect waves-light col s10 offset-s1" type="submit">Connexion</button>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col s12 center-align">
+                                <a th:href="@{/forgotPassword.html}"><b>Mot de passe oublié ?</b></a>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    </main>
+    <div th:replace="/include/script :: script"></div>
+    <!-- Should be at the end of scripts -->
+    <div th:replace="/include/preloader-script :: preloader-script"></div>
+    <footer>
+        <div th:replace="/include/footer :: footer"></div>
+    </footer>
+</body>
+
+</html>
