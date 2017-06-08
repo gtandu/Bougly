@@ -13,13 +13,18 @@ public class ForgotPassword {
 	@Autowired
 	private JavaMailSender mailSender;
 	
+	@Autowired
+	private MailContentBuilder mailContentBuilder;
+	
 	public void resetPassword() {
+		
 			MimeMessagePreparator messagePreparator = mimeMessage -> {
 				
 				MimeMessageHelper messageHelper = new MimeMessageHelper(mimeMessage);
 				messageHelper.setTo("mapella.corentin@gmail.com");
 				messageHelper.setSubject("Réinitialisation du mot de passe");
-				messageHelper.setText("TEST");
+				String content = mailContentBuilder.buildForgotPassword();
+		        messageHelper.setText(content, true);
 			};
 		
 		try {
