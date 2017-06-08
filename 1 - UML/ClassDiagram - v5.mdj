@@ -1734,7 +1734,7 @@
 											"height": 13,
 											"autoResize": false,
 											"underline": false,
-											"text": "Branch",
+											"text": "Course",
 											"horizontalAlignment": 2,
 											"verticalAlignment": 5,
 											"wordWrap": false
@@ -3445,7 +3445,7 @@
 											"height": 13,
 											"autoResize": false,
 											"underline": false,
-											"text": "Grade",
+											"text": "Class",
 											"horizontalAlignment": 2,
 											"verticalAlignment": 5,
 											"wordWrap": false
@@ -7452,7 +7452,7 @@
 									},
 									"edgePosition": 0,
 									"underline": false,
-									"text": "-branch:Branch",
+									"text": "-course:Course",
 									"horizontalAlignment": 2,
 									"verticalAlignment": 5,
 									"wordWrap": false
@@ -8273,7 +8273,7 @@
 									},
 									"edgePosition": 2,
 									"underline": false,
-									"text": "-branch:Branch",
+									"text": "-course:Course",
 									"horizontalAlignment": 2,
 									"verticalAlignment": 5,
 									"wordWrap": false
@@ -8377,7 +8377,7 @@
 									},
 									"edgePosition": 0,
 									"underline": false,
-									"text": "-grades:ArrayList<Grade>",
+									"text": "-classes:ArrayList<Class>",
 									"horizontalAlignment": 2,
 									"verticalAlignment": 5,
 									"wordWrap": false
@@ -9422,7 +9422,7 @@
 									},
 									"edgePosition": 0,
 									"underline": false,
-									"text": "-grade:Grade",
+									"text": "-class:Class",
 									"horizontalAlignment": 2,
 									"verticalAlignment": 5,
 									"wordWrap": false
@@ -9847,7 +9847,7 @@
 									},
 									"edgePosition": 0,
 									"underline": false,
-									"text": "-branch:Branch",
+									"text": "-course:Course",
 									"horizontalAlignment": 2,
 									"verticalAlignment": 5,
 									"wordWrap": false
@@ -10272,7 +10272,7 @@
 									},
 									"edgePosition": 0,
 									"underline": false,
-									"text": "-grades:ArrayList<Grade>",
+									"text": "-classes:ArrayList<Class>",
 									"horizontalAlignment": 2,
 									"verticalAlignment": 5,
 									"wordWrap": false
@@ -11038,7 +11038,7 @@
 								"_parent": {
 									"$ref": "AAAAAAFcRr4qKcbGpRk="
 								},
-								"name": "grade:Grade",
+								"name": "class:Class",
 								"reference": {
 									"$ref": "AAAAAAFZAapmAuZwVVU="
 								},
@@ -11154,7 +11154,7 @@
 								"_parent": {
 									"$ref": "AAAAAAFcRsQn/ucN/W8="
 								},
-								"name": "branch:Branch",
+								"name": "course:Course",
 								"reference": {
 									"$ref": "AAAAAAFZAacMi+WMmaY="
 								},
@@ -11203,7 +11203,7 @@
 								"_parent": {
 									"$ref": "AAAAAAFcSbicOKG44JQ="
 								},
-								"name": "grades:ArrayList<Grade>",
+								"name": "classes:ArrayList<Class>",
 								"reference": {
 									"$ref": "AAAAAAFZAapmAuZwVVU="
 								},
@@ -11233,7 +11233,7 @@
 					"_parent": {
 						"$ref": "AAAAAAFF+qBWK6M3Z8Y="
 					},
-					"name": "Branch",
+					"name": "Course",
 					"ownedElements": [
 						{
 							"_type": "UMLAssociation",
@@ -11296,7 +11296,7 @@
 								"_parent": {
 									"$ref": "AAAAAAFcRriQ8bRcQLg="
 								},
-								"name": "branch:Branch",
+								"name": "course:Course",
 								"reference": {
 									"$ref": "AAAAAAFZAacMi+WMmaY="
 								},
@@ -11316,7 +11316,7 @@
 								"_parent": {
 									"$ref": "AAAAAAFcRriQ8bRcQLg="
 								},
-								"name": "grades:ArrayList<Grade>",
+								"name": "classes:ArrayList<Class>",
 								"reference": {
 									"$ref": "AAAAAAFZAapmAuZwVVU="
 								},
@@ -12248,7 +12248,7 @@
 					"_parent": {
 						"$ref": "AAAAAAFF+qBWK6M3Z8Y="
 					},
-					"name": "Grade",
+					"name": "Class",
 					"ownedElements": [
 						{
 							"_type": "UMLAssociation",
@@ -12830,7 +12830,7 @@
 								"_parent": {
 									"$ref": "AAAAAAFcRrESUZzLa5Q="
 								},
-								"name": "branch:Branch",
+								"name": "course:Course",
 								"reference": {
 									"$ref": "AAAAAAFZAacMi+WMmaY="
 								},
