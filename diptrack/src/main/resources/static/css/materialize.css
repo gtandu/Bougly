@@ -8901,6 +8901,10 @@ button.picker__close:focus {
     cursor: pointer;
 }
 
+.divIconDelete{
+	padding-left: 4.5em !important;
+}
+
 .reduceIcon:hover {
 	color: #00897b;
     cursor: pointer;

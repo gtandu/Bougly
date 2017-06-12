@@ -18,6 +18,10 @@ public class Responsible extends Teacher {
 		super();
 	}
 
+	public Responsible(String mail, String password, String lastName, String firstName) {
+		super(mail, password, lastName, firstName);
+	}
+
 	public List<Branch> getListBranchs() {
 		return listBranchs;
 	}
@@ -25,6 +29,5 @@ public class Responsible extends Teacher {
 	public void setListBranchs(List<Branch> listBranchs) {
 		this.listBranchs = listBranchs;
 	}
-
 
 }

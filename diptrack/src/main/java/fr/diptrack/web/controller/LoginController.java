@@ -1,5 +1,7 @@
 package fr.diptrack.web.controller;
 
+import javax.annotation.PostConstruct;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import fr.diptrack.model.Administrator;
+import fr.diptrack.model.Responsible;
 import fr.diptrack.model.UserAccount;
 import fr.diptrack.model.enumeration.RoleAccountEnum;
 import fr.diptrack.service.AccountService;
@@ -36,11 +39,16 @@ public class LoginController {
 
 	private void initUser() throws Exception {
 
-		// COMPTE ADMIN
-		UserAccount admin = new Administrator("admin@hotmail.fr", "adm", "MAPELLA", "Corentin");
-		accountService.saveRegisteredUserByAccountAndRole(admin, RoleAccountEnum.Administrator.toString());
+		// COMPTE RESPONSABLE
+		UserAccount responsable = new Responsible("responsable@hotmail.fr", "res", "ONYME", "Anne");
+		accountService.saveRegisteredUserByAccountAndRole(responsable, RoleAccountEnum.Responsible.toString());
 
 		/**
+		 * // COMPTE ADMIN UserAccount admin = new
+		 * Administrator("admin@hotmail.fr", "adm", "MAPELLA", "Corentin");
+		 * accountService.saveRegisteredUserByAccountAndRole(admin,
+		 * RoleAccountEnum.Administrator.toString());
+		 * 
 		 * // COMPTE ETUDIANT CompteUtilisateur etudiant = new
 		 * Etudiant("etudiant@hotmail.fr","etu","TANDU","Glodie","21/05/1994","20156351");
 		 * //etudiant = etudiantService.saveUser(etudiant);

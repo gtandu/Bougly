@@ -263,7 +263,7 @@ public class AccountServiceTest {
 		when(accountRepository.findByMail(anyString())).thenReturn(studentAccount);
 
 		// GIVEN
-		accountService.editAccountFromCompteBean(compteBean);
+		accountService.editAccountFromAccountDto(compteBean);
 
 		// THEN
 		verify(accountRepository).findByMail(eq(mail));

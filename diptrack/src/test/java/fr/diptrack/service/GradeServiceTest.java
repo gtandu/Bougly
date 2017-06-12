@@ -80,19 +80,21 @@ public class GradeServiceTest {
 
 	@Test
 	public void testFindAllGrade() throws Exception {
-				// WHEN
-				ArrayList<Grade> listGrades = new ArrayList<>();
-				Grade g1 = new GradeBuilder().withId(5).withName("M1MIAA").withFormation("APPRENTISSAGE").withLevel("M1").withAverage(10).build();
-				Grade g2 = new GradeBuilder().withId(6).withName("M2MIAI").withFormation("INITIAL").withLevel("L3").withAverage(12).build();
-				listGrades.add(g1);
-				listGrades.add(g2);
-				when(gradeRepository.findAll()).thenReturn(listGrades);
+		// WHEN
+		ArrayList<Grade> listGrades = new ArrayList<>();
+		Grade g1 = new GradeBuilder().withId(5).withName("M1MIAA").withFormation("APPRENTISSAGE").withLevel("M1")
+				.withAverage(10).build();
+		Grade g2 = new GradeBuilder().withId(6).withName("M2MIAI").withFormation("INITIAL").withLevel("L3")
+				.withAverage(12).build();
+		listGrades.add(g1);
+		listGrades.add(g2);
+		when(gradeRepository.findAll()).thenReturn(listGrades);
 
-				// GIVEN
-				gradeService.findAllGrade();
+		// GIVEN
+		gradeService.findAllGrade();
 
-				// THEN
-				verify(gradeRepository).findAll();
+		// THEN
+		verify(gradeRepository).findAll();
 	}
 
 }

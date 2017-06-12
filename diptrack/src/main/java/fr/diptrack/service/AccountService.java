@@ -170,7 +170,7 @@ public class AccountService {
 	}
 
 	@Transactional
-	public void editAccountFromCompteBean(AccountDto accountDto) {
+	public void editAccountFromAccountDto(AccountDto accountDto) {
 		UserAccount accountFromDb = accountRepository.findByMail(accountDto.getMail());
 		accountFromDb.setLastName(accountDto.getLastName());
 		accountFromDb.setFirstName(accountDto.getFirstName());

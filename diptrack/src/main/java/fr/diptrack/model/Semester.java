@@ -10,6 +10,8 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
+import fr.diptrack.web.dtos.SemesterDto;
+
 @Entity
 public class Semester {
 
@@ -19,15 +21,19 @@ public class Semester {
 	private int number;
 	private boolean resit;
 	private int ects;
-	@ManyToOne(cascade = { CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH,
-			CascadeType.REMOVE })
+	@ManyToOne(cascade = { CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH })
 	private Branch branch;
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "semester")
 	private List<UE> listUe;
 
-	
-	public Semester(){}
-	
+	public Semester() {
+	}
+
+	public Semester(SemesterDto semesterDto, Branch branch) {
+		this.number = semesterDto.getNumber();
+		this.branch = branch;
+	}
+
 	public Semester(int number, boolean resit) {
 		this.number = number;
 		this.resit = resit;
@@ -81,10 +87,4 @@ public class Semester {
 		this.listUe = listUe;
 	}
 
-
-	
-	
-
-
-	
 }

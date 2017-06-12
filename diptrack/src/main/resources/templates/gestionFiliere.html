@@ -1,40 +1,49 @@
 <!DOCTYPE html>
 <html>
-<head>
-<div th:replace="/include/header :: header"></div>
-<meta charset="UTF-8" />
-<title>Gestion Filière</title>
-<link type="text/css" rel="stylesheet" th:href="@{/css/gestionFiliere.css}" />
-</head>
-<body>
-	<header>
-		<div th:replace="/include/nav :: nav"></div>
-	</header>
-	<div th:replace="/include/preloader :: preloader"></div>
-	<main id="content">
-	<div class="container">
-		<div class="row row-filiere">
-			<div class="input-field col s6">
-				<label for="filiereName">Nom de la filière<span class="required">*</span></label> <input id="filiereName" placeholder="MIAGE" type="text" />
-			</div>
-			<div class="input-field col s12 div-semestre">
-				<a id="btn-addSemestre" class="waves-effect waves-light btn"><i class="material-icons left">add</i>Ajouter un Semestre</a>
-			</div>
-		</div>
 
-		<div class="row">
-			<div class="col s12">
-				<a class="waves-effect waves-light btn col s10 offset-s1" th:href="@{/responsable/creerFiliere.html}">Créer une filiere</a>
-			</div>
-		</div>
-	</div>
-	</main>
-	<div th:replace="/include/script :: script"></div>
-	<script type="text/javascript" th:src="@{/js/gestionFiliere.js}"></script>
-	<!-- Should be at the end of scripts -->
-	<div th:replace="/include/preloader-script :: preloader-script"></div>
-	<footer>
-		<div th:replace="/include/footer :: footer"></div>
-	</footer>
+<head>
+    <div th:replace="/include/header :: header"></div>
+    <meta charset="UTF-8" />
+    <title>Gestion Filière</title>
+    <link type="text/css" rel="stylesheet" th:href="@{/css/gestionFiliere.css}" />
+</head>
+
+<body>
+    <header>
+        <div th:replace="/include/nav :: nav"></div>
+    </header>
+    <div th:replace="/include/preloader :: preloader"></div>
+    <main id="content">
+        <div class="container">
+            <form id="formFiliere">
+                <div class="row row-filiere">
+                    <div class="input-field col s6">
+                        <label id="labelCourseName" for="courseName">Nom de la filière<span class="required">*</span></label>
+                        <input id="courseNameInput" placeholder="Saisissez le nom de la filiere" type="text" />
+                        <div id="courseNameError" class="error">Cette filière existe déjà !</div>
+                        <div id="courseNameCheck" class="error">Veuillez saisir un nom pour la filière</div>
+                        <input id="responsibleName" type="hidden" th:value="${#authentication.name}" />
+                    </div>
+                    <div class="input-field col s12 div-semestre">
+                        <a id="btn-addSemestre" class="waves-effect waves-light btn"><i class="material-icons left">add</i>Ajouter un Semestre</a>
+                    </div>
+                </div>
+            </form>
+
+            <div class="row">
+                <div class="col s12">
+                    <a class="waves-effect waves-light btn col s10 offset-s1" th:href="@{/responsable/creerFiliere.html}">Créer une filiere</a>
+                </div>
+            </div>
+        </div>
+    </main>
+    <div th:replace="/include/script :: script"></div>
+    <script type="text/javascript" th:src="@{/js/gestionFiliere.js}"></script>
+    <!-- Should be at the end of scripts -->
+    <div th:replace="/include/preloader-script :: preloader-script"></div>
+    <footer>
+        <div th:replace="/include/footer :: footer"></div>
+    </footer>
 </body>
+
 </html>

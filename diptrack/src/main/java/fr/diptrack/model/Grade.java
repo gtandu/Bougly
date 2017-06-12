@@ -1,6 +1,5 @@
 package fr.diptrack.model;
 
-
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -17,12 +16,13 @@ import fr.diptrack.web.dtos.GradeDto;
 public class Grade {
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
 	private String name;
 	private String level;
 	private String formation;
 	private float average;
+	private int date;
 	private Responsible responsible;
 	@ManyToOne(cascade = { CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH })
 	private Branch branch;
@@ -34,8 +34,9 @@ public class Grade {
 			CascadeType.REFRESH }, mappedBy = "grade")
 	private List<Student> listStudents;
 
-	public Grade(){}
-	
+	public Grade() {
+	}
+
 	public Grade(String name, String level, String formation) {
 		this.name = name;
 		this.level = level;
@@ -120,8 +121,12 @@ public class Grade {
 		this.listStudents = listStudents;
 	}
 
-	
-	
+	public int getDate() {
+		return date;
+	}
 
-	
+	public void setDate(int date) {
+		this.date = date;
+	}
+
 }
