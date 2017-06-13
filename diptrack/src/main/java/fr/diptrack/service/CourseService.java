@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import fr.diptrack.exception.CourseExistException;
+import fr.diptrack.exception.BranchExistException;
 import fr.diptrack.exception.CourseNameInputException;
 import fr.diptrack.model.Branch;
 import fr.diptrack.model.Responsible;
@@ -20,10 +20,10 @@ public class CourseService {
 	@Autowired
 	private AccountRepository accountRepository;
 
-	public Branch saveCourseFromDto(CourseDto courseDto) throws CourseExistException {
+	public Branch saveCourseFromDto(CourseDto courseDto) throws BranchExistException {
 		if (courseExist(courseDto.getName())) {
 			String message = "The course %s already exist in DB";
-			throw new CourseExistException(String.format(message, courseDto.getName()));
+			throw new BranchExistException(String.format(message, courseDto.getName()));
 		} else {
 			Branch course = new Branch(courseDto);
 			Responsible responsible = (Responsible) accountRepository.findByMail(courseDto.getResponsibleName());
@@ -42,13 +42,13 @@ public class CourseService {
 	}
 
 	@Transactional
-	public Branch editCourseName(CourseDto courseDto) throws CourseNameInputException {
+	public Branch editCourseName(CourseDto courseDto) throws BranchExistException {
 		if (courseExist(courseDto.getName())) {
 			Branch course = branchRepository.findByName(courseDto.getName());
 			course.setName(courseDto.getNewName());
 			return branchRepository.save(course);
 		}
-		throw new CourseNameInputException();
+		throw new BranchExistException();
 
 	}
 

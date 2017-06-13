@@ -11,7 +11,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import fr.diptrack.exception.CourseExistException;
+import fr.diptrack.exception.BranchExistException;
 import fr.diptrack.exception.CourseNameInputException;
 import fr.diptrack.model.Branch;
 import fr.diptrack.model.Responsible;
@@ -47,7 +47,7 @@ public class CourseServiceTest {
 		verify(branchRepository).save(any(Branch.class));
 	}
 
-	@Test(expected = CourseExistException.class)
+	@Test(expected = BranchExistException.class)
 	public void testSaveCourseFromDtoThrowCourseExistException() throws Exception {
 		// WHEN
 		CourseDto courseDto = new CourseDto("Miage", "", "responsible@hotmail.fr");

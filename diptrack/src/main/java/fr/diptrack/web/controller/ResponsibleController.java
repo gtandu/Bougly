@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import fr.diptrack.exception.CourseExistException;
+import fr.diptrack.exception.BranchExistException;
 import fr.diptrack.exception.CourseNameInputException;
 import fr.diptrack.model.Branch;
 import fr.diptrack.model.Grade;
@@ -35,12 +35,12 @@ import fr.diptrack.web.dtos.SemesterDto;
 @RequestMapping(value = "/responsable")
 public class ResponsibleController {
 
-	private static final String URL_DELETE_SEMESTER = "/deleteSemester.html";
+	public static final String URL_DELETE_SEMESTER = "/deleteSemester.html";
 
-	private static final String URL_CREATE_SEMESTER = "/createSemester.html";
+	public static final String URL_CREATE_SEMESTER = "/createSemester";
 
-	protected static final String URL_CREATE_COURSE = "/createCourse";
-	protected static final String URL_EDIT_COURSE_NAME = "/editCourseName";
+	public static final String URL_CREATE_COURSE = "/createCourse";
+	public static final String URL_EDIT_COURSE_NAME = "/editCourseName";
 
 	public static final String URL_CONTROLLER_RESPONSIBLE = "/responsable";
 	public static final String URL_UPDATE_NUMBER_SEMESTER = "/updateNumberSemester.html";
@@ -137,7 +137,7 @@ public class ResponsibleController {
 		try {
 			Branch branch = courseService.saveCourseFromDto(courseDto);
 			return branch.getId();
-		} catch (CourseExistException e) {
+		} catch (BranchExistException e) {
 			logger.error(e.getMessage());
 			return 0;
 		}
@@ -151,7 +151,7 @@ public class ResponsibleController {
 		try {
 			Branch branch = courseService.editCourseName(courseDto);
 			return branch.getId();
-		} catch (CourseNameInputException e) {
+		} catch (BranchExistException e) {
 			logger.error(e.getMessage());
 			return 0;
 		}

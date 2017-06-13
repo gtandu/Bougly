@@ -1,18 +1,18 @@
 package fr.diptrack.exception;
 
-public class CourseExistException extends Exception {
+public class BranchExistException extends Exception {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = -8150474981430076086L;
 
-	public CourseExistException() {
+	public BranchExistException() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 
-	public CourseExistException(String message) {
+	public BranchExistException(String message) {
 		super(message);
 		// TODO Auto-generated constructor stub
 	}
