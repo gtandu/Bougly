@@ -1,23 +1,27 @@
 <meta charset="UTF-8" />
 
 <div th:fragment="nav">
-    <nav class="#b2dfdb teal lighten-3" role="navigation">
-        <div class="nav-wrapper container">
-            <a id="logo-container" class="brand-logo">DipTrack</a>
-            <ul class="right hide-on-med-and-down">
-                <li><a th:href="@{/etudiant/noteEtudiant.html}"><i class="material-icons">assessment</i></a></li>
-                <li><a href="#"><i class="material-icons">email</i></a></li>
-                <li><a href="#"><i class="material-icons">settings</i></a></li>
-                <li><a th:href="@{/logout}"><i class="material-icons">power_settings_new</i></a></li>
-            </ul>
-
-            <ul  class="side-nav">
-                <li><a th:href="@{/etudiant/noteEtudiant.html}"><i class="material-icons">assessment</i>Mes Notes</a></li>
-                <li><a href="#"><i class="material-icons">email</i>Messagerie</a></li>
-                <li><a href="#"><i class="material-icons">settings</i>Paramètres</a></li>
-                <li><a th:href="@{/logout}"><i class="material-icons">power_settings_new</i>Déconnexion</a></li>
-            </ul>
-            <a href="#" data-activates="nav-mobile" class="button-collapse white-text text-darken-2"><i class="material-icons">menu</i></a>
-        </div>
-    </nav>
+   
+	   <nav class="#00897b teal darken-1" role="navigation">
+	        <div class="nav-wrapper container">
+	        	<div sec:authorize="hasAuthority('Teacher')">
+	        		<div th:replace="/include/nav/teacher :: teacher"></div>
+	        	</div>
+	        	
+	        	<div sec:authorize="hasAuthority('Responsible')">
+	        		<div th:replace="/include/nav/responsible :: responsible"></div>
+	        	</div>
+	        	
+	        	<div sec:authorize="hasAuthority('Administrator')">
+	        		<div th:replace="/include/nav/administrator :: administrator"></div>
+	        	</div>
+	        	
+	        	<div sec:authorize="hasAuthority('Student')">
+	        		<div th:replace="/include/nav/student :: student"></div>
+	        	</div>
+	            
+	            <a href="#" data-activates="nav-mobile" class="button-collapse white-text text-darken-2"><i class="material-icons">menu</i></a>
+	        </div>
+	    </nav>
+	    
 </div>

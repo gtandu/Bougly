@@ -1,0 +1,33 @@
+<!-- Modal Structure -->
+<div th:fragment="modalEditCompte" id="modalEditCompte" class="modal">
+    <div class="modal-content">
+        <h4>Editer</h4>
+        <form id="formEditCompte">
+            <div class="row">
+            	<input id="roleInput" type="hidden" name="role" value=""/>
+                <div class="input-field col s6">
+                	<p id="email"></p>
+                	<input id="emailInput" type="hidden" name="email" value=""/>
+                    <label class ="active" for="email" data-error="Erreur" data-success="Valide">Mail <span class="required"></span></label>
+                </div>
+                <div class="input-field col s6">
+                    <input id="lastName" name="lastName" placeholder="Ex : Doe" type="text" />
+                    <label for="nom">Nom <span class="required">*</span></label>
+                </div>
+                <div class="input-field col s6">
+                    <input id="firstName" name="firstName" placeholder="Ex : John" type="text"/>
+                    <label for="prenom">Prenom <span class="required">*</span></label>
+                </div>
+                <div id="inputNumEtu" class="input-field col s6">
+                    <input id="studenNumber" name="studenNumber" placeholder="Ex : 20172345" type="text"/>
+                    <label for="numeroEtudiant">Numero étudiant <span class="required">*</span></label>
+                </div>
+            </div>
+            <div class="modal-footer">
+        		<a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat">Fermer</a>
+   				<button id="submitButton" class="waves-effect waves-green btn-flat" type="submit">Editer</button>
+    		</div>
+        </form>
+    </div>
+    
+</div>
