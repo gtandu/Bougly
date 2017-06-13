@@ -29,10 +29,10 @@ public class ForgotPassword {
 		
 		try {
 			this.mailSender.send(messagePreparator);
-			System.err.println("Succès");
+			System.err.println("Le mail a été envoyé");
 		} 
 		catch (MailException ex) {
-			System.err.println("Erreur");
+			System.err.println("Le mail n'a pas pu être envoyé");
 		}
 	}
 }
