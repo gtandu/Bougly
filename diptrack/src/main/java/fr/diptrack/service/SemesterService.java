@@ -26,7 +26,7 @@ public class SemesterService {
 		return semesterRepository.save(semester);
 	}
 
-	public void deleteSemesterFromDto(Long id) {
+	public void deleteSemesterById(Long id) {
 		semesterRepository.delete(id);
 	}
 

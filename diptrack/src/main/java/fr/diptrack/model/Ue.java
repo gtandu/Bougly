@@ -17,9 +17,11 @@ public class Ue {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
-	private String nom;
-	private int coefficientUe;
-	private int seuilCompensation;
+	private String name;
+	private int number;
+	private int average;
+	private int ueCoefficient;
+	private int threshold;
 	@ManyToOne(cascade = { CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH })
 	private Semester semester;
 
@@ -31,15 +33,16 @@ public class Ue {
 
 	public Ue(String nom, int coefficientUE, int seuilCompensation) {
 		super();
-		this.nom = nom;
-		this.coefficientUe = coefficientUE;
-		this.seuilCompensation = seuilCompensation;
+		this.name = nom;
+		this.ueCoefficient = coefficientUE;
+		this.threshold = seuilCompensation;
 	}
 
 	public Ue(UeDto ueDto, Semester semester) {
-		this.nom = ueDto.getNom();
-		this.coefficientUe = ueDto.getCoefficientUe();
-		this.seuilCompensation = ueDto.getSeuilCompensation();
+		this.name = ueDto.getNom();
+		this.number = ueDto.getNumber();
+		this.ueCoefficient = ueDto.getCoefficientUe();
+		this.threshold = ueDto.getSeuilCompensation();
 		this.semester = semester;
 	}
 
@@ -51,28 +54,44 @@ public class Ue {
 		this.id = id;
 	}
 
-	public String getNom() {
-		return nom;
+	public String getName() {
+		return name;
 	}
 
-	public void setNom(String nom) {
-		this.nom = nom;
+	public void setName(String name) {
+		this.name = name;
 	}
 
-	public int getCoefficientUe() {
-		return coefficientUe;
+	public int getNumber() {
+		return number;
 	}
 
-	public void setCoefficientUe(int coefficientUE) {
-		this.coefficientUe = coefficientUE;
+	public void setNumber(int number) {
+		this.number = number;
 	}
 
-	public int getSeuilCompensation() {
-		return seuilCompensation;
+	public int getAverage() {
+		return average;
 	}
 
-	public void setSeuilCompensation(int seuilCompensation) {
-		this.seuilCompensation = seuilCompensation;
+	public void setAverage(int average) {
+		this.average = average;
+	}
+
+	public int getUeCoefficient() {
+		return ueCoefficient;
+	}
+
+	public void setUeCoefficient(int ueCoefficient) {
+		this.ueCoefficient = ueCoefficient;
+	}
+
+	public int getThreshold() {
+		return threshold;
+	}
+
+	public void setThreshold(int threshold) {
+		this.threshold = threshold;
 	}
 
 	public Semester getSemester() {
@@ -90,5 +109,7 @@ public class Ue {
 	public void setListSubject(List<Subject> listSubject) {
 		this.listSubject = listSubject;
 	}
+
+	
 
 }

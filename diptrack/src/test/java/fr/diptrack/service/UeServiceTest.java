@@ -61,5 +61,21 @@ public class UeServiceTest {
 		verify(ueRepository).delete(eq(id));
 
 	}
+	
+	@Test
+	public void testUpdateNumberUe() throws Exception {
+		// WHEN
+		Ue ue = mock(Ue.class);
+		when(ueRepository.findOne(anyLong())).thenReturn(ue);
+
+		UeDto ueDto = mock(UeDto.class);
+		// GIVEN
+		ueService.updateNumberUe(ueDto);
+
+		// THEN
+		verify(ueRepository).findOne(eq(ue.getId()));
+		verify(ueDto).setNumber(eq(ueDto.getNumber()));
+
+	}
 
 }

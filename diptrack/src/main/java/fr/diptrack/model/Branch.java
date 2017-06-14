@@ -69,20 +69,20 @@ public class Branch {
 		this.threshold = threshold;
 	}
 
-	public Responsible getResponsible() {
-		return responsible;
-	}
-
-	public void setResponsible(Responsible responsible) {
-		this.responsible = responsible;
-	}
-
 	public List<Grade> getListGrade() {
 		return listGrade;
 	}
 
 	public void setListGrade(List<Grade> listGrade) {
 		this.listGrade = listGrade;
+	}
+
+	public Responsible getResponsible() {
+		return responsible;
+	}
+
+	public void setResponsible(Responsible responsible) {
+		this.responsible = responsible;
 	}
 
 	public List<Semester> getListSemester() {
@@ -93,4 +93,5 @@ public class Branch {
 		this.listSemester = listSemester;
 	}
 
+	
 }

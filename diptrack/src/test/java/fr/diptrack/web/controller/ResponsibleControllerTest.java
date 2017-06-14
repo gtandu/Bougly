@@ -204,14 +204,14 @@ public class ResponsibleControllerTest {
 	public void testDeleteSemester() throws Exception {
 		// WHEN
 
-		doNothing().when(semesterService).deleteSemesterFromDto(anyLong());
+		doNothing().when(semesterService).deleteSemesterById(anyLong());
 
 		// GIVEN
 		this.mockMvc.perform(post(URL_RESPONSIBLE_CONTROLLER + ResponsibleController.URL_DELETE_SEMESTER)
 				.param("id", "3").contentType(MediaType.APPLICATION_JSON_VALUE)).andExpect(status().isOk());
 
 		// THEN
-		verify(semesterService).deleteSemesterFromDto(anyLong());
+		verify(semesterService).deleteSemesterById(anyLong());
 	}
 
 	@Test
@@ -245,6 +245,35 @@ public class ResponsibleControllerTest {
 		// THEN
 		verify(ueService).createUeFromUeDto(any(UeDto.class));
 
+	}
+	
+	@Test
+	public void testDeleteUe() throws Exception {
+		// WHEN
+
+		doNothing().when(ueService).deleteUeById(anyLong());
+
+		// GIVEN
+		this.mockMvc.perform(post(URL_RESPONSIBLE_CONTROLLER + ResponsibleController.URL_DELETE_UE)
+				.param("id", "3").contentType(MediaType.APPLICATION_JSON_VALUE)).andExpect(status().isOk());
+
+		// THEN
+		verify(ueService).deleteUeById(anyLong());
+	}
+	
+	@Test
+	public void testUpdateNumberUe() throws Exception {
+		// WHEN
+		ObjectMapper mapper = new ObjectMapper();
+		UeDto ueDto = new UeDto();
+		doNothing().when(ueService).updateNumberUe(any(UeDto.class));
+
+		// GIVEN
+		this.mockMvc.perform(post(URL_RESPONSIBLE_CONTROLLER + ResponsibleController.URL_UPDATE_NUMBER_UE)
+				.param("ueDto", mapper.writeValueAsString(ueDto))).andExpect(status().isOk());
+
+		// THEN
+		verify(ueService).updateNumberUe(any(UeDto.class));
 	}
 
 	/*

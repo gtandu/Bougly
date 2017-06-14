@@ -37,7 +37,7 @@ import fr.diptrack.web.dtos.UeDto;
 @RequestMapping(value = "/responsable")
 public class ResponsibleController {
 
-	public static final String URL_DELETE_SEMESTER = "/deleteSemester.html";
+	public static final String URL_DELETE_SEMESTER = "/deleteSemester";
 
 	public static final String URL_CREATE_SEMESTER = "/createSemester";
 
@@ -45,7 +45,7 @@ public class ResponsibleController {
 	public static final String URL_EDIT_COURSE_NAME = "/editCourseName";
 
 	public static final String URL_CONTROLLER_RESPONSIBLE = "/responsable";
-	public static final String URL_UPDATE_NUMBER_SEMESTER = "/updateNumberSemester.html";
+	public static final String URL_UPDATE_NUMBER_SEMESTER = "/updateNumberSemester";
 
 	public static final String URL_CREATE_GRADE = "/creerClasse.html";
 	public static final String URL_DELETE_GRADE = "/supprimerClasse.html";
@@ -56,6 +56,8 @@ public class ResponsibleController {
 	public static final String URL_GRADE_MANAGEMENT = "/gestionClasse.html";
 
 	public static final String URL_CREATE_UE = "/createUe";
+	public static final String URL_DELETE_UE = "/deleteUe";
+	public static final String URL_UPDATE_NUMBER_UE = "/updateNumberUe";
 
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
@@ -178,7 +180,7 @@ public class ResponsibleController {
 	@ResponseBody
 	public void deleteSemester(@RequestParam(required = true) Long id) {
 
-		semesterService.deleteSemesterFromDto(id);
+		semesterService.deleteSemesterById(id);
 
 	}
 
@@ -195,6 +197,22 @@ public class ResponsibleController {
 	public long createUe(UeDto ueDto) {
 		Ue ue = ueService.createUeFromUeDto(ueDto);
 		return ue.getId();
+	}
+	
+	@RequestMapping(value = URL_DELETE_UE, method = RequestMethod.POST)
+	@ResponseBody
+	public void deleteUe(@RequestParam(required = true) Long id) {
+
+		ueService.deleteUeById(id);
+
+	}
+	
+	@RequestMapping(value = URL_UPDATE_NUMBER_UE, method = RequestMethod.POST)
+	@ResponseBody
+	public void updateNumberUe(UeDto ueDto) {
+
+		ueService.updateNumberUe(ueDto);
+
 	}
 
 }

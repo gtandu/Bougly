@@ -90,7 +90,7 @@ public class CourseServiceTest {
 		verify(branchRepository).save(any(Branch.class));
 	}
 
-	@Test(expected = CourseNameInputException.class)
+	@Test(expected = BranchExistException.class)
 	public void testEditCourseNameThrowCourseExistException() throws Exception {
 		// WHEN
 		CourseDto courseDto = new CourseDto("Miage", "", "responsible@hotmail.fr");

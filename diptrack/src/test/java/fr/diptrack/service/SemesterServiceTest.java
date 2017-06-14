@@ -1,11 +1,15 @@
 package fr.diptrack.service;
 
-import static org.mockito.Matchers.*;
+import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyLong;
+import static org.mockito.Matchers.anyString;
 import static org.mockito.Matchers.eq;
+import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+
+import java.util.ArrayList;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -13,7 +17,9 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
+import fr.diptrack.model.Branch;
 import fr.diptrack.model.Semester;
+import fr.diptrack.repository.BranchRepository;
 import fr.diptrack.repository.SemesterRepository;
 import fr.diptrack.web.dtos.SemesterDto;
 
@@ -21,6 +27,10 @@ import fr.diptrack.web.dtos.SemesterDto;
 public class SemesterServiceTest {
 	@Mock
 	private SemesterRepository semesterRepository;
+	
+	@Mock
+	private BranchRepository branchRepository;
+	
 	@InjectMocks
 	private SemesterService semesterService;
 
@@ -28,23 +38,30 @@ public class SemesterServiceTest {
 	public void testSaveSemesterFromDto() throws Exception {
 		// WHEN
 		SemesterDto semesterDto = new SemesterDto();
+		Branch branch = new Branch();
+		branch.setListSemester(new ArrayList<>());
+		when(branchRepository.findByName(anyString())).thenReturn(branch);
+		when(semesterRepository.save(any(Semester.class))).thenReturn(new Semester());
 		// GIVEN
 		semesterService.saveSemesterFromDto(semesterDto);
 		// THEN
-		semesterRepository.save(any(Semester.class));
+		verify(branchRepository).findByName(anyString());
+		verify(semesterRepository).save(any(Semester.class));
 	}
 
 	@Test
-	public void testDeleteSemesterFromDto() throws Exception {
-		// WHEN
-		SemesterDto semesterDto = new SemesterDto();
-		semesterDto.setId(new Long(1));
-		Long id = new Long(1);
-		// GIVEN
-		semesterService.deleteSemesterFromDto(id);
-		// THEN
-		semesterRepository.delete(any(Semester.class));
-	}
+		public void testDeleteSemesterById() throws Exception {
+			// WHEN
+			SemesterDto semesterDto = new SemesterDto();
+			semesterDto.setId(new Long(1));
+			Long id = new Long(1);
+			doNothing().when(semesterRepository).delete(anyLong());
+			// GIVEN
+			semesterService.deleteSemesterById(id);
+			// THEN
+			verify(semesterRepository).delete(anyLong());
+			
+		}
 
 	@Test
 	public void testUpdateNumberSemester() throws Exception {

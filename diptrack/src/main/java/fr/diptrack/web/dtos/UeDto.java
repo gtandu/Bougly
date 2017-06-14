@@ -4,6 +4,7 @@ public class UeDto {
 
 	private long id;
 	private String nom;
+	private int number;
 	private int coefficientUe;
 	private int seuilCompensation;
 	private long idSemester;
@@ -22,6 +23,14 @@ public class UeDto {
 
 	public void setNom(String nom) {
 		this.nom = nom;
+	}
+	
+	public int getNumber() {
+		return number;
+	}
+
+	public void setNumber(int number) {
+		this.number = number;
 	}
 
 	public int getCoefficientUe() {

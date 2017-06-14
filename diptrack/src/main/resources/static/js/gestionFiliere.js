@@ -90,7 +90,7 @@ function addSemestreOnClick() {
                         $(".row-semestre").last().after(rowSemester);
                     }
                     addUeOnClick();
-                    var indexSemester = resetElementIndex(".row-semestre",
+                    resetElementIndex(".row-semestre",
                         ".card-title-semester", "Semestre");
                     deleteElementOnClick(".btn-deleteSemestre",
                         ".row-semestre", ".card-title-semester",
@@ -98,7 +98,7 @@ function addSemestreOnClick() {
                     toggleElementOnClick(".toggleIconSemester",
                         "toggleIconSemester", ".card-content-semester",
                         ".row-Ue")
-                    postDataCreateSemester(indexSemester);
+                    postDataCreateSemester();
 
                 } else {
                     msg = "";
@@ -116,19 +116,20 @@ function addSemestreOnClick() {
 }
 
 function postDataCreateSemester() {
-    var url = "/responsable/createSemester.html";
+    var url = "/responsable/createSemester";
     var semesterJson = {
         number: $(".row-semestre").last().find(".card-title-semester").attr("data-index"),
         branchName: $("#courseName").text()
     };
     $.post(url, semesterJson, function(id) {
         $(".row-semestre").last().find(".card-title-semester").attr("data-id", id);
+        $(".row-semestre").last().find(".btn-addUe").attr("data-id", id);
     })
 }
 
 function postDataUpdateNumberSemester(rowSelector, cardTitleSelector) {
     $.each($(rowSelector), function(index, value) {
-        var url = "/responsable/updateNumberSemester.html";
+        var url = "/responsable/updateNumberSemester";
         var semesterJson = {
             id: $(value).find(cardTitleSelector).attr("data-id"),
             number: $(value).find(cardTitleSelector).attr("data-index"),
@@ -141,12 +142,46 @@ function postDataUpdateNumberSemester(rowSelector, cardTitleSelector) {
 }
 
 function postDataDeleteSemester(semesterSelector) {
-    var url = "/responsable/deleteSemester.html";
+    var url = "/responsable/deleteSemester";
     var id = semesterSelector.find(".card-title-semester").attr("data-id");
     url += "?id=" + id;
     $.post(url, function(data) {
 
     })
+}
+
+function postDataCreateUe(idSemester) {
+    var url = "/responsable/createUe";
+    var ueJson = {
+        nom: "",
+        number: $(".row-Ue").last().find(".card-title-ue").attr("data-index"),
+        idSemester: idSemester
+    }
+    $.post(url, ueJson, function(id) {
+        $(".row-Ue").last().find(".card-title-ue").attr("data-id", id);
+    })
+
+}
+
+function postDataDeleteUe(ueSelector) {
+    var url = "/responsable/deleteUe";
+    var id = ueSelector.find(".card-title-ue").attr("data-id");
+    url += "?id=" + id;
+    $.post(url, function(data) {})
+}
+
+function postDataUpdateNumberUe(semesterParentElement, cardTitleSelector) {
+    $.each($(semesterParentElement).find(".row-Ue"), function(index, value) {
+        var url = "/responsable/updateNumberUe";
+        var semesterJson = {
+            id: $(value).find(cardTitleSelector).attr("data-id"),
+            number: $(value).find(cardTitleSelector).attr("data-index"),
+        };
+        $.post(url, semesterJson, function(data) {
+
+        })
+    });
+
 }
 
 function postDataMatiere() {
@@ -158,17 +193,6 @@ function postDataMatiere() {
             average: "",
             date: ""
         };
-    })
-
-}
-
-function postDataSemester() {
-    var semesterData = {
-        number: ""
-    }
-    var url = "/responsable/createSemester.html"
-    $.post(url, function(semesterData) {
-
     })
 
 }
@@ -194,13 +218,12 @@ function addUeOnClick() {
                         .after(rowUe);
                 }
                 initJsGridLast($(this));
-                // TODO Refactor
-                //resetElementIndex(".row-Ue", ".card-title-ue", "UE");
                 resetUeNumber($(this).parents(".card-content-semester"));
                 deleteElementOnClick(".btn-deleteUe", ".row-Ue",
                     ".card-title-ue", "UE");
                 toggleElementOnClick(".toggleIconUe", "toggleIconUe",
                     ".card-content-ue", ".jsGrid");
+                postDataCreateUe($(this).attr("data-id"));
             })
 }
 
@@ -209,10 +232,10 @@ function showMessageError(selector, msg) {
     $(selector).show();
 }
 
-function resetUeNumber(element) {
-    $.each($(element).find(".row-Ue"), function(index, value) {
+function resetUeNumber(semesterParentElement) {
+    $.each($(semesterParentElement).find(".row-Ue"), function(index, value) {
         var ueNumber = index + 1;
-        $(value).find(".card-title-ue").text("UE " + ueNumber);
+        $(value).find(".card-title-ue").text("UE " + ueNumber).attr("data-index", ueNumber);;
     });
 
 }
@@ -221,21 +244,23 @@ function resetElementIndex(rowSelector, cardTitleSelector, text) {
     $.each($(rowSelector), function(index, value) {
         var elementIndex = index + 1;
         $(value).find(cardTitleSelector).text(text + " " + elementIndex).attr("data-index", elementIndex);
-        return elementIndex;
     });
 
 }
 
 function deleteElementOnClick(btnSelector, rowSelector, cardTitleSelector, text) {
     $(btnSelector).off().click(function() {
-        var element = $(this).parents(".card-content-semester");
-        if (text != "UE") {
-            postDataDeleteSemester(element);
+        var semesterParentElement = $(this).parents(".card-content-semester");
+        if (text == "UE") {
+            postDataDeleteUe($(this).parents(rowSelector));
+        } else {
+            postDataDeleteSemester(semesterParentElement);
 
         }
         $(this).parents(rowSelector).remove();
         if (text == "UE") {
-            resetUeNumber(element);
+            resetUeNumber(semesterParentElement);
+            postDataUpdateNumberUe(semesterParentElement, cardTitleSelector)
         } else {
             resetElementIndex(rowSelector, cardTitleSelector, text);
             postDataUpdateNumberSemester(rowSelector, cardTitleSelector);

@@ -1,7 +1,5 @@
 package fr.diptrack.web.controller;
 
-import javax.annotation.PostConstruct;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +27,7 @@ public class LoginController {
 	@RequestMapping(value = URL_LOGIN_PAGE, method = RequestMethod.GET)
 	public ModelAndView showLoginPage() throws Exception {
 
-		// initUser();
+		//initUser();
 		logger.info("Show login page");
 		ModelAndView model = new ModelAndView();
 		model.setViewName("login");
@@ -42,6 +40,10 @@ public class LoginController {
 		// COMPTE RESPONSABLE
 		UserAccount responsable = new Responsible("responsable@hotmail.fr", "res", "ONYME", "Anne");
 		accountService.saveRegisteredUserByAccountAndRole(responsable, RoleAccountEnum.Responsible.toString());
+		
+		 // COMPTE ADMIN 
+		UserAccount admin = new Administrator("admin@hotmail.fr", "adm", "MAPELLA", "Corentin");
+		 accountService.saveRegisteredUserByAccountAndRole(admin,RoleAccountEnum.Administrator.toString());
 
 		/**
 		 * // COMPTE ADMIN UserAccount admin = new
