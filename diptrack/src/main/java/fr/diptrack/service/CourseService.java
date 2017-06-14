@@ -5,7 +5,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import fr.diptrack.exception.BranchExistException;
-import fr.diptrack.exception.CourseNameInputException;
 import fr.diptrack.model.Branch;
 import fr.diptrack.model.Responsible;
 import fr.diptrack.repository.AccountRepository;

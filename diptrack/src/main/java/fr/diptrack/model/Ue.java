@@ -10,8 +10,10 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
+import fr.diptrack.web.dtos.UeDto;
+
 @Entity
-public class UE {
+public class Ue {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
@@ -24,14 +26,21 @@ public class UE {
 	@OneToMany(cascade = { CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH })
 	private List<Subject> listSubject;
 
-	public UE() {
+	public Ue() {
 	}
 
-	public UE(String nom, int coefficientUE, int seuilCompensation) {
+	public Ue(String nom, int coefficientUE, int seuilCompensation) {
 		super();
 		this.nom = nom;
 		this.coefficientUe = coefficientUE;
 		this.seuilCompensation = seuilCompensation;
+	}
+
+	public Ue(UeDto ueDto, Semester semester) {
+		this.nom = ueDto.getNom();
+		this.coefficientUe = ueDto.getCoefficientUe();
+		this.seuilCompensation = ueDto.getSeuilCompensation();
+		this.semester = semester;
 	}
 
 	public long getId() {
@@ -81,7 +90,5 @@ public class UE {
 	public void setListSubject(List<Subject> listSubject) {
 		this.listSubject = listSubject;
 	}
-
-
 
 }

@@ -16,10 +16,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import fr.diptrack.exception.BranchExistException;
-import fr.diptrack.exception.CourseNameInputException;
 import fr.diptrack.model.Branch;
 import fr.diptrack.model.Grade;
 import fr.diptrack.model.Semester;
+import fr.diptrack.model.Ue;
 import fr.diptrack.model.UserAccount;
 import fr.diptrack.model.enumeration.FormationEnum;
 import fr.diptrack.model.enumeration.LevelEnum;
@@ -27,9 +27,11 @@ import fr.diptrack.service.AccountService;
 import fr.diptrack.service.CourseService;
 import fr.diptrack.service.GradeService;
 import fr.diptrack.service.SemesterService;
+import fr.diptrack.service.UeService;
 import fr.diptrack.web.dtos.CourseDto;
 import fr.diptrack.web.dtos.GradeDto;
 import fr.diptrack.web.dtos.SemesterDto;
+import fr.diptrack.web.dtos.UeDto;
 
 @Controller
 @RequestMapping(value = "/responsable")
@@ -53,6 +55,8 @@ public class ResponsibleController {
 	public static final String URL_COURSE_MANAGEMENT = "/gestionFiliere.html";
 	public static final String URL_GRADE_MANAGEMENT = "/gestionClasse.html";
 
+	public static final String URL_CREATE_UE = "/createUe";
+
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
 	@Autowired
@@ -66,6 +70,9 @@ public class ResponsibleController {
 
 	@Autowired
 	private SemesterService semesterService;
+
+	@Autowired
+	private UeService ueService;
 
 	@RequestMapping(value = URL_HOME_PAGE_RESPONSIBLE, method = RequestMethod.GET)
 	public ModelAndView showPageHomePageResponsible() {
@@ -181,6 +188,13 @@ public class ResponsibleController {
 
 		semesterService.updateNumberSemester(semesterDto);
 
+	}
+
+	@RequestMapping(value = URL_CREATE_UE, method = RequestMethod.POST)
+	@ResponseBody
+	public long createUe(UeDto ueDto) {
+		Ue ue = ueService.createUeFromUeDto(ueDto);
+		return ue.getId();
 	}
 
 }

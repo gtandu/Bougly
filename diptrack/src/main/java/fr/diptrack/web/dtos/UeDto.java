@@ -6,6 +6,7 @@ public class UeDto {
 	private String nom;
 	private int coefficientUe;
 	private int seuilCompensation;
+	private long idSemester;
 
 	public long getId() {
 		return id;
@@ -37,6 +38,14 @@ public class UeDto {
 
 	public void setSeuilCompensation(int seuilCompensation) {
 		this.seuilCompensation = seuilCompensation;
+	}
+
+	public long getIdSemester() {
+		return idSemester;
+	}
+
+	public void setIdSemester(long idSemester) {
+		this.idSemester = idSemester;
 	}
 
 }

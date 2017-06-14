@@ -34,10 +34,13 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import fr.diptrack.exception.BranchExistException;
 import fr.diptrack.model.Branch;
 import fr.diptrack.model.Semester;
+import fr.diptrack.model.Ue;
 import fr.diptrack.service.CourseService;
 import fr.diptrack.service.SemesterService;
+import fr.diptrack.service.UeService;
 import fr.diptrack.web.dtos.CourseDto;
 import fr.diptrack.web.dtos.SemesterDto;
+import fr.diptrack.web.dtos.UeDto;
 
 @RunWith(MockitoJUnitRunner.class)
 @SpringBootTest
@@ -53,6 +56,9 @@ public class ResponsibleControllerTest {
 
 	@Mock
 	private SemesterService semesterService;
+
+	@Mock
+	private UeService ueService;
 
 	private final String URL_RESPONSIBLE_CONTROLLER = "/responsable";
 
@@ -99,6 +105,7 @@ public class ResponsibleControllerTest {
 
 	}
 
+	@SuppressWarnings("unchecked")
 	@Test
 	public void testCreateCourseThrowBranchExistException() throws Exception {
 		// WHEN
@@ -148,6 +155,7 @@ public class ResponsibleControllerTest {
 
 	}
 
+	@SuppressWarnings("unchecked")
 	@Test
 	public void testEditeCourseThrowBranchExistException() throws Exception {
 		// WHEN
@@ -219,6 +227,24 @@ public class ResponsibleControllerTest {
 
 		// THEN
 		verify(semesterService).updateNumberSemester(any(SemesterDto.class));
+	}
+
+	@Test
+	public void testCreateUe() throws Exception {
+		// WHEN
+		UeDto ueDto = new UeDto();
+		ObjectMapper mapper = new ObjectMapper();
+		Ue ue = new Ue();
+		ue.setId(new Long(3));
+		when(ueService.createUeFromUeDto(any(UeDto.class))).thenReturn(ue);
+
+		// GIVEN
+		this.mockMvc.perform(post(URL_RESPONSIBLE_CONTROLLER + ResponsibleController.URL_CREATE_UE).param("ueDto",
+				mapper.writeValueAsString(ueDto))).andExpect(status().isOk());
+
+		// THEN
+		verify(ueService).createUeFromUeDto(any(UeDto.class));
+
 	}
 
 	/*
