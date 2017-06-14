@@ -12,60 +12,52 @@ import javax.persistence.ManyToOne;
 import fr.diptrack.model.enumeration.MarkTypeEnum;
 
 @Entity
-public class MCCRule {
-
+public class Mark {
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
-	private String name;
-	private int coefficient;
-	@Enumerated(EnumType.STRING)
-	private MarkTypeEnum markType;
+	private float mark;
 	@ManyToOne(cascade = { CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH })
-	private Subject Subject;
+	private Student student;
+	@ManyToOne(cascade = { CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH })
+	private Subject subject;
+	@Enumerated(EnumType.STRING)
+	private MarkTypeEnum markTypeEnum;
 	
-	public MCCRule(){}
-
 	public long getId() {
 		return id;
 	}
-
 	public void setId(long id) {
 		this.id = id;
 	}
-
-	public String getName() {
-		return name;
+	public float getMark() {
+		return mark;
 	}
-
-	public void setName(String name) {
-		this.name = name;
+	public void setMark(float mark) {
+		this.mark = mark;
 	}
-
-	public int getCoefficient() {
-		return coefficient;
+	public Student getStudent() {
+		return student;
 	}
-
-	public void setCoefficient(int coefficient) {
-		this.coefficient = coefficient;
+	public void setStudent(Student student) {
+		this.student = student;
 	}
-
-	public MarkTypeEnum getMarkType() {
-		return markType;
-	}
-
-	public void setMarkType(MarkTypeEnum markType) {
-		this.markType = markType;
-	}
-
 	public Subject getSubject() {
-		return Subject;
+		return subject;
 	}
-
 	public void setSubject(Subject subject) {
-		Subject = subject;
+		this.subject = subject;
 	}
+	public MarkTypeEnum getMarkTypeEnum() {
+		return markTypeEnum;
+	}
+	public void setMarkTypeEnum(MarkTypeEnum markTypeEnum) {
+		this.markTypeEnum = markTypeEnum;
+	}
+	
+	
+	
+	
 
-	
-	
 }
