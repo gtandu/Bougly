@@ -1,9 +1,9 @@
 $(function(){
 	 //var
-	  var gjCountAndRedirectStatus = false; //prevent from setting multiple Interval
+	 var gjCountAndRedirectStatus = false; //prevent from setting multiple Interval
 
-	  //call
-	      gjCountAndRedirect(5, "/login.html");
+	 //call
+	 gjCountAndRedirect(5, "/login.html");
 });
 
 function gjCountAndRedirect(secounds, url) {

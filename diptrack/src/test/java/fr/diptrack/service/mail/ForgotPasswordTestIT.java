@@ -14,7 +14,7 @@ public class ForgotPasswordTestIT {
 	private ForgotPassword forgotPassword;
 	
 	@Test
-	public void testResetPassword() throws Exception {
-		forgotPassword.resetPassword();
+	public void testSendMailResetPassword() throws Exception {
+		forgotPassword.sendMailResetPassword();
 	}
 }

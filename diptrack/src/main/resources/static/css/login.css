@@ -2,6 +2,7 @@ body {
     /*background-color: #78909c;*/
     background-image: url("img/WallpaperLogin.png");
 	background-position: center center;
+	background-size: 100% 100%;
 }
 
 .design_formulaire

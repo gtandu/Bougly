@@ -16,7 +16,7 @@ public class ForgotPassword {
 	@Autowired
 	private MailContentBuilder mailContentBuilder;
 	
-	public void resetPassword() {
+	public boolean sendMailResetPassword() {
 		
 			MimeMessagePreparator messagePreparator = mimeMessage -> {
 				
@@ -30,9 +30,11 @@ public class ForgotPassword {
 		try {
 			this.mailSender.send(messagePreparator);
 			System.err.println("Le mail a été envoyé");
+			return true;
 		} 
 		catch (MailException ex) {
 			System.err.println("Le mail n'a pas pu être envoyé");
+			return false;
 		}
 	}
 }
