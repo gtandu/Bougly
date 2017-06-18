@@ -146,7 +146,7 @@ function postDataDeleteSemester(semesterSelector) {
     var id = semesterSelector.find(".card-title-semester").attr("data-id");
     url += "?id=" + id;
     $.post(url, function(data) {
-
+        swal("Suppression !", "Le semestre a été supprimé !", "success");
     })
 }
 
@@ -167,7 +167,9 @@ function postDataDeleteUe(ueSelector) {
     var url = "/responsable/deleteUe";
     var id = ueSelector.find(".card-title-ue").attr("data-id");
     url += "?id=" + id;
-    $.post(url, function(data) {})
+    $.post(url, function(data) {
+        swal("Suppression !", "L'UE a été supprimé !", "success");
+    })
 }
 
 function postDataUpdateNumberUe(semesterParentElement, cardTitleSelector) {
@@ -250,24 +252,42 @@ function resetElementIndex(rowSelector, cardTitleSelector, text) {
 
 function deleteElementOnClick(btnSelector, rowSelector, cardTitleSelector, text) {
     $(btnSelector).off().click(function() {
-        var semesterParentElement = $(this).parents(".card-content-semester");
-        if (text == "UE") {
-            postDataDeleteUe($(this).parents(rowSelector));
-        } else {
-            postDataDeleteSemester(semesterParentElement);
+        var $current = $(this);
+        swal({
+                title: "Etes-vous sûr ?",
+                text: "Vous ne pourrez plus recuperé le contenu",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#DD6B55",
+                confirmButtonText: "Oui",
+                cancelButtonText: "Non",
+                closeOnConfirm: false
+            },
+            function(isConfirm) {
+                if (isConfirm) {
 
-        }
-        $(this).parents(rowSelector).remove();
-        if (text == "UE") {
-            resetUeNumber(semesterParentElement);
-            postDataUpdateNumberUe(semesterParentElement, cardTitleSelector)
-        } else {
-            resetElementIndex(rowSelector, cardTitleSelector, text);
-            postDataUpdateNumberSemester(rowSelector, cardTitleSelector);
+                    var semesterParentElement = $current.parents(".card-content-semester");
+                    if (text == "UE") {
+                        postDataDeleteUe($current.parents(rowSelector));
+                    } else {
+                        postDataDeleteSemester(semesterParentElement);
 
-        }
-    })
+                    }
+                    $current.parents(rowSelector).remove();
+                    if (text == "UE") {
+                        resetUeNumber(semesterParentElement);
+                        postDataUpdateNumberUe(semesterParentElement, cardTitleSelector)
+                    } else {
+                        resetElementIndex(rowSelector, cardTitleSelector, text);
+                        postDataUpdateNumberSemester(rowSelector, cardTitleSelector);
 
+                    }
+
+                } else {
+                    swal("Annulation !", "Le contenu n'a pas été supprimé !", "error");
+                }
+            });
+    });
 }
 
 function toggleIconSemesterOnClick() {
@@ -404,15 +424,73 @@ function initJsGridLast(element) {
         sorting: true,
         paging: true,
 
+        onItemDeleting: function(args) {
+            swal({
+                title: "Etes-vous sûr ?",
+                text: "Vous ne pourrez plus recuperé la matière " + args.item.Nom,
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#DD6B55",
+                confirmButtonText: "Oui",
+                cancelButtonText: "Non",
+                closeOnConfirm: false
+            })
+        },
+        onItemDeleted: function(args) {
+            swal("Suppression !", "La matière " + args.item.Nom + " a été supprimé !", "success");
+        },
+        onItemInserting: function(args) {
+            // cancel insertion of the item with empty 'name' field
+            var url = "/responsable/checkSubjectName";
+            var json = {
+                idSemester: "",
+                subjectName: ""
+
+            }
+            json.idSemester = $("#courseName").attr("data-id");
+            json.subjectName = args.item.Nom;
+            console.log("test")
+            $.ajax({
+                type: "POST",
+                async: false,
+                url: "/responsable/checkSubjectName",
+                data: json,
+                dataType: "json",
+                success: function(subjectNameExistInBranch) {
+                    if (subjectNameExistInBranch) {
+                        args.cancel = true;
+                        console.log(args);
+                        swal({
+                            title: "Erreur",
+                            text: "La matière " + json.subjectName + " existe déjà dans cette filière !",
+                            type: "warning",
+                            confirmButtonText: "Ok"
+                        });
+                    }
+                }
+            });
+
+            /*
+            $.post(url, json, function(subjectNameExistInBranch){
+            	if(subjectNameExistInBranch){
+            		args.cancel = true;
+            		console.log(args);
+            		alert("La matiere : "+json.subjectName +" existe déjà dans cette filiere!");
+            	}
+            })
+            */
+        },
+
         onItemInserted: function(args) {
-            var subjectJson ={
-            		name : "",
-            		description : "",
-            		coefficient : "",
-            		threshold:"",
-            		resit :"",
-            		year : "",
-            		ueId : ""
+            console.log(args);
+            var subjectJson = {
+                name: "",
+                description: "",
+                coefficient: "",
+                threshold: "",
+                resit: "",
+                year: "",
+                ueId: ""
             }
             var url = "/responsable/createSubject";
             subjectJson.name = args.item.Nom;
@@ -422,25 +500,51 @@ function initJsGridLast(element) {
             subjectJson.resit = args.item.Rattrapable;
             subjectJson.year = args.item.Année;
             subjectJson.ueId = args.grid._container.parents(".card-content-ue").find(".card-title-ue").attr("data-id")
-            
+
             console.log(subjectJson);
-            
-        	$.post(url,subjectJson, function(data)
-            {
-            	
+
+            $.post(url, subjectJson, function(data) {
+
             });
         },
 
         onItemDeleted: function(args) {
-            var url="/responsable/deleteSubject";
+            var url = "/responsable/deleteSubject";
             var objectJson = {
-            		subjectName : args.item.Nom,
-            		ueId : args.grid._container.parents(".card-content-ue").find(".card-title-ue").attr("data-id")
+                subjectName: args.item.Nom,
+                ueId: args.grid._container.parents(".card-content-ue").find(".card-title-ue").attr("data-id")
             }
-            $.post(url, objectJson, function(data)
-                    {
-                    	
-                    });
+            $.post(url, objectJson, function(id) {
+
+            });
+        },
+        onItemUpdated: function(args) {
+            console.log(args);
+            var subjectJson = {
+                name: "",
+                description: "",
+                coefficient: "",
+                threshold: "",
+                resit: "",
+                year: "",
+                ueId: "",
+                previousName: ""
+            }
+            var url = "/responsable/updateSubject";
+            subjectJson.name = args.item.Nom;
+            subjectJson.description = args.item.Description;
+            subjectJson.coefficient = args.item.Coefficient;
+            subjectJson.threshold = args.item["Seuil de compensation"];
+            subjectJson.resit = args.item.Rattrapable;
+            subjectJson.year = args.item.Année;
+            subjectJson.ueId = args.grid._container.parents(".card-content-ue").find(".card-title-ue").attr("data-id")
+            subjectJson.previousName = args.previousItem.Nom;
+
+            console.log(subjectJson);
+
+            $.post(url, subjectJson, function(id) {
+
+            });
         },
 
         noDataContent: "",

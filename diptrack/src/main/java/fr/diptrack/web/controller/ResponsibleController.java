@@ -34,6 +34,7 @@ import fr.diptrack.service.UeService;
 import fr.diptrack.web.dtos.CourseDto;
 import fr.diptrack.web.dtos.GradeDto;
 import fr.diptrack.web.dtos.SemesterDto;
+import fr.diptrack.web.dtos.SemesterIdSubjectNameDto;
 import fr.diptrack.web.dtos.SubjectDto;
 import fr.diptrack.web.dtos.SubjectNameUeIdDto;
 import fr.diptrack.web.dtos.UeDto;
@@ -65,7 +66,9 @@ public class ResponsibleController {
 	public static final String URL_UPDATE_NUMBER_UE = "/updateNumberUe";
 
 	public static final String URL_CREATE_SUBJECT = "/createSubject";
+	public static final String URL_UPDATE_SUBJECT = "/updateSubject";
 	public static final String URL_DELETE_SUBJECT = "/deleteSubject";
+	public static final String URL_CHECK_SUBJECT_NAME_IN_COURSE = "/checkSubjectName";
 
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
@@ -228,9 +231,9 @@ public class ResponsibleController {
 
 	@RequestMapping(value = URL_CREATE_SUBJECT, method = RequestMethod.POST)
 	@ResponseBody
-	public String createSubject(SubjectDto subjectDto) throws SubjectExistException {
+	public long createSubject(SubjectDto subjectDto) throws SubjectExistException {
 		Subject subject = subjectService.saveSubjectFromDto(subjectDto);
-		return subject.getName();
+		return subject.getId();
 	}
 
 	@RequestMapping(value = URL_DELETE_SUBJECT, method = RequestMethod.POST)
@@ -239,6 +242,20 @@ public class ResponsibleController {
 
 		subjectService.deleteSubjectByName(dto);
 
+	}
+	
+	@RequestMapping(value = URL_UPDATE_SUBJECT, method = RequestMethod.POST)
+	@ResponseBody
+	public void updateStudentInfo(SubjectDto subjectDto) {
+
+		subjectService.updateSubjectFromDto(subjectDto);
+
+	}
+	
+	@RequestMapping(value = URL_CHECK_SUBJECT_NAME_IN_COURSE, method = RequestMethod.POST)
+	@ResponseBody
+	public boolean checkSubjectNameExistInBranch(SemesterIdSubjectNameDto dto){
+		return subjectService.checkSubjectExistInBranch(dto);
 	}
 
 }

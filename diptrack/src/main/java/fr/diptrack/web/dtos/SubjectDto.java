@@ -9,6 +9,7 @@ public class SubjectDto {
 	private boolean resit;
 	private int year;
 	private long ueId;
+	private String previousName;
 
 	public String getName() {
 		return name;
@@ -65,5 +66,15 @@ public class SubjectDto {
 	public void setUeId(long ueId) {
 		this.ueId = ueId;
 	}
+
+	public String getPreviousName() {
+		return previousName;
+	}
+
+	public void setPreviousName(String previousName) {
+		this.previousName = previousName;
+	}
+	
+	
 
 }

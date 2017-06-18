@@ -34,12 +34,17 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import fr.diptrack.exception.BranchExistException;
 import fr.diptrack.model.Branch;
 import fr.diptrack.model.Semester;
+import fr.diptrack.model.Subject;
 import fr.diptrack.model.Ue;
 import fr.diptrack.service.CourseService;
 import fr.diptrack.service.SemesterService;
+import fr.diptrack.service.SubjectService;
 import fr.diptrack.service.UeService;
 import fr.diptrack.web.dtos.CourseDto;
 import fr.diptrack.web.dtos.SemesterDto;
+import fr.diptrack.web.dtos.SemesterIdSubjectNameDto;
+import fr.diptrack.web.dtos.SubjectDto;
+import fr.diptrack.web.dtos.SubjectNameUeIdDto;
 import fr.diptrack.web.dtos.UeDto;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -56,6 +61,9 @@ public class ResponsibleControllerTest {
 
 	@Mock
 	private SemesterService semesterService;
+
+	@Mock
+	private SubjectService subjectService;
 
 	@Mock
 	private UeService ueService;
@@ -246,7 +254,7 @@ public class ResponsibleControllerTest {
 		verify(ueService).createUeFromUeDto(any(UeDto.class));
 
 	}
-	
+
 	@Test
 	public void testDeleteUe() throws Exception {
 		// WHEN
@@ -254,13 +262,13 @@ public class ResponsibleControllerTest {
 		doNothing().when(ueService).deleteUeById(anyLong());
 
 		// GIVEN
-		this.mockMvc.perform(post(URL_RESPONSIBLE_CONTROLLER + ResponsibleController.URL_DELETE_UE)
-				.param("id", "3").contentType(MediaType.APPLICATION_JSON_VALUE)).andExpect(status().isOk());
+		this.mockMvc.perform(post(URL_RESPONSIBLE_CONTROLLER + ResponsibleController.URL_DELETE_UE).param("id", "3")
+				.contentType(MediaType.APPLICATION_JSON_VALUE)).andExpect(status().isOk());
 
 		// THEN
 		verify(ueService).deleteUeById(anyLong());
 	}
-	
+
 	@Test
 	public void testUpdateNumberUe() throws Exception {
 		// WHEN
@@ -287,6 +295,75 @@ public class ResponsibleControllerTest {
 		viewResolver.setSuffix(".html");
 
 		return viewResolver;
+	}
+
+	@Test
+	public void testCreateSubject() throws Exception {
+		// WHEN
+		ObjectMapper mapper = new ObjectMapper();
+		SubjectDto subjectDto = new SubjectDto();
+		Subject subject = new Subject();
+		subject.setId(new Long(2));
+		when(subjectService.saveSubjectFromDto(any(SubjectDto.class))).thenReturn(subject);
+
+		// GIVEN
+
+		this.mockMvc.perform(post(URL_RESPONSIBLE_CONTROLLER + ResponsibleController.URL_CREATE_SUBJECT)
+				.param("subjectDto", mapper.writeValueAsString(subjectDto))).andExpect(status().isOk());
+
+		// THEN
+		verify(subjectService).saveSubjectFromDto(any(SubjectDto.class));
+	}
+
+	@Test
+	public void testDeleteSubject() throws Exception {
+		// WHEN
+		ObjectMapper mapper = new ObjectMapper();
+		SubjectNameUeIdDto subjectNameUeIdDto = new SubjectNameUeIdDto();
+		doNothing().when(subjectService).deleteSubjectByName(any(SubjectNameUeIdDto.class));
+
+		// GIVEN
+		this.mockMvc.perform(post(URL_RESPONSIBLE_CONTROLLER + ResponsibleController.URL_DELETE_SUBJECT).param("dto",
+				mapper.writeValueAsString(subjectNameUeIdDto))).andExpect(status().isOk());
+
+		// THEN
+
+		verify(subjectService).deleteSubjectByName(any(SubjectNameUeIdDto.class));
+
+	}
+
+	@Test
+	public void testUpdateStudentInfo() throws Exception {
+
+		// WHEN
+		ObjectMapper mapper = new ObjectMapper();
+		SubjectDto subjectDto = new SubjectDto();
+		doNothing().when(subjectService).updateSubjectFromDto((any(SubjectDto.class)));
+
+		// GIVEN
+		this.mockMvc.perform(post(URL_RESPONSIBLE_CONTROLLER + ResponsibleController.URL_UPDATE_SUBJECT).param("subjectDto",
+				mapper.writeValueAsString(subjectDto))).andExpect(status().isOk());
+
+		// THEN
+
+		verify(subjectService).updateSubjectFromDto((any(SubjectDto.class)));
+
+	}
+
+	@Test
+	public void testCheckSubjectNameExistInBranch() throws Exception {
+		// WHEN
+		ObjectMapper mapper = new ObjectMapper();
+		SemesterIdSubjectNameDto semesterIdSubjectNameDto = new SemesterIdSubjectNameDto();
+		when(subjectService.checkSubjectExistInBranch(any(SemesterIdSubjectNameDto.class))).thenReturn(true);
+
+		// GIVEN
+		this.mockMvc.perform(post(URL_RESPONSIBLE_CONTROLLER + ResponsibleController.URL_CHECK_SUBJECT_NAME_IN_COURSE).param("dto",
+				mapper.writeValueAsString(semesterIdSubjectNameDto))).andExpect(status().isOk());
+
+		// THEN
+
+		verify(subjectService).checkSubjectExistInBranch((any(SemesterIdSubjectNameDto.class)));
 	}
 
 }
