@@ -9,6 +9,8 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
+import fr.diptrack.web.dtos.SubjectDto;
+
 @Entity
 public class Subject {
 
@@ -28,8 +30,9 @@ public class Subject {
 	private List<Student> listStudents;
 	@OneToMany(cascade = { CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH })
 	private List<Mark> listMarks;
-	
-	public Subject(){}
+
+	public Subject() {
+	}
 
 	public Subject(String name, String description, int coefficient, int threshold, boolean resit) {
 		super();
@@ -38,6 +41,16 @@ public class Subject {
 		this.coefficient = coefficient;
 		this.threshold = threshold;
 		this.resit = resit;
+	}
+
+	public Subject(SubjectDto subjectDto, Ue ue) {
+		this.name = subjectDto.getName();
+		this.description = subjectDto.getDescription();
+		this.coefficient = subjectDto.getCoefficient();
+		this.threshold = subjectDto.getThreshold();
+		this.resit = subjectDto.isResit();
+		this.year = subjectDto.getYear();
+		this.ue = ue;
 	}
 
 	public String getName() {
@@ -127,11 +140,5 @@ public class Subject {
 	public void setListMarks(List<Mark> listMarks) {
 		this.listMarks = listMarks;
 	}
-	
-	
 
-
-	
-
-	
 }

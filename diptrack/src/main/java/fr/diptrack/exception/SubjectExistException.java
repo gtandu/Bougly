@@ -1,18 +1,17 @@
 package fr.diptrack.exception;
 
-public class BranchExistException extends Exception {
+public class SubjectExistException extends Exception {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = -8150474981430076086L;
 
-	public BranchExistException() {
+	public SubjectExistException() {
 		super();
 	}
 
-	public BranchExistException(String message) {
+	public SubjectExistException(String message) {
 		super(message);
 	}
-
 }

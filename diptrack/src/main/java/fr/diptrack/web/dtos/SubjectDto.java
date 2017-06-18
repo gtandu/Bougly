@@ -7,6 +7,8 @@ public class SubjectDto {
 	private int coefficient;
 	private int threshold;
 	private boolean resit;
+	private int year;
+	private long ueId;
 
 	public String getName() {
 		return name;
@@ -46,6 +48,22 @@ public class SubjectDto {
 
 	public void setResit(boolean resit) {
 		this.resit = resit;
+	}
+
+	public int getYear() {
+		return year;
+	}
+
+	public void setYear(int year) {
+		this.year = year;
+	}
+
+	public long getUeId() {
+		return ueId;
+	}
+
+	public void setUeId(long ueId) {
+		this.ueId = ueId;
 	}
 
 }

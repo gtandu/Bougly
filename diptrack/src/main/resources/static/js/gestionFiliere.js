@@ -405,18 +405,42 @@ function initJsGridLast(element) {
         paging: true,
 
         onItemInserted: function(args) {
-            /*
-        	$.post("", function(data)
+            var subjectJson ={
+            		name : "",
+            		description : "",
+            		coefficient : "",
+            		threshold:"",
+            		resit :"",
+            		year : "",
+            		ueId : ""
+            }
+            var url = "/responsable/createSubject";
+            subjectJson.name = args.item.Nom;
+            subjectJson.description = args.item.Description;
+            subjectJson.coefficient = args.item.Coefficient;
+            subjectJson.threshold = args.item["Seuil de compensation"];
+            subjectJson.resit = args.item.Rattrapable;
+            subjectJson.year = args.item.Année;
+            subjectJson.ueId = args.grid._container.parents(".card-content-ue").find(".card-title-ue").attr("data-id")
+            
+            console.log(subjectJson);
+            
+        	$.post(url,subjectJson, function(data)
             {
             	
             });
-            */
-            console.log(args.item);
         },
 
         onItemDeleted: function(args) {
-            console.log("Ajax ici");
-            console.log(args.item);
+            var url="/responsable/deleteSubject";
+            var objectJson = {
+            		subjectName : args.item.Nom,
+            		ueId : args.grid._container.parents(".card-content-ue").find(".card-title-ue").attr("data-id")
+            }
+            $.post(url, objectJson, function(data)
+                    {
+                    	
+                    });
         },
 
         noDataContent: "",
@@ -424,37 +448,50 @@ function initJsGridLast(element) {
         /* data : matiere, */
 
         fields: [{
-            name: "Nom",
-            type: "text",
-            align: "center",
-            width: 100,
-            validate: "required"
-        }, {
-            name: "Description",
-            type: "text",
-            align: "center",
-            width: 200
-        }, {
-            name: "Coefficient",
-            type: "number",
-            align: "center",
-            width: 50
-        }, {
-            name: "Seuil de compensation",
-            type: "number",
-            align: "center",
-            width: 50
-        }, {
-            name: "Rattrapable",
-            type: "select",
-            align: "center",
-            items: reponse,
-            selectedIndex: 0,
-            valueField: "Id",
-            textField: "Valeur"
-        }, {
-            type: "control"
-        }]
+                name: "Nom",
+                type: "text",
+                align: "center",
+                width: 100,
+                validate: "required"
+            }, {
+                name: "Description",
+                type: "text",
+                align: "center",
+                width: 100,
+                validate: "required"
+            }, {
+                name: "Coefficient",
+                type: "number",
+                align: "center",
+                width: 50,
+                validate: "required"
+            }, {
+                name: "Seuil de compensation",
+                type: "number",
+                align: "center",
+                width: 50,
+                validate: "required"
+            }, {
+                name: "Rattrapable",
+                type: "select",
+                align: "center",
+                items: reponse,
+                selectedIndex: 0,
+                valueField: "Id",
+                textField: "Valeur",
+                validate: "required"
+            },
+            {
+                name: "Année",
+                type: "number",
+                align: "center",
+                width: 40,
+                validate: "required"
+            },
+            {
+                type: "control"
+            }
+        ]
     });
 
 }
@@ -491,37 +528,50 @@ function initJsGrid() {
         noDataContent: "",
 
         fields: [{
-            name: "Nom",
-            type: "text",
-            align: "center",
-            width: 100,
-            validate: "required"
-        }, {
-            name: "Description",
-            type: "text",
-            align: "center",
-            width: 200
-        }, {
-            name: "Coefficient",
-            type: "number",
-            align: "center",
-            width: 50
-        }, {
-            name: "Seuil de compensation",
-            type: "number",
-            align: "center",
-            width: 50
-        }, {
-            name: "Rattrapable",
-            type: "select",
-            align: "center",
-            items: reponse,
-            selectedIndex: 0,
-            valueField: "Id",
-            textField: "Valeur"
-        }, {
-            type: "control"
-        }]
+                name: "Nom",
+                type: "text",
+                align: "center",
+                width: 100,
+                validate: "required"
+            }, {
+                name: "Description",
+                type: "text",
+                align: "center",
+                width: 100,
+                validate: "required"
+            }, {
+                name: "Coefficient",
+                type: "number",
+                align: "center",
+                width: 50,
+                validate: "required"
+            }, {
+                name: "Seuil de compensation",
+                type: "number",
+                align: "center",
+                width: 50,
+                validate: "required"
+            }, {
+                name: "Rattrapable",
+                type: "select",
+                align: "center",
+                items: reponse,
+                selectedIndex: 0,
+                valueField: "Id",
+                textField: "Valeur",
+                validate: "required"
+            },
+            {
+                name: "Année",
+                type: "number",
+                align: "center",
+                width: 40,
+                validate: "required"
+            },
+            {
+                type: "control"
+            }
+        ]
     });
 
 }

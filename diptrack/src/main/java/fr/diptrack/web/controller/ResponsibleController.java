@@ -16,9 +16,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import fr.diptrack.exception.BranchExistException;
+import fr.diptrack.exception.SubjectExistException;
 import fr.diptrack.model.Branch;
 import fr.diptrack.model.Grade;
 import fr.diptrack.model.Semester;
+import fr.diptrack.model.Subject;
 import fr.diptrack.model.Ue;
 import fr.diptrack.model.UserAccount;
 import fr.diptrack.model.enumeration.FormationEnum;
@@ -27,10 +29,13 @@ import fr.diptrack.service.AccountService;
 import fr.diptrack.service.CourseService;
 import fr.diptrack.service.GradeService;
 import fr.diptrack.service.SemesterService;
+import fr.diptrack.service.SubjectService;
 import fr.diptrack.service.UeService;
 import fr.diptrack.web.dtos.CourseDto;
 import fr.diptrack.web.dtos.GradeDto;
 import fr.diptrack.web.dtos.SemesterDto;
+import fr.diptrack.web.dtos.SubjectDto;
+import fr.diptrack.web.dtos.SubjectNameUeIdDto;
 import fr.diptrack.web.dtos.UeDto;
 
 @Controller
@@ -59,6 +64,9 @@ public class ResponsibleController {
 	public static final String URL_DELETE_UE = "/deleteUe";
 	public static final String URL_UPDATE_NUMBER_UE = "/updateNumberUe";
 
+	public static final String URL_CREATE_SUBJECT = "/createSubject";
+	public static final String URL_DELETE_SUBJECT = "/deleteSubject";
+
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
 	@Autowired
@@ -75,6 +83,9 @@ public class ResponsibleController {
 
 	@Autowired
 	private UeService ueService;
+
+	@Autowired
+	private SubjectService subjectService;
 
 	@RequestMapping(value = URL_HOME_PAGE_RESPONSIBLE, method = RequestMethod.GET)
 	public ModelAndView showPageHomePageResponsible() {
@@ -198,7 +209,7 @@ public class ResponsibleController {
 		Ue ue = ueService.createUeFromUeDto(ueDto);
 		return ue.getId();
 	}
-	
+
 	@RequestMapping(value = URL_DELETE_UE, method = RequestMethod.POST)
 	@ResponseBody
 	public void deleteUe(@RequestParam(required = true) Long id) {
@@ -206,12 +217,27 @@ public class ResponsibleController {
 		ueService.deleteUeById(id);
 
 	}
-	
+
 	@RequestMapping(value = URL_UPDATE_NUMBER_UE, method = RequestMethod.POST)
 	@ResponseBody
 	public void updateNumberUe(UeDto ueDto) {
 
 		ueService.updateNumberUe(ueDto);
+
+	}
+
+	@RequestMapping(value = URL_CREATE_SUBJECT, method = RequestMethod.POST)
+	@ResponseBody
+	public String createSubject(SubjectDto subjectDto) throws SubjectExistException {
+		Subject subject = subjectService.saveSubjectFromDto(subjectDto);
+		return subject.getName();
+	}
+
+	@RequestMapping(value = URL_DELETE_SUBJECT, method = RequestMethod.POST)
+	@ResponseBody
+	public void deleteSubject(SubjectNameUeIdDto dto) {
+
+		subjectService.deleteSubjectByName(dto);
 
 	}
 

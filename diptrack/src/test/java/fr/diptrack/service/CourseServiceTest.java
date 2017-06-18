@@ -48,7 +48,7 @@ public class CourseServiceTest {
 	}
 
 	@Test(expected = BranchExistException.class)
-	public void testSaveCourseFromDtoThrowCourseExistException() throws Exception {
+	public void testSaveCourseFromDtoThrowBranchExistException() throws Exception {
 		// WHEN
 		CourseDto courseDto = new CourseDto("Miage", "", "responsible@hotmail.fr");
 		when(branchRepository.findByName(anyString())).thenReturn(new Branch(courseDto));
