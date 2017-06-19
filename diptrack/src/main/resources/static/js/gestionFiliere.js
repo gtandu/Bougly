@@ -3,7 +3,7 @@
  */
 $(function() {
 
-    initJsGrid();
+    //initJsGrid();
     addSemestreOnClick();
     saveFiliereNameOnClick();
 
@@ -255,7 +255,7 @@ function deleteElementOnClick(btnSelector, rowSelector, cardTitleSelector, text)
         var $current = $(this);
         swal({
                 title: "Etes-vous sûr ?",
-                text: "Vous ne pourrez plus recuperé le contenu",
+                text: "Vous ne pourrez plus récupérer le contenu",
                 type: "warning",
                 showCancelButton: true,
                 confirmButtonColor: "#DD6B55",
@@ -423,21 +423,41 @@ function initJsGridLast(element) {
         editing: true,
         sorting: true,
         paging: true,
+        confirmDeleting: false,
 
         onItemDeleting: function(args) {
+        	$grid = args.grid._container;
+        	if(!args.item.deleteConfirmed){
+        		args.cancel = true; // cancel deleting
             swal({
                 title: "Etes-vous sûr ?",
-                text: "Vous ne pourrez plus recuperé la matière " + args.item.Nom,
+                text: "Vous ne pourrez plus récupérer la matière " + args.item.Nom,
                 type: "warning",
                 showCancelButton: true,
                 confirmButtonColor: "#DD6B55",
                 confirmButtonText: "Oui",
                 cancelButtonText: "Non",
                 closeOnConfirm: false
-            })
+            },            function(isConfirm) {
+                if (isConfirm) {
+                	args.item.deleteConfirmed = true;
+                	$grid.jsGrid('deleteItem', args.item)
+                } else {
+                    swal("Annulation !", "La matière " + args.item.Nom + " n'a pas été supprimée !", "error");
+                }
+            });
+        }
         },
         onItemDeleted: function(args) {
-            swal("Suppression !", "La matière " + args.item.Nom + " a été supprimé !", "success");
+            var url = "/responsable/deleteSubject";
+            var objectJson = {
+                subjectName: args.item.Nom,
+                ueId: args.grid._container.parents(".card-content-ue").find(".card-title-ue").attr("data-id")
+            }
+            $.post(url, objectJson, function(id) {
+            	swal("Suppression !", "La matière " + args.item.Nom + " a été supprimée !", "success");
+
+            });
         },
         onItemInserting: function(args) {
             // cancel insertion of the item with empty 'name' field
@@ -504,17 +524,6 @@ function initJsGridLast(element) {
             console.log(subjectJson);
 
             $.post(url, subjectJson, function(data) {
-
-            });
-        },
-
-        onItemDeleted: function(args) {
-            var url = "/responsable/deleteSubject";
-            var objectJson = {
-                subjectName: args.item.Nom,
-                ueId: args.grid._container.parents(".card-content-ue").find(".card-title-ue").attr("data-id")
-            }
-            $.post(url, objectJson, function(id) {
 
             });
         },
