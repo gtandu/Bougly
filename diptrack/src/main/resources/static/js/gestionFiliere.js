@@ -20,7 +20,7 @@ function saveFiliereNameOnClick() {
         if ($("#courseNameInput").data("mode") == "edit") {
             courseJson.name = $("#courseNameInput").data("name");
             courseJson.newName = $("#courseNameInput").val();
-            postCourse("/responsable/editCourseName.html", courseJson);
+            postCourse("/responsable/editCourseName", courseJson);
         } else {
             postCourse("/responsable/createCourse", courseJson);
         }
@@ -204,6 +204,10 @@ function addUeOnClick() {
         .off()
         .click(
             function() {
+                var btnToggleUe = $(this).parent().prev().find(".extendIcon");
+                if (btnToggleUe.length != 0) {
+                    btnToggleUe.click();
+                }
                 var rowUe = "<div class='row row-Ue'>" +
                     "<div class='card-panel'>" +
                     "<div class='UE'>" +
@@ -219,6 +223,7 @@ function addUeOnClick() {
                     $(this).parents(".row").find(".row-Ue").last()
                         .after(rowUe);
                 }
+
                 initJsGridLast($(this));
                 resetUeNumber($(this).parents(".card-content-semester"));
                 deleteElementOnClick(".btn-deleteUe", ".row-Ue",
@@ -401,6 +406,35 @@ function toggleIconUeOnClick() {
 
 }
 
+function checkIfSubjectNameExistInSemester(args) {
+    var url = "/responsable/checkSubjectName";
+    var json = {
+        idSemester: "",
+        subjectName: ""
+
+    }
+    json.idSemester = $("#courseName").attr("data-id");
+    json.subjectName = args.item.Nom;
+    $.ajax({
+        type: "POST",
+        async: false,
+        url: "/responsable/checkSubjectName",
+        data: json,
+        dataType: "json",
+        success: function(subjectNameExistInBranch) {
+            if (subjectNameExistInBranch) {
+                args.cancel = true;
+                swal({
+                    title: "Erreur",
+                    text: "La matière " + json.subjectName + " existe déjà dans cette filière !",
+                    type: "warning",
+                    confirmButtonText: "Ok"
+                });
+            }
+        }
+    });
+}
+
 function initJsGridLast(element) {
     /*
      * var matiere = [ { "Nom" : "Java", "Description" : "Programmation J2EE",
@@ -425,28 +459,32 @@ function initJsGridLast(element) {
         paging: true,
         confirmDeleting: false,
 
+        onItemUpdating: function(args) {
+            checkIfSubjectNameExistInSemester(args)
+
+        },
         onItemDeleting: function(args) {
-        	$grid = args.grid._container;
-        	if(!args.item.deleteConfirmed){
-        		args.cancel = true; // cancel deleting
-            swal({
-                title: "Etes-vous sûr ?",
-                text: "Vous ne pourrez plus récupérer la matière " + args.item.Nom,
-                type: "warning",
-                showCancelButton: true,
-                confirmButtonColor: "#DD6B55",
-                confirmButtonText: "Oui",
-                cancelButtonText: "Non",
-                closeOnConfirm: false
-            },            function(isConfirm) {
-                if (isConfirm) {
-                	args.item.deleteConfirmed = true;
-                	$grid.jsGrid('deleteItem', args.item)
-                } else {
-                    swal("Annulation !", "La matière " + args.item.Nom + " n'a pas été supprimée !", "error");
-                }
-            });
-        }
+            $grid = args.grid._container;
+            if (!args.item.deleteConfirmed) {
+                args.cancel = true; // cancel deleting
+                swal({
+                    title: "Etes-vous sûr ?",
+                    text: "Vous ne pourrez plus récupérer la matière " + args.item.Nom,
+                    type: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#DD6B55",
+                    confirmButtonText: "Oui",
+                    cancelButtonText: "Non",
+                    closeOnConfirm: false
+                }, function(isConfirm) {
+                    if (isConfirm) {
+                        args.item.deleteConfirmed = true;
+                        $grid.jsGrid('deleteItem', args.item)
+                    } else {
+                        swal("Annulation !", "La matière " + args.item.Nom + " n'a pas été supprimée !", "error");
+                    }
+                });
+            }
         },
         onItemDeleted: function(args) {
             var url = "/responsable/deleteSubject";
@@ -455,54 +493,15 @@ function initJsGridLast(element) {
                 ueId: args.grid._container.parents(".card-content-ue").find(".card-title-ue").attr("data-id")
             }
             $.post(url, objectJson, function(id) {
-            	swal("Suppression !", "La matière " + args.item.Nom + " a été supprimée !", "success");
+                swal("Suppression !", "La matière " + args.item.Nom + " a été supprimée !", "success");
 
             });
         },
         onItemInserting: function(args) {
-            // cancel insertion of the item with empty 'name' field
-            var url = "/responsable/checkSubjectName";
-            var json = {
-                idSemester: "",
-                subjectName: ""
-
-            }
-            json.idSemester = $("#courseName").attr("data-id");
-            json.subjectName = args.item.Nom;
-            console.log("test")
-            $.ajax({
-                type: "POST",
-                async: false,
-                url: "/responsable/checkSubjectName",
-                data: json,
-                dataType: "json",
-                success: function(subjectNameExistInBranch) {
-                    if (subjectNameExistInBranch) {
-                        args.cancel = true;
-                        console.log(args);
-                        swal({
-                            title: "Erreur",
-                            text: "La matière " + json.subjectName + " existe déjà dans cette filière !",
-                            type: "warning",
-                            confirmButtonText: "Ok"
-                        });
-                    }
-                }
-            });
-
-            /*
-            $.post(url, json, function(subjectNameExistInBranch){
-            	if(subjectNameExistInBranch){
-            		args.cancel = true;
-            		console.log(args);
-            		alert("La matiere : "+json.subjectName +" existe déjà dans cette filiere!");
-            	}
-            })
-            */
+            checkIfSubjectNameExistInSemester(args)
         },
 
         onItemInserted: function(args) {
-            console.log(args);
             var subjectJson = {
                 name: "",
                 description: "",
@@ -520,8 +519,6 @@ function initJsGridLast(element) {
             subjectJson.resit = args.item.Rattrapable;
             subjectJson.year = args.item.Année;
             subjectJson.ueId = args.grid._container.parents(".card-content-ue").find(".card-title-ue").attr("data-id")
-
-            console.log(subjectJson);
 
             $.post(url, subjectJson, function(data) {
 

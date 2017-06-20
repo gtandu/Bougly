@@ -7,6 +7,7 @@ import static org.mockito.Matchers.anyInt;
 import static org.mockito.Matchers.anyLong;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Matchers.eq;
+import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -31,8 +32,7 @@ import fr.diptrack.web.dtos.SubjectNameUeIdDto;
 
 @RunWith(MockitoJUnitRunner.class)
 public class SubjectServiceTest {
-	
-	
+
 	@Mock
 	private SemesterRepository semesterRepository;
 	@Mock
@@ -71,6 +71,7 @@ public class SubjectServiceTest {
 		ue.setListSubject(listSubjects);
 		when(ueRepository.findOne(anyLong())).thenReturn(ue);
 		when(subjectRepository.findByName(anyString())).thenReturn(subject);
+		doNothing().when(subjectRepository).delete(any(Subject.class));
 
 		// GIVEN
 		subjectService.deleteSubjectByName(dto);
@@ -79,46 +80,47 @@ public class SubjectServiceTest {
 
 		verify(ueRepository).findOne(anyLong());
 		verify(subjectRepository).findByName(anyString());
+		verify(subjectRepository).delete(any(Subject.class));
 	}
 
 	@Test
 	public void testSubjectExistTrue() throws Exception {
-		//WHEN
+		// WHEN
 		String subjectName = "Maths";
 		when(subjectRepository.findByName(anyString())).thenReturn(new Subject());
-		//GIVEN
+		// GIVEN
 		boolean subjectExist = subjectService.subjectExist(subjectName);
-		
-		//THEN
+
+		// THEN
 		verify(subjectRepository).findByName(eq(subjectName));
 		assertThat(subjectExist).isTrue();
 	}
-	
+
 	@Test
 	public void testSubjectExistFalse() throws Exception {
-		//WHEN
+		// WHEN
 		String subjectName = "Maths";
 		when(subjectRepository.findByName(anyString())).thenReturn(null);
-		//GIVEN
+		// GIVEN
 		boolean subjectExist = subjectService.subjectExist(subjectName);
-		
-		//THEN
+
+		// THEN
 		verify(subjectRepository).findByName(eq(subjectName));
 		assertThat(subjectExist).isFalse();
 	}
 
 	@Test
 	public void testUpdateSubjectFromDto() throws Exception {
-		//WHEN
-		
+		// WHEN
+
 		SubjectDto subjectDto = mock(SubjectDto.class);
 		Subject subject = mock(Subject.class);
 		when(subjectRepository.findByName(anyString())).thenReturn(subject);
-		
-		//GIVEN
+
+		// GIVEN
 		subjectService.updateSubjectFromDto(subjectDto);
-		
-		//THEN
+
+		// THEN
 		verify(subject).setName(anyString());
 		verify(subject).setDescription(anyString());
 		verify(subject).setCoefficient(anyInt());
@@ -129,10 +131,10 @@ public class SubjectServiceTest {
 
 	@Test
 	public void testCheckSubjectExistInBranchFalse() throws Exception {
-		//WHEN
+		// WHEN
 		SemesterIdSubjectNameDto dto = new SemesterIdSubjectNameDto();
 		dto.setSubjectName("False");
-		
+
 		Semester semester = new Semester();
 		ArrayList<Ue> listUe = new ArrayList<>();
 		Ue ue = new Ue();
@@ -144,21 +146,21 @@ public class SubjectServiceTest {
 		listUe.add(ue);
 		semester.setListUe(listUe);
 		when(semesterRepository.findOne(anyLong())).thenReturn(semester);
-		
-		//GIVEn
+
+		// GIVEn
 		boolean checkSubjectExistInBranch = subjectService.checkSubjectExistInBranch(dto);
-		
-		//THEN
+
+		// THEN
 		verify(semesterRepository).findOne(anyLong());
 		assertThat(checkSubjectExistInBranch).isFalse();
 	}
-	
+
 	@Test
 	public void testCheckSubjectExistInBranchTrue() throws Exception {
-		//WHEN
+		// WHEN
 		SemesterIdSubjectNameDto dto = new SemesterIdSubjectNameDto();
 		dto.setSubjectName("Test");
-		
+
 		Semester semester = new Semester();
 		ArrayList<Ue> listUe = new ArrayList<>();
 		Ue ue = new Ue();
@@ -170,11 +172,11 @@ public class SubjectServiceTest {
 		listUe.add(ue);
 		semester.setListUe(listUe);
 		when(semesterRepository.findOne(anyLong())).thenReturn(semester);
-		
-		//GIVEn
+
+		// GIVEn
 		boolean checkSubjectExistInBranch = subjectService.checkSubjectExistInBranch(dto);
-		
-		//THEN
+
+		// THEN
 		verify(semesterRepository).findOne(anyLong());
 		assertThat(checkSubjectExistInBranch).isTrue();
 	}

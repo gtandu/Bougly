@@ -24,19 +24,23 @@ public class SubjectService {
 	@Autowired
 	private SubjectRepository subjectRepository;
 
-	public Subject saveSubjectFromDto(SubjectDto subjectDto){
-			Ue ue = ueRepository.findOne(subjectDto.getUeId());
-			Subject subject = new Subject(subjectDto, ue);
-			ue.getListSubject().add(subject);
-			Subject subjectSave = subjectRepository.save(subject);
-			return subjectSave;
+	public Subject saveSubjectFromDto(SubjectDto subjectDto) {
+		Ue ue = ueRepository.findOne(subjectDto.getUeId());
+		Subject subject = new Subject(subjectDto, ue);
+		ue.getListSubject().add(subject);
+		int ueCoefficient = ue.getUeCoefficient() + subject.getCoefficient();
+		ue.setUeCoefficient(ueCoefficient);
+		return subjectRepository.save(subject);
 	}
 
 	@Transactional
 	public void deleteSubjectByName(SubjectNameUeIdDto dto) {
 		Ue ue = ueRepository.findOne(dto.getUeId());
 		Subject subject = subjectRepository.findByName(dto.getSubjectName());
+		int ueCoefficient = ue.getUeCoefficient() - subject.getCoefficient();
+		ue.setUeCoefficient(ueCoefficient);
 		ue.getListSubject().remove(subject);
+
 		subjectRepository.delete(subject);
 	}
 
@@ -53,14 +57,14 @@ public class SubjectService {
 		subject.setResit(subjectDto.isResit());
 		subject.setYear(subjectDto.getYear());
 		subjectRepository.save(subject);
-		
+
 	}
-	
-	public boolean checkSubjectExistInBranch(SemesterIdSubjectNameDto dto){
+
+	public boolean checkSubjectExistInBranch(SemesterIdSubjectNameDto dto) {
 		Semester findOne = this.semesterRepository.findOne(dto.getIdSemester());
 		for (Ue ue : findOne.getListUe()) {
-			for(Subject subject : ue.getListSubject()){
-				if(dto.getSubjectName().equals(subject.getName())){
+			for (Subject subject : ue.getListSubject()) {
+				if (dto.getSubjectName().equals(subject.getName())) {
 					return true;
 				}
 			}
