@@ -435,11 +435,40 @@ function checkIfSubjectNameExistInSemester(args) {
     });
 }
 
+function newTypeJsGridMccRules() {
+    var MyMccRulesField = function(config) {
+        jsGrid.Field.call(this, config);
+    };
+
+    MyMccRulesField.prototype = new jsGrid.Field({
+
+        itemTemplate: function(value) {
+            return "";
+        },
+
+        insertTemplate: function(value) {
+            return "";
+        },
+
+        editTemplate: function(value) {
+            return "";
+        },
+
+        insertValue: function() {
+            return "";
+        },
+
+        editValue: function() {
+            return "";
+        }
+    });
+
+    jsGrid.fields.mccRules = MyMccRulesField;
+}
+
 function initJsGridLast(element) {
-    /*
-     * var matiere = [ { "Nom" : "Java", "Description" : "Programmation J2EE",
-     * "Coefficient" : 2, "Seuil de compensation" : 7, "Rattrapable" : 0 } ];
-     */
+
+    newTypeJsGridMccRules();
 
     var reponse = [{
         Valeur: "Non",
@@ -590,6 +619,12 @@ function initJsGridLast(element) {
                 selectedIndex: 0,
                 valueField: "Id",
                 textField: "Valeur",
+                validate: "required"
+            },
+            {
+                name: "Règles MCC",
+                type: "mccRules",
+                align: "center",
                 validate: "required"
             },
             {
