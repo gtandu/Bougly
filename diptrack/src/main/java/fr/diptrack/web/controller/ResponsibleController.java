@@ -20,7 +20,6 @@ import fr.diptrack.exception.SubjectExistException;
 import fr.diptrack.model.Branch;
 import fr.diptrack.model.Grade;
 import fr.diptrack.model.Semester;
-import fr.diptrack.model.Subject;
 import fr.diptrack.model.Ue;
 import fr.diptrack.model.UserAccount;
 import fr.diptrack.model.enumeration.FormationEnum;
@@ -36,6 +35,7 @@ import fr.diptrack.web.dtos.GradeDto;
 import fr.diptrack.web.dtos.SemesterDto;
 import fr.diptrack.web.dtos.SemesterIdSubjectNameDto;
 import fr.diptrack.web.dtos.SubjectDto;
+import fr.diptrack.web.dtos.SubjectIdUeCoefficientDto;
 import fr.diptrack.web.dtos.SubjectNameUeIdDto;
 import fr.diptrack.web.dtos.UeDto;
 
@@ -231,16 +231,15 @@ public class ResponsibleController {
 
 	@RequestMapping(value = URL_CREATE_SUBJECT, method = RequestMethod.POST)
 	@ResponseBody
-	public long createSubject(SubjectDto subjectDto) throws SubjectExistException {
-		Subject subject = subjectService.saveSubjectFromDto(subjectDto);
-		return subject.getId();
+	public SubjectIdUeCoefficientDto createSubject(SubjectDto subjectDto) throws SubjectExistException {
+		return subjectService.saveSubjectFromDto(subjectDto);
 	}
 
 	@RequestMapping(value = URL_DELETE_SUBJECT, method = RequestMethod.POST)
 	@ResponseBody
-	public void deleteSubject(SubjectNameUeIdDto dto) {
+	public int deleteSubject(SubjectNameUeIdDto dto) {
 
-		subjectService.deleteSubjectByName(dto);
+		return subjectService.deleteSubjectByName(dto);
 
 	}
 	

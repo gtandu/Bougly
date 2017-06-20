@@ -44,6 +44,7 @@ import fr.diptrack.web.dtos.CourseDto;
 import fr.diptrack.web.dtos.SemesterDto;
 import fr.diptrack.web.dtos.SemesterIdSubjectNameDto;
 import fr.diptrack.web.dtos.SubjectDto;
+import fr.diptrack.web.dtos.SubjectIdUeCoefficientDto;
 import fr.diptrack.web.dtos.SubjectNameUeIdDto;
 import fr.diptrack.web.dtos.UeDto;
 
@@ -284,11 +285,6 @@ public class ResponsibleControllerTest {
 		verify(ueService).updateNumberUe(any(UeDto.class));
 	}
 
-	/*
-	 * @Before public void setup() { mockMvc =
-	 * MockMvcBuilders.webAppContextSetup(wac).alwaysDo(MockMvcResultHandlers.
-	 * print()) .apply(springSecurity()).build(); }
-	 */
 	private ViewResolver viewResolver() {
 		InternalResourceViewResolver viewResolver = new InternalResourceViewResolver();
 		viewResolver.setPrefix("/templates/");
@@ -304,7 +300,8 @@ public class ResponsibleControllerTest {
 		SubjectDto subjectDto = new SubjectDto();
 		Subject subject = new Subject();
 		subject.setId(new Long(2));
-		when(subjectService.saveSubjectFromDto(any(SubjectDto.class))).thenReturn(subject);
+		SubjectIdUeCoefficientDto subjectIdUeCoefficientDto = new SubjectIdUeCoefficientDto();
+		when(subjectService.saveSubjectFromDto(any(SubjectDto.class))).thenReturn(subjectIdUeCoefficientDto);
 
 		// GIVEN
 
@@ -320,7 +317,7 @@ public class ResponsibleControllerTest {
 		// WHEN
 		ObjectMapper mapper = new ObjectMapper();
 		SubjectNameUeIdDto subjectNameUeIdDto = new SubjectNameUeIdDto();
-		doNothing().when(subjectService).deleteSubjectByName(any(SubjectNameUeIdDto.class));
+		when(subjectService.deleteSubjectByName(any(SubjectNameUeIdDto.class))).thenReturn(new Integer(2));
 
 		// GIVEN
 		this.mockMvc.perform(post(URL_RESPONSIBLE_CONTROLLER + ResponsibleController.URL_DELETE_SUBJECT).param("dto",

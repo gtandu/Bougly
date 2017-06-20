@@ -12,6 +12,7 @@ import fr.diptrack.repository.SubjectRepository;
 import fr.diptrack.repository.UeRepository;
 import fr.diptrack.web.dtos.SemesterIdSubjectNameDto;
 import fr.diptrack.web.dtos.SubjectDto;
+import fr.diptrack.web.dtos.SubjectIdUeCoefficientDto;
 import fr.diptrack.web.dtos.SubjectNameUeIdDto;
 
 @Service
@@ -24,24 +25,28 @@ public class SubjectService {
 	@Autowired
 	private SubjectRepository subjectRepository;
 
-	public Subject saveSubjectFromDto(SubjectDto subjectDto) {
+	public SubjectIdUeCoefficientDto saveSubjectFromDto(SubjectDto subjectDto) {
 		Ue ue = ueRepository.findOne(subjectDto.getUeId());
 		Subject subject = new Subject(subjectDto, ue);
 		ue.getListSubject().add(subject);
 		int ueCoefficient = ue.getUeCoefficient() + subject.getCoefficient();
 		ue.setUeCoefficient(ueCoefficient);
-		return subjectRepository.save(subject);
+		Subject subjectSave = subjectRepository.save(subject);
+		SubjectIdUeCoefficientDto dto = new SubjectIdUeCoefficientDto();
+		dto.setSubjectId(subjectSave.getId());
+		dto.setUeCoefficient(ue.getUeCoefficient());
+		return dto;
 	}
 
 	@Transactional
-	public void deleteSubjectByName(SubjectNameUeIdDto dto) {
+	public int deleteSubjectByName(SubjectNameUeIdDto dto) {
 		Ue ue = ueRepository.findOne(dto.getUeId());
 		Subject subject = subjectRepository.findByName(dto.getSubjectName());
 		int ueCoefficient = ue.getUeCoefficient() - subject.getCoefficient();
 		ue.setUeCoefficient(ueCoefficient);
 		ue.getListSubject().remove(subject);
-
 		subjectRepository.delete(subject);
+		return ue.getUeCoefficient();
 	}
 
 	public boolean subjectExist(String subjectName) {

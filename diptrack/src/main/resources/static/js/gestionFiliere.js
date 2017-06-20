@@ -3,7 +3,6 @@
  */
 $(function() {
 
-    //initJsGrid();
     addSemestreOnClick();
     saveFiliereNameOnClick();
 
@@ -214,7 +213,8 @@ function addUeOnClick() {
                     "<div class='card-content card-content-ue'>" +
                     "<div class='row'>" +
                     "<div class='col s2'><span class='card-title card-title-ue'>UE 1</span></div>" +
-                    "<div class='col s2 offset-s8 divIconDelete'><span><i class='small material-icons toggleIconUe reduceIcon'>remove</i></span><span><i class='small material-icons deleteIcon btn-deleteUe'>clear</i></span></div></div>" +
+                    "<div class='col s2 offset-s1'><span class='card-title card-title-coeff'>Coefficient : 0</span></div>" +
+                    "<div class='col s2 offset-s5 divIconDelete'><span><i class='small material-icons toggleIconUe reduceIcon'>remove</i></span><span><i class='small material-icons deleteIcon btn-deleteUe'>clear</i></span></div></div>" +
                     "<div class='jsGrid'></div></div></div></div></div>";
                 if ($(this).find(".row-Ue").length == 0) {
                     $(this).parents(".row-semestre .card-content")
@@ -492,8 +492,9 @@ function initJsGridLast(element) {
                 subjectName: args.item.Nom,
                 ueId: args.grid._container.parents(".card-content-ue").find(".card-title-ue").attr("data-id")
             }
-            $.post(url, objectJson, function(id) {
+            $.post(url, objectJson, function(ueCoefficient) {
                 swal("Suppression !", "La matière " + args.item.Nom + " a été supprimée !", "success");
+                args.grid._container.parents(".card-content-ue").find(".card-title-coeff").text("Coefficient : " + ueCoefficient)
 
             });
         },
@@ -521,7 +522,7 @@ function initJsGridLast(element) {
             subjectJson.ueId = args.grid._container.parents(".card-content-ue").find(".card-title-ue").attr("data-id")
 
             $.post(url, subjectJson, function(data) {
-
+                args.grid._container.parents(".card-content-ue").find(".card-title-coeff").text("Coefficient : " + data.ueCoefficient)
             });
         },
         onItemUpdated: function(args) {
@@ -556,86 +557,6 @@ function initJsGridLast(element) {
         noDataContent: "",
 
         /* data : matiere, */
-
-        fields: [{
-                name: "Nom",
-                type: "text",
-                align: "center",
-                width: 100,
-                validate: "required"
-            }, {
-                name: "Description",
-                type: "text",
-                align: "center",
-                width: 100,
-                validate: "required"
-            }, {
-                name: "Coefficient",
-                type: "number",
-                align: "center",
-                width: 50,
-                validate: "required"
-            }, {
-                name: "Seuil de compensation",
-                type: "number",
-                align: "center",
-                width: 50,
-                validate: "required"
-            }, {
-                name: "Rattrapable",
-                type: "select",
-                align: "center",
-                items: reponse,
-                selectedIndex: 0,
-                valueField: "Id",
-                textField: "Valeur",
-                validate: "required"
-            },
-            {
-                name: "Année",
-                type: "number",
-                align: "center",
-                width: 40,
-                validate: "required"
-            },
-            {
-                type: "control"
-            }
-        ]
-    });
-
-}
-
-function initJsGrid() {
-    /*
-     * var matiere = [ { "Nom" : "Java", "Description" : "Programmation J2EE",
-     * "Coefficient" : 2, "Seuil de compensation" : 7, "Rattrapable" : 0 } ];
-     */
-
-    var reponse = [{
-        Valeur: "Non",
-        Id: 0
-    }, {
-        Valeur: "Oui",
-        Id: 1
-    }, ];
-
-    $(".jsGrid").jsGrid({
-        width: "100%",
-        height: "300px",
-
-        inserting: true,
-        editing: true,
-        sorting: true,
-        paging: true,
-
-        onItemInserted: function(args) {
-            console.log("Ajax ici");
-        },
-
-        /* data : matiere, */
-
-        noDataContent: "",
 
         fields: [{
                 name: "Nom",
