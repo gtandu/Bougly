@@ -26,6 +26,7 @@
                                 <th>Nom</th>
                                 <th>Niveau</th>
                                 <th>Formation</th>
+                                <th>Responsable</th>
                                 <th>Moyenne</th>
                             </tr>
                         </thead>
@@ -36,6 +37,7 @@
                                 <td th:attr="data-name=${classe.name}" th:text="${classe.name}">M1MIAA</td>
                                 <td th:attr="data-level=${classe.level}" th:text="${classe.level}">M1</td>
                                 <td th:attr="data-formation=${classe.formation}" th:text="${classe.formation}">MIAGE</td>
+                                <td th:attr="data-formation=${classe.responsible}" th:text="${classe.responsible}">Personne</td>
                                 <td th:attr="data-average=${classe.average}" th:text="${classe.average}">12</td>
                                 <td><a class="black-text text-darken-2" href="#modalEditClasse">
                                 <i class="small material-icons editIcon">edit</i></a></td>
