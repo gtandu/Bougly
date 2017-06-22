@@ -1,0 +1,33 @@
+<!-- Modal Structure -->
+<div th:fragment="modalMccRules" id="modalMccRules" class="modal">
+    <div class="modal-content">
+        <h4>Ajouter une règle MCC</h4>
+        <form id="formMccRules">
+            <div class="row">
+                <div class="input-field col s6">
+                    <input id="nameMccRules" type="text" placeholder="Inserez un nom de règle" name="name" value="" />
+                    <label for="nameMccRules" data-error="Erreur" data-success="Valide">Nom<span class="required">*</span></label>
+                </div>
+                <div class="input-field col s6">
+                    <input id="coefficientMccRules" name="coefficient" placeholder="1 - 10" type="number" />
+                    <label for="coefficientMccRules">Coefficient<span class="required">*</span></label>
+                </div>
+                <div class="input-field col s6">
+                    <select id="markType">
+                        <option value="" disabled="true" selected="true">Selectionner un type de note</option>
+                        <option value="Continu">Controle Continu</option>
+                        <option value="Partiel">Partiel</option>
+                        <option value="Rattrapage">Rattrapage</option>
+                        <option value="Projet">Projet</option>
+                    </select>
+                    <label>Types de note</label>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat">Fermer</a>
+                <button id="submitButton" class="waves-effect waves-green btn-flat" type="submit">Ajouter une règle</button>
+            </div>
+        </form>
+    </div>
+
+</div>
