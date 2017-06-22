@@ -18,4 +18,8 @@ public class MailContentBuilder {
         return templateEngine.process("confirmationAccountTemplate", context);
     }
  
+    public String buildForgotPassword() {
+        Context context = new Context();
+        return templateEngine.process("forgotPasswordTemplate", context);
+    }
 }

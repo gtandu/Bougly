@@ -1,4 +1,0 @@
--------------------------------------------------------------------------------
-Test set: fr.bougly.web.controller.ManageAccountControllerTest
--------------------------------------------------------------------------------
-Tests run: 7, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 18.68 sec - in fr.bougly.web.controller.ManageAccountControllerTest

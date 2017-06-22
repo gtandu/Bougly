@@ -210,7 +210,7 @@ public class AccountService {
 		}
 	}
 
-	protected boolean emailExist(String email) {
+	public boolean emailExist(String email) {
 		UserAccount account = accountRepository.findByMail(email);
 		return account != null ? true : false;
 	}

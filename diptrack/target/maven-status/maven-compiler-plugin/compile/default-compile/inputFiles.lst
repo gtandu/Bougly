@@ -1,47 +1,71 @@
-/Users/Glodie/Desktop/Bougly Git/bougly/bougly/src/main/java/fr/bougly/web/security/CustomAuthenticationFailureHandler.java
-/Users/Glodie/Desktop/Bougly Git/bougly/bougly/src/main/java/fr/bougly/model/security/VerificationToken.java
-/Users/Glodie/Desktop/Bougly Git/bougly/bougly/src/main/java/fr/bougly/model/Classe.java
-/Users/Glodie/Desktop/Bougly Git/bougly/bougly/src/main/java/fr/bougly/model/Semestre.java
-/Users/Glodie/Desktop/Bougly Git/bougly/bougly/src/main/java/fr/bougly/web/controller/StudentController.java
-/Users/Glodie/Desktop/Bougly Git/bougly/bougly/src/main/java/fr/bougly/web/controller/ManageAccountController.java
-/Users/Glodie/Desktop/Bougly Git/bougly/bougly/src/main/java/fr/bougly/repository/security/VerificationTokenRepository.java
-/Users/Glodie/Desktop/Bougly Git/bougly/bougly/src/main/java/fr/bougly/model/Student.java
-/Users/Glodie/Desktop/Bougly Git/bougly/bougly/src/main/java/fr/bougly/service/VerificationTokenService.java
-/Users/Glodie/Desktop/Bougly Git/bougly/bougly/src/main/java/fr/bougly/web/security/CustomAuthenticationSuccessHandler.java
-/Users/Glodie/Desktop/Bougly Git/bougly/bougly/src/main/java/fr/bougly/model/Teacher.java
-/Users/Glodie/Desktop/Bougly Git/bougly/bougly/src/main/java/fr/bougly/service/helper/MapperBeanUtil.java
-/Users/Glodie/Desktop/Bougly Git/bougly/bougly/src/main/java/fr/bougly/model/security/OnRegistrationCompleteEvent.java
-/Users/Glodie/Desktop/Bougly Git/bougly/bougly/src/main/java/fr/bougly/service/mail/MailContentBuilder.java
-/Users/Glodie/Desktop/Bougly Git/bougly/bougly/src/main/java/fr/bougly/web/dtos/AccountDto.java
-/Users/Glodie/Desktop/Bougly Git/bougly/bougly/src/main/java/fr/bougly/model/Matiere.java
-/Users/Glodie/Desktop/Bougly Git/bougly/bougly/src/main/java/fr/bougly/service/helper/AccountDtoListFromExcel.java
-/Users/Glodie/Desktop/Bougly Git/bougly/bougly/src/main/java/fr/bougly/web/controller/AccesDeniedController.java
-/Users/Glodie/Desktop/Bougly Git/bougly/bougly/src/main/java/fr/bougly/service/interfaces/ICompteService.java
-/Users/Glodie/Desktop/Bougly Git/bougly/bougly/src/main/java/fr/bougly/model/UserAccount.java
-/Users/Glodie/Desktop/Bougly Git/bougly/bougly/src/main/java/fr/bougly/model/RegleMCC.java
-/Users/Glodie/Desktop/Bougly Git/bougly/bougly/src/main/java/fr/bougly/model/UE.java
-/Users/Glodie/Desktop/Bougly Git/bougly/bougly/src/main/java/fr/bougly/service/AccountService.java
-/Users/Glodie/Desktop/Bougly Git/bougly/bougly/src/main/java/fr/bougly/service/ClasseService.java
-/Users/Glodie/Desktop/Bougly Git/bougly/bougly/src/main/java/fr/bougly/model/Filiere.java
-/Users/Glodie/Desktop/Bougly Git/bougly/bougly/src/main/java/fr/bougly/web/controller/ResponsableController.java
-/Users/Glodie/Desktop/Bougly Git/bougly/bougly/src/main/java/fr/bougly/repository/AccountRepository.java
-/Users/Glodie/Desktop/Bougly Git/bougly/bougly/src/main/java/fr/bougly/exception/MailErrorException.java
-/Users/Glodie/Desktop/Bougly Git/bougly/bougly/src/main/java/fr/bougly/model/security/Authority.java
-/Users/Glodie/Desktop/Bougly Git/bougly/bougly/src/main/java/fr/bougly/model/Responsible.java
-/Users/Glodie/Desktop/Bougly Git/bougly/bougly/src/main/java/fr/bougly/model/Administrator.java
-/Users/Glodie/Desktop/Bougly Git/bougly/bougly/src/main/java/fr/bougly/model/enumeration/FormationEnum.java
-/Users/Glodie/Desktop/Bougly Git/bougly/bougly/src/main/java/fr/bougly/web/controller/LoginController.java
-/Users/Glodie/Desktop/Bougly Git/bougly/bougly/src/main/java/fr/bougly/web/security/SecurityConfig.java
-/Users/Glodie/Desktop/Bougly Git/bougly/bougly/src/main/java/fr/bougly/BouglyApplication.java
-/Users/Glodie/Desktop/Bougly Git/bougly/bougly/src/main/java/fr/bougly/web/dtos/ClasseBean.java
-/Users/Glodie/Desktop/Bougly Git/bougly/bougly/src/main/java/fr/bougly/service/helper/ExcelReader.java
-/Users/Glodie/Desktop/Bougly Git/bougly/bougly/src/main/java/fr/bougly/model/enumeration/NiveauEnum.java
-/Users/Glodie/Desktop/Bougly Git/bougly/bougly/src/main/java/fr/bougly/model/enumeration/RoleAccountEnum.java
-/Users/Glodie/Desktop/Bougly Git/bougly/bougly/src/main/java/fr/bougly/repository/ClasseRepository.java
-/Users/Glodie/Desktop/Bougly Git/bougly/bougly/src/main/java/fr/bougly/web/controller/AdministratorController.java
-/Users/Glodie/Desktop/Bougly Git/bougly/bougly/src/main/java/fr/bougly/web/controller/TeacherController.java
-/Users/Glodie/Desktop/Bougly Git/bougly/bougly/src/main/java/fr/bougly/exception/UserExistException.java
-/Users/Glodie/Desktop/Bougly Git/bougly/bougly/src/main/java/fr/bougly/exception/StudentNumberExistException.java
-/Users/Glodie/Desktop/Bougly Git/bougly/bougly/src/main/java/fr/bougly/service/mail/RegistrationListener.java
-/Users/Glodie/Desktop/Bougly Git/bougly/bougly/src/main/java/fr/bougly/repository/security/AuthorityRepository.java
-/Users/Glodie/Desktop/Bougly Git/bougly/bougly/src/main/java/fr/bougly/service/security/CustomUserDetailsService.java
+/Users/Glodie/Desktop/diptrack/diptrack/diptrack/src/main/java/fr/diptrack/model/Student.java
+/Users/Glodie/Desktop/diptrack/diptrack/diptrack/src/main/java/fr/diptrack/web/dtos/SemesterDto.java
+/Users/Glodie/Desktop/diptrack/diptrack/diptrack/src/main/java/fr/diptrack/web/dtos/SubjectIdUeCoefficientDto.java
+/Users/Glodie/Desktop/diptrack/diptrack/diptrack/src/main/java/fr/diptrack/model/Class.java
+/Users/Glodie/Desktop/diptrack/diptrack/diptrack/src/main/java/fr/diptrack/web/security/SecurityConfig.java
+/Users/Glodie/Desktop/diptrack/diptrack/diptrack/src/main/java/fr/diptrack/model/Course.java
+/Users/Glodie/Desktop/diptrack/diptrack/diptrack/src/main/java/fr/diptrack/model/security/OnRegistrationCompleteEvent.java
+/Users/Glodie/Desktop/diptrack/diptrack/diptrack/src/main/java/fr/diptrack/exception/StudentNumberExistException.java
+/Users/Glodie/Desktop/diptrack/diptrack/diptrack/src/main/java/fr/diptrack/DiptrackApplication.java
+/Users/Glodie/Desktop/diptrack/diptrack/diptrack/src/main/java/fr/diptrack/service/helper/AccountDtoListFromExcel.java
+/Users/Glodie/Desktop/diptrack/diptrack/diptrack/src/main/java/fr/diptrack/model/enumeration/RoleAccountEnum.java
+/Users/Glodie/Desktop/diptrack/diptrack/diptrack/src/main/java/fr/diptrack/web/dtos/CourseDto.java
+/Users/Glodie/Desktop/diptrack/diptrack/diptrack/src/main/java/fr/diptrack/web/dtos/GradeDto.java
+/Users/Glodie/Desktop/diptrack/diptrack/diptrack/src/main/java/fr/diptrack/web/security/CustomAuthenticationSuccessHandler.java
+/Users/Glodie/Desktop/diptrack/diptrack/diptrack/src/main/java/fr/diptrack/web/controller/TeacherController.java
+/Users/Glodie/Desktop/diptrack/diptrack/diptrack/src/main/java/fr/diptrack/service/helper/MapperBeanUtil.java
+/Users/Glodie/Desktop/diptrack/diptrack/diptrack/src/main/java/fr/diptrack/web/controller/ResponsibleController.java
+/Users/Glodie/Desktop/diptrack/diptrack/diptrack/src/main/java/fr/diptrack/repository/TeacherRepository.java
+/Users/Glodie/Desktop/diptrack/diptrack/diptrack/src/main/java/fr/diptrack/model/Subject.java
+/Users/Glodie/Desktop/diptrack/diptrack/diptrack/src/main/java/fr/diptrack/service/security/CustomUserDetailsService.java
+/Users/Glodie/Desktop/diptrack/diptrack/diptrack/src/main/java/fr/diptrack/model/security/VerificationToken.java
+/Users/Glodie/Desktop/diptrack/diptrack/diptrack/src/main/java/fr/diptrack/exception/CourseNameInputException.java
+/Users/Glodie/Desktop/diptrack/diptrack/diptrack/src/main/java/fr/diptrack/service/TeacherService.java
+/Users/Glodie/Desktop/diptrack/diptrack/diptrack/src/main/java/fr/diptrack/web/dtos/UeDto.java
+/Users/Glodie/Desktop/diptrack/diptrack/diptrack/src/main/java/fr/diptrack/model/enumeration/LevelEnum.java
+/Users/Glodie/Desktop/diptrack/diptrack/diptrack/src/main/java/fr/diptrack/repository/AccountRepository.java
+/Users/Glodie/Desktop/diptrack/diptrack/diptrack/src/main/java/fr/diptrack/model/Semester.java
+/Users/Glodie/Desktop/diptrack/diptrack/diptrack/src/main/java/fr/diptrack/service/mail/ForgotPassword.java
+/Users/Glodie/Desktop/diptrack/diptrack/diptrack/src/main/java/fr/diptrack/web/controller/StudentController.java
+/Users/Glodie/Desktop/diptrack/diptrack/diptrack/src/main/java/fr/diptrack/service/helper/ExcelReader.java
+/Users/Glodie/Desktop/diptrack/diptrack/diptrack/src/main/java/fr/diptrack/model/Administrator.java
+/Users/Glodie/Desktop/diptrack/diptrack/diptrack/src/main/java/fr/diptrack/repository/security/VerificationTokenRepository.java
+/Users/Glodie/Desktop/diptrack/diptrack/diptrack/src/main/java/fr/diptrack/repository/SubjectRepository.java
+/Users/Glodie/Desktop/diptrack/diptrack/diptrack/src/main/java/fr/diptrack/service/CourseService.java
+/Users/Glodie/Desktop/diptrack/diptrack/diptrack/src/main/java/fr/diptrack/exception/CourseExistException.java
+/Users/Glodie/Desktop/diptrack/diptrack/diptrack/src/main/java/fr/diptrack/model/MCCRule.java
+/Users/Glodie/Desktop/diptrack/diptrack/diptrack/src/main/java/fr/diptrack/service/UeService.java
+/Users/Glodie/Desktop/diptrack/diptrack/diptrack/src/main/java/fr/diptrack/exception/SubjectExistException.java
+/Users/Glodie/Desktop/diptrack/diptrack/diptrack/src/main/java/fr/diptrack/repository/ClassRepository.java
+/Users/Glodie/Desktop/diptrack/diptrack/diptrack/src/main/java/fr/diptrack/web/controller/AccesDeniedController.java
+/Users/Glodie/Desktop/diptrack/diptrack/diptrack/src/main/java/fr/diptrack/web/controller/AdministratorController.java
+/Users/Glodie/Desktop/diptrack/diptrack/diptrack/src/main/java/fr/diptrack/service/mail/MailContentBuilder.java
+/Users/Glodie/Desktop/diptrack/diptrack/diptrack/src/main/java/fr/diptrack/repository/security/AuthorityRepository.java
+/Users/Glodie/Desktop/diptrack/diptrack/diptrack/src/main/java/fr/diptrack/service/ClassService.java
+/Users/Glodie/Desktop/diptrack/diptrack/diptrack/src/main/java/fr/diptrack/web/controller/LoginController.java
+/Users/Glodie/Desktop/diptrack/diptrack/diptrack/src/main/java/fr/diptrack/model/Teacher.java
+/Users/Glodie/Desktop/diptrack/diptrack/diptrack/src/main/java/fr/diptrack/service/interfaces/ICompteService.java
+/Users/Glodie/Desktop/diptrack/diptrack/diptrack/src/main/java/fr/diptrack/service/VerificationTokenService.java
+/Users/Glodie/Desktop/diptrack/diptrack/diptrack/src/main/java/fr/diptrack/repository/CourseRepository.java
+/Users/Glodie/Desktop/diptrack/diptrack/diptrack/src/main/java/fr/diptrack/model/enumeration/FormationEnum.java
+/Users/Glodie/Desktop/diptrack/diptrack/diptrack/src/main/java/fr/diptrack/repository/UeRepository.java
+/Users/Glodie/Desktop/diptrack/diptrack/diptrack/src/main/java/fr/diptrack/web/dtos/AccountDto.java
+/Users/Glodie/Desktop/diptrack/diptrack/diptrack/src/main/java/fr/diptrack/web/security/CustomAuthenticationFailureHandler.java
+/Users/Glodie/Desktop/diptrack/diptrack/diptrack/src/main/java/fr/diptrack/model/security/Authority.java
+/Users/Glodie/Desktop/diptrack/diptrack/diptrack/src/main/java/fr/diptrack/exception/UserExistException.java
+/Users/Glodie/Desktop/diptrack/diptrack/diptrack/src/main/java/fr/diptrack/web/dtos/SubjectNameUeIdDto.java
+/Users/Glodie/Desktop/diptrack/diptrack/diptrack/src/main/java/fr/diptrack/model/Ue.java
+/Users/Glodie/Desktop/diptrack/diptrack/diptrack/src/main/java/fr/diptrack/service/SubjectService.java
+/Users/Glodie/Desktop/diptrack/diptrack/diptrack/src/main/java/fr/diptrack/model/enumeration/MarkTypeEnum.java
+/Users/Glodie/Desktop/diptrack/diptrack/diptrack/src/main/java/fr/diptrack/service/mail/RegistrationListener.java
+/Users/Glodie/Desktop/diptrack/diptrack/diptrack/src/main/java/fr/diptrack/model/UserAccount.java
+/Users/Glodie/Desktop/diptrack/diptrack/diptrack/src/main/java/fr/diptrack/service/AccountService.java
+/Users/Glodie/Desktop/diptrack/diptrack/diptrack/src/main/java/fr/diptrack/web/dtos/SubjectDto.java
+/Users/Glodie/Desktop/diptrack/diptrack/diptrack/src/main/java/fr/diptrack/model/Mark.java
+/Users/Glodie/Desktop/diptrack/diptrack/diptrack/src/main/java/fr/diptrack/web/controller/ManageAccountController.java
+/Users/Glodie/Desktop/diptrack/diptrack/diptrack/src/main/java/fr/diptrack/service/SemesterService.java
+/Users/Glodie/Desktop/diptrack/diptrack/diptrack/src/main/java/fr/diptrack/web/dtos/MccRulesDto.java
+/Users/Glodie/Desktop/diptrack/diptrack/diptrack/src/main/java/fr/diptrack/web/dtos/SemesterIdSubjectNameDto.java
+/Users/Glodie/Desktop/diptrack/diptrack/diptrack/src/main/java/fr/diptrack/model/Responsible.java
+/Users/Glodie/Desktop/diptrack/diptrack/diptrack/src/main/java/fr/diptrack/repository/SemesterRepository.java
+/Users/Glodie/Desktop/diptrack/diptrack/diptrack/src/main/java/fr/diptrack/exception/MailErrorException.java
