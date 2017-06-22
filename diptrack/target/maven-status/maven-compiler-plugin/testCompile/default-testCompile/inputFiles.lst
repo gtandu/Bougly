@@ -1,0 +1,17 @@
+/Users/Glodie/Desktop/Bougly Git/bougly/bougly/src/test/java/fr/bougly/service/security/CustomUserDetailsServiceTest.java
+/Users/Glodie/Desktop/Bougly Git/bougly/bougly/src/test/java/fr/bougly/builder/model/AdministratorBuilder.java
+/Users/Glodie/Desktop/Bougly Git/bougly/bougly/src/test/java/fr/bougly/BouglyApplicationTests.java
+/Users/Glodie/Desktop/Bougly Git/bougly/bougly/src/test/java/fr/bougly/service/helper/ExcelReaderTest.java
+/Users/Glodie/Desktop/Bougly Git/bougly/bougly/src/test/java/fr/bougly/builder/model/StudentBuilder.java
+/Users/Glodie/Desktop/Bougly Git/bougly/bougly/src/test/java/fr/bougly/web/controller/AdministratorControllerTest.java
+/Users/Glodie/Desktop/Bougly Git/bougly/bougly/src/test/java/fr/bougly/web/controller/ResponsibleControllerTest.java
+/Users/Glodie/Desktop/Bougly Git/bougly/bougly/src/test/java/fr/bougly/web/controller/StudentControllerTest.java
+/Users/Glodie/Desktop/Bougly Git/bougly/bougly/src/test/java/fr/bougly/web/controller/ManageAccountControllerTest.java
+/Users/Glodie/Desktop/Bougly Git/bougly/bougly/src/test/java/fr/bougly/builder/model/security/AuthorityBuilder.java
+/Users/Glodie/Desktop/Bougly Git/bougly/bougly/src/test/java/fr/bougly/web/controller/LoginControllerTest.java
+/Users/Glodie/Desktop/Bougly Git/bougly/bougly/src/test/java/fr/bougly/builder/bean/AccountDtoBuilder.java
+/Users/Glodie/Desktop/Bougly Git/bougly/bougly/src/test/java/fr/bougly/builder/model/UserAccountBuilder.java
+/Users/Glodie/Desktop/Bougly Git/bougly/bougly/src/test/java/fr/bougly/service/ClasseServiceTest.java
+/Users/Glodie/Desktop/Bougly Git/bougly/bougly/src/test/java/fr/bougly/service/VerificationTokenServiceTest.java
+/Users/Glodie/Desktop/Bougly Git/bougly/bougly/src/test/java/fr/bougly/service/AccountServiceTest.java
+/Users/Glodie/Desktop/Bougly Git/bougly/bougly/src/test/java/fr/bougly/web/controller/AccesDeniedControllerTest.java
