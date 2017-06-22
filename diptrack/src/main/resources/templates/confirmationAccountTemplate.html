@@ -182,8 +182,8 @@ img {
 				<td bgcolor="#e0f2f1"
 					style="padding: 0 40px 40px; font-family: sans-serif; font-size: 15px; line-height: 20px; color: #555555; text-align: center;">
 					<p style="margin: 0;">
-						Vous avez perdu votre mot de passe ? <br />
-						Veuillez cliquer sur le lien ci-dessous.
+						Veuillez confirmer l'activation de votre mail <br />
+						en cliquant sur le lien ci-dessous.
 						<br /><br />
 						<i>Attention ! Ce mail n'est valable que sur une durée de <b>24 heures</b></i>
 					</p>
@@ -213,19 +213,4 @@ img {
 
 	</center>
 </body>
-</html>
-
-<!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
-
-<head>
-    <meta charset="UTF-8" />
-</head>
-
-<body>
-	<p th:text="#{mail.bienvenue}">Bienvenue sur l'application Bougly</p>
-	<p th:text="#{mail.confirmation}">Vos informations de connexions sont les suivants</p>
-	<a th:href="${confirmationUrl}">Confirmer votre compte</a>
-</body>
-
 </html>
