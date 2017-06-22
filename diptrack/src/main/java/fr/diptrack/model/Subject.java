@@ -17,7 +17,7 @@ import fr.diptrack.web.dtos.SubjectDto;
 public class Subject {
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
 	private String name;
 	private int year;
@@ -49,14 +49,12 @@ public class Subject {
 
 	public Subject(SubjectDto subjectDto, Ue ue) {
 		this.name = subjectDto.getName();
-		this.description = subjectDto.getDescription();
 		this.coefficient = subjectDto.getCoefficient();
 		this.threshold = subjectDto.getThreshold();
 		this.resit = subjectDto.isResit();
 		this.year = subjectDto.getYear();
 		this.ue = ue;
 	}
-	
 
 	public long getId() {
 		return id;

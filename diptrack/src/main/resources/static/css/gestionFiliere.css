@@ -2,7 +2,10 @@
     margin-top: 9px;
 }
 
-select {
+th.cellMccRules{
+	text-align: center
+}
+select{
     display: block !important;
     background-color: transparent;
     width: 100%;
@@ -14,6 +17,9 @@ select {
     width: 90%;
 }
 
+#markType{
+	display : none !important;
+}
 .div-icon-save {
     padding-top: 2.7em !important;
     padding-left: 0em !important;

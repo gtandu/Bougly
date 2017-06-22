@@ -32,10 +32,11 @@
 
             <div class="row">
                 <div class="col s12">
-                    <a class="waves-effect waves-light btn col s10 offset-s1" th:href="@{/responsable/creerFiliere.html}">Créer une filiere</a>
+                    <a class="waves-effect waves-light btn col s10 offset-s1" th:href="@{/responsable/homePageResponsible.html}">Retour accueil</a>
                 </div>
             </div>
         </div>
+        <div th:replace="/include/modal/modalMccRules :: modalMccRules"></div>
     </main>
     <div th:replace="/include/script :: script"></div>
     <script type="text/javascript" th:src="@{/js/gestionFiliere.js}"></script>

@@ -56,7 +56,6 @@ public class SubjectService {
 	public void updateSubjectFromDto(SubjectDto subjectDto) {
 		Subject subject = subjectRepository.findByName(subjectDto.getPreviousName());
 		subject.setName(subjectDto.getName());
-		subject.setDescription(subjectDto.getDescription());
 		subject.setCoefficient(subjectDto.getCoefficient());
 		subject.setThreshold(subjectDto.getThreshold());
 		subject.setResit(subjectDto.isResit());

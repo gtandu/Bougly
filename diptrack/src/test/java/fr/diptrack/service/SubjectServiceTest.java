@@ -122,7 +122,6 @@ public class SubjectServiceTest {
 
 		// THEN
 		verify(subject).setName(anyString());
-		verify(subject).setDescription(anyString());
 		verify(subject).setCoefficient(anyInt());
 		verify(subject).setThreshold(anyInt());
 		verify(subject).setResit(anyBoolean());

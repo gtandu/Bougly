@@ -5,6 +5,8 @@ $(function() {
 
     addSemestreOnClick();
     saveFiliereNameOnClick();
+    $('.modal').modal();
+    $('select').material_select();
 
 })
 
@@ -435,6 +437,32 @@ function checkIfSubjectNameExistInSemester(args) {
     });
 }
 
+function addEventOpenModalOnClick() {
+
+    $(".mccRules").unbind().click(function() {
+        $("#modalMccRules").modal("open");
+        addMccRules($(this).parent());
+    })
+
+}
+
+function addMccRules(cellMccRules) {
+    $("#formMccRules").unbind().submit(function(event) {
+        event.preventDefault();
+        var mccRules = {
+            name: $("#nameMccRules").val(),
+            coefficient: $("#coefficientMccRules").val(),
+            markType: $("#markType option:selected").val()
+        }
+        var html = "<div class='chip' data-name='{{name}}' data-coefficient='{{coefficient}}' data-markType='{{markType}}'>{{name}}<i class='close material-icons'>close</i></div>";
+        var html = Mustache.render(html, mccRules);
+        $(cellMccRules).append(html);
+        $("#nameMccRules").val('');
+        $("#coefficientMccRules").val('');
+        $("#modalMccRules").modal("close");
+    })
+}
+
 function newTypeJsGridMccRules() {
     var MyMccRulesField = function(config) {
         jsGrid.Field.call(this, config);
@@ -443,11 +471,11 @@ function newTypeJsGridMccRules() {
     MyMccRulesField.prototype = new jsGrid.Field({
 
         itemTemplate: function(value) {
-            return "";
+            return "<i class='material-icons mccRules'>add</i>";
         },
 
         insertTemplate: function(value) {
-            return "";
+            return "<i class='material-icons mccRules'>add</i>";
         },
 
         editTemplate: function(value) {
@@ -488,6 +516,11 @@ function initJsGridLast(element) {
         paging: true,
         confirmDeleting: false,
 
+        onRefreshing: function(args) {
+            addEventOpenModalOnClick();
+
+        },
+
         onItemUpdating: function(args) {
             checkIfSubjectNameExistInSemester(args)
 
@@ -527,25 +560,24 @@ function initJsGridLast(element) {
 
             });
         },
-        onItemInserting: function(args) {
+        r: function(args) {
             checkIfSubjectNameExistInSemester(args)
         },
 
         onItemInserted: function(args) {
             var subjectJson = {
                 name: "",
-                description: "",
                 coefficient: "",
                 threshold: "",
                 resit: "",
                 year: "",
                 ueId: ""
             }
+            console.log(args.item);
             var url = "/responsable/createSubject";
             subjectJson.name = args.item.Nom;
-            subjectJson.description = args.item.Description;
             subjectJson.coefficient = args.item.Coefficient;
-            subjectJson.threshold = args.item["Seuil de compensation"];
+            subjectJson.threshold = args.item["Compensation"];
             subjectJson.resit = args.item.Rattrapable;
             subjectJson.year = args.item.Année;
             subjectJson.ueId = args.grid._container.parents(".card-content-ue").find(".card-title-ue").attr("data-id")
@@ -558,7 +590,6 @@ function initJsGridLast(element) {
             console.log(args);
             var subjectJson = {
                 name: "",
-                description: "",
                 coefficient: "",
                 threshold: "",
                 resit: "",
@@ -568,9 +599,8 @@ function initJsGridLast(element) {
             }
             var url = "/responsable/updateSubject";
             subjectJson.name = args.item.Nom;
-            subjectJson.description = args.item.Description;
             subjectJson.coefficient = args.item.Coefficient;
-            subjectJson.threshold = args.item["Seuil de compensation"];
+            subjectJson.threshold = args.item["Compensation"];
             subjectJson.resit = args.item.Rattrapable;
             subjectJson.year = args.item.Année;
             subjectJson.ueId = args.grid._container.parents(".card-content-ue").find(".card-title-ue").attr("data-id")
@@ -591,30 +621,25 @@ function initJsGridLast(element) {
                 name: "Nom",
                 type: "text",
                 align: "center",
-                width: 100,
-                validate: "required"
-            }, {
-                name: "Description",
-                type: "text",
-                align: "center",
-                width: 100,
+                width: 80,
                 validate: "required"
             }, {
                 name: "Coefficient",
                 type: "number",
                 align: "center",
-                width: 50,
+                width: 45,
                 validate: "required"
             }, {
-                name: "Seuil de compensation",
+                name: "Compensation",
                 type: "number",
                 align: "center",
-                width: 50,
+                width: 58,
                 validate: "required"
             }, {
                 name: "Rattrapable",
                 type: "select",
                 align: "center",
+                width: 45,
                 items: reponse,
                 selectedIndex: 0,
                 valueField: "Id",
@@ -624,18 +649,18 @@ function initJsGridLast(element) {
             {
                 name: "Règles MCC",
                 type: "mccRules",
-                align: "center",
-                validate: "required"
+                css: "cellMccRules"
             },
             {
                 name: "Année",
                 type: "number",
                 align: "center",
-                width: 40,
+                width: 30,
                 validate: "required"
             },
             {
-                type: "control"
+                type: "control",
+                width: 20
             }
         ]
     });
