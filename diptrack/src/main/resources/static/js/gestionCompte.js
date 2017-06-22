@@ -78,7 +78,7 @@ function fillModalWithData()
 
 function postDataForEdit(form)
 {
-		var $form = $(form);
+		var $form = $("#formEditCompte");
 		var compteBean = {
 				"mail" : $form.find("input[name='email']").val(),
 				"role" : $form.find("input[name='role']").val(),
