@@ -78,15 +78,6 @@ function fillModalWithData()
 
 function postDataForEdit(form)
 {
-<<<<<<< HEAD
-		var form = $("#formEditCompte");
-		var compteBean = {
-				"mail" : form.find("input[name='email']").val(),
-				"role" : form.find("input[name='role']").val(),
-				"lastName" : form.find("input[name='lastName']").val(),
-				"firstName" : form.find("input[name='firstName']").val(),
-				"studentNumber" : form.find("input[name='studentNumber']").val()
-=======
 		var $form = $(form);
 		var compteBean = {
 				"mail" : $form.find("input[name='email']").val(),
@@ -94,7 +85,6 @@ function postDataForEdit(form)
 				"lastName" : $form.find("input[name='lastName']").val(),
 				"firstName" : $form.find("input[name='firstName']").val(),
 				"studentNumber" : $form.find("input[name='studentNumber']").val()
->>>>>>> cmapella
 		};
 		$.post("/administrateur/editerCompte.html",compteBean ,function(data){
 			if(data == "ERREUR")
@@ -111,7 +101,6 @@ function postDataForEdit(form)
 			}
 		})
 		$('#modalEditCompte').modal('close');
-<<<<<<< HEAD
 }
 
 function submitFile()
@@ -120,6 +109,4 @@ function submitFile()
 		$('#excel')[0].submit();
 	})
 	
-=======
->>>>>>> cmapella
 }

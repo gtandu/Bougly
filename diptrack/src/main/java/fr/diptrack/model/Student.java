@@ -1,11 +1,14 @@
 package fr.diptrack.model;
 
 import java.text.ParseException;
+import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 import fr.diptrack.web.dtos.AccountDto;
 
@@ -22,6 +25,12 @@ public class Student extends UserAccount {
 	private float average;
 	@ManyToOne(cascade = { CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH })
 	private Class studentClass;
+	@ManyToOne(cascade = { CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH })
+	private Course course;
+	@ManyToMany(cascade = { CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH })
+	private List<Subject> listSubjects;
+	@OneToMany(cascade = { CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH })
+	private List<Mark> listMarks;
 
 	public Student() {
 		super();
@@ -59,6 +68,30 @@ public class Student extends UserAccount {
 
 	public void setStudentClass(Class studentClass) {
 		this.studentClass = studentClass;
+	}
+
+	public List<Subject> getListSubjects() {
+		return listSubjects;
+	}
+
+	public void setListSubjects(List<Subject> listSubjects) {
+		this.listSubjects = listSubjects;
+	}
+
+	public List<Mark> getListMarks() {
+		return listMarks;
+	}
+
+	public void setListMarks(List<Mark> listMarks) {
+		this.listMarks = listMarks;
+	}
+
+	public Course getCourse() {
+		return course;
+	}
+
+	public void setCourse(Course course) {
+		this.course = course;
 	}
 
 }

@@ -10,12 +10,15 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
+import fr.diptrack.web.dtos.SemesterDto;
+
 @Entity
 public class Semester {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
+	private String name;
 	private int number;
 	private boolean resit;
 	private int ects;
@@ -23,11 +26,16 @@ public class Semester {
 			CascadeType.REMOVE })
 	private Course course;
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "semester")
-	private List<UE> listUe;
+	private List<Ue> listUe;
 
-	
-	public Semester(){}
-	
+	public Semester() {
+	}
+
+	public Semester(SemesterDto semesterDto, Course course) {
+		this.number = semesterDto.getNumber();
+		this.course = course;
+	}
+
 	public Semester(int number, boolean resit) {
 		this.number = number;
 		this.resit = resit;
@@ -39,6 +47,14 @@ public class Semester {
 
 	public void setId(long id) {
 		this.id = id;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	public int getNumber() {
@@ -65,26 +81,20 @@ public class Semester {
 		this.ects = ects;
 	}
 
-	public Course getBranch() {
+	public Course getCourse() {
 		return course;
 	}
 
-	public void setBranch(Course course) {
+	public void setCourse(Course course) {
 		this.course = course;
 	}
 
-	public List<UE> getListUe() {
+	public List<Ue> getListUe() {
 		return listUe;
 	}
 
-	public void setListUe(List<UE> listUe) {
+	public void setListUe(List<Ue> listUe) {
 		this.listUe = listUe;
 	}
 
-
-	
-	
-
-
-	
 }

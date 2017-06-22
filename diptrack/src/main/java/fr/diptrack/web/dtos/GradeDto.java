@@ -2,21 +2,22 @@ package fr.diptrack.web.dtos;
 
 public class GradeDto {
 
-	private long id;
+	private Long id;
 	private String name;
 	private String level;
 	private String formation;
 	private float average;
+	private int date;
 
-	public GradeDto(){
+	public GradeDto() {
 		super();
 	}
 
-	public long getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(long id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
@@ -51,4 +52,13 @@ public class GradeDto {
 	public void setAverage(float average) {
 		this.average = average;
 	}
+
+	public int getDate() {
+		return date;
+	}
+
+	public void setDate(int date) {
+		this.date = date;
+	}
+
 }

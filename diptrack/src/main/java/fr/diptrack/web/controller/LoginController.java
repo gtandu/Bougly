@@ -30,7 +30,7 @@ public class LoginController {
 	@RequestMapping(value = URL_LOGIN_PAGE, method = RequestMethod.GET)
 	public ModelAndView showLoginPage() throws Exception {
 
-		//initUser();
+		// initUser();
 		logger.info("Show login page");
 		ModelAndView model = new ModelAndView();
 		model.setViewName("login");
@@ -43,17 +43,17 @@ public class LoginController {
 		UserAccount admin = new Administrator("glodie.tandu@diptrack.fr", "adm", "TANDU", "Glodie");
 		accountService.saveRegisteredUserByAccountAndRole(admin, RoleAccountEnum.Administrator.toString());
 
-		UserAccount student = new Student("mapella.corentin@diptrack.fr","etu","MAPELLA","Corentin","20170101");
+		UserAccount student = new Student("mapella.corentin@diptrack.fr", "etu", "MAPELLA", "Corentin", "20170101");
 		accountService.saveRegisteredUserByAccountAndRole(student, RoleAccountEnum.Student.toString());
-		
-		UserAccount teacher = new Teacher("julien.hairapian@diptrack.fr","ens","HAIRAPIAN","Julien");
+
+		UserAccount teacher = new Teacher("julien.hairapian@diptrack.fr", "ens", "HAIRAPIAN", "Julien");
 		accountService.saveRegisteredUserByAccountAndRole(teacher, RoleAccountEnum.Teacher.toString());
-		
-		UserAccount responsible = new Responsible("judith.benzakki@diptrack.fr","res","BENZAKKI","Judith");
+
+		UserAccount responsible = new Responsible("judith.benzakki@diptrack.fr", "res", "BENZAKKI", "Judith");
 		accountService.saveRegisteredUserByAccountAndRole(responsible, RoleAccountEnum.Responsible.toString());
-		
+
 	}
-	
+
 	@RequestMapping(value = URL_FORGOT_PASSWORD_PAGE, method = RequestMethod.GET)
 	public ModelAndView showForgotPasswordPage() throws Exception {
 		ModelAndView model = new ModelAndView();

@@ -140,7 +140,7 @@ public class AdministratorController {
 	@RequestMapping(value = URL_EDIT_ACCOUNT, method = RequestMethod.POST)
 	@ResponseBody
 	public String editAccountFromDto(AccountDto accountDto) {
-		accountService.editAccountFromCompteBean(accountDto);
+		accountService.editAccountFromAccountDto(accountDto);
 		return "OK";
 	}
 

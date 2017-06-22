@@ -7,28 +7,36 @@
     <title>Compte activé</title>
     <meta charset="UTF-8" />
     <link type="text/css" rel="stylesheet" th:href="@{css/login.css}" />
-    
+
 </head>
 
 <body>
-    	<div th:replace="/include/preloader :: preloader"></div>
+    <div th:replace="/include/preloader :: preloader"></div>
     <main id="content">
         <div class="container">
-	        <div class="row">
-		       <h4 class="center-align">Félicitation. Votre compte est activé !</h4>
-		       <h4 class="center-align">Vous allez être redirigé vers la page de connexion dans :</h4>
-		       <div id="gj-counter-box">
-		       		<h2 id="gj-counter-num" class="center-align"></h2>
-		       </div>
-			</div>
-		</div>
+            <div class="row" style="margin-top: 25%;">
+
+                <div class="col s12 m5 offset-m3">
+                    <div class="card teal">
+                        <div class="card-content white-text">
+                            <span class="card-title">Votre compte est activé !</span>
+                            <p>Vous allez être redirigé vers la page de connexion dans : </p>
+                            <div id="gj-counter-box">
+                                <p id="gj-counter-num" class="white-text center-align"></p>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
     </main>
     <div th:replace="/include/script :: script"></div>
-        <script type="text/javascript" th:src="@{/js/creerMdp.js}"></script>
-    	<script type="text/javascript" th:src="@{/js/compteActive.js}"></script>
-    	<!-- Should be at the end of scripts -->
+    <script type="text/javascript" th:src="@{/js/creerMdp.js}"></script>
+    <script type="text/javascript" th:src="@{/js/compteActive.js}"></script>
+    <!-- Should be at the end of scripts -->
     <div th:replace="/include/preloader-script :: preloader-script"></div>
-    	
+
     <footer>
         <div th:replace="/include/footer :: footer"></div>
     </footer>

@@ -85,9 +85,11 @@
 			<artifactId>poi</artifactId>
 			<version>3.15</version>
 		</dependency>
-		
-		
-		
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-devtools</artifactId>
+			<optional>true</optional>
+		</dependency>
 	</dependencies>
 	<build>
 		<plugins>
@@ -95,9 +97,9 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 				<configuration>
-                <executable>true</executable>
-                <jvmArguments>-Dfile.encoding=UTF8</jvmArguments>
-            </configuration>
+					<executable>true</executable>
+					<jvmArguments>-Dfile.encoding=UTF8</jvmArguments>
+				</configuration>
 			</plugin>
 		</plugins>
 	</build>

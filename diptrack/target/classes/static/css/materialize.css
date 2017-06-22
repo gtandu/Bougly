@@ -5133,7 +5133,7 @@ footer.page-footer .footer-copyright {
 .btn-large {
     text-decoration: none;
     color: #fff;
-    background-color: #26a69a;
+    background-color: #00897b;
     text-align: center;
     letter-spacing: .5px;
     transition: .2s ease-out;
@@ -8901,8 +8901,22 @@ button.picker__close:focus {
     cursor: pointer;
 }
 
+.divIconDelete{
+	padding-left: 4.5em !important;
+}
+
+.reduceIcon:hover {
+	color: #00897b;
+    cursor: pointer;
+}
+
+.extendIcon:hover {
+	color: #00897b;
+    cursor: pointer;
+}
+
 .editIcon:hover {
-    color: #26a69a;
+    color: #00897b;
     cursor: pointer;
 }
 

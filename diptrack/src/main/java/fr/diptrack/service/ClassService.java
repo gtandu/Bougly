@@ -19,7 +19,7 @@ public class ClassService {
 		return gradeRepository.save(grade);
 	}
 
-	public List<Class> findAllGrade() {
+	public List<Class> findAllClasses() {
 		return gradeRepository.findAll();
 	}
 

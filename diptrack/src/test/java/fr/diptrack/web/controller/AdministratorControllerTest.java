@@ -324,7 +324,7 @@ public class AdministratorControllerTest {
 	@WithMockUser(authorities = "Administrator")
 	public void testEditAccountFromDto() throws Exception {
 		// WHEN
-		doNothing().when(accountService).editAccountFromCompteBean(any(AccountDto.class));
+		doNothing().when(accountService).editAccountFromAccountDto(any(AccountDto.class));
 
 		// GIVEN
 		this.mockMvc.perform(
@@ -333,7 +333,7 @@ public class AdministratorControllerTest {
 
 		// THEN
 
-		verify(accountService).editAccountFromCompteBean(any(AccountDto.class));
+		verify(accountService).editAccountFromAccountDto(any(AccountDto.class));
 	}
 
 	@Test

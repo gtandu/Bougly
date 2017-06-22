@@ -1,21 +1,42 @@
 package fr.diptrack.model;
 
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+
+import fr.diptrack.web.dtos.SubjectDto;
 
 @Entity
 public class Subject {
 
 	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private long id;
 	private String name;
+	private int year;
 	private String description;
+	private float average;
 	private int coefficient;
 	private int threshold;
 	private boolean resit;
-	//private UE ue;
-	//private MCCRule mccRule;
-	
-	public Subject(){}
+	@ManyToOne(cascade = { CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH })
+	private Ue ue;
+	@OneToMany(cascade = { CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH })
+	private List<MCCRule> listMccRules;
+	@ManyToMany(cascade = { CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH })
+	private List<Student> listStudents;
+	@OneToMany(cascade = { CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH })
+	private List<Mark> listMarks;
+
+	public Subject() {
+	}
 
 	public Subject(String name, String description, int coefficient, int threshold, boolean resit) {
 		super();
@@ -26,6 +47,23 @@ public class Subject {
 		this.resit = resit;
 	}
 
+	public Subject(SubjectDto subjectDto, Ue ue) {
+		this.name = subjectDto.getName();
+		this.coefficient = subjectDto.getCoefficient();
+		this.threshold = subjectDto.getThreshold();
+		this.resit = subjectDto.isResit();
+		this.year = subjectDto.getYear();
+		this.ue = ue;
+	}
+
+	public long getId() {
+		return id;
+	}
+
+	public void setId(long id) {
+		this.id = id;
+	}
+
 	public String getName() {
 		return name;
 	}
@@ -34,12 +72,28 @@ public class Subject {
 		this.name = name;
 	}
 
+	public int getYear() {
+		return year;
+	}
+
+	public void setYear(int year) {
+		this.year = year;
+	}
+
 	public String getDescription() {
 		return description;
 	}
 
 	public void setDescription(String description) {
 		this.description = description;
+	}
+
+	public float getAverage() {
+		return average;
+	}
+
+	public void setAverage(float average) {
+		this.average = average;
 	}
 
 	public int getCoefficient() {
@@ -66,21 +120,36 @@ public class Subject {
 		this.resit = resit;
 	}
 
-	/*
-	public UE getUe() {
+	public Ue getUe() {
 		return ue;
 	}
 
-	public void setUe(UE ue) {
+	public void setUe(Ue ue) {
 		this.ue = ue;
 	}
 
-	public MCCRule getMCCRule() {
-		return mccRule;
+	public List<MCCRule> getListMccRules() {
+		return listMccRules;
 	}
 
-	public void setMCCRule(MCCRule mccRule) {
-		this.mccRule = mccRule;
+	public void setListMccRules(List<MCCRule> listMccRules) {
+		this.listMccRules = listMccRules;
 	}
-	*/
+
+	public List<Student> getListStudents() {
+		return listStudents;
+	}
+
+	public void setListStudents(List<Student> listStudents) {
+		this.listStudents = listStudents;
+	}
+
+	public List<Mark> getListMarks() {
+		return listMarks;
+	}
+
+	public void setListMarks(List<Mark> listMarks) {
+		this.listMarks = listMarks;
+	}
+
 }
