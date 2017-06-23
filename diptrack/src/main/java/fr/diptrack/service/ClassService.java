@@ -32,6 +32,7 @@ public class ClassService {
 		grade.setName(gradeDto.getName());
 		grade.setFormation(gradeDto.getFormation());
 		grade.setLevel(gradeDto.getLevel());
+		grade.setListSubjects(gradeDto.getSubjectList());
 		gradeRepository.save(grade);
 	}
 

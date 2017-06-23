@@ -34,6 +34,18 @@ public class Subject {
 	private List<Student> listStudents;
 	@OneToMany(cascade = { CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH })
 	private List<Mark> listMarks;
+	@OneToMany(cascade = { CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH })
+	private List<Teacher> listTeachers;
+	@ManyToMany(cascade = { CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH })
+	private List<Class> listClasses;
+
+	public List<Teacher> getListTeachers() {
+		return listTeachers;
+	}
+
+	public void setListTeachers(List<Teacher> listTeachers) {
+		this.listTeachers = listTeachers;
+	}
 
 	public Subject() {
 	}

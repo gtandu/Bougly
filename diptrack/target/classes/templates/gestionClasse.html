@@ -27,6 +27,7 @@
                                 <th>Niveau</th>
                                 <th>Formation</th>
                                 <th>Moyenne</th>
+                                <th>Matières</th>
                             </tr>
                         </thead>
 
@@ -37,6 +38,7 @@
                                 <td th:attr="data-level=${classe.level}" th:text="${classe.level}">M1</td>
                                 <td th:attr="data-formation=${classe.formation}" th:text="${classe.formation}">MIAGE</td>
                                 <td th:attr="data-average=${classe.average}" th:text="${classe.average}">12</td>
+                                <td th:attr="data-average=${classe.listSubjects}" th:text="${classe.listSubjects}">12</td>
                                 <td><a class="black-text text-darken-2" href="#modalEditClasse">
                                 <i class="small material-icons editIcon">edit</i></a></td>
                                 <td><i class="small material-icons deleteIcon">clear</i></td>
@@ -59,7 +61,8 @@
     
     <div th:replace="/include/script :: script"></div>
     <script type="text/javascript" th:src="@{/js/gestionClasse.js}"></script>
-    <!-- Should be at the end of scripts -->
+    <script type="text/javascript" th:src="@{/js/lib/formCheckerClasse.js}"></script>
+    
     <div th:replace="/include/preloader-script :: preloader-script"></div>
     <footer>
         <div th:replace="/include/footer :: footer"></div>

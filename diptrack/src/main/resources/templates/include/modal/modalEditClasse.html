@@ -33,6 +33,15 @@
                      	th:value="${formation}" th:text="${formation}"> Apprentissage </option>
                      </select>
                      <label>Niveau de formation</label>
+				</div>
+				
+				<div id="select_subject" class="input-field col s12">
+					 <select multiple="">
+                     	<option th:each="subject : ${subjectList}"
+                     			th:value="${subject.name}" th:text="${subject.name}">
+                     	</option>
+                     </select>
+                     <label>Matières</label>
 				</div>	
 
 				<div class="modal-footer">

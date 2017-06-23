@@ -20,6 +20,7 @@ import fr.diptrack.model.Course;
 import fr.diptrack.exception.CourseExistException;
 import fr.diptrack.exception.SubjectExistException;
 import fr.diptrack.model.Semester;
+import fr.diptrack.model.Subject;
 import fr.diptrack.model.Ue;
 import fr.diptrack.model.UserAccount;
 import fr.diptrack.model.enumeration.FormationEnum;
@@ -109,10 +110,14 @@ public class ResponsibleController {
 	@RequestMapping(value = URL_GRADE_MANAGEMENT, method = RequestMethod.GET)
 	public ModelAndView showPageClassManagement() {
 		ModelAndView model = new ModelAndView("gestionClasse");
+		
 		List<Class> classList = classService.findAllClasses();
+		List<Subject> subjectList = subjectService.findAllSubjects();
+		
 		model.addObject("classList", classList);
 		model.addObject("levelList", LevelEnum.allLevel());
 		model.addObject("formationList", FormationEnum.allFormation());
+		model.addObject("subjectList", subjectList);
 		return model;
 	}
 
@@ -125,7 +130,7 @@ public class ResponsibleController {
 	public ModelAndView showPageCreatGrade() {
 		GradeDto gradeDto = new GradeDto();
 		ModelAndView model = new ModelAndView("creerClasse");
-
+		
 		model.addObject("classe", gradeDto);
 		model.addObject("listeNiveaux", LevelEnum.allLevel());
 		model.addObject("listeFormations", FormationEnum.allFormation());

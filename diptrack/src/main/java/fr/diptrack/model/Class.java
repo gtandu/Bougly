@@ -26,6 +26,7 @@ public class Class {
 	private Responsible responsible;
 	@ManyToOne(cascade = { CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH })
 	private Course course;
+	
 	@ManyToMany(cascade = { CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST,
 			CascadeType.REFRESH }, mappedBy = "listClasses")
 	private List<Teacher> listTeachers;
@@ -33,7 +34,11 @@ public class Class {
 	@OneToMany(cascade = { CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST,
 			CascadeType.REFRESH }, mappedBy = "studentClass")
 	private List<Student> listStudents;
-
+	
+	@ManyToMany(cascade = { CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST,
+			CascadeType.REFRESH }, mappedBy = "listClasses")
+	private List<Subject> listSubjects;
+	
 	public Class() {
 	}
 
@@ -127,6 +132,22 @@ public class Class {
 
 	public void setDate(int date) {
 		this.date = date;
+	}
+	
+	public Course getCourse() {
+		return course;
+	}
+
+	public void setCourse(Course course) {
+		this.course = course;
+	}
+
+	public List<Subject> getListSubjects() {
+		return listSubjects;
+	}
+
+	public void setListSubjects(List<Subject> listSubjects) {
+		this.listSubjects = listSubjects;
 	}
 
 }

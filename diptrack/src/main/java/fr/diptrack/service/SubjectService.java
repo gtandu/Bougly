@@ -1,9 +1,12 @@
 package fr.diptrack.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import fr.diptrack.model.Class;
 import fr.diptrack.model.Semester;
 import fr.diptrack.model.Subject;
 import fr.diptrack.model.Ue;
@@ -25,6 +28,10 @@ public class SubjectService {
 	@Autowired
 	private SubjectRepository subjectRepository;
 
+	public List<Subject> findAllSubjects() {
+		return subjectRepository.findAll();
+	}
+	
 	public SubjectIdUeCoefficientDto saveSubjectFromDto(SubjectDto subjectDto) {
 		Ue ue = ueRepository.findOne(subjectDto.getUeId());
 		Subject subject = new Subject(subjectDto, ue);
