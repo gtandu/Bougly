@@ -16,6 +16,7 @@
 		<div th:replace="/include/nav :: nav"></div>
 	</header>
 
+	<div th:replace="/include/preloader :: preloader"></div>
 	<main> <br />
 	<div class="container">
 		<div class="row">
@@ -69,6 +70,8 @@
 	</main>
 
 	<div th:replace="/include/script :: script"></div>
+	<div th:replace="/include/preloader-script :: preloader-script"></div>
+	
 	<script type="text/javascript" th:src="@{/js/lib/Chart.js}"></script>
 	<script type="text/javascript" th:src="@{/js/responsibleChartBar.js}"></script>
 
