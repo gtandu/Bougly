@@ -36,8 +36,6 @@ public class Subject {
 	private List<Mark> listMarks;
 	@OneToMany(cascade = { CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH })
 	private List<Teacher> listTeachers;
-	@ManyToMany(cascade = { CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH })
-	private List<Class> listClasses;
 
 	public List<Teacher> getListTeachers() {
 		return listTeachers;
@@ -66,6 +64,15 @@ public class Subject {
 		this.resit = subjectDto.isResit();
 		this.year = subjectDto.getYear();
 		this.ue = ue;
+	}
+	
+	public Subject(SubjectDto subjectDto) {
+		this.id = subjectDto.getId();
+		this.name = subjectDto.getName();
+		this.coefficient = subjectDto.getCoefficient();
+		this.threshold = subjectDto.getThreshold();
+		this.resit = subjectDto.isResit();
+		this.year = subjectDto.getYear();
 	}
 
 	public long getId() {

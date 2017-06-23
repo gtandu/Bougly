@@ -38,7 +38,7 @@
                                 <td th:attr="data-level=${classe.level}" th:text="${classe.level}">M1</td>
                                 <td th:attr="data-formation=${classe.formation}" th:text="${classe.formation}">MIAGE</td>
                                 <td th:attr="data-average=${classe.average}" th:text="${classe.average}">12</td>
-                                <td th:attr="data-average=${classe.listSubjects}" th:text="${classe.listSubjects}">12</td>
+                                <td th:attr="data-subject=${classe.listSubjects}" th:text="${classe.listSubjects}"></td>
                                 <td><a class="black-text text-darken-2" href="#modalEditClasse">
                                 <i class="small material-icons editIcon">edit</i></a></td>
                                 <td><i class="small material-icons deleteIcon">clear</i></td>
@@ -50,7 +50,8 @@
             
             <div class="row">
                 <div class="col s12">
-                    <a class="btn waves-effect waves-light #00897b teal darken-1 col s10 offset-s1" th:href="@{/responsable/creerClasse.html}">Créer une classe</a>
+                    <a class="btn waves-effect waves-light #00897b teal darken-1 col s10 offset-s1" 
+                    	th:href="@{/responsable/creerClasse.html}">Créer une classe</a>
                 </div>
             </div>
             

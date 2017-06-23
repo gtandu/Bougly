@@ -32,7 +32,7 @@ import fr.diptrack.service.SemesterService;
 import fr.diptrack.service.SubjectService;
 import fr.diptrack.service.UeService;
 import fr.diptrack.web.dtos.CourseDto;
-import fr.diptrack.web.dtos.GradeDto;
+import fr.diptrack.web.dtos.ClassDto;
 import fr.diptrack.web.dtos.SemesterDto;
 import fr.diptrack.web.dtos.SemesterIdSubjectNameDto;
 import fr.diptrack.web.dtos.SubjectDto;
@@ -128,7 +128,7 @@ public class ResponsibleController {
 
 	@RequestMapping(value = URL_CREATE_GRADE, method = RequestMethod.GET)
 	public ModelAndView showPageCreatGrade() {
-		GradeDto gradeDto = new GradeDto();
+		ClassDto gradeDto = new ClassDto();
 		ModelAndView model = new ModelAndView("creerClasse");
 		
 		model.addObject("classe", gradeDto);
@@ -146,12 +146,12 @@ public class ResponsibleController {
 
 	@RequestMapping(value = URL_EDIT_GRADE, method = RequestMethod.POST)
 	@ResponseBody
-	public void modifierClasse(GradeDto gradeDto) {
+	public void modifierClasse(ClassDto gradeDto) {
 		classService.updateGradeWithGradeDto(gradeDto);
 	}
 
 	@RequestMapping(value = URL_CREATE_GRADE, method = RequestMethod.POST)
-	public String creerClasse(@ModelAttribute(value = "classe") GradeDto gradeDto) {
+	public String creerClasse(@ModelAttribute(value = "classe") ClassDto gradeDto) {
 
 		classService.saveGrade(new Class(gradeDto));
 

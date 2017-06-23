@@ -7,33 +7,33 @@ import org.springframework.stereotype.Service;
 
 import fr.diptrack.model.Class;
 import fr.diptrack.repository.ClassRepository;
-import fr.diptrack.web.dtos.GradeDto;
+import fr.diptrack.web.dtos.ClassDto;
 
 @Service
 public class ClassService {
 
 	@Autowired
-	private ClassRepository gradeRepository;
+	private ClassRepository classRepository;
 
 	public Class saveGrade(Class grade) {
-		return gradeRepository.save(grade);
+		return classRepository.save(grade);
 	}
 
 	public List<Class> findAllClasses() {
-		return gradeRepository.findAll();
+		return classRepository.findAll();
 	}
 
 	public void deleteGradeById(long classID) {
-		gradeRepository.delete(classID);
+		classRepository.delete(classID);
 	}
 
-	public void updateGradeWithGradeDto(GradeDto gradeDto) {
-		Class grade = gradeRepository.findOne(gradeDto.getId());
-		grade.setName(gradeDto.getName());
-		grade.setFormation(gradeDto.getFormation());
-		grade.setLevel(gradeDto.getLevel());
-		grade.setListSubjects(gradeDto.getSubjectList());
-		gradeRepository.save(grade);
+	public void updateGradeWithGradeDto(ClassDto classDto) {
+		Class classFromDB = classRepository.findOne(classDto.getId());
+		classFromDB.setName(classDto.getName());
+		classFromDB.setFormation(classDto.getFormation());
+		classFromDB.setLevel(classDto.getLevel());
+		//classe.getListSubjects(classDto.getSubjectList());
+		classRepository.save(classFromDB);
 	}
 
 }

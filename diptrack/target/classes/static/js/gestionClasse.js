@@ -55,10 +55,11 @@ function insertDataFromTD(){
 				"name": name,
 				"formation": formation,
 				"level" : level,
-				"subjectList" : subjects,
+				//"subjectList" : subjects
 		}
 		
 		var url = "/responsable/modifierClasse.html";
+		
 		$.post(url,gradeDto,function(){
 			$('#modalEditClasse').modal('close');
 

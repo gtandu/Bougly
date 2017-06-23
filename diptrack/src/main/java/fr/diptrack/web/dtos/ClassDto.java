@@ -2,9 +2,7 @@ package fr.diptrack.web.dtos;
 
 import java.util.List;
 
-import fr.diptrack.model.Subject;
-
-public class GradeDto {
+public class ClassDto {
 
 	private Long id;
 	private String name;
@@ -12,17 +10,17 @@ public class GradeDto {
 	private String formation;
 	private float average;
 	private int date;
-	private List<Subject> subjectList;
+	private List<SubjectDto> subjectList;
 
-	public List<Subject> getSubjectList() {
+	public List<SubjectDto> getSubjectList() {
 		return subjectList;
 	}
 
-	public void setSubjectList(List<Subject> subjectList) {
+	public void setSubjectList(List<SubjectDto> subjectList) {
 		this.subjectList = subjectList;
 	}
 
-	public GradeDto() {
+	public ClassDto() {
 		super();
 	}
 
