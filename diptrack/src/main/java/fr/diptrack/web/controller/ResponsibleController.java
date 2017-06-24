@@ -2,7 +2,6 @@ package fr.diptrack.web.controller;
 
 import java.util.List;
 
-import org.dom4j.Branch;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,10 +14,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
-import fr.diptrack.model.Class;
-import fr.diptrack.model.Course;
+
 import fr.diptrack.exception.CourseExistException;
 import fr.diptrack.exception.SubjectExistException;
+import fr.diptrack.model.Class;
+import fr.diptrack.model.Course;
 import fr.diptrack.model.Semester;
 import fr.diptrack.model.Subject;
 import fr.diptrack.model.Ue;
@@ -31,8 +31,8 @@ import fr.diptrack.service.CourseService;
 import fr.diptrack.service.SemesterService;
 import fr.diptrack.service.SubjectService;
 import fr.diptrack.service.UeService;
-import fr.diptrack.web.dtos.CourseDto;
 import fr.diptrack.web.dtos.ClassDto;
+import fr.diptrack.web.dtos.CourseDto;
 import fr.diptrack.web.dtos.SemesterDto;
 import fr.diptrack.web.dtos.SemesterIdSubjectNameDto;
 import fr.diptrack.web.dtos.SubjectDto;
@@ -54,6 +54,8 @@ public class ResponsibleController {
 	public static final String URL_CONTROLLER_RESPONSIBLE = "/responsable";
 	public static final String URL_UPDATE_NUMBER_SEMESTER = "/updateNumberSemester";
 
+	public static final String URL_NOTE_GRADE_MANAGEMENT = "/noteGradeManagement.html";
+	public static final String URL_ATTRIBUER_MATIERE = "/attribuerMatiere.html";
 	public static final String URL_CREATE_GRADE = "/creerClasse.html";
 	public static final String URL_DELETE_GRADE = "/supprimerClasse.html";
 	public static final String URL_EDIT_GRADE = "/modifierClasse.html";
@@ -110,10 +112,10 @@ public class ResponsibleController {
 	@RequestMapping(value = URL_GRADE_MANAGEMENT, method = RequestMethod.GET)
 	public ModelAndView showPageClassManagement() {
 		ModelAndView model = new ModelAndView("gestionClasse");
-		
+
 		List<Class> classList = classService.findAllClasses();
 		List<Subject> subjectList = subjectService.findAllSubjects();
-		
+
 		model.addObject("classList", classList);
 		model.addObject("levelList", LevelEnum.allLevel());
 		model.addObject("formationList", FormationEnum.allFormation());
@@ -130,10 +132,28 @@ public class ResponsibleController {
 	public ModelAndView showPageCreatGrade() {
 		ClassDto gradeDto = new ClassDto();
 		ModelAndView model = new ModelAndView("creerClasse");
-		
+
 		model.addObject("classe", gradeDto);
 		model.addObject("listeNiveaux", LevelEnum.allLevel());
 		model.addObject("listeFormations", FormationEnum.allFormation());
+
+		return model;
+	}
+
+	@RequestMapping(value = URL_NOTE_GRADE_MANAGEMENT, method = RequestMethod.GET)
+	public ModelAndView showPageNoteGradeManagement() {
+		return new ModelAndView("noteGradeManagement");
+	}
+
+	@RequestMapping(value = URL_ATTRIBUER_MATIERE, method = RequestMethod.GET)
+	public ModelAndView showPageAttribuerMatiere() {
+		ModelAndView model = new ModelAndView("attribuerMatiere");
+
+		List<Class> classList = classService.findAllClasses();
+		List<Subject> subjectList = subjectService.findAllSubjects();
+
+		model.addObject("classList", classList);
+		model.addObject("subjectList", subjectList);
 
 		return model;
 	}
