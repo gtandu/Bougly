@@ -7,6 +7,7 @@ $(function() {
     saveFiliereNameOnClick();
     $('.modal').modal();
     $('select').material_select();
+    //validateForm($("#formMccRules"));
 
 })
 
@@ -441,26 +442,58 @@ function addEventOpenModalOnClick() {
 
     $(".mccRules").unbind().click(function() {
         $("#modalMccRules").modal("open");
-        addMccRules($(this).parent());
+        validateForm($("#formMccRules"), addMccRules, $(this).parent());
+        //addMccRules($(this).parent());
+
     })
 
 }
 
-function addMccRules(cellMccRules) {
-    $("#formMccRules").unbind().submit(function(event) {
-        event.preventDefault();
-        var mccRules = {
-            name: $("#nameMccRules").val(),
-            coefficient: $("#coefficientMccRules").val(),
-            markType: $("#markType option:selected").val()
+function removeClassActive() {
+    $(".close").click(function() {
+        var cell = $(this).parent().parent();
+        if (cell.find(".chip").length == 1) {
+            cell.removeClass("active");
         }
-        var html = "<div class='chip' data-name='{{name}}' data-coefficient='{{coefficient}}' data-markType='{{markType}}'>{{name}}<i class='close material-icons'>close</i></div>";
-        var html = Mustache.render(html, mccRules);
-        $(cellMccRules).append(html);
-        $("#nameMccRules").val('');
-        $("#coefficientMccRules").val('');
-        $("#modalMccRules").modal("close");
     })
+}
+
+function createMccRulesObject() {
+    var listMccRules = [];
+    $(".active").find(".chip").each(function(index, element) {
+        listMccRules[index] = {
+            name: $(element).data('name'),
+            coefficient: $(element).data('coefficient'),
+            markType: $(element).data('marktype')
+        }
+        $(".jsgrid-row .empty").removeClass("empty");
+
+    })
+    $(".jsgrid-row .empty")
+    return listMccRules;
+}
+
+function addMccRules(cellMccRules) {
+    //$("#formMccRules").submit(function(event) {
+    var mccRules = {
+        name: $("#nameMccRules").val(),
+        coefficient: $("#coefficientMccRules").val(),
+        markType: $("#markType option:selected").val()
+    }
+    var html = "<div class='chip' data-name='{{name}}' data-coefficient='{{coefficient}}' data-markType='{{markType}}'>{{name}}<i class='close material-icons'>close</i></div>";
+    var html = Mustache.render(html, mccRules);
+    $(cellMccRules).addClass("active");
+    $(cellMccRules).append(html);
+    $("#nameMccRules").val('');
+    $("#coefficientMccRules").val('');
+
+    $(cellMccRules).removeClass("empty");
+
+    $(cellMccRules).removeClass("errorEmpty");
+
+    $("#modalMccRules").modal("close");
+    removeClassActive();
+    //});
 }
 
 function newTypeJsGridMccRules() {
@@ -471,19 +504,32 @@ function newTypeJsGridMccRules() {
     MyMccRulesField.prototype = new jsGrid.Field({
 
         itemTemplate: function(value) {
-            return "<i class='material-icons mccRules'>add</i>";
+        	console.log("ITEM TEMPLATE");
+            if (this._grid._container.find(".active").length == 0) {
+                return "<i class='material-icons mccRules'>add</i>";
+
+            } else {
+                return this._grid._container.find(".active").html();
+            }
         },
 
         insertTemplate: function(value) {
+            if (this._grid._container.find("td.cellMccRules .chip").length != 0) {
+                return this._grid._container.find(".cellMccRules").not(".active").html();
+            }
             return "<i class='material-icons mccRules'>add</i>";
         },
 
         editTemplate: function(value) {
+            if (!this.editing) {
+                return this.itemTemplate.apply(this, arguments);
+
+            }
             return "";
         },
 
         insertValue: function() {
-            return "";
+            return this._grid._container.find(".active").html();
         },
 
         editValue: function() {
@@ -513,8 +559,19 @@ function initJsGridLast(element) {
         inserting: true,
         editing: true,
         sorting: true,
-        paging: true,
+        filtering: false,
+        paging: false,
         confirmDeleting: false,
+
+        invalidMessage: "Erreur lors de la saisie",
+        invalidNotify: function(args) {
+            var errorMsg = "";
+            
+            $.each(args.errors, function(item,value){
+            	errorMsg += value.message+"\n";
+            })
+            swal("Oops...", errorMsg, "error");
+        },
 
         onRefreshing: function(args) {
             addEventOpenModalOnClick();
@@ -560,20 +617,25 @@ function initJsGridLast(element) {
 
             });
         },
-        r: function(args) {
+        onItemInserting: function(args) {
             checkIfSubjectNameExistInSemester(args)
+            if ($(".active").find(".chip").length == 0) {
+                args.cancel = true;
+                $(".active").addClass("jsgrid-invalid");
+            }
         },
 
         onItemInserted: function(args) {
+            var listMccRules = createMccRulesObject();
             var subjectJson = {
                 name: "",
                 coefficient: "",
                 threshold: "",
                 resit: "",
                 year: "",
-                ueId: ""
+                ueId: "",
+                listMccRulesDto: listMccRules
             }
-            console.log(args.item);
             var url = "/responsable/createSubject";
             subjectJson.name = args.item.Nom;
             subjectJson.coefficient = args.item.Coefficient;
@@ -582,12 +644,22 @@ function initJsGridLast(element) {
             subjectJson.year = args.item.Année;
             subjectJson.ueId = args.grid._container.parents(".card-content-ue").find(".card-title-ue").attr("data-id")
 
-            $.post(url, subjectJson, function(data) {
-                args.grid._container.parents(".card-content-ue").find(".card-title-coeff").text("Coefficient : " + data.ueCoefficient)
-            });
+            $.ajax({
+                type: "POST",
+                url: url,
+                data: JSON.stringify(subjectJson),
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                success: function(data) {
+                    if (data.status == 'OK') {
+                        args.grid._container.parents(".card-content-ue").find(".card-title-coeff").text("Coefficient : " + data.ueCoefficient);
+                    }
+                }
+            })
         },
         onItemUpdated: function(args) {
-            console.log(args);
             var subjectJson = {
                 name: "",
                 coefficient: "",
@@ -622,19 +694,59 @@ function initJsGridLast(element) {
                 type: "text",
                 align: "center",
                 width: 80,
-                validate: "required"
+                validate: [{
+                        validator: "required",
+                        message: function(value, item) {
+                            return "Saisissez le nom";
+                        },
+                    },
+                    {
+                        validator: function(value, item) {
+                            return /^[a-zA-Z]+$/.test(value);
+                        },
+                        message: function(value, item) {
+                            return "Le nom de la matière doit être composé uniquement de lettre";
+                        }
+                    }
+                ],
             }, {
                 name: "Coefficient",
                 type: "number",
                 align: "center",
                 width: 45,
-                validate: "required"
+                validate: [{
+                        validator: "required",
+                        message: function(value, item) {
+                            return "Saisissez le coefficient";
+                        },
+                    },
+                    {
+                        validator: "range",
+                        message: function(value, item) {
+                            return "Le coefficient doit être un entier positif";
+                        },
+                        param: [0, 100]
+                    }
+                ],
             }, {
                 name: "Compensation",
                 type: "number",
                 align: "center",
                 width: 58,
-                validate: "required"
+                validate: [{
+                        validator: "required",
+                        message: function(value, item) {
+                            return "Saisissez le seuil de compensation";
+                        },
+                    },
+                    {
+                        validator: "range",
+                        message: function(value, item) {
+                            return "Le seuil de compensation doit être compris entre 0 et 10";
+                        },
+                        param: [0, 10]
+                    }
+                ],
             }, {
                 name: "Rattrapable",
                 type: "select",
@@ -649,14 +761,43 @@ function initJsGridLast(element) {
             {
                 name: "Règles MCC",
                 type: "mccRules",
-                css: "cellMccRules"
+                css: "cellMccRules empty",
+                validate: {
+                    validator: function(value, item) {
+                    	$(".jsgrid-filter-row").remove();
+                        if ($("td.empty").length == 1) {
+                            args.cancel = true;
+                            $("td.empty").addClass("errorEmpty");
+                            return false;
+                        }
+                        return true;
+                    },
+                    message: function(value, item) {
+                        return "Veuillez inserer une règle MCC";
+                    },
+                }
             },
             {
                 name: "Année",
                 type: "number",
                 align: "center",
                 width: 30,
-                validate: "required"
+                validate: [{
+                        validator: "required",
+                        message: function(value, item) {
+                            return "Saisissez l'année";
+                        },
+                    },
+                    {
+                        validator: function(value, item) {
+                            var currentYear = new Date().getFullYear();
+                            return value >= currentYear;
+                        },
+                        message: function(value, item) {
+                            return "L'année doit être égale ou inférieur à : " + new Date().getFullYear();
+                        },
+                    }
+                ]
             },
             {
                 type: "control",

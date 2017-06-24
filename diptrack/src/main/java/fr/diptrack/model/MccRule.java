@@ -10,9 +10,10 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
 import fr.diptrack.model.enumeration.MarkTypeEnum;
+import fr.diptrack.web.dtos.MccRuleDto;
 
 @Entity
-public class MCCRule {
+public class MccRule {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -22,9 +23,17 @@ public class MCCRule {
 	@Enumerated(EnumType.STRING)
 	private MarkTypeEnum markType;
 	@ManyToOne(cascade = { CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH })
-	private Subject Subject;
-	
-	public MCCRule(){}
+	private Subject subject;
+
+	public MccRule() {
+	}
+
+	public MccRule(MccRuleDto mccRuleDto, Subject subject) {
+		this.name = mccRuleDto.getName();
+		this.coefficient = mccRuleDto.getCoefficient();
+		this.markType = MarkTypeEnum.valueOf(MarkTypeEnum.class, mccRuleDto.getMarkType());
+		this.subject = subject;
+	}
 
 	public long getId() {
 		return id;
@@ -59,13 +68,11 @@ public class MCCRule {
 	}
 
 	public Subject getSubject() {
-		return Subject;
+		return subject;
 	}
 
 	public void setSubject(Subject subject) {
-		Subject = subject;
+		this.subject = subject;
 	}
 
-	
-	
 }

@@ -9,6 +9,7 @@ import static org.mockito.Matchers.anyString;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -20,12 +21,15 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
+import fr.diptrack.model.MccRule;
 import fr.diptrack.model.Semester;
 import fr.diptrack.model.Subject;
 import fr.diptrack.model.Ue;
+import fr.diptrack.model.enumeration.MarkTypeEnum;
 import fr.diptrack.repository.SemesterRepository;
 import fr.diptrack.repository.SubjectRepository;
 import fr.diptrack.repository.UeRepository;
+import fr.diptrack.web.dtos.MccRuleDto;
 import fr.diptrack.web.dtos.SemesterIdSubjectNameDto;
 import fr.diptrack.web.dtos.SubjectDto;
 import fr.diptrack.web.dtos.SubjectNameUeIdDto;
@@ -47,6 +51,14 @@ public class SubjectServiceTest {
 	public void testSaveSubjectFromDto() throws Exception {
 		// WHEN
 		SubjectDto subjectDto = new SubjectDto();
+		ArrayList<MccRuleDto> listMccRulesDto = new ArrayList<>();
+		MccRuleDto mccRuleDto = new MccRuleDto();
+		mccRuleDto.setName("");
+		mccRuleDto.setMarkType(MarkTypeEnum.Continu.toString());
+		mccRuleDto.setCoefficient(4);
+		listMccRulesDto.add(mccRuleDto);
+
+		subjectDto.setListMccRulesDto(listMccRulesDto);
 		Ue ue = new Ue();
 		ue.setListSubject(new ArrayList<>());
 		when(ueRepository.findOne(anyLong())).thenReturn(ue);
@@ -57,7 +69,7 @@ public class SubjectServiceTest {
 
 		// THEN
 		verify(ueRepository).findOne(anyLong());
-		verify(subjectRepository).save(any(Subject.class));
+		verify(subjectRepository, times(2)).save(any(Subject.class));
 	}
 
 	@Test
@@ -66,9 +78,14 @@ public class SubjectServiceTest {
 		SubjectNameUeIdDto dto = new SubjectNameUeIdDto();
 		Ue ue = new Ue();
 		Subject subject = new Subject();
+		ArrayList<MccRule> listMccRules = new ArrayList<>();
+		MccRule mccRule = new MccRule();
+		listMccRules.add(mccRule);
+		subject.setListMccRules(listMccRules);
 		ArrayList<Subject> listSubjects = new ArrayList<Subject>();
 		listSubjects.add(subject);
 		ue.setListSubject(listSubjects);
+
 		when(ueRepository.findOne(anyLong())).thenReturn(ue);
 		when(subjectRepository.findByName(anyString())).thenReturn(subject);
 		doNothing().when(subjectRepository).delete(any(Subject.class));

@@ -1,9 +1,9 @@
 package fr.diptrack.model.enumeration;
 
 public enum MarkTypeEnum {
-	
-	ContinuousAssessment("Continu"),Exam("Partiel"),Resit("Rattrapage"),Project("Projet");
-	
+
+	Continu("ContinuousAssessment"), Partiel("Exam"), Rattrapage("Resit"), Projet("Project");
+
 	private String markType;
 
 	private MarkTypeEnum(String markType) {
@@ -17,10 +17,5 @@ public enum MarkTypeEnum {
 	public void setMarkType(String markType) {
 		this.markType = markType;
 	}
-	
-	
-
-	
-
 
 }

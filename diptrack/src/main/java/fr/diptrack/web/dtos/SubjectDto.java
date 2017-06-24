@@ -1,5 +1,7 @@
 package fr.diptrack.web.dtos;
 
+import java.util.List;
+
 public class SubjectDto {
 
 	private String name;
@@ -10,6 +12,7 @@ public class SubjectDto {
 	private int year;
 	private long ueId;
 	private String previousName;
+	private List<MccRuleDto> listMccRulesDto;
 
 	public String getName() {
 		return name;
@@ -74,7 +77,13 @@ public class SubjectDto {
 	public void setPreviousName(String previousName) {
 		this.previousName = previousName;
 	}
-	
-	
+
+	public List<MccRuleDto> getListMccRulesDto() {
+		return listMccRulesDto;
+	}
+
+	public void setListMccRulesDto(List<MccRuleDto> listMccRulesDto) {
+		this.listMccRulesDto = listMccRulesDto;
+	}
 
 }

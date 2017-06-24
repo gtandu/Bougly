@@ -2,7 +2,6 @@ package fr.diptrack.web.controller;
 
 import java.util.List;
 
-import org.dom4j.Branch;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,15 +9,17 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
-import fr.diptrack.model.Class;
-import fr.diptrack.model.Course;
+
 import fr.diptrack.exception.CourseExistException;
 import fr.diptrack.exception.SubjectExistException;
+import fr.diptrack.model.Class;
+import fr.diptrack.model.Course;
 import fr.diptrack.model.Semester;
 import fr.diptrack.model.Ue;
 import fr.diptrack.model.UserAccount;
@@ -230,8 +231,8 @@ public class ResponsibleController {
 	}
 
 	@RequestMapping(value = URL_CREATE_SUBJECT, method = RequestMethod.POST)
-	@ResponseBody
-	public SubjectIdUeCoefficientDto createSubject(SubjectDto subjectDto) throws SubjectExistException {
+	public @ResponseBody SubjectIdUeCoefficientDto createSubject(@RequestBody SubjectDto subjectDto)
+			throws SubjectExistException {
 		return subjectService.saveSubjectFromDto(subjectDto);
 	}
 
