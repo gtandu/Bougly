@@ -306,7 +306,8 @@ public class ResponsibleControllerTest {
 		// GIVEN
 
 		this.mockMvc.perform(post(URL_RESPONSIBLE_CONTROLLER + ResponsibleController.URL_CREATE_SUBJECT)
-				.param("subjectDto", mapper.writeValueAsString(subjectDto))).andExpect(status().isOk());
+				.accept(MediaType.APPLICATION_JSON).content(mapper.writeValueAsString(subjectDto))
+				.contentType(MediaType.APPLICATION_JSON)).andExpect(status().isOk());
 
 		// THEN
 		verify(subjectService).saveSubjectFromDto(any(SubjectDto.class));

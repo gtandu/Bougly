@@ -1,6 +1,6 @@
 package fr.diptrack.web.dtos;
 
-public class MccRulesDto {
+public class MccRuleDto {
 
 	private String name;
 	private int coefficient;

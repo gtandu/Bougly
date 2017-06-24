@@ -5,6 +5,11 @@
 th.cellMccRules{
 	text-align: center
 }
+.errorEmpty
+{
+	border: 2px solid #ff808a !important;
+    background-color: #ffe3e5 !important;
+}
 select{
     display: block !important;
     background-color: transparent;

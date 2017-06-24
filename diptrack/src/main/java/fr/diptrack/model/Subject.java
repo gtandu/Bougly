@@ -28,8 +28,8 @@ public class Subject {
 	private boolean resit;
 	@ManyToOne(cascade = { CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH })
 	private Ue ue;
-	@OneToMany(cascade = { CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH })
-	private List<MCCRule> listMccRules;
+	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+	private List<MccRule> listMccRules;
 	@ManyToMany(cascade = { CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH })
 	private List<Student> listStudents;
 	@OneToMany(cascade = { CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH })
@@ -128,11 +128,11 @@ public class Subject {
 		this.ue = ue;
 	}
 
-	public List<MCCRule> getListMccRules() {
+	public List<MccRule> getListMccRules() {
 		return listMccRules;
 	}
 
-	public void setListMccRules(List<MCCRule> listMccRules) {
+	public void setListMccRules(List<MccRule> listMccRules) {
 		this.listMccRules = listMccRules;
 	}
 
