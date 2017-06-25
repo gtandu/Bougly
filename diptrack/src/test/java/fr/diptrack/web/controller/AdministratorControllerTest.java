@@ -25,7 +25,6 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
@@ -38,7 +37,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.MediaType;
-import org.springframework.mail.MailSendException;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -53,13 +51,11 @@ import fr.diptrack.builder.bean.AccountDtoBuilder;
 import fr.diptrack.builder.model.AdministratorBuilder;
 import fr.diptrack.exception.StudentNumberExistException;
 import fr.diptrack.exception.UserExistException;
-import fr.diptrack.model.Student;
 import fr.diptrack.model.UserAccount;
 import fr.diptrack.model.enumeration.RoleAccountEnum;
 import fr.diptrack.model.security.OnRegistrationCompleteEvent;
 import fr.diptrack.service.AccountService;
 import fr.diptrack.service.mail.RegistrationListener;
-import fr.diptrack.web.controller.AdministratorController;
 import fr.diptrack.web.dtos.AccountDto;
 
 @RunWith(SpringRunner.class)

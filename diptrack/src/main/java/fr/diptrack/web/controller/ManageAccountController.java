@@ -19,7 +19,6 @@ import fr.diptrack.model.UserAccount;
 import fr.diptrack.model.security.VerificationToken;
 import fr.diptrack.service.AccountService;
 import fr.diptrack.service.VerificationTokenService;
-import fr.diptrack.service.mail.ForgotPassword;
 import fr.diptrack.web.dtos.AccountDto;
 
 @Controller
@@ -30,9 +29,6 @@ public class ManageAccountController {
 
 	@Autowired
 	private VerificationTokenService tokenService;
-
-	@Autowired
-	private ForgotPassword forgotPassword;
 
 	@Autowired
 	private MessageSource messagesSource;
