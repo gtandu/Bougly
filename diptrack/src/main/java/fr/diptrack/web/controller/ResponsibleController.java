@@ -115,12 +115,12 @@ public class ResponsibleController {
 		ModelAndView model = new ModelAndView("gestionClasse");
 
 		List<Class> classList = classService.findAllClasses();
-		List<Subject> subjectList = subjectService.findAllSubjects();
+		//List<Subject> subjectList = subjectService.findAllSubjects();
 
 		model.addObject("classList", classList);
 		model.addObject("levelList", LevelEnum.allLevel());
 		model.addObject("formationList", FormationEnum.allFormation());
-		model.addObject("subjectList", subjectList);
+		//model.addObject("subjectList", subjectList);
 		return model;
 	}
 

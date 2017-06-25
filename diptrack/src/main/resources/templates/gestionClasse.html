@@ -27,7 +27,7 @@
                                 <th>Niveau</th>
                                 <th>Formation</th>
                                 <th>Moyenne</th>
-                                <th>Matières</th>
+                                <!--  <th>Matières</th> -->
                             </tr>
                         </thead>
 
@@ -38,7 +38,7 @@
                                 <td th:attr="data-level=${classe.level}" th:text="${classe.level}">M1</td>
                                 <td th:attr="data-formation=${classe.formation}" th:text="${classe.formation}">MIAGE</td>
                                 <td th:attr="data-average=${classe.average}" th:text="${classe.average}">12</td>
-                                <td th:attr="data-subject=${classe.listSubjects}" th:text="${classe.listSubjects}"></td>
+                                <!-- <td th:attr="data-subject=${classe.listSubjects}" th:text="${classe.listSubjects}"></td> -->
                                 <td><a class="black-text text-darken-2" href="#modalEditClasse">
                                 <i class="small material-icons editIcon">edit</i></a></td>
                                 <td><i class="small material-icons deleteIcon">clear</i></td>

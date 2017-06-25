@@ -16,6 +16,7 @@ import fr.diptrack.service.AccountService;
 public class TeacherController {
 
 	public static final String URL_HOME_PAGE_TEACHER = "/homePageTeacher.html";
+	public static final String URL_NOTE_GRADE_MANAGEMENT = "/noteGradeManagement.html";
 
 	@Autowired
 	public AccountService accountService;
@@ -32,4 +33,9 @@ public class TeacherController {
 		return model;
 	}
 
+	@RequestMapping(value = URL_NOTE_GRADE_MANAGEMENT, method = RequestMethod.GET)
+	public ModelAndView showPageNoteGradeManagement() {
+		return new ModelAndView("noteGradeManagement");
+	}
+	
 }
