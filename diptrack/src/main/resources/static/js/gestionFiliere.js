@@ -504,19 +504,11 @@ function newTypeJsGridMccRules() {
     MyMccRulesField.prototype = new jsGrid.Field({
 
         itemTemplate: function(value) {
-        	console.log("ITEM TEMPLATE");
-            if (this._grid._container.find(".active").length == 0) {
-                return "<i class='material-icons mccRules'>add</i>";
+            return this._grid._container.find(".active").html();
 
-            } else {
-                return this._grid._container.find(".active").html();
-            }
         },
 
         insertTemplate: function(value) {
-            if (this._grid._container.find("td.cellMccRules .chip").length != 0) {
-                return this._grid._container.find(".cellMccRules").not(".active").html();
-            }
             return "<i class='material-icons mccRules'>add</i>";
         },
 
@@ -529,7 +521,7 @@ function newTypeJsGridMccRules() {
         },
 
         insertValue: function() {
-            return this._grid._container.find(".active").html();
+            return "";
         },
 
         editValue: function() {
@@ -566,9 +558,9 @@ function initJsGridLast(element) {
         invalidMessage: "Erreur lors de la saisie",
         invalidNotify: function(args) {
             var errorMsg = "";
-            
-            $.each(args.errors, function(item,value){
-            	errorMsg += value.message+"\n";
+
+            $.each(args.errors, function(item, value) {
+                errorMsg += value.message + "\n";
             })
             swal("Oops...", errorMsg, "error");
         },
@@ -653,9 +645,7 @@ function initJsGridLast(element) {
                     'Content-Type': 'application/json'
                 },
                 success: function(data) {
-                    if (data.status == 'OK') {
                         args.grid._container.parents(".card-content-ue").find(".card-title-coeff").text("Coefficient : " + data.ueCoefficient);
-                    }
                 }
             })
         },
@@ -764,7 +754,7 @@ function initJsGridLast(element) {
                 css: "cellMccRules empty",
                 validate: {
                     validator: function(value, item) {
-                    	$(".jsgrid-filter-row").remove();
+                        $(".jsgrid-filter-row").remove();
                         if ($("td.empty").length == 1) {
                             args.cancel = true;
                             $("td.empty").addClass("errorEmpty");
