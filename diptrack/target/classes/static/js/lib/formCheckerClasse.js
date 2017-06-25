@@ -42,12 +42,12 @@ function validateForm(functionCallBackValidate) {
 		    // do other things for a valid form
 			if(functionCallBackValidate != undefined)
 			{
-				functionCallBackValidate(form);				
+				functionCallBackValidate();				
 			}
 			else
 			{
 				form.submit();
 			}
 		  }
-	});
+		});
 }

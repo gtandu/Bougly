@@ -48,15 +48,18 @@ function insertDataFromTD(){
 		var name = $("#input_name").val();
 		var level = $("#select_level").find('div > input').val();
 		var formation = $("#select_formation").find('div > input').val();
+		var subjects = $("#select_subject").find('div > input').val();
 		
 		var gradeDto = {
 				"id" : id,
 				"name": name,
 				"formation": formation,
 				"level" : level,
+				//"subjectList" : subjects
 		}
 		
 		var url = "/responsable/modifierClasse.html";
+		
 		$.post(url,gradeDto,function(){
 			$('#modalEditClasse').modal('close');
 

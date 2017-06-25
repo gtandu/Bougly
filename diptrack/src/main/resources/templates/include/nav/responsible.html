@@ -2,23 +2,23 @@
 
 <div th:fragment="responsible">
    
-		<a th:href="@{/responsable/homePageResponsible.html}" id="logo-container" class="brand-logo">DipTrack</a>
+		<a th:href="@{/responsable/homePageResponsible.html}" id="logo-container" class="brand-logo tooltipped"
+		data-position="bottom" data-delay="50" data-tooltip="Accueil">DipTrack</a>
        <ul class="right hide-on-med-and-down">
            
            <li><a class="tooltipped" th:href="@{/responsable/gestionClasse.html}" 
-           data-position="bottom" data-delay="50" data-tooltip="Mes classes"><i class="material-icons">assessment</i></a></li>
+           data-position="bottom" data-delay="50" data-tooltip="Gérer mes classes"><i class="material-icons">assessment</i></a></li>
            
-           <li><a class="tooltipped" href="#"
-           data-position="bottom" data-delay="50" data-tooltip="Configuration">
-           <i class="material-icons">settings</i></a></li>
-           
+           <li><a class="tooltipped" th:href="@{/responsable/gestionFiliere.html}" 
+           data-position="bottom" data-delay="50" data-tooltip="Créer une filière"><i class="material-icons">library_add</i></a></li>
+            
            <li><a class="tooltipped" th:href="@{/logout}"
            data-position="bottom" data-delay="50" data-tooltip="Déconnexion">
            <i class="material-icons">power_settings_new</i></a></li>
        </ul>
        <ul class="side-nav">
-            <li><a th:href="@{/etudiant/noteEtudiant.html}"><i class="material-icons">assessment</i>Mes Classes</a></li>
-            <li><a href="#"><i class="material-icons">settings</i>Paramètres</a></li>
+            <li><a th:href="@{/responsable/gestionClasse.html}"><i class="material-icons">assessment</i>Mes Classes</a></li>
+            <li><a th:href="@{/responsable/gestionFiliere.html}"><i class="material-icons">library_add</i>Mes Filières</a></li>
             <li><a th:href="@{/logout}"><i class="material-icons">power_settings_new</i>Déconnexion</a></li>
         </ul>
 </div>

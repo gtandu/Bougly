@@ -1,6 +1,8 @@
 package fr.diptrack.web.dtos;
 
-public class GradeDto {
+import java.util.List;
+
+public class ClassDto {
 
 	private Long id;
 	private String name;
@@ -8,8 +10,17 @@ public class GradeDto {
 	private String formation;
 	private float average;
 	private int date;
+	private List<SubjectDto> subjectList;
 
-	public GradeDto() {
+	public List<SubjectDto> getSubjectList() {
+		return subjectList;
+	}
+
+	public void setSubjectList(List<SubjectDto> subjectList) {
+		this.subjectList = subjectList;
+	}
+
+	public ClassDto() {
 		super();
 	}
 

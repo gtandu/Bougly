@@ -29,6 +29,10 @@ public class SubjectService {
 	@Autowired
 	private SubjectRepository subjectRepository;
 
+	public List<Subject> findAllSubjects() {
+		return subjectRepository.findAll();
+	}
+
 	public SubjectIdUeCoefficientDto saveSubjectFromDto(SubjectDto subjectDto) {
 
 		Ue ue = ueRepository.findOne(subjectDto.getUeId());

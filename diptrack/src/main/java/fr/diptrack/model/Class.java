@@ -10,7 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import fr.diptrack.web.dtos.GradeDto;
+import fr.diptrack.web.dtos.ClassDto;
 
 @Entity
 public class Class {
@@ -26,6 +26,7 @@ public class Class {
 	private Responsible responsible;
 	@ManyToOne(cascade = { CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH })
 	private Course course;
+	
 	@ManyToMany(cascade = { CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST,
 			CascadeType.REFRESH }, mappedBy = "listClasses")
 	private List<Teacher> listTeachers;
@@ -33,7 +34,7 @@ public class Class {
 	@OneToMany(cascade = { CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST,
 			CascadeType.REFRESH }, mappedBy = "studentClass")
 	private List<Student> listStudents;
-
+	
 	public Class() {
 	}
 
@@ -43,7 +44,7 @@ public class Class {
 		this.formation = formation;
 	}
 
-	public Class(GradeDto gradeDto) {
+	public Class(ClassDto gradeDto) {
 		this.name = gradeDto.getName();
 		this.level = gradeDto.getLevel();
 		this.formation = gradeDto.getFormation();
@@ -127,6 +128,14 @@ public class Class {
 
 	public void setDate(int date) {
 		this.date = date;
+	}
+	
+	public Course getCourse() {
+		return course;
+	}
+
+	public void setCourse(Course course) {
+		this.course = course;
 	}
 
 }

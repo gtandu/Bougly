@@ -13,9 +13,10 @@
 
 <body>
 	<header>
-		<div th:replace="/include/responsibleNav :: responsibleNav"></div>
+		<div th:replace="/include/nav :: nav"></div>
 	</header>
 
+	<div th:replace="/include/preloader :: preloader"></div>
 	<main> <br />
 	<div class="container">
 		<div class="row">
@@ -51,7 +52,7 @@
 						</p>
 						<p> 
 							<i class="material-icons cyan-text text-darken-2">visibility</i>
-							<span> Responsable </span>
+							<span> Etudiant </span>
 						</p>
 					</div>
 					
@@ -69,6 +70,8 @@
 	</main>
 
 	<div th:replace="/include/script :: script"></div>
+	<div th:replace="/include/preloader-script :: preloader-script"></div>
+	
 	<script type="text/javascript" th:src="@{/js/lib/Chart.js}"></script>
 	<script type="text/javascript" th:src="@{/js/responsibleChartBar.js}"></script>
 

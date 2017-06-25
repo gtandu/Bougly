@@ -22,7 +22,7 @@ import fr.diptrack.model.Class;
 import fr.diptrack.model.enumeration.FormationEnum;
 import fr.diptrack.model.enumeration.LevelEnum;
 import fr.diptrack.repository.ClassRepository;
-import fr.diptrack.web.dtos.GradeDto;
+import fr.diptrack.web.dtos.ClassDto;
 
 @RunWith(MockitoJUnitRunner.class)
 public class ClassServiceTest {
@@ -59,7 +59,7 @@ public class ClassServiceTest {
 	@Test
 	public void testUpdateGradeWithGradeDto() {
 		// WHEN
-		GradeDto gradeDto = new ClassDtoBuilder().withId(20).withName("BIO").withLevel(LevelEnum.L2.toString())
+		ClassDto gradeDto = new ClassDtoBuilder().withId(20).withName("BIO").withLevel(LevelEnum.L2.toString())
 				.withFormation(FormationEnum.INITIALE.toString()).withAverage(12).build();
 
 		Class grade = mock(Class.class);

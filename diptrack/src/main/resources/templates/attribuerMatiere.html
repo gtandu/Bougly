@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<div th:replace="/include/header :: header"></div>
+<title>Attribution Matière</title>
+<meta charset="UTF-8" />
+
+<link type="text/css" rel="stylesheet" th:href="@{/css/attribuerMatiere.css}" media="screen,projection" />
+
+</head>
+
+<body>
+	<header>
+		<div th:replace="/include/nav :: nav"></div>
+	</header>
+
+	<div th:replace="/include/preloader :: preloader"></div>
+
+	<main id="content">
+	<div class="container">
+		<h3 class="header center teal-text text-lighten-1">Attribution d'une matière</h3>
+		<h6 class="header center teal-text text-lighten-1">Sélectionnez la classe de votre choix, puis choississez votre matière</h6>
+		<br />
+		
+		<div class="row">
+			<ul class="collapsible center" data-collapsible="accordion">
+				<li th:each="classe : ${classList}">
+					<div class="collapsible-header">
+						<h6 class="teal-text text-darken-2 className" th:attr="data-id=${classe.name}" th:text="${classe.name}"></h6>
+					</div>
+					<div class="collapsible-body">
+						<span th:each="subject : ${subjectList}">
+							<p class='subjectName' th:attr="data-id=${subject.name}" th:text="${subject.name}"></p>
+						</span>
+					</div>
+				</li>
+			</ul>
+		</div>
+
+		<div class="row">
+			<div class="col s12">
+				<a
+					class="btn waves-effect waves-light #00897b teal darken-1 col s10 offset-s1"
+					th:href="@{/responsable/creerClasse.html}">Créer une classe</a>
+			</div>
+		</div>
+
+		<div th:replace="/include/modal/modalEditClasse :: modalEditClasse"></div>
+
+	</div>
+	</main>
+
+	<div th:replace="/include/script :: script"></div>
+	<script type="text/javascript" th:src="@{/js/gestionClasse.js}"></script>
+	<script type="text/javascript" th:src="@{/js/attributionMatiere.js}"></script>
+	<div th:replace="/include/preloader-script :: preloader-script"></div>
+	<footer>
+		<div th:replace="/include/footer :: footer"></div>
+	</footer>
+
+</body>
+
+</html>

@@ -9,8 +9,11 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
+
+import java.util.ArrayList;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -36,6 +39,7 @@ import fr.diptrack.model.Course;
 import fr.diptrack.model.Semester;
 import fr.diptrack.model.Subject;
 import fr.diptrack.model.Ue;
+import fr.diptrack.service.ClassService;
 import fr.diptrack.service.CourseService;
 import fr.diptrack.service.SemesterService;
 import fr.diptrack.service.SubjectService;
@@ -68,6 +72,9 @@ public class ResponsibleControllerTest {
 
 	@Mock
 	private UeService ueService;
+
+	@Mock
+	private ClassService classService;
 
 	private final String URL_RESPONSIBLE_CONTROLLER = "/responsable";
 
@@ -362,6 +369,32 @@ public class ResponsibleControllerTest {
 		// THEN
 
 		verify(subjectService).checkSubjectExistInBranch((any(SemesterIdSubjectNameDto.class)));
+	}
+
+	@Test
+	public void testShowPageNoteGradeManagement() throws Exception {
+		// WHEN
+
+		// GIVEN
+		this.mockMvc.perform(get(URL_RESPONSIBLE_CONTROLLER + ResponsibleController.URL_NOTE_GRADE_MANAGEMENT))
+				.andExpect(status().isOk()).andExpect(view().name("noteGradeManagement"));
+
+		// THEN
+	}
+
+	@Test
+	public void testShowPageAttribuerMatiere() throws Exception {
+		// WHEN
+
+		when(classService.findAllClasses()).thenReturn(new ArrayList<>());
+		when(subjectService.findAllSubjects()).thenReturn(new ArrayList<>());
+
+		// GIVEN
+		this.mockMvc.perform(get(URL_RESPONSIBLE_CONTROLLER + ResponsibleController.URL_ATTRIBUER_MATIERE))
+				.andExpect(status().isOk()).andExpect(model().attributeExists("classList"))
+				.andExpect(model().attributeExists("subjectList"));
+
+		// THEN
 	}
 
 }

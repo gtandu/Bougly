@@ -1,10 +1,10 @@
 package fr.diptrack.builder.bean;
 
-import fr.diptrack.web.dtos.GradeDto;
+import fr.diptrack.web.dtos.ClassDto;
 
 public class ClassDtoBuilder {
 
-	private GradeDto gradeDto = new GradeDto();
+	private ClassDto gradeDto = new ClassDto();
 
 	public ClassDtoBuilder withId(long id) {
 		this.gradeDto.setId(id);
@@ -31,7 +31,7 @@ public class ClassDtoBuilder {
 		return this;
 	}
 
-	public GradeDto build() {
+	public ClassDto build() {
 		return gradeDto;
 	}
 

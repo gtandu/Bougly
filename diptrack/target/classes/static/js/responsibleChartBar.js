@@ -1,6 +1,5 @@
 $(function() {
 	$('select').material_select();
-	validateForm();
 });
 
 var ctx = document.getElementById("chartBar").getContext('2d');
