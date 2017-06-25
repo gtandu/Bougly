@@ -25,6 +25,7 @@ import fr.diptrack.model.Student;
 import fr.diptrack.model.UserAccount;
 import fr.diptrack.model.enumeration.RoleAccountEnum;
 import fr.diptrack.model.security.Authority;
+import fr.diptrack.model.security.OnForgetPasswordEvent;
 import fr.diptrack.model.security.OnRegistrationCompleteEvent;
 import fr.diptrack.repository.AccountRepository;
 import fr.diptrack.repository.security.AuthorityRepository;
@@ -145,8 +146,8 @@ public class AccountService {
 		PageRequest request = new PageRequest(pageNumber - 1, PAGE_SIZE, Sort.Direction.ASC, "mail");
 		return accountRepository.findAll(request);
 	}
-	
-	public UserAccount findByMail(String mail){
+
+	public UserAccount findByMail(String mail) {
 		return accountRepository.findByMail(mail);
 	}
 
@@ -213,6 +214,13 @@ public class AccountService {
 	public boolean emailExist(String email) {
 		UserAccount account = accountRepository.findByMail(email);
 		return account != null ? true : false;
+	}
+
+	@Transactional
+	public void publishEventRegistrationForgetPassword(String mail, HttpServletRequest request) throws Exception {
+		UserAccount user = this.findByMail(mail);
+		String appUrl = request.getContextPath();
+		eventPublisher.publishEvent(new OnForgetPasswordEvent(user, request.getLocale(), appUrl));
 	}
 
 	protected boolean studentNumberExist(String studentNumber) {

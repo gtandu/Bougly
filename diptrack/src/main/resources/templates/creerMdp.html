@@ -20,13 +20,14 @@
 	        <div class="col s12 l12">
 				<div class="section">
 					<p class="flow-text center-align white-text">Bienvenue sur DipTrack.</p>
-					<p class="flow-text center-align white-text">Votre compte sera activé apres la création de votre mot de passe.</p>
+					<p th:unless="${resetPassword}" class="flow-text center-align white-text">Votre compte sera activé apres la création de votre mot de passe.</p>
+					<p th:if="${resetPassword}" class="flow-text center-align white-text">Veuillez créer un nouveau mot de passe</p>
 				</div>
 			</div>
 		</div>
             <div class="row">
             	<div class="card-panel col s12 m8 l8 offset-l2 offset-m2">
-	                <form class="design_formulaire_content" th:object="${accountDto}" th:action="@{'/creerMdp.html?token='+${#httpServletRequest.getParameter('token')}}" method="post">
+	                <form class="design_formulaire_content" th:object="${accountDto}" th:action="@{/creerMdp.html(token = ${#httpServletRequest.getParameter('token')}, resetPassword = ${#httpServletRequest.getParameter('resetPassword')})}" method="post">
 	                	<input type="hidden" th:value="*{mail}" th:field="*{mail}"/>
 	                    <div class="row">
 	                    	<div class="col s12">
