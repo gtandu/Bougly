@@ -6,6 +6,7 @@ $(function() {
     $('.modal').modal();
     validateForm($("#formEditCompte"), postDataForEdit);
     submitFile();
+    $('.dropify').dropify();
 
 })
 
