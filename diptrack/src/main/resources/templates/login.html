@@ -20,9 +20,9 @@
                 <div class="card-panel col s12 m8 l6 offset-l3 offset-m2 design_formulaire">
                 	<h4 class="teal-text text-lighten-1 center">Portail de Connexion</h4>
                     <form method="post" class="design_formulaire_content">
-                        <div th:if="${session['SPRING_SECURITY_LAST_EXCEPTION']}" class="row">
+                        <div th:if="${errorMsg}" class="row">
                             <div class="collection center" style="border-color: red;">
-                                <a class="collection-item red-text text" th:text="${session['SPRING_SECURITY_LAST_EXCEPTION']}">Erreur
+                                <a class="collection-item red-text text" th:text="${errorMsg}">Erreur
 								connection</a>
                             </div>
                         </div>
