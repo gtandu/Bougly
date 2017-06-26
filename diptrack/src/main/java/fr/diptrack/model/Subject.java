@@ -34,8 +34,6 @@ public class Subject {
 	private List<Student> listStudents;
 	@OneToMany(cascade = { CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH })
 	private List<Mark> listMarks;
-	@OneToMany(cascade = { CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH })
-	private List<Teacher> listTeachers;
 
 	public Subject() {
 	}
@@ -161,13 +159,5 @@ public class Subject {
 
 	public void setListMarks(List<Mark> listMarks) {
 		this.listMarks = listMarks;
-	}
-
-	public List<Teacher> getListTeachers() {
-		return listTeachers;
-	}
-
-	public void setListTeachers(List<Teacher> listTeachers) {
-		this.listTeachers = listTeachers;
 	}
 }

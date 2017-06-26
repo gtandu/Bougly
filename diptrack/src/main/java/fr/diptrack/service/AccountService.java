@@ -128,13 +128,17 @@ public class AccountService {
 		Authority saveAuthority = saveAuthority(savedAccount, role);
 		savedAccount.setAuthorities(Arrays.asList(saveAuthority));
 		return savedAccount;
-
 	}
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public List<AccountDto> findAllComptes() {
 		List accountList = accountRepository.findAll();
 		return MapperBeanUtil.convertAccountListToAccountDtoList(accountList);
+	}
+	
+	List<UserAccount> findAllAccountByAuthorities(String authorities) {
+		List<UserAccount> listAccount = accountRepository.findAllByAuthorities(authorities);
+		return listAccount;
 	}
 
 	public Authority saveAuthority(UserAccount account, String role) {

@@ -22,6 +22,10 @@ public class ClassService {
 	public List<Class> findAllClasses() {
 		return classRepository.findAll();
 	}
+	
+	public Class findClassById(long id) {
+		return classRepository.findOne(id);
+	}
 
 	public void deleteGradeById(long classID) {
 		classRepository.delete(classID);

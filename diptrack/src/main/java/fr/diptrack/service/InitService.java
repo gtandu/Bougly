@@ -3,19 +3,17 @@ package fr.diptrack.service;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.transaction.Transactional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import fr.diptrack.model.Administrator;
+import fr.diptrack.model.Class;
 import fr.diptrack.model.Responsible;
 import fr.diptrack.model.Student;
 import fr.diptrack.model.Subject;
 import fr.diptrack.model.Teacher;
 import fr.diptrack.model.UserAccount;
 import fr.diptrack.model.enumeration.RoleAccountEnum;
-import fr.diptrack.repository.SubjectRepository;
 
 @Service
 public class InitService {
@@ -25,9 +23,9 @@ public class InitService {
 
 	@Autowired
 	private SubjectService subjectService;
-
+	
 	@Autowired
-	private SubjectRepository subjectRepository;
+	private ClassService classService;
 
 	public void initUser() throws Exception {
 
@@ -50,27 +48,35 @@ public class InitService {
 
 	public void initClass() throws Exception {
 
+		Student student2 = (Student) accountService.findByMail("g.tandu@hotmail.fr");
+		
+		//Ajout des matières pour un étudiant
 		Student student = (Student) accountService.findByMail("mapella.corentin@gmail.com");
-		Teacher teacher = (Teacher) accountService.findByMail("julien.hairapian@diptrack.fr");
-
 		List<Subject> listSubjects = new ArrayList<>(subjectService.findAllSubjects());
-		List<Teacher> listTeachers = new ArrayList<>();
-		listTeachers.add(teacher);
-
-		addTeachersForSubjects(listTeachers, listSubjects);
 		
 		student.setListSubjects(listSubjects);
-
-		accountService.saveRegisteredUserByAccount(teacher);
 		accountService.saveRegisteredUserByAccount(student);
+		
+		//Ajout des classe pour un enseignant
+		Teacher teacher = (Teacher) accountService.findByMail("julien.hairapian@diptrack.fr");
+		List<Class> listClasses = new ArrayList<Class>(classService.findAllClasses());
+		
+		teacher.setListClasses(listClasses);
+		accountService.saveRegisteredUserByAccount(teacher);
+		
+		//Ajout des enseignants et des étudiants dans la classe
+		Class class1 = classService.findClassById(1);
+		
+		List<Student> listStudents = new ArrayList<>();
+		listStudents.add(student);
+		listStudents.add(student2);
+		
+		List<Teacher> listTeachers = new ArrayList<>();
+		listTeachers.add(teacher);
+		
+		class1.setListStudents(listStudents);
+		class1.setListTeachers(listTeachers);
+		
+		classService.saveGrade(class1);
 	}
-
-	private void addTeachersForSubjects(List<Teacher> listTeachers, List<Subject> listSubjects) {
-		for (Subject subject : listSubjects) {
-			subject.setListTeachers(listTeachers);
-			subjectRepository.save(subject);
-
-		}
-	}
-
 }

@@ -16,5 +16,7 @@ public interface AccountRepository extends PagingAndSortingRepository<UserAccoun
 	public Student findByStudentNumber(String studentNumber);
 
 	public List<UserAccount> findAll();
+	
+	public List<UserAccount> findAllByAuthorities(String authorities);
 
 }
