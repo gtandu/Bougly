@@ -42,7 +42,7 @@ public class Ue {
 		this.name = ueDto.getNom();
 		this.number = ueDto.getNumber();
 		this.ueCoefficient = ueDto.getCoefficientUe();
-		this.threshold = ueDto.getSeuilCompensation();
+		this.threshold = ueDto.getThreshold();
 		this.semester = semester;
 	}
 

@@ -4,7 +4,7 @@ public class SemesterDto {
 
 	private Long id;
 	private int number;
-	private String branchName;
+	private String courseName;
 	private int ects;
 
 	public Long getId() {
@@ -23,12 +23,14 @@ public class SemesterDto {
 		this.number = number;
 	}
 
-	public String getBranchName() {
-		return branchName;
+	
+
+	public String getCourseName() {
+		return courseName;
 	}
 
-	public void setBranchName(String branchName) {
-		this.branchName = branchName;
+	public void setCourseName(String courseName) {
+		this.courseName = courseName;
 	}
 
 	public int getEcts() {

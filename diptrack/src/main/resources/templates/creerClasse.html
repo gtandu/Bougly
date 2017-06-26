@@ -16,12 +16,12 @@
         <div th:replace="/include/nav :: nav"></div>
     </header>
 
-    	<div th:replace="/include/preloader :: preloader"></div>
+    <div th:replace="/include/preloader :: preloader"></div>
     <main id="content">
         <div class="container">
             <h3  class="header center teal-text text-lighten-2">Créer une classe</h3>
             <div class="row"> 
-                <form th:action="@{/responsable/creerClasse.html}" th:object="${classe}" method="post">
+                <form th:action="@{/responsable/creerClasse.html}" th:object="${class}" method="post">
                     
                     <div class="input-field col s6">
                             <input id="nom" placeholder="Ex : MIAGE" name="nom_classe" type="text" th:field="*{name}"  />
@@ -30,14 +30,14 @@
 
                     <div class="input-field col s6">
                         <select th:field="*{level}">
-                        <option th:each="level : ${listeNiveaux}" th:value="${level}" th:text="${level}"></option>
+                        <option th:each="level : ${levelList}" th:value="${level}" th:text="${level}"></option>
                         </select>
                         <label>Niveau de formation</label>
                     </div>
 
                     <div class="input-field col s6">
                         <select th:field="*{formation}">
-                        <option th:each="formation : ${listeFormations}" th:value="${formation}" th:text="${formation}"></option>
+                        <option th:each="formation : ${formationList}" th:value="${formation}" th:text="${formation}"></option>
                         </select>
                         <label>Type de formation</label>
                     </div>
@@ -55,9 +55,9 @@
     </main>
 
     <div th:replace="/include/script :: script"></div>
-    <script type="text/javascript" th:src="@{/js/creerClasse.js}"></script>
-    <!-- Should be at the end of scripts -->
     <div th:replace="/include/preloader-script :: preloader-script"></div>
+    
+    <script type="text/javascript" th:src="@{/js/creerClasse.js}"></script>
 
     <footer>
         <div th:replace="/include/footer :: footer"></div>

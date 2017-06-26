@@ -109,7 +109,7 @@ public class AccountService {
 	}
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
-	public List<AccountDto> findAllComptes() {
+	public List<AccountDto> findAllAccount() {
 		List accountList = accountRepository.findAll();
 		return MapperBeanUtil.convertAccountListToAccountDtoList(accountList);
 	}

@@ -83,12 +83,12 @@ public class ResponsibleController {
 
 	@RequestMapping(value = URL_CREATE_GRADE, method = RequestMethod.GET)
 	public ModelAndView showPageCreateGrade() {
-		ClassDto gradeDto = new ClassDto();
+		ClassDto classDto = new ClassDto();
 		ModelAndView model = new ModelAndView("creerClasse");
 
-		model.addObject("classe", gradeDto);
-		model.addObject("listeNiveaux", LevelEnum.allLevel());
-		model.addObject("listeFormations", FormationEnum.allFormation());
+		model.addObject("class", classDto);
+		model.addObject("levelList", LevelEnum.allLevel());
+		model.addObject("formationList", FormationEnum.allFormation());
 
 		return model;
 	}
@@ -113,7 +113,7 @@ public class ResponsibleController {
 
 	@RequestMapping(value = URL_DELETE_GRADE, method = RequestMethod.POST)
 	@ResponseBody
-	public void deleteGrade(@RequestParam(value = "id") long id) {
+	public void deleteClass(@RequestParam(value = "id") long id) {
 		classService.deleteClassById(id);
 	}
 

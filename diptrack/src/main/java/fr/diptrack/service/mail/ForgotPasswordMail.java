@@ -33,9 +33,9 @@ public class ForgotPasswordMail implements ApplicationListener<OnForgetPasswordE
 
 	private boolean sendMailResetPassword(OnForgetPasswordEvent event) {
 
-		UserAccount compte = event.getAccount();
-		String recipientAddress = compte.getMail();
-		String token = tokenService.generateToken(compte);
+		UserAccount account = event.getAccount();
+		String recipientAddress = account.getMail();
+		String token = tokenService.generateToken(account);
 		String resetPasswordUrl = "http://localhost:8080" + event.getAppUrl()
 				+ ManageAccountController.URL_CONFIRM_ACCOUNT + "?token=" + token + "&resetPassword=true";
 		MimeMessagePreparator messagePreparator = mimeMessage -> {

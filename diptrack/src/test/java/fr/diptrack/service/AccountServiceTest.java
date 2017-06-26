@@ -214,7 +214,7 @@ public class AccountServiceTest {
 		when(accountRepository.findAll()).thenReturn(account);
 
 		// GIVEN
-		List<AccountDto> accountDtoList = accountService.findAllComptes();
+		List<AccountDto> accountDtoList = accountService.findAllAccount();
 
 		// THEN
 		assertThat(accountDtoList).isNotNull();
