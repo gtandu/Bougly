@@ -6,6 +6,7 @@ import org.springframework.context.ApplicationEvent;
 
 import fr.diptrack.model.UserAccount;
 
+@SuppressWarnings("serial")
 public class OnForgetPasswordEvent extends ApplicationEvent {
 
 	private String appUrl;

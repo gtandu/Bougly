@@ -1,14 +1,11 @@
 package fr.diptrack.model;
 
-import java.text.ParseException;
 import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
-
-import fr.diptrack.web.dtos.AccountDto;
 
 @Entity
 public class Teacher extends UserAccount {
