@@ -48,20 +48,22 @@ public class InitService {
 
 	public void initClass() throws Exception {
 
-		Student student2 = (Student) accountService.findByMail("g.tandu@hotmail.fr");
-		
-		//Ajout des matières pour un étudiant
 		Student student = (Student) accountService.findByMail("mapella.corentin@gmail.com");
+		Student student2 = (Student) accountService.findByMail("g.tandu@hotmail.fr");
 		List<Subject> listSubjects = new ArrayList<>(subjectService.findAllSubjects());
 		
 		student.setListSubjects(listSubjects);
+		student2.setListSubjects(listSubjects);
+		
 		accountService.saveRegisteredUserByAccount(student);
+		accountService.saveRegisteredUserByAccount(student2);
 		
 		//Ajout des classe pour un enseignant
 		Teacher teacher = (Teacher) accountService.findByMail("julien.hairapian@diptrack.fr");
 		List<Class> listClasses = new ArrayList<Class>(classService.findAllClasses());
 		
 		teacher.setListClasses(listClasses);
+		
 		accountService.saveRegisteredUserByAccount(teacher);
 		
 		//Ajout des enseignants et des étudiants dans la classe

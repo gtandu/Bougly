@@ -20,27 +20,40 @@
         <div th:replace="/include/nav :: nav"></div>
     </header>
     
-    <main>
-    	<div th:replace="/include/preloader :: preloader"></div>
+    <div th:replace="/include/preloader :: preloader"></div>
+    <main id="content">
         <div class="container">
-        <h3  class="header center teal-text text-lighten-2">Ma Classe</h3>
+        <h3  class="header center teal-text text-lighten-2">Renseignement des notes</h3>
             <div class="row">
-                <div id="jsGrid" class="col s12">
+                <div id="tabClasse" class="col s12">
+                    <table class="bordered striped highlight centered responsive-table">
+                        <thead>
+                            <tr>
+                                <th>Nom</th>
+                                <th>Prénom</th>
+                                <th>Note Continue</th>
+                                <th>Note Partiel</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            <tr th:each="classe : ${classList}">
+                                <td th:attr="data-name=${classe.name}" th:text="${classe.name}">M1MIAA</td>
+                                <td th:attr="data-level=${classe.level}" th:text="${classe.level}">M1</td>
+                                <td th:attr="data-formation=${classe.formation}" th:text="${classe.formation}">MIAGE</td>
+                                <td th:attr="data-average=${classe.average}" th:text="${classe.average}">12</td>
+                                <!-- <td th:attr="data-subject=${classe.listSubjects}" th:text="${classe.listSubjects}"></td> -->
+                                <td><a class="black-text text-darken-2" href="#modalEditClasse">
+                                <i class="small material-icons editIcon">edit</i></a></td>
+                                <td><i class="small material-icons deleteIcon">clear</i></td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
-            <div class="right">
-           			<a th:href="@{/enseignant/homePageTeacher.html}" class="modal-action modal-close waves-effect waves-light btn-flat">Retour</a>
-					<button id="submitButton" class="waves-effect waves-light btn" type="submit">Publier</button>
-				</div>
-        </div>
-    </main>
     
     <div th:replace="/include/script :: script"></div>
     <div th:replace="/include/preloader-script :: preloader-script"></div>
-    
-    <script type="text/javascript" th:src="@{/js/lib/jsgrid.js}"></script>
-    <script type="text/javascript" th:src="@{/js/lib/jsgrid.min.js}"></script>
-	<script type="text/javascript" th:src="@{/js/teacherGrid.js}"></script>
     
     <footer>
         <div th:replace="/include/footer :: footer"></div>
