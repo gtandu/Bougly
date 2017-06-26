@@ -32,7 +32,11 @@ public class SubjectService {
 	public List<Subject> findAllSubjects() {
 		return subjectRepository.findAll();
 	}
-
+	
+	public Subject findById(float id){
+		return subjectRepository.findById(id);
+	}
+	
 	public SubjectIdUeCoefficientDto saveSubjectFromDto(SubjectDto subjectDto) {
 
 		Ue ue = ueRepository.findOne(subjectDto.getUeId());
@@ -82,7 +86,11 @@ public class SubjectService {
 		subjectRepository.save(subject);
 
 	}
-
+	
+	public void updateSubject(Subject subject){
+		subjectRepository.save(subject);
+	}
+	
 	public boolean checkSubjectExistInBranch(SemesterIdSubjectNameDto dto) {
 		Semester findOne = this.semesterRepository.findOne(dto.getIdSemester());
 		for (Ue ue : findOne.getListUes()) {

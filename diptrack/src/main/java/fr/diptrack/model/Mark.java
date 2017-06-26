@@ -25,6 +25,13 @@ public class Mark {
 	@Enumerated(EnumType.STRING)
 	private MarkTypeEnum markTypeEnum;
 	
+	public Mark(float mark,Student student,Subject subject,MarkTypeEnum markTypeEnum){
+		this.mark = mark ;
+		this.student = student ;
+		this.subject = subject ;
+		this.markTypeEnum = markTypeEnum ;
+	}
+	
 	public long getId() {
 		return id;
 	}
@@ -55,9 +62,4 @@ public class Mark {
 	public void setMarkTypeEnum(MarkTypeEnum markTypeEnum) {
 		this.markTypeEnum = markTypeEnum;
 	}
-	
-	
-	
-	
-
 }
