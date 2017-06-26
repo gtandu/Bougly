@@ -197,4 +197,16 @@ public class SubjectServiceTest {
 		assertThat(checkSubjectExistInBranch).isTrue();
 	}
 
+	@Test
+	public void testFindAllSubjects() throws Exception {
+		// WHEN
+		when(subjectRepository.findAll()).thenReturn(new ArrayList<>());
+
+		// GIVEN
+		subjectService.findAllSubjects();
+
+		// THEN
+		verify(subjectRepository).findAll();
+	}
+
 }

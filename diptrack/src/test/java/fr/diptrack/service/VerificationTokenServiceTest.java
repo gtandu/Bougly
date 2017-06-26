@@ -89,4 +89,18 @@ public class VerificationTokenServiceTest {
 		verify(verificationToken).setExpired(eq(true));
 	}
 
+	@Test
+	public void testGenerateToken() throws Exception {
+		// WHEN
+		Student compte = new Student();
+
+		when(tokenRepository.save(any(VerificationToken.class))).thenReturn(new VerificationToken());
+
+		// GIVEN
+		verificationTokenService.generateToken(compte);
+
+		// THEN
+		verify(tokenRepository).save(any(VerificationToken.class));
+	}
+
 }

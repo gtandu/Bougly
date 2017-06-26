@@ -9,7 +9,6 @@ import org.springframework.transaction.annotation.Transactional;
 import fr.diptrack.model.MccRule;
 import fr.diptrack.model.Semester;
 import fr.diptrack.model.Subject;
-import fr.diptrack.model.Teacher;
 import fr.diptrack.model.Ue;
 import fr.diptrack.repository.SemesterRepository;
 import fr.diptrack.repository.SubjectRepository;
@@ -33,7 +32,6 @@ public class SubjectService {
 	public List<Subject> findAllSubjects() {
 		return subjectRepository.findAll();
 	}
-	
 
 	public SubjectIdUeCoefficientDto saveSubjectFromDto(SubjectDto subjectDto) {
 
