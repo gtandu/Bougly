@@ -80,11 +80,28 @@ public class TeacherController {
 		List<MarkDto> listMarkDto = new ArrayList<>();
 		
 		for (Student student : listStudents) {
-			float markCc = student.getListMarks().get(0).getMark();
-			float markExam = student.getListMarks().get(1).getMark();
-			Long idSubject = student.getListSubjects().get(0).getId();
-			long idMarkCc = student.getListMarks().get(0).getId();
-			long idMarkExam = student.getListMarks().get(1).getId();
+			float markCc = 0;
+			float markExam = 0;
+			Long idSubject = null;
+			Long idMarkCc = null;
+			Long idMarkExam = null;
+			for (Mark mark : student.getListMarks()) {
+				
+				if(MarkTypeEnum.Continu.getMarkType().equals(mark.getMarkTypeEnum().getMarkType()))
+				{
+					markCc = mark.getMark();
+					idMarkCc = mark.getId();
+				}
+				else if(MarkTypeEnum.Partiel.getMarkType().equals(mark.getMarkTypeEnum().getMarkType()))
+				{
+					markExam = mark.getMark();
+					idMarkExam = mark.getId();
+				}
+			}
+			for (Subject subject : student.getListSubjects()) {
+				idSubject = subject.getId();
+			}
+			
 			MarkDto mark = new MarkDto(student.getMail(), student.getFirstName(), student.getLastName(), markCc, markExam, idSubject, idMarkCc, idMarkExam);
 			listMarkDto.add(mark);
 		}
@@ -117,6 +134,7 @@ public class TeacherController {
 			else
 			{
 				markCc = new Mark(markDto.getMarkCc(),student,subject,MarkTypeEnum.Continu);
+				markCc = markService.saveMark(markCc);
 				studentListMark.add(markCc);
 			}
 			
@@ -126,6 +144,7 @@ public class TeacherController {
 			}
 			else{
 				markExam = new Mark(markDto.getMarkExam(),student,subject,MarkTypeEnum.Partiel);
+				markExam = markService.saveMark(markExam);
 				studentListMark.add(markExam);
 			}
 			

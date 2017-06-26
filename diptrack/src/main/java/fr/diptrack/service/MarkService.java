@@ -17,6 +17,7 @@ public class MarkService {
 		return markRepository.findOne(id);
 	}
 
+	@Transactional
 	public Mark saveMark(Mark mark) {
 		return markRepository.save(mark);
 	}

@@ -45,8 +45,8 @@
 
                                     <td th:text="${markDto.lastName}">ONYME</td>
                                     <td th:text="${markDto.firstName}">Anne</td>
-                                    <td><input th:field="*{listMarkDto[__${stat.index}__].markCc}" th:value="${markDto.markCc}" type="number" /></td>
-                                    <td><input th:field="*{listMarkDto[__${stat.index}__].markExam}" th:value="${markDto.markExam}" type="number" />
+                                    <td><input th:field="*{listMarkDto[__${stat.index}__].markCc}" th:value="${markDto.markCc}" type="number" step="0.01" min="0" max="20" /></td>
+                                    <td><input th:field="*{listMarkDto[__${stat.index}__].markExam}" th:value="${markDto.markExam}" type="number" step="0.01" min="0" max="20" />
                                     </td>
                                 </tr>
                             </tbody>
