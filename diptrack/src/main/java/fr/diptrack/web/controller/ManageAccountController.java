@@ -38,7 +38,6 @@ public class ManageAccountController {
 	public static final String URL_CREATE_PASSWORD = "/creerMdp.html";
 	public static final String URL_FORGOT_PASSWORD_PAGE = "/forgotPassword.html";
 	public static final String URL_SEND_MAIL_FORGOT_PASSWORD_SUCCESS_PAGE = "/sendMailForgotPasswordSuccess.html";
-	public static final String URL_FORGOT_PASSWORD_FAILURE_PAGE = "/forgotPasswordFailure.html";
 
 	@RequestMapping(value = URL_CONFIRM_ACCOUNT, method = RequestMethod.GET)
 	public String confirmRegistration(WebRequest request, Model model, @RequestParam("token") String token,
@@ -108,13 +107,15 @@ public class ManageAccountController {
 	}
 
 	@RequestMapping(value = URL_FORGOT_PASSWORD_PAGE, method = RequestMethod.GET)
-	public ModelAndView showForgotPasswordPage() throws Exception {
+	public ModelAndView showForgotPasswordPage(@RequestParam(required=false, value="error") boolean error) throws Exception {
 		ModelAndView model = new ModelAndView();
 		model.setViewName("forgotPassword");
 
+		model.addObject("error",error);
 		return model;
 	}
 
+	
 	@RequestMapping(value = URL_FORGOT_PASSWORD_PAGE, method = RequestMethod.POST)
 	public ModelAndView manageForgotPassword(HttpServletRequest request, @RequestParam(value = "mail") String mail)
 			throws Exception {
@@ -125,7 +126,7 @@ public class ManageAccountController {
 		} else
 
 		{
-			return new ModelAndView("redirect:" + URL_FORGOT_PASSWORD_FAILURE_PAGE);
+			return new ModelAndView("redirect:" + URL_FORGOT_PASSWORD_PAGE+"?error=true");
 		}
 	}
 
@@ -133,13 +134,6 @@ public class ManageAccountController {
 	public ModelAndView showSendMailForgotPasswordSuccessPage() throws Exception {
 		ModelAndView model = new ModelAndView();
 		model.setViewName("sendMailForgotPasswordSuccess");
-		return model;
-	}
-
-	@RequestMapping(value = URL_FORGOT_PASSWORD_FAILURE_PAGE)
-	public ModelAndView showSendMailForgotPasswordFailurePage() throws Exception {
-		ModelAndView model = new ModelAndView();
-		model.setViewName("forgotPasswordFailure");
 		return model;
 	}
 

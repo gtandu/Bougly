@@ -35,7 +35,8 @@ public class TeacherController {
 
 	public static final String URL_HOME_PAGE_TEACHER = "/homePageTeacher.html";
 	public static final String URL_NOTE_GRADE_MANAGEMENT = "/noteGradeManagement.html";
-
+	public static final String URL_MAIL_PUBLICATION_NOTE_ENVOYE = "/mailPublicationNoteEnvoye.html";
+	
 	@Autowired
 	public AccountService accountService;
 	
@@ -154,6 +155,7 @@ public class TeacherController {
 		}
 		redirectAttributes.addFlashAttribute("save", true);
 		return "redirect:/enseignant"+URL_NOTE_GRADE_MANAGEMENT;
+		
 	}	
 	
 	@RequestMapping(value = URL_NOTE_GRADE_MANAGEMENT, method = RequestMethod.POST, params = { "publish" })
@@ -193,6 +195,11 @@ public class TeacherController {
 		}
 		
 		
-		return "redirect:/enseignant"+URL_NOTE_GRADE_MANAGEMENT;
+		return "redirect:/enseignant"+URL_MAIL_PUBLICATION_NOTE_ENVOYE;
+	}
+	
+	@RequestMapping(value = URL_MAIL_PUBLICATION_NOTE_ENVOYE, method = RequestMethod.GET)
+	public ModelAndView showMailPublicationNoteEnvoye() {
+		return new ModelAndView("mailPublicationNoteEnvoye");
 	}
 }

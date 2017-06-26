@@ -282,7 +282,7 @@ public class ManageAccountControllerTest {
 		// GIVEN
 		this.mockMvc.perform(post(ManageAccountController.URL_FORGOT_PASSWORD_PAGE).param("mail", "test@diptrack.fr"))
 				.andExpect(status().is3xxRedirection())
-				.andExpect(redirectedUrl(ManageAccountController.URL_FORGOT_PASSWORD_FAILURE_PAGE));
+				.andExpect(redirectedUrl(ManageAccountController.URL_FORGOT_PASSWORD_PAGE));
 
 		// THEN
 		verify(accountService).emailExist(anyString());
@@ -299,16 +299,4 @@ public class ManageAccountControllerTest {
 		// THEN
 
 	}
-
-	@Test
-	public void testShowSendMailForgotPasswordFailurePage() throws Exception {
-		// WHEN
-
-		// GIVEN
-		this.mockMvc.perform(get(ManageAccountController.URL_FORGOT_PASSWORD_FAILURE_PAGE)).andExpect(status().isOk())
-				.andExpect(view().name("forgotPasswordFailure"));
-
-		// THEN
-	}
-
 }
