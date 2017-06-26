@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import fr.diptrack.model.Mark;
 import fr.diptrack.model.Student;
@@ -79,7 +80,12 @@ public class TeacherController {
 		List<MarkDto> listMarkDto = new ArrayList<>();
 		
 		for (Student student : listStudents) {
-			MarkDto mark = new MarkDto(student.getMail(), student.getFirstName(), student.getLastName(), student.getListMarks().get(0).getMark(), student.getListMarks().get(1).getMark(), student.getListSubjects().get(0).getId(), student.getListMarks().get(0).getId(), student.getListMarks().get(1).getId());
+			float markCc = student.getListMarks().get(0).getMark();
+			float markExam = student.getListMarks().get(1).getMark();
+			Long idSubject = student.getListSubjects().get(0).getId();
+			long idMarkCc = student.getListMarks().get(0).getId();
+			long idMarkExam = student.getListMarks().get(1).getId();
+			MarkDto mark = new MarkDto(student.getMail(), student.getFirstName(), student.getLastName(), markCc, markExam, idSubject, idMarkCc, idMarkExam);
 			listMarkDto.add(mark);
 		}
 		
@@ -87,13 +93,14 @@ public class TeacherController {
 		
 		model.addObject("markManagementForm", markManagementForm);
 		model.addObject("subjectName",subjectName);
+		//model.addObject("save", save);
 		
 		return model;
 		
 	}
 	
 	@RequestMapping(value = URL_NOTE_GRADE_MANAGEMENT, method = RequestMethod.POST, params = { "save" })
-	public String saveMarks(@ModelAttribute(value = "markManagementForm") MarkManagementForm markManagementForm,BindingResult result) {
+	public String saveMarks(@ModelAttribute(value = "markManagementForm") MarkManagementForm markManagementForm,RedirectAttributes redirectAttributes) {
 		
 		List<MarkDto> listMarkDto = markManagementForm.getListMarkDto();
 		
@@ -126,6 +133,7 @@ public class TeacherController {
 			studentService.updateStudent(student);
 			
 		}
+		redirectAttributes.addFlashAttribute("save", true);
 		return "redirect:/enseignant"+URL_NOTE_GRADE_MANAGEMENT;
 	}	
 	
@@ -142,7 +150,7 @@ public class TeacherController {
 			List<Mark> studentListMark = student.getListMarks();
 			if(markDto.getIdMarkCc() != null)
 			{
-				markService.updateMark(markDto.getIdMarkCc(), markDto.getMarkCc());
+				markCc = markService.updateMark(markDto.getIdMarkCc(), markDto.getMarkCc());
 			}
 			else
 			{
@@ -152,7 +160,7 @@ public class TeacherController {
 			
 			if(markDto.getIdMarkExam() != null){
 				
-				markService.updateMark(markDto.getIdMarkExam(), markDto.getMarkExam());
+				markExam = markService.updateMark(markDto.getIdMarkExam(), markDto.getMarkExam());
 			}
 			else{
 				markExam = new Mark(markDto.getMarkExam(),student,subject,MarkTypeEnum.Partiel);

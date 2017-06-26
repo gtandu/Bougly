@@ -23,11 +23,11 @@ public class MailContentBuilder {
 		return templateEngine.process("forgotPasswordTemplate", context);
 	}
 	
-	public String buildPublishMarks(String teacherName, float markCc, float markExam){
+	public String buildPublishMarks(String subjectName, float markCc, float markExam){
 		Context context = new Context();
-		context.setVariable("teacherName", teacherName);
+		context.setVariable("subjectName", subjectName);
 		context.setVariable("markCc", markCc);
 		context.setVariable("markExam", markExam);
-		return templateEngine.process("", context);
+		return templateEngine.process("publicationNoteTemplate", context);
 	}
 }

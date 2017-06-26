@@ -21,7 +21,7 @@ public class PublishMarkMail {
 	
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
-	public boolean sendMailPublishMarks(String studentMail, String teacherName, float markCc, float markExam) {
+	public boolean sendMailPublishMarks(String studentMail, String subjectName, float markCc, float markExam) {
 
 		String recipientAddress = studentMail;
 		MimeMessagePreparator messagePreparator = mimeMessage -> {
@@ -29,7 +29,7 @@ public class PublishMarkMail {
 			MimeMessageHelper messageHelper = new MimeMessageHelper(mimeMessage);
 			messageHelper.setTo(recipientAddress);
 			messageHelper.setSubject("Publication de note");
-			String content = mailContentBuilder.buildPublishMarks(teacherName, markCc, markExam);
+			String content = mailContentBuilder.buildPublishMarks(subjectName, markCc, markExam);
 			messageHelper.setText(content, true);
 		};
 

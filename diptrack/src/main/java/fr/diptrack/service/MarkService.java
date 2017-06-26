@@ -22,9 +22,10 @@ public class MarkService {
 	}
 	
 	@Transactional
-	public void updateMark(Long id, float mark){
+	public Mark updateMark(Long id, float mark){
 		Mark markFromDb = this.findById(id);
 		markFromDb.setMark(mark);
+		return markFromDb;
 	}
 
 }
