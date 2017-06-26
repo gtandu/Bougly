@@ -136,7 +136,7 @@ public class AccountService {
 		return MapperBeanUtil.convertAccountListToAccountDtoList(accountList);
 	}
 	
-	List<UserAccount> findAllAccountByAuthorities(String authorities) {
+	public List<UserAccount> findAllAccountByAuthorities(String authorities) {
 		List<UserAccount> listAccount = accountRepository.findAllByAuthorities(authorities);
 		return listAccount;
 	}

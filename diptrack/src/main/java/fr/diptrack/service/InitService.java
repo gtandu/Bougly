@@ -63,6 +63,7 @@ public class InitService {
 		List<Class> listClasses = new ArrayList<Class>(classService.findAllClasses());
 		
 		teacher.setListClasses(listClasses);
+		teacher.setSubject("Anglais");
 		
 		accountService.saveRegisteredUserByAccount(teacher);
 		
