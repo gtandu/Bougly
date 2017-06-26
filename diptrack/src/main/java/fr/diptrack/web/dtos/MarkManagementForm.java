@@ -1,16 +1,20 @@
 package fr.diptrack.web.dtos;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public class MarkManagementForm {
 
-		ArrayList<MarkDto> listMarkDto ;
+		List<MarkDto> listMarkDto ;
+		
+		public MarkManagementForm(){
+			
+		}
 
-		public ArrayList<MarkDto> getListMarkDto() {
+		public List<MarkDto> getListMarkDto() {
 			return listMarkDto;
 		}
 
-		public void setListMarkDto(ArrayList<MarkDto> listMarkDto) {
+		public void setListMarkDto(List<MarkDto> listMarkDto) {
 			this.listMarkDto = listMarkDto;
 		}
 }

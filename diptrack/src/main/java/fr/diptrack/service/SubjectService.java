@@ -33,7 +33,7 @@ public class SubjectService {
 		return subjectRepository.findAll();
 	}
 	
-	public Subject findById(float id){
+	public Subject findById(Long id){
 		return subjectRepository.findById(id);
 	}
 	

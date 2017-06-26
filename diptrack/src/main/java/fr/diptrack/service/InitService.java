@@ -68,7 +68,7 @@ public class InitService {
 		accountService.saveRegisteredUserByAccount(teacher);
 		
 		//Ajout des enseignants et des étudiants dans la classe
-		Class class1 = classService.findClassById(1);
+		Class class1 = classService.findClassById(new Long(1));
 		
 		List<Student> listStudents = new ArrayList<>();
 		listStudents.add(student);

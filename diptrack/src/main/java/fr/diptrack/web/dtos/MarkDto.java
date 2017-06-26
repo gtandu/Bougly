@@ -5,33 +5,42 @@ public class MarkDto {
 	private String mail;
 	private String lastName;
 	private String firstName;
-	private float noteCc;
-	private float notePartiel;
-	private float idSubject;
+	private Long idMarkCc;
+	private Long idMarkExam;
+	private float markCc;
+	private float markExam;
+	private long idSubject;
 	
-	public MarkDto(String mail, String lastName, String firstName, float noteCC,float notePartiel){
+	public MarkDto(){
+		
+	}
+	
+	public MarkDto(String mail, String lastName, String firstName, float markCc,float markExam, Long idSubject, Long idMarkCc, Long idMarkExam){
 		this.lastName = lastName ;
 		this.firstName = firstName ;
 		this.mail = mail;
-		this.noteCc = noteCC;
-		this.notePartiel = notePartiel;
+		this.markCc = markCc;
+		this.markExam = markExam;
+		this.idSubject = idSubject;
+		this.idMarkCc = idMarkCc;
+		this.idMarkExam = idMarkExam;
 	}
 	
-	public MarkDto(float noteCC,float notePartiel, String mail, float idSubject){
+	public MarkDto(float markCc,float markExam, String mail, long idSubject){
 			this.mail = mail;
-			this.noteCc = noteCC;
-			this.notePartiel = notePartiel;
+			this.markCc = markCc;
+			this.markExam = markExam;
 			this.idSubject = idSubject;
 		}
-	
+
 	public String getMail() {
 		return mail;
 	}
-	
+
 	public void setMail(String mail) {
 		this.mail = mail;
 	}
-	
+
 	public String getLastName() {
 		return lastName;
 	}
@@ -47,28 +56,48 @@ public class MarkDto {
 	public void setFirstName(String firstName) {
 		this.firstName = firstName;
 	}
-		
-	public float getNoteCc() {
-		return noteCc;
+
+	public Long getIdMarkCc() {
+		return idMarkCc;
 	}
 
-	public void setNoteCc(float noteCc) {
-		this.noteCc = noteCc;
-	}
-	
-	public float getNotePartiel() {
-		return notePartiel;
-	}
-	public void setNotePartiel(float notePartiel) {
-		this.notePartiel = notePartiel;
+	public void setIdMarkCc(Long idMarkCc) {
+		this.idMarkCc = idMarkCc;
 	}
 
-	public float getIdSubject() {
+	public Long getIdMarkExam() {
+		return idMarkExam;
+	}
+
+	public void setIdMarkExam(Long idMarkExam) {
+		this.idMarkExam = idMarkExam;
+	}
+
+	public float getMarkCc() {
+		return markCc;
+	}
+
+	public void setMarkCc(float markCc) {
+		this.markCc = markCc;
+	}
+
+	public float getMarkExam() {
+		return markExam;
+	}
+
+	public void setMarkExam(float markExam) {
+		this.markExam = markExam;
+	}
+
+	public long getIdSubject() {
 		return idSubject;
 	}
 
-	public void setIdSubject(float idSubject) {
+	public void setIdSubject(long idSubject) {
 		this.idSubject = idSubject;
 	}
+
+
+	
 
 }

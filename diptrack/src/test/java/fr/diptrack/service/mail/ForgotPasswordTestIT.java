@@ -12,7 +12,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 public class ForgotPasswordTestIT {
 
 	@Autowired
-	private ForgotPassword forgotPassword;
+	private ForgotPasswordMail forgotPassword;
 
 	@Test
 	@Ignore

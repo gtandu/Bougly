@@ -14,7 +14,7 @@ import fr.diptrack.service.VerificationTokenService;
 import fr.diptrack.web.controller.ManageAccountController;
 
 @Service
-public class ForgotPassword implements ApplicationListener<OnForgetPasswordEvent> {
+public class ForgotPasswordMail implements ApplicationListener<OnForgetPasswordEvent> {
 
 	@Autowired
 	private VerificationTokenService tokenService;

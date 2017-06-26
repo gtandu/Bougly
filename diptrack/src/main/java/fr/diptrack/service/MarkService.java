@@ -2,6 +2,7 @@ package fr.diptrack.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import fr.diptrack.model.Mark;
 import fr.diptrack.repository.MarkRepository;
@@ -11,9 +12,19 @@ public class MarkService {
 
 	@Autowired
 	private MarkRepository markRepository;
+	
+	public Mark findById(Long id){
+		return markRepository.findOne(id);
+	}
 
-	public void saveMark(Mark mark) {
-		markRepository.save(mark);
+	public Mark saveMark(Mark mark) {
+		return markRepository.save(mark);
+	}
+	
+	@Transactional
+	public void updateMark(Long id, float mark){
+		Mark markFromDb = this.findById(id);
+		markFromDb.setMark(mark);
 	}
 
 }

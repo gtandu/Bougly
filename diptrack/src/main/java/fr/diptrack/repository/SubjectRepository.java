@@ -13,7 +13,7 @@ public interface SubjectRepository extends CrudRepository<Subject, Long> {
 	
 	public List<Subject> findAll();
 	
-	public Subject findById(float id);
+	public Subject findById(Long id);
 	
 
 }

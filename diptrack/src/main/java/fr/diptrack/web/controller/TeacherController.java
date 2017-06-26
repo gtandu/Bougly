@@ -24,6 +24,7 @@ import fr.diptrack.service.MarkService;
 import fr.diptrack.service.StudentService;
 import fr.diptrack.service.SubjectService;
 import fr.diptrack.service.TeacherService;
+import fr.diptrack.service.mail.PublishMarkMail;
 import fr.diptrack.web.dtos.MarkDto;
 import fr.diptrack.web.dtos.MarkManagementForm;
 
@@ -45,6 +46,9 @@ public class TeacherController {
 	
 	@Autowired
 	public SubjectService subjectService;
+	
+	@Autowired
+	public PublishMarkMail publishMarkMail;
 	
 	@Autowired
 	public MarkService markService;
@@ -72,10 +76,10 @@ public class TeacherController {
 		String subjectName = teacher.getSubject();
 		
 		List<Student> listStudents = studentService.findAllStudentBySubject(subjectName);
-		ArrayList<MarkDto> listMarkDto = new ArrayList<>();
+		List<MarkDto> listMarkDto = new ArrayList<>();
 		
 		for (Student student : listStudents) {
-			MarkDto mark = new MarkDto(student.getMail(), student.getFirstName(), student.getLastName(), 0, 0);
+			MarkDto mark = new MarkDto(student.getMail(), student.getFirstName(), student.getLastName(), student.getListMarks().get(0).getMark(), student.getListMarks().get(1).getMark(), student.getListSubjects().get(0).getId(), student.getListMarks().get(0).getId(), student.getListMarks().get(1).getId());
 			listMarkDto.add(mark);
 		}
 		
@@ -88,30 +92,80 @@ public class TeacherController {
 		
 	}
 	
-	@RequestMapping(value = URL_NOTE_GRADE_MANAGEMENT, method = RequestMethod.POST)
-	public ModelAndView send(@ModelAttribute(value = "markManagementForm") MarkManagementForm markManagementForm,BindingResult result) {
+	@RequestMapping(value = URL_NOTE_GRADE_MANAGEMENT, method = RequestMethod.POST, params = { "save" })
+	public String saveMarks(@ModelAttribute(value = "markManagementForm") MarkManagementForm markManagementForm,BindingResult result) {
 		
-		ArrayList<MarkDto> listMarkDto = markManagementForm.getListMarkDto();
+		List<MarkDto> listMarkDto = markManagementForm.getListMarkDto();
 		
 		for (MarkDto markDto : listMarkDto) {
 			Student student = (Student) accountService.findByMail(markDto.getMail());
 			Subject subject = subjectService.findById(markDto.getIdSubject());
-			Mark noteCC = new Mark(markDto.getNoteCc(),student,subject,MarkTypeEnum.Continu);
-			Mark notePartiel = new Mark(markDto.getNotePartiel(),student,subject,MarkTypeEnum.Partiel);
-			
+			Mark markCc = null;
+			Mark markExam = null;
 			List<Mark> studentListMark = student.getListMarks();
-			studentListMark.add(noteCC);
-			studentListMark.add(notePartiel);
+			if(markDto.getIdMarkCc() != null)
+			{
+				markService.updateMark(markDto.getIdMarkCc(), markDto.getMarkCc());
+			}
+			else
+			{
+				markCc = new Mark(markDto.getMarkCc(),student,subject,MarkTypeEnum.Continu);
+				studentListMark.add(markCc);
+			}
+			
+			if(markDto.getIdMarkExam() != null){
+				
+				markService.updateMark(markDto.getIdMarkExam(), markDto.getMarkExam());
+			}
+			else{
+				markExam = new Mark(markDto.getMarkExam(),student,subject,MarkTypeEnum.Partiel);
+				studentListMark.add(markExam);
+			}
 			
 			student.setListMarks(studentListMark);
 			studentService.updateStudent(student);
 			
-			subject.setListMarks(studentListMark);
-			subjectService.updateSubject(subject);
-			
-			markService.saveMark(noteCC);
-			markService.saveMark(notePartiel);
 		}
-		return new ModelAndView("homePageTeacher");
+		return "redirect:/enseignant"+URL_NOTE_GRADE_MANAGEMENT;
 	}	
+	
+	@RequestMapping(value = URL_NOTE_GRADE_MANAGEMENT, method = RequestMethod.POST, params = { "publish" })
+	public String publishMark(@ModelAttribute(value = "markManagementForm") MarkManagementForm markManagementForm,BindingResult result) {
+		
+		List<MarkDto> listMarkDto = markManagementForm.getListMarkDto();
+		
+		for (MarkDto markDto : listMarkDto) {
+			Student student = (Student) accountService.findByMail(markDto.getMail());
+			Subject subject = subjectService.findById(markDto.getIdSubject());
+			Mark markCc = null;
+			Mark markExam = null;
+			List<Mark> studentListMark = student.getListMarks();
+			if(markDto.getIdMarkCc() != null)
+			{
+				markService.updateMark(markDto.getIdMarkCc(), markDto.getMarkCc());
+			}
+			else
+			{
+				markCc = new Mark(markDto.getMarkCc(),student,subject,MarkTypeEnum.Continu);
+				studentListMark.add(markCc);
+			}
+			
+			if(markDto.getIdMarkExam() != null){
+				
+				markService.updateMark(markDto.getIdMarkExam(), markDto.getMarkExam());
+			}
+			else{
+				markExam = new Mark(markDto.getMarkExam(),student,subject,MarkTypeEnum.Partiel);
+				studentListMark.add(markExam);
+			}
+			
+			student.setListMarks(studentListMark);
+			studentService.updateStudent(student);
+			
+			publishMarkMail.sendMailPublishMarks(markDto.getMail(), subject.getName(), markCc.getMark(), markExam.getMark());
+		}
+		
+		
+		return "redirect:/enseignant"+URL_NOTE_GRADE_MANAGEMENT;
+	}
 }

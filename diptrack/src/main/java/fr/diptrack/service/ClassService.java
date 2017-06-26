@@ -23,11 +23,11 @@ public class ClassService {
 		return classRepository.findAll();
 	}
 	
-	public Class findClassById(long id) {
+	public Class findClassById(Long id) {
 		return classRepository.findOne(id);
 	}
 
-	public void deleteClassById(long classID) {
+	public void deleteClassById(Long classID) {
 		classRepository.delete(classID);
 	}
 

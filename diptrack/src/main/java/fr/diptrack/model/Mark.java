@@ -25,6 +25,10 @@ public class Mark {
 	@Enumerated(EnumType.STRING)
 	private MarkTypeEnum markTypeEnum;
 	
+	public Mark(){
+		
+	}
+	
 	public Mark(float mark,Student student,Subject subject,MarkTypeEnum markTypeEnum){
 		this.mark = mark ;
 		this.student = student ;
