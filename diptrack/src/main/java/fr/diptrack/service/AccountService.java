@@ -1,6 +1,7 @@
 package fr.diptrack.service;
 
 import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -58,7 +59,6 @@ public class AccountService {
 
 	private static final int PAGE_SIZE = 8;
 
-	@SuppressWarnings("rawtypes")
 	public UserAccount saveNewUserAccount(AccountDto accountDto) throws Exception {
 
 		if (emailExist(accountDto.getMail())) {
@@ -72,46 +72,24 @@ public class AccountService {
 			throw new StudentNumberExistException(errorMessage);
 		}
 
-		RoleAccountEnum roleEnum = RoleAccountEnum.getRoleFromString(accountDto.getRole());
-
-		String role = roleEnum.toString();
-
-		Class<?> myClass = Class.forName(PACKAGE_MODEL + role);
-		Class[] types = { AccountDto.class };
-		Constructor<?> constructor = myClass.getConstructor(types);
-		UserAccount account = (UserAccount) constructor.newInstance(accountDto);
-
-		return saveRegisteredUserByAccountAndRole(account, role);
+		return createAccountByIntrospectionAndSave(accountDto);
 	}
 
-	@SuppressWarnings("rawtypes")
 	public UserAccount saveNewUserAccountFromExcelFile(AccountDto accountDto) throws Exception {
 
 		if (emailExist(accountDto.getMail())) {
 			// TODO LOG
-			// String errorMessage = String.format("Un compte avec l'adresse
-			// email %s existe déjà.", accountDto.getMail());
 			accountDto.setErrorExcel(true);
 			return null;
 		}
 
 		if (studentNumberExist(accountDto.getStudentNumber())) {
 			// TODO LOG
-			// String errorMessage = String.format("Un compte avec le numero
-			// étudiant %s existe déjà.",accountDto.getStudentNumber());
 			accountDto.setErrorExcel(true);
 			return null;
 		}
 
-		RoleAccountEnum roleEnum = RoleAccountEnum.getRoleFromString(accountDto.getRole());
-
-		String role = roleEnum.toString();
-		Class<?> myClass = Class.forName(PACKAGE_MODEL + role);
-		Class[] types = { AccountDto.class };
-		Constructor<?> constructor = myClass.getConstructor(types);
-		UserAccount account = (UserAccount) constructor.newInstance(accountDto);
-
-		return saveRegisteredUserByAccountAndRole(account, role);
+		return createAccountByIntrospectionAndSave(accountDto);
 
 	}
 
@@ -225,6 +203,22 @@ public class AccountService {
 	protected boolean studentNumberExist(String studentNumber) {
 		Student account = accountRepository.findByStudentNumber(studentNumber);
 		return account != null ? true : false;
+	}
+
+	@SuppressWarnings("rawtypes")
+	private UserAccount createAccountByIntrospectionAndSave(AccountDto accountDto)
+			throws ClassNotFoundException, NoSuchMethodException, InstantiationException, IllegalAccessException,
+			InvocationTargetException, MySQLIntegrityConstraintViolationException {
+		RoleAccountEnum roleEnum = RoleAccountEnum.getRoleFromString(accountDto.getRole());
+
+		String role = roleEnum.toString();
+
+		Class<?> myClass = Class.forName(PACKAGE_MODEL + role);
+		Class[] types = { AccountDto.class };
+		Constructor<?> constructor = myClass.getConstructor(types);
+		UserAccount account = (UserAccount) constructor.newInstance(accountDto);
+
+		return saveRegisteredUserByAccountAndRole(account, role);
 	}
 
 }
