@@ -12,11 +12,11 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.http.MediaType;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -27,22 +27,33 @@ import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
-import fr.diptrack.model.Student;
+import fr.diptrack.model.Teacher;
 import fr.diptrack.service.AccountService;
+import fr.diptrack.service.StudentService;
+import fr.diptrack.service.TeacherService;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest
-public class StudentControllerTest {
-
-	private MockMvc mockMvc;
+public class TeacherControllerTest {
 
 	@Autowired
 	private WebApplicationContext wac;
-	
+
 	@MockBean
 	private AccountService accountService;
 
-	private final String URL_STUDENT_CONTROLLER = "/etudiant";
+	@MockBean
+	private StudentService studentService;
+
+	@MockBean
+	private TeacherService teacherService;
+
+	@InjectMocks
+	private TeacherController teacherController;
+
+	private final String URL_TEACHER_CONTROLLER = "/enseignant";
+
+	private MockMvc mockMvc;
 
 	@Before
 	public void setup() {
@@ -51,34 +62,26 @@ public class StudentControllerTest {
 	}
 
 	@Test
-	@WithMockUser(authorities = "Student")
-	public void testShowStudentHomePage() throws Exception {
-		
-		//WHEN
+	@WithMockUser(authorities = "Teacher")
+	public void testShowPageHomePageteacher() throws Exception {
+		// WHEN
 		Authentication authentication = Mockito.mock(Authentication.class);
 		SecurityContext securityContext = Mockito.mock(SecurityContext.class);
 		Mockito.when(securityContext.getAuthentication()).thenReturn(authentication);
 		SecurityContextHolder.setContext(securityContext);
-		when(accountService.findByMail(anyString())).thenReturn(new Student());
-
-		//GIVEN
-		this.mockMvc
-				.perform(get(URL_STUDENT_CONTROLLER + StudentController.URL_STUDENT_HOME_PAGE)
-						.accept(MediaType.TEXT_HTML))
-				.andExpect(status().isOk()).andExpect(view().name("accueilEtudiant")).andExpect(model().attributeExists("account"));
 		
-		//THEN
+		Teacher teacher = new Teacher();
+		teacher.setFirstName("Joe");
+		teacher.setLastName("Dalton");
+		when(accountService.findByMail(anyString())).thenReturn(teacher);
+
+		// GIVEN
+		this.mockMvc.perform(get(URL_TEACHER_CONTROLLER + TeacherController.URL_HOME_PAGE_TEACHER))
+				.andExpect(status().isOk()).andExpect(model().attributeExists("account"))
+				.andExpect(view().name("homePageTeacher"));
+
+		// THEN
 		verify(accountService).findByMail(anyString());
 	}
 
-	@Test
-	@WithMockUser(authorities = "Student")
-	public void testShowStudentMarkPage() throws Exception {
-		//WHEN
-		
-		//GIVEN
-		this.mockMvc.perform(get(URL_STUDENT_CONTROLLER+StudentController.URL_STUDENT_MARK_PAGE)).andExpect(status().isOk()).andExpect(view().name("noteEtudiant"));
-		
-		//THEn
-	}
 }

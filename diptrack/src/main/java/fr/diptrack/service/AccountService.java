@@ -135,11 +135,6 @@ public class AccountService {
 		List accountList = accountRepository.findAll();
 		return MapperBeanUtil.convertAccountListToAccountDtoList(accountList);
 	}
-	
-	public List<UserAccount> findAllAccountByAuthorities(String authorities) {
-		List<UserAccount> listAccount = accountRepository.findAllByAuthorities(authorities);
-		return listAccount;
-	}
 
 	public Authority saveAuthority(UserAccount account, String role) {
 		Authority authority = new Authority(account, role);
