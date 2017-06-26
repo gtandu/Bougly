@@ -20,6 +20,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import java.util.Date;
 import java.util.Locale;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.hamcrest.Matchers;
 import org.junit.Before;
 import org.junit.Test;
@@ -41,7 +43,6 @@ import fr.diptrack.model.UserAccount;
 import fr.diptrack.model.security.VerificationToken;
 import fr.diptrack.service.AccountService;
 import fr.diptrack.service.VerificationTokenService;
-import fr.diptrack.web.controller.ManageAccountController;
 import fr.diptrack.web.dtos.AccountDto;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -49,7 +50,7 @@ import fr.diptrack.web.dtos.AccountDto;
 public class ManageAccountControllerTest {
 
 	@MockBean
-	private AccountService compteService;
+	private AccountService accountService;
 
 	@MockBean
 	private VerificationTokenService tokenService;
@@ -78,7 +79,7 @@ public class ManageAccountControllerTest {
 		Student student = mock(Student.class);
 		VerificationToken verificationToken = new VerificationToken(token, student);
 		when(tokenService.getVerificationToken(anyString())).thenReturn(verificationToken);
-		when(compteService.saveRegisteredUserByAccount(any(UserAccount.class))).thenReturn(student);
+		when(accountService.saveRegisteredUserByAccount(any(UserAccount.class))).thenReturn(student);
 
 		// GIVEN
 		this.mockMvc
@@ -90,7 +91,26 @@ public class ManageAccountControllerTest {
 		// THEN
 		verify(student).setEnabled(eq(true));
 		verify(tokenService).getVerificationToken(anyString());
-		verify(compteService).saveRegisteredUserByAccount(any(UserAccount.class));
+		verify(accountService).saveRegisteredUserByAccount(any(UserAccount.class));
+	}
+
+	@Test
+	public void testConfirmRegistrationPassword() throws Exception {
+		// WHEN
+		String token = "abcdef12345";
+		Student student = mock(Student.class);
+		VerificationToken verificationToken = new VerificationToken(token, student);
+		when(tokenService.getVerificationToken(anyString())).thenReturn(verificationToken);
+
+		// GIVEN
+		this.mockMvc
+				.perform(get(ManageAccountController.URL_CONFIRM_ACCOUNT).param("token", token)
+						.param("resetPassword", "true").accept(MediaType.TEXT_HTML))
+				.andExpect(status().isFound()).andExpect(redirectedUrl(
+						ManageAccountController.URL_CREATE_PASSWORD + "?token=" + token + "&resetPassword=true"));
+
+		// THEN
+		verify(tokenService).getVerificationToken(anyString());
 	}
 
 	@Test
@@ -209,8 +229,8 @@ public class ManageAccountControllerTest {
 		compteDto.setPassword(password);
 		Student student = new Student();
 
-		when(compteService.editPassword(mail, password)).thenReturn(student);
-		when(compteService.activeAccount(mail)).thenReturn(student);
+		when(accountService.editPassword(mail, password)).thenReturn(student);
+		when(accountService.activeAccount(mail)).thenReturn(student);
 		doNothing().when(tokenService).disableToken(token);
 
 		// GIVEN
@@ -221,9 +241,74 @@ public class ManageAccountControllerTest {
 				.andExpect(view().name("compteActive"));
 
 		// THEN
-		verify(compteService).editPassword(anyString(), anyString());
-		verify(compteService).activeAccount(anyString());
+		verify(accountService).editPassword(anyString(), anyString());
+		verify(accountService).activeAccount(anyString());
 		verify(tokenService).disableToken(anyString());
+	}
+
+	@Test
+	public void testShowForgotPasswordPage() throws Exception {
+		// WHEN
+
+		// GIVEN
+		this.mockMvc.perform(get(ManageAccountController.URL_FORGOT_PASSWORD_PAGE)).andExpect(status().isOk())
+				.andExpect(view().name("forgotPassword"));
+
+		// THEN
+	}
+
+	@Test
+	public void testManageForgotPasswordEmailExistTrue() throws Exception {
+		// WHEN
+		when(accountService.emailExist(anyString())).thenReturn(true);
+		doNothing().when(accountService).publishEventRegistrationForgetPassword(anyString(),
+				any(HttpServletRequest.class));
+
+		// GIVEN
+		this.mockMvc.perform(post(ManageAccountController.URL_FORGOT_PASSWORD_PAGE).param("mail", "test@diptrack.fr"))
+				.andExpect(status().is3xxRedirection())
+				.andExpect(redirectedUrl(ManageAccountController.URL_SEND_MAIL_FORGOT_PASSWORD_SUCCESS_PAGE));
+
+		// THEN
+		verify(accountService).emailExist(anyString());
+		verify(accountService).publishEventRegistrationForgetPassword(anyString(), any(HttpServletRequest.class));
+	}
+
+	@Test
+	public void testManageForgotPasswordEmailExistFalse() throws Exception {
+		// WHEN
+		when(accountService.emailExist(anyString())).thenReturn(false);
+
+		// GIVEN
+		this.mockMvc.perform(post(ManageAccountController.URL_FORGOT_PASSWORD_PAGE).param("mail", "test@diptrack.fr"))
+				.andExpect(status().is3xxRedirection())
+				.andExpect(redirectedUrl(ManageAccountController.URL_FORGOT_PASSWORD_FAILURE_PAGE));
+
+		// THEN
+		verify(accountService).emailExist(anyString());
+	}
+
+	@Test
+	public void testShowSendMailForgotPasswordSuccessPage() throws Exception {
+		// WHEN
+
+		// GIVEN
+		this.mockMvc.perform(get(ManageAccountController.URL_SEND_MAIL_FORGOT_PASSWORD_SUCCESS_PAGE))
+				.andExpect(status().isOk()).andExpect(view().name("sendMailForgotPasswordSuccess"));
+
+		// THEN
+
+	}
+
+	@Test
+	public void testShowSendMailForgotPasswordFailurePage() throws Exception {
+		// WHEN
+
+		// GIVEN
+		this.mockMvc.perform(get(ManageAccountController.URL_FORGOT_PASSWORD_FAILURE_PAGE)).andExpect(status().isOk())
+				.andExpect(view().name("forgotPasswordFailure"));
+
+		// THEN
 	}
 
 }

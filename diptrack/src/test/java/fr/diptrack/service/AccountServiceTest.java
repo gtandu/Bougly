@@ -45,6 +45,7 @@ import fr.diptrack.model.Student;
 import fr.diptrack.model.UserAccount;
 import fr.diptrack.model.enumeration.RoleAccountEnum;
 import fr.diptrack.model.security.Authority;
+import fr.diptrack.model.security.OnForgetPasswordEvent;
 import fr.diptrack.repository.AccountRepository;
 import fr.diptrack.repository.security.AuthorityRepository;
 import fr.diptrack.service.helper.ExcelReader;
@@ -541,13 +542,13 @@ public class AccountServiceTest {
 
 	@Test
 	public void testFindByMail() throws Exception {
-		//WHEN
+		// WHEN
 		when(accountRepository.findByMail(anyString())).thenReturn(new Responsible());
-		
-		//GIVEN
+
+		// GIVEN
 		accountService.findByMail("toto@gmail.com");
-		
-		//THEN
+
+		// THEN
 		verify(accountRepository).findByMail(anyString());
 	}
 

@@ -97,4 +97,17 @@ public class ClassServiceTest {
 		verify(classRepository).findAll();
 	}
 
+	@Test
+	public void testFindClassById() throws Exception {
+		// WHEN
+
+		long id = new Long(2);
+		when(classRepository.findOne(anyLong())).thenReturn(new Class());
+		// GIVEN
+		classService.findClassById(id);
+
+		// THEN
+		verify(classRepository).findOne(eq(id));
+	}
+
 }

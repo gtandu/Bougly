@@ -27,15 +27,7 @@ import fr.diptrack.web.dtos.ClassDto;
 @RequestMapping(value = "/responsable")
 public class ResponsibleController {
 
-	public static final String URL_DELETE_SEMESTER = "/deleteSemester";
-
-	public static final String URL_CREATE_SEMESTER = "/createSemester";
-
-	public static final String URL_CREATE_COURSE = "/createCourse";
-	public static final String URL_EDIT_COURSE_NAME = "/editCourseName";
-
 	public static final String URL_CONTROLLER_RESPONSIBLE = "/responsable";
-	public static final String URL_UPDATE_NUMBER_SEMESTER = "/updateNumberSemester";
 
 	public static final String URL_NOTE_GRADE_MANAGEMENT = "/noteGradeManagement.html";
 	public static final String URL_ATTRIBUER_MATIERE = "/attribuerMatiere.html";
@@ -47,22 +39,11 @@ public class ResponsibleController {
 	public static final String URL_COURSE_MANAGEMENT = "/gestionFiliere.html";
 	public static final String URL_GRADE_MANAGEMENT = "/gestionClasse.html";
 
-	public static final String URL_CREATE_UE = "/createUe";
-	public static final String URL_DELETE_UE = "/deleteUe";
-	public static final String URL_UPDATE_NUMBER_UE = "/updateNumberUe";
-
-	public static final String URL_CREATE_SUBJECT = "/createSubject";
-	public static final String URL_UPDATE_SUBJECT = "/updateSubject";
-	public static final String URL_DELETE_SUBJECT = "/deleteSubject";
-	public static final String URL_CHECK_SUBJECT_NAME_IN_COURSE = "/checkSubjectName";
-
 	@Autowired
 	private AccountService accountService;
 
 	@Autowired
 	private ClassService classService;
-
-	
 
 	@Autowired
 	private SubjectService subjectService;
@@ -88,12 +69,12 @@ public class ResponsibleController {
 		ModelAndView model = new ModelAndView("gestionClasse");
 
 		List<Class> classList = classService.findAllClasses();
-		//List<Subject> subjectList = subjectService.findAllSubjects();
+		// List<Subject> subjectList = subjectService.findAllSubjects();
 
 		model.addObject("classList", classList);
 		model.addObject("levelList", LevelEnum.allLevel());
 		model.addObject("formationList", FormationEnum.allFormation());
-		//model.addObject("subjectList", subjectList);
+		// model.addObject("subjectList", subjectList);
 		return model;
 	}
 
@@ -151,7 +132,5 @@ public class ResponsibleController {
 
 		return "redirect:" + URL_CONTROLLER_RESPONSIBLE + URL_GRADE_MANAGEMENT;
 	}
-
-	
 
 }

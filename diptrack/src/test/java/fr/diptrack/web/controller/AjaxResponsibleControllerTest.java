@@ -93,7 +93,7 @@ public class AjaxResponsibleControllerTest {
 		// GIVEN
 		this.mockMvc
 				.perform(MockMvcRequestBuilders
-						.post(URL_RESPONSIBLE_CONTROLLER + ResponsibleController.URL_CREATE_COURSE)
+						.post(URL_RESPONSIBLE_CONTROLLER + AjaxResponsibleController.URL_CREATE_COURSE)
 						.param("courseDto", mapper.writeValueAsString(courseDto))
 						.contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON))
 				.andExpect(status().isOk());
@@ -119,7 +119,7 @@ public class AjaxResponsibleControllerTest {
 		// GIVEN
 		final MvcResult result = this.mockMvc
 				.perform(MockMvcRequestBuilders
-						.post(URL_RESPONSIBLE_CONTROLLER + ResponsibleController.URL_CREATE_COURSE)
+						.post(URL_RESPONSIBLE_CONTROLLER + AjaxResponsibleController.URL_CREATE_COURSE)
 						.param("courseDto", mapper.writeValueAsString(courseDto))
 						.contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON))
 				.andExpect(status().isOk()).andReturn();
@@ -143,7 +143,7 @@ public class AjaxResponsibleControllerTest {
 		// GIVEN
 		this.mockMvc
 				.perform(MockMvcRequestBuilders
-						.post(URL_RESPONSIBLE_CONTROLLER + ResponsibleController.URL_EDIT_COURSE_NAME)
+						.post(URL_RESPONSIBLE_CONTROLLER + AjaxResponsibleController.URL_EDIT_COURSE_NAME)
 						.param("courseDto", mapper.writeValueAsString(courseDto))
 						.contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON))
 				.andExpect(status().isOk());
@@ -169,7 +169,7 @@ public class AjaxResponsibleControllerTest {
 		// GIVEN
 		final MvcResult result = this.mockMvc
 				.perform(MockMvcRequestBuilders
-						.post(URL_RESPONSIBLE_CONTROLLER + ResponsibleController.URL_EDIT_COURSE_NAME)
+						.post(URL_RESPONSIBLE_CONTROLLER + AjaxResponsibleController.URL_EDIT_COURSE_NAME)
 						.param("courseDto", mapper.writeValueAsString(courseDto))
 						.contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON))
 				.andExpect(status().isOk()).andReturn();
@@ -190,7 +190,7 @@ public class AjaxResponsibleControllerTest {
 
 		// GIVEN
 		this.mockMvc.perform(
-				MockMvcRequestBuilders.post(URL_RESPONSIBLE_CONTROLLER + ResponsibleController.URL_CREATE_SEMESTER)
+				MockMvcRequestBuilders.post(URL_RESPONSIBLE_CONTROLLER + AjaxResponsibleController.URL_CREATE_SEMESTER)
 						.param("semesterDTO", mapper.writeValueAsString(semesterDto))
 						.contentType(MediaType.APPLICATION_JSON_VALUE))
 				.andExpect(status().isOk());
@@ -207,7 +207,7 @@ public class AjaxResponsibleControllerTest {
 		doNothing().when(semesterService).deleteSemesterById(anyLong());
 
 		// GIVEN
-		this.mockMvc.perform(post(URL_RESPONSIBLE_CONTROLLER + ResponsibleController.URL_DELETE_SEMESTER)
+		this.mockMvc.perform(post(URL_RESPONSIBLE_CONTROLLER + AjaxResponsibleController.URL_DELETE_SEMESTER)
 				.param("id", "3").contentType(MediaType.APPLICATION_JSON_VALUE)).andExpect(status().isOk());
 
 		// THEN
@@ -222,7 +222,7 @@ public class AjaxResponsibleControllerTest {
 		doNothing().when(semesterService).updateNumberSemester(any(SemesterDto.class));
 
 		// GIVEN
-		this.mockMvc.perform(post(URL_RESPONSIBLE_CONTROLLER + ResponsibleController.URL_UPDATE_NUMBER_SEMESTER)
+		this.mockMvc.perform(post(URL_RESPONSIBLE_CONTROLLER + AjaxResponsibleController.URL_UPDATE_NUMBER_SEMESTER)
 				.param("semesterDto", mapper.writeValueAsString(semesterDto))).andExpect(status().isOk());
 
 		// THEN
@@ -239,7 +239,7 @@ public class AjaxResponsibleControllerTest {
 		when(ueService.createUeFromUeDto(any(UeDto.class))).thenReturn(ue);
 
 		// GIVEN
-		this.mockMvc.perform(post(URL_RESPONSIBLE_CONTROLLER + ResponsibleController.URL_CREATE_UE).param("ueDto",
+		this.mockMvc.perform(post(URL_RESPONSIBLE_CONTROLLER + AjaxResponsibleController.URL_CREATE_UE).param("ueDto",
 				mapper.writeValueAsString(ueDto))).andExpect(status().isOk());
 
 		// THEN
@@ -254,7 +254,7 @@ public class AjaxResponsibleControllerTest {
 		doNothing().when(ueService).deleteUeById(anyLong());
 
 		// GIVEN
-		this.mockMvc.perform(post(URL_RESPONSIBLE_CONTROLLER + ResponsibleController.URL_DELETE_UE).param("id", "3")
+		this.mockMvc.perform(post(URL_RESPONSIBLE_CONTROLLER + AjaxResponsibleController.URL_DELETE_UE).param("id", "3")
 				.contentType(MediaType.APPLICATION_JSON_VALUE)).andExpect(status().isOk());
 
 		// THEN
@@ -269,7 +269,7 @@ public class AjaxResponsibleControllerTest {
 		doNothing().when(ueService).updateNumberUe(any(UeDto.class));
 
 		// GIVEN
-		this.mockMvc.perform(post(URL_RESPONSIBLE_CONTROLLER + ResponsibleController.URL_UPDATE_NUMBER_UE)
+		this.mockMvc.perform(post(URL_RESPONSIBLE_CONTROLLER + AjaxResponsibleController.URL_UPDATE_NUMBER_UE)
 				.param("ueDto", mapper.writeValueAsString(ueDto))).andExpect(status().isOk());
 
 		// THEN
@@ -296,7 +296,7 @@ public class AjaxResponsibleControllerTest {
 
 		// GIVEN
 
-		this.mockMvc.perform(post(URL_RESPONSIBLE_CONTROLLER + ResponsibleController.URL_CREATE_SUBJECT)
+		this.mockMvc.perform(post(URL_RESPONSIBLE_CONTROLLER + AjaxResponsibleController.URL_CREATE_SUBJECT)
 				.accept(MediaType.APPLICATION_JSON).content(mapper.writeValueAsString(subjectDto))
 				.contentType(MediaType.APPLICATION_JSON)).andExpect(status().isOk());
 
@@ -312,8 +312,8 @@ public class AjaxResponsibleControllerTest {
 		when(subjectService.deleteSubjectByName(any(SubjectNameUeIdDto.class))).thenReturn(new Integer(2));
 
 		// GIVEN
-		this.mockMvc.perform(post(URL_RESPONSIBLE_CONTROLLER + ResponsibleController.URL_DELETE_SUBJECT).param("dto",
-				mapper.writeValueAsString(subjectNameUeIdDto))).andExpect(status().isOk());
+		this.mockMvc.perform(post(URL_RESPONSIBLE_CONTROLLER + AjaxResponsibleController.URL_DELETE_SUBJECT)
+				.param("dto", mapper.writeValueAsString(subjectNameUeIdDto))).andExpect(status().isOk());
 
 		// THEN
 
@@ -330,7 +330,7 @@ public class AjaxResponsibleControllerTest {
 		doNothing().when(subjectService).updateSubjectFromDto((any(SubjectDto.class)));
 
 		// GIVEN
-		this.mockMvc.perform(post(URL_RESPONSIBLE_CONTROLLER + ResponsibleController.URL_UPDATE_SUBJECT)
+		this.mockMvc.perform(post(URL_RESPONSIBLE_CONTROLLER + AjaxResponsibleController.URL_UPDATE_SUBJECT)
 				.param("subjectDto", mapper.writeValueAsString(subjectDto))).andExpect(status().isOk());
 
 		// THEN
@@ -347,8 +347,10 @@ public class AjaxResponsibleControllerTest {
 		when(subjectService.checkSubjectExistInBranch(any(SemesterIdSubjectNameDto.class))).thenReturn(true);
 
 		// GIVEN
-		this.mockMvc.perform(post(URL_RESPONSIBLE_CONTROLLER + ResponsibleController.URL_CHECK_SUBJECT_NAME_IN_COURSE)
-				.param("dto", mapper.writeValueAsString(semesterIdSubjectNameDto))).andExpect(status().isOk());
+		this.mockMvc
+				.perform(post(URL_RESPONSIBLE_CONTROLLER + AjaxResponsibleController.URL_CHECK_SUBJECT_NAME_IN_COURSE)
+						.param("dto", mapper.writeValueAsString(semesterIdSubjectNameDto)))
+				.andExpect(status().isOk());
 
 		// THEN
 
