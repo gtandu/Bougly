@@ -60,7 +60,7 @@ public class SubjectServiceTest {
 
 		subjectDto.setListMccRulesDto(listMccRulesDto);
 		Ue ue = new Ue();
-		ue.setListSubject(new ArrayList<>());
+		ue.setListSubjects(new ArrayList<>());
 		when(ueRepository.findOne(anyLong())).thenReturn(ue);
 		when(subjectRepository.save(any(Subject.class))).thenReturn(new Subject());
 
@@ -84,7 +84,7 @@ public class SubjectServiceTest {
 		subject.setListMccRules(listMccRules);
 		ArrayList<Subject> listSubjects = new ArrayList<Subject>();
 		listSubjects.add(subject);
-		ue.setListSubject(listSubjects);
+		ue.setListSubjects(listSubjects);
 
 		when(ueRepository.findOne(anyLong())).thenReturn(ue);
 		when(subjectRepository.findByName(anyString())).thenReturn(subject);
@@ -158,9 +158,9 @@ public class SubjectServiceTest {
 		Subject subject = new Subject();
 		subject.setName("Test");
 		listSubject.add(subject);
-		ue.setListSubject(listSubject);
+		ue.setListSubjects(listSubject);
 		listUe.add(ue);
-		semester.setListUe(listUe);
+		semester.setListUes(listUe);
 		when(semesterRepository.findOne(anyLong())).thenReturn(semester);
 
 		// GIVEn
@@ -184,9 +184,9 @@ public class SubjectServiceTest {
 		Subject subject = new Subject();
 		subject.setName("Test");
 		listSubject.add(subject);
-		ue.setListSubject(listSubject);
+		ue.setListSubjects(listSubject);
 		listUe.add(ue);
-		semester.setListUe(listUe);
+		semester.setListUes(listUe);
 		when(semesterRepository.findOne(anyLong())).thenReturn(semester);
 
 		// GIVEn

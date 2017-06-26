@@ -42,7 +42,6 @@ public abstract class UserAccount implements UserDetails {
 	public UserAccount() {
 	}
 
-	// TODO Cree un compte au demarrage. A supprimer plus tard
 	public UserAccount(String mail, String password, String lastName, String firstName) {
 		this.mail = mail;
 		this.password = password;

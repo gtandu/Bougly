@@ -22,7 +22,7 @@ public class SemesterService {
 	public Semester saveSemesterFromDto(SemesterDto semesterDto) {
 		Course course = branchRepository.findByName(semesterDto.getBranchName());
 		Semester semester = new Semester(semesterDto, course);
-		course.getListSemester().add(semester);
+		course.getListSemesters().add(semester);
 		return semesterRepository.save(semester);
 	}
 

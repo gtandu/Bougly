@@ -37,7 +37,7 @@ public class UeServiceTest {
 		// WHEN
 		UeDto ueDto = mock(UeDto.class);
 		Semester semester = new Semester();
-		semester.setListUe(new ArrayList<>());
+		semester.setListUes(new ArrayList<>());
 		when(semesterRepository.findOne(anyLong())).thenReturn(semester);
 		when(ueRepository.save(any(Ue.class))).thenReturn(new Ue());
 		// GIVEN

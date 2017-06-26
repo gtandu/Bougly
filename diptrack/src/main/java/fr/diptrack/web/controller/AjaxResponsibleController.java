@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import fr.diptrack.exception.CourseExistException;
-import fr.diptrack.exception.SubjectExistException;
 import fr.diptrack.model.Course;
 import fr.diptrack.model.Semester;
 import fr.diptrack.model.Ue;
@@ -141,8 +140,7 @@ public class AjaxResponsibleController {
 	}
 
 	@RequestMapping(value = URL_CREATE_SUBJECT, method = RequestMethod.POST)
-	public @ResponseBody SubjectIdUeCoefficientDto createSubject(@RequestBody SubjectDto subjectDto)
-			throws SubjectExistException {
+	public @ResponseBody SubjectIdUeCoefficientDto createSubject(@RequestBody SubjectDto subjectDto){
 		return subjectService.saveSubjectFromDto(subjectDto);
 	}
 

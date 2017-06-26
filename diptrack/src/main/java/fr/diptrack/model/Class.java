@@ -38,16 +38,10 @@ public class Class {
 	public Class() {
 	}
 
-	public Class(String name, String level, String formation) {
-		this.name = name;
-		this.level = level;
-		this.formation = formation;
-	}
-
-	public Class(ClassDto gradeDto) {
-		this.name = gradeDto.getName();
-		this.level = gradeDto.getLevel();
-		this.formation = gradeDto.getFormation();
+	public Class(ClassDto classDto) {
+		this.name = classDto.getName();
+		this.level = classDto.getLevel();
+		this.formation = classDto.getFormation();
 	}
 
 	public long getId() {
@@ -90,6 +84,14 @@ public class Class {
 		this.average = average;
 	}
 
+	public int getDate() {
+		return date;
+	}
+
+	public void setDate(int date) {
+		this.date = date;
+	}
+
 	public Responsible getResponsible() {
 		return responsible;
 	}
@@ -98,11 +100,11 @@ public class Class {
 		this.responsible = responsible;
 	}
 
-	public Course getBranch() {
+	public Course getCourse() {
 		return course;
 	}
 
-	public void setBranch(Course course) {
+	public void setCourse(Course course) {
 		this.course = course;
 	}
 
@@ -122,20 +124,6 @@ public class Class {
 		this.listStudents = listStudents;
 	}
 
-	public int getDate() {
-		return date;
-	}
 
-	public void setDate(int date) {
-		this.date = date;
-	}
-	
-	public Course getCourse() {
-		return course;
-	}
-
-	public void setCourse(Course course) {
-		this.course = course;
-	}
 
 }

@@ -29,10 +29,6 @@ public class Teacher extends UserAccount {
 		super(mail, password, lastName, firstName);
 	}
 
-	public Teacher(AccountDto accountDto) throws ParseException {
-		super(accountDto);
-	}
-
 	public String getSubject() {
 		return subject;
 	}

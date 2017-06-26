@@ -38,15 +38,6 @@ public class Subject {
 	public Subject() {
 	}
 
-	public Subject(String name, String description, int coefficient, int threshold, boolean resit) {
-		super();
-		this.name = name;
-		this.description = description;
-		this.coefficient = coefficient;
-		this.threshold = threshold;
-		this.resit = resit;
-	}
-
 	public Subject(SubjectDto subjectDto, Ue ue) {
 		this.name = subjectDto.getName();
 		this.coefficient = subjectDto.getCoefficient();
@@ -54,15 +45,6 @@ public class Subject {
 		this.resit = subjectDto.isResit();
 		this.year = subjectDto.getYear();
 		this.ue = ue;
-	}
-	
-	public Subject(SubjectDto subjectDto) {
-		this.id = subjectDto.getId();
-		this.name = subjectDto.getName();
-		this.coefficient = subjectDto.getCoefficient();
-		this.threshold = subjectDto.getThreshold();
-		this.resit = subjectDto.isResit();
-		this.year = subjectDto.getYear();
 	}
 
 	public long getId() {
