@@ -38,4 +38,11 @@ public class TeacherController {
 		return new ModelAndView("noteGradeManagement");
 	}
 	
+	@RequestMapping(value = URL_NOTE_GRADE_MANAGEMENT, method = RequestMethod.POST)
+	public ModelAndView send() {
+		
+		
+		return new ModelAndView("homePageTeacher");
+	}
+	
 }
