@@ -69,12 +69,10 @@ public class ResponsibleController {
 		ModelAndView model = new ModelAndView("gestionClasse");
 
 		List<Class> classList = classService.findAllClasses();
-		// List<Subject> subjectList = subjectService.findAllSubjects();
 
 		model.addObject("classList", classList);
 		model.addObject("levelList", LevelEnum.allLevel());
 		model.addObject("formationList", FormationEnum.allFormation());
-		// model.addObject("subjectList", subjectList);
 		return model;
 	}
 
@@ -84,7 +82,7 @@ public class ResponsibleController {
 	}
 
 	@RequestMapping(value = URL_CREATE_GRADE, method = RequestMethod.GET)
-	public ModelAndView showPageCreatGrade() {
+	public ModelAndView showPageCreateGrade() {
 		ClassDto gradeDto = new ClassDto();
 		ModelAndView model = new ModelAndView("creerClasse");
 
@@ -116,19 +114,19 @@ public class ResponsibleController {
 	@RequestMapping(value = URL_DELETE_GRADE, method = RequestMethod.POST)
 	@ResponseBody
 	public void deleteGrade(@RequestParam(value = "id") long id) {
-		classService.deleteGradeById(id);
+		classService.deleteClassById(id);
 	}
 
 	@RequestMapping(value = URL_EDIT_GRADE, method = RequestMethod.POST)
 	@ResponseBody
-	public void modifierClasse(ClassDto gradeDto) {
-		classService.updateGradeWithGradeDto(gradeDto);
+	public void updateClass(ClassDto classDto) {
+		classService.updateClassWithClassDto(classDto);
 	}
 
 	@RequestMapping(value = URL_CREATE_GRADE, method = RequestMethod.POST)
-	public String creerClasse(@ModelAttribute(value = "classe") ClassDto gradeDto) {
+	public String createClass(@ModelAttribute(value = "classe") ClassDto classDto) {
 
-		classService.saveGrade(new Class(gradeDto));
+		classService.saveClass(new Class(classDto));
 
 		return "redirect:" + URL_CONTROLLER_RESPONSIBLE + URL_GRADE_MANAGEMENT;
 	}

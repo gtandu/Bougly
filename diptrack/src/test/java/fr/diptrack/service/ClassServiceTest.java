@@ -37,7 +37,7 @@ public class ClassServiceTest {
 		when(classRepository.save(any(Class.class))).thenReturn(new Class());
 
 		// GIVEN
-		classService.saveGrade(new Class());
+		classService.saveClass(new Class());
 
 		// THEN
 		verify(classRepository).save(any(Class.class));
@@ -50,14 +50,14 @@ public class ClassServiceTest {
 		doNothing().when(classRepository).delete(anyLong());
 
 		// GIVEN
-		classService.deleteGradeById(n);
+		classService.deleteClassById(n);
 
 		// THEN
 		verify(classRepository).delete(anyLong());
 	}
 
 	@Test
-	public void testUpdateGradeWithGradeDto() {
+	public void testUpdateClassWithClassDto() {
 		// WHEN
 		ClassDto gradeDto = new ClassDtoBuilder().withId(20).withName("BIO").withLevel(LevelEnum.L2.toString())
 				.withFormation(FormationEnum.INITIALE.toString()).withAverage(12).build();
@@ -68,7 +68,7 @@ public class ClassServiceTest {
 		when(classRepository.save(any(Class.class))).thenReturn(grade);
 
 		// GIVEN
-		classService.updateGradeWithGradeDto(gradeDto);
+		classService.updateClassWithClassDto(gradeDto);
 
 		// THEN
 		verify(classRepository).findOne(anyLong());

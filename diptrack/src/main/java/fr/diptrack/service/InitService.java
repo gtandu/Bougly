@@ -79,6 +79,6 @@ public class InitService {
 		class1.setListStudents(listStudents);
 		class1.setListTeachers(listTeachers);
 		
-		classService.saveGrade(class1);
+		classService.saveClass(class1);
 	}
 }

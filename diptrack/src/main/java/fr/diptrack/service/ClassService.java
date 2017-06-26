@@ -15,8 +15,8 @@ public class ClassService {
 	@Autowired
 	private ClassRepository classRepository;
 
-	public Class saveGrade(Class grade) {
-		return classRepository.save(grade);
+	public Class saveClass(Class classToSave) {
+		return classRepository.save(classToSave);
 	}
 
 	public List<Class> findAllClasses() {
@@ -27,11 +27,11 @@ public class ClassService {
 		return classRepository.findOne(id);
 	}
 
-	public void deleteGradeById(long classID) {
+	public void deleteClassById(long classID) {
 		classRepository.delete(classID);
 	}
 
-	public void updateGradeWithGradeDto(ClassDto classDto) {
+	public void updateClassWithClassDto(ClassDto classDto) {
 		Class classFromDB = classRepository.findOne(classDto.getId());
 		classFromDB.setName(classDto.getName());
 		classFromDB.setFormation(classDto.getFormation());
