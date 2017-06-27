@@ -28,7 +28,6 @@
                             </div>
                         </div>
                     </div>
-
                     <form th:action="@{/enseignant/noteGradeManagement.html}" th:object="${markManagementForm}" method="post">
                         <table class="bordered striped highlight centered responsive-table">
                             <thead>
@@ -72,6 +71,16 @@
 
     <div th:replace="/include/script :: script"></div>
     <div th:replace="/include/preloader-script :: preloader-script"></div>
+
+	<div th:if="${update}">
+		<script type="text/javascript" th:src="@{/js/lib/sweetalert.min.js}">
+		$(function() {	
+			$( document ).ready(function() {
+				swal("Mis à Jour", "Vos notes ont été enregistrées", "success");
+				});
+			});
+		</script>
+	</div>
 
     <footer>
         <div th:replace="/include/footer :: footer"></div>

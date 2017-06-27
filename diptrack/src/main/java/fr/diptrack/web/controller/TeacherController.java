@@ -108,7 +108,6 @@ public class TeacherController {
 
 		model.addObject("markManagementForm", markManagementForm);
 		model.addObject("save", save);
-
 		return model;
 
 	}
@@ -125,7 +124,6 @@ public class TeacherController {
 
 	@RequestMapping(value = URL_NOTE_GRADE_MANAGEMENT, method = RequestMethod.POST, params = { "publish" })
 	public String publishMark(@ModelAttribute(value = "markManagementForm") MarkManagementForm markManagementForm) {
-
 		List<MarkDto> listMarkDto = markManagementForm.getListMarkDto();
 
 		saveAndPublishMarks(listMarkDto);
