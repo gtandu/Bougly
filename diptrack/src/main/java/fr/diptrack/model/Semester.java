@@ -26,7 +26,7 @@ public class Semester {
 			CascadeType.REMOVE })
 	private Course course;
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "semester")
-	private List<Ue> listUe;
+	private List<Ue> listUes;
 
 	public Semester() {
 	}
@@ -89,12 +89,12 @@ public class Semester {
 		this.course = course;
 	}
 
-	public List<Ue> getListUe() {
-		return listUe;
+	public List<Ue> getListUes() {
+		return listUes;
 	}
 
-	public void setListUe(List<Ue> listUe) {
-		this.listUe = listUe;
+	public void setListUes(List<Ue> listUes) {
+		this.listUes = listUes;
 	}
 
 }

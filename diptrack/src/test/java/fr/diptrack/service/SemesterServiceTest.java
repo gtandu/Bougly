@@ -39,7 +39,7 @@ public class SemesterServiceTest {
 		// WHEN
 		SemesterDto semesterDto = new SemesterDto();
 		Course course = new Course();
-		course.setListSemester(new ArrayList<>());
+		course.setListSemesters(new ArrayList<>());
 		when(branchRepository.findByName(anyString())).thenReturn(course);
 		when(semesterRepository.save(any(Semester.class))).thenReturn(new Semester());
 		// GIVEN

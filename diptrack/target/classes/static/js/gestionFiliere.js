@@ -101,6 +101,7 @@ function addSemestreOnClick() {
                         "toggleIconSemester", ".card-content-semester",
                         ".row-Ue")
                     postDataCreateSemester();
+                    Materialize.toast('Semestre crée avec succès !', 3000, 'rounded')
 
                 } else {
                     msg = "";
@@ -234,6 +235,7 @@ function addUeOnClick() {
                 toggleElementOnClick(".toggleIconUe", "toggleIconUe",
                     ".card-content-ue", ".jsGrid");
                 postDataCreateUe($(this).attr("data-id"));
+                Materialize.toast('UE crée avec succès !', 3000, 'rounded')
             })
 }
 
@@ -440,9 +442,9 @@ function checkIfSubjectNameExistInSemester(args) {
 
 function addEventOpenModalOnClick() {
 
-    $(".mccRules").unbind().click(function() {
+    $(".mccRules").click(function() {
         $("#modalMccRules").modal("open");
-        validateForm($("#formMccRules"), addMccRules, $(this).parent());
+        validateForm($("#formMccRules"), addMccRules);
         //addMccRules($(this).parent());
 
     })
@@ -473,7 +475,7 @@ function createMccRulesObject() {
     return listMccRules;
 }
 
-function addMccRules(cellMccRules) {
+function addMccRules() {
     //$("#formMccRules").submit(function(event) {
     var mccRules = {
         name: $("#nameMccRules").val(),
@@ -482,14 +484,15 @@ function addMccRules(cellMccRules) {
     }
     var html = "<div class='chip' data-name='{{name}}' data-coefficient='{{coefficient}}' data-markType='{{markType}}'>{{name}}<i class='close material-icons'>close</i></div>";
     var html = Mustache.render(html, mccRules);
-    $(cellMccRules).addClass("active");
-    $(cellMccRules).append(html);
+    var cell = $("#formFiliere > div.row.row-semestre > div > div > div > div.row.row-Ue > div > div > div > div.jsGrid.jsgrid > div.jsgrid-grid-header.jsgrid-header-scrollbar > table > tr.jsgrid-insert-row > td.jsgrid-cell.cellMccRules.empty");
+    $(cell).first().addClass("active");
+    $(cell).first().append(html);
     $("#nameMccRules").val('');
     $("#coefficientMccRules").val('');
 
-    $(cellMccRules).removeClass("empty");
+    $(cell).first().removeClass("empty");
 
-    $(cellMccRules).removeClass("errorEmpty");
+    $(cell).first().removeClass("errorEmpty");
 
     $("#modalMccRules").modal("close");
     removeClassActive();
@@ -504,19 +507,11 @@ function newTypeJsGridMccRules() {
     MyMccRulesField.prototype = new jsGrid.Field({
 
         itemTemplate: function(value) {
-        	console.log("ITEM TEMPLATE");
-            if (this._grid._container.find(".active").length == 0) {
-                return "<i class='material-icons mccRules'>add</i>";
+            return this._grid._container.find(".active").html();
 
-            } else {
-                return this._grid._container.find(".active").html();
-            }
         },
 
         insertTemplate: function(value) {
-            if (this._grid._container.find("td.cellMccRules .chip").length != 0) {
-                return this._grid._container.find(".cellMccRules").not(".active").html();
-            }
             return "<i class='material-icons mccRules'>add</i>";
         },
 
@@ -529,7 +524,7 @@ function newTypeJsGridMccRules() {
         },
 
         insertValue: function() {
-            return this._grid._container.find(".active").html();
+            return "";
         },
 
         editValue: function() {
@@ -566,9 +561,9 @@ function initJsGridLast(element) {
         invalidMessage: "Erreur lors de la saisie",
         invalidNotify: function(args) {
             var errorMsg = "";
-            
-            $.each(args.errors, function(item,value){
-            	errorMsg += value.message+"\n";
+
+            $.each(args.errors, function(item, value) {
+                errorMsg += value.message + "\n";
             })
             swal("Oops...", errorMsg, "error");
         },
@@ -653,9 +648,7 @@ function initJsGridLast(element) {
                     'Content-Type': 'application/json'
                 },
                 success: function(data) {
-                    if (data.status == 'OK') {
-                        args.grid._container.parents(".card-content-ue").find(".card-title-coeff").text("Coefficient : " + data.ueCoefficient);
-                    }
+                    args.grid._container.parents(".card-content-ue").find(".card-title-coeff").text("Coefficient : " + data.ueCoefficient);
                 }
             })
         },
@@ -762,9 +755,10 @@ function initJsGridLast(element) {
                 name: "Règles MCC",
                 type: "mccRules",
                 css: "cellMccRules empty",
+                /*
                 validate: {
                     validator: function(value, item) {
-                    	$(".jsgrid-filter-row").remove();
+                        $(".jsgrid-filter-row").remove();
                         if ($("td.empty").length == 1) {
                             args.cancel = true;
                             $("td.empty").addClass("errorEmpty");
@@ -776,6 +770,7 @@ function initJsGridLast(element) {
                         return "Veuillez inserer une règle MCC";
                     },
                 }
+                */
             },
             {
                 name: "Année",

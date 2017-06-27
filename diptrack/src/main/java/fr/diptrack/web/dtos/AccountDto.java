@@ -32,8 +32,8 @@ public class AccountDto {
 			this.role = roleEnumObject.getRole();
 		}
 		if (account instanceof Student) {
-			Student compteEtudiant = (Student) account;
-			this.studentNumber = compteEtudiant.getStudentNumber();
+			Student student = (Student) account;
+			this.studentNumber = student.getStudentNumber();
 		}
 		this.accountStatus = account.isEnabled();
 

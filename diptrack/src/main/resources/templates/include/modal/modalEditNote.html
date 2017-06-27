@@ -1,0 +1,54 @@
+<meta charset="UTF-8" />
+
+<div th:fragment="modalEditNote" id="modalEditNote" class="modal">
+
+	<div class="modal-content">
+		<h4 class="header center teal-text text-lighten-2">Note de : </h4>
+		<br />
+
+		<form id="formEditClasse">
+
+			<div class="row">
+
+				<div style="display:none;" class="input-field col s12">
+					<input  id="input_id" type="text" class="validate"/>
+				</div>
+				
+				<div class="input-field col s6">
+					<h5 class="center teal-text text-lighten-2">Nom</h5>
+				</div>
+				
+				<div class="input-field col s6">
+					<h5 class="center teal-text text-lighten-2">Prénom</h5>
+				</div>
+
+				<div class="input-field col s3">
+					<input placeholder="" name="noteContinue" id="input_noteContinue" type="text"/>
+       			   	<label>Note Continue</label>
+				</div>
+
+				<div class="input-field col s3">
+					<input placeholder="" name="notePartiel" id="input_notePartiel" type="text"/>
+       			   	<label>Note Partiel</label>
+				</div>
+				
+				<div class="input-field col s3">
+					<input placeholder="" name="noteProjet" id="input_noteProjet" type="text"/>
+       			   	<label>Note Projet</label>
+				</div>
+				
+				<div class="input-field col s3">
+					<input placeholder="" name="noteRattrapage" id="input_noteRattrapage" type="text"/>
+       			   	<label>Rattrapage</label>
+				</div>
+
+				<div class="modal-footer">
+					<button id="submitButton" class="waves-effect waves-light btn" type="submit">Modifier</button>
+					<a href="#!" class="modal-action modal-close waves-effect waves-light btn-flat">Fermer</a>
+				</div>
+				
+			</div>
+		</form>
+
+	</div>
+</div>

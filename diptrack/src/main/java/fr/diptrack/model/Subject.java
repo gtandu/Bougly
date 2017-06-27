@@ -18,7 +18,7 @@ public class Subject {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private long id;
+	private Long id;
 	private String name;
 	private int year;
 	private String description;
@@ -34,27 +34,8 @@ public class Subject {
 	private List<Student> listStudents;
 	@OneToMany(cascade = { CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH })
 	private List<Mark> listMarks;
-	@OneToMany(cascade = { CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH })
-	private List<Teacher> listTeachers;
-
-	public List<Teacher> getListTeachers() {
-		return listTeachers;
-	}
-
-	public void setListTeachers(List<Teacher> listTeachers) {
-		this.listTeachers = listTeachers;
-	}
 
 	public Subject() {
-	}
-
-	public Subject(String name, String description, int coefficient, int threshold, boolean resit) {
-		super();
-		this.name = name;
-		this.description = description;
-		this.coefficient = coefficient;
-		this.threshold = threshold;
-		this.resit = resit;
 	}
 
 	public Subject(SubjectDto subjectDto, Ue ue) {
@@ -65,21 +46,12 @@ public class Subject {
 		this.year = subjectDto.getYear();
 		this.ue = ue;
 	}
-	
-	public Subject(SubjectDto subjectDto) {
-		this.id = subjectDto.getId();
-		this.name = subjectDto.getName();
-		this.coefficient = subjectDto.getCoefficient();
-		this.threshold = subjectDto.getThreshold();
-		this.resit = subjectDto.isResit();
-		this.year = subjectDto.getYear();
-	}
 
-	public long getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(long id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
@@ -170,5 +142,4 @@ public class Subject {
 	public void setListMarks(List<Mark> listMarks) {
 		this.listMarks = listMarks;
 	}
-
 }

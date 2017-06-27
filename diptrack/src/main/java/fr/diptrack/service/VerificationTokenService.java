@@ -1,5 +1,7 @@
 package fr.diptrack.service;
 
+import java.util.UUID;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -32,6 +34,12 @@ public class VerificationTokenService {
 		verificationToken.setExpired(true);
 		tokenRepository.save(verificationToken);
 
+	}
+
+	public String generateToken(UserAccount compte) {
+		String token = UUID.randomUUID().toString();
+		this.createVerificationToken(compte, token);
+		return token;
 	}
 
 }

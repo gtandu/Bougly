@@ -21,23 +21,13 @@ public class Course {
 	private String name;
 	private int threshold;
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "course")
-	private List<Class> listClass;
+	private List<Class> listClasses;
 	@ManyToOne(cascade = { CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH })
 	private Responsible responsible;
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "course")
-	private List<Semester> listSemester;
+	private List<Semester> listSemesters;
 
 	public Course() {
-	}
-
-	public Course(String name, int threshold) {
-		this.name = name;
-		this.threshold = threshold;
-	}
-
-	public Course(String name, int threshold, Class oneClass) {
-		this.name = name;
-		this.threshold = threshold;
 	}
 
 	public Course(CourseDto courseDto) {
@@ -77,20 +67,20 @@ public class Course {
 		this.responsible = responsible;
 	}
 
-	public List<Class> getListClass() {
-		return listClass;
+	public List<Class> getListClasses() {
+		return listClasses;
 	}
 
-	public void setListClass(List<Class> listClass) {
-		this.listClass = listClass;
+	public void setListClasses(List<Class> listClasses) {
+		this.listClasses = listClasses;
 	}
 
-	public List<Semester> getListSemester() {
-		return listSemester;
+	public List<Semester> getListSemesters() {
+		return listSemesters;
 	}
 
-	public void setListSemester(List<Semester> listSemester) {
-		this.listSemester = listSemester;
+	public void setListSemesters(List<Semester> listSemesters) {
+		this.listSemesters = listSemesters;
 	}
 
 }

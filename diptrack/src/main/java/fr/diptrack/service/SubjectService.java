@@ -32,12 +32,16 @@ public class SubjectService {
 	public List<Subject> findAllSubjects() {
 		return subjectRepository.findAll();
 	}
-
+	
+	public Subject findById(Long id){
+		return subjectRepository.findOne(id);
+	}
+	
 	public SubjectIdUeCoefficientDto saveSubjectFromDto(SubjectDto subjectDto) {
 
 		Ue ue = ueRepository.findOne(subjectDto.getUeId());
 		Subject subject = new Subject(subjectDto, ue);
-		ue.getListSubject().add(subject);
+		ue.getListSubjects().add(subject);
 		int ueCoefficient = ue.getUeCoefficient() + subject.getCoefficient();
 		ue.setUeCoefficient(ueCoefficient);
 		Subject subjectSave = subjectRepository.save(subject);
@@ -59,7 +63,7 @@ public class SubjectService {
 		Subject subject = subjectRepository.findByName(dto.getSubjectName());
 		int ueCoefficient = ue.getUeCoefficient() - subject.getCoefficient();
 		ue.setUeCoefficient(ueCoefficient);
-		ue.getListSubject().remove(subject);
+		ue.getListSubjects().remove(subject);
 
 		for (MccRule mccRule : subject.getListMccRules()) {
 			mccRule.setSubject(null);
@@ -82,11 +86,15 @@ public class SubjectService {
 		subjectRepository.save(subject);
 
 	}
-
+	
+	public void updateSubject(Subject subject){
+		subjectRepository.save(subject);
+	}
+	
 	public boolean checkSubjectExistInBranch(SemesterIdSubjectNameDto dto) {
 		Semester findOne = this.semesterRepository.findOne(dto.getIdSemester());
-		for (Ue ue : findOne.getListUe()) {
-			for (Subject subject : ue.getListSubject()) {
+		for (Ue ue : findOne.getListUes()) {
+			for (Subject subject : ue.getListSubjects()) {
 				if (dto.getSubjectName().equals(subject.getName())) {
 					return true;
 				}

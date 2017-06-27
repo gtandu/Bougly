@@ -26,7 +26,7 @@ public class Ue {
 	private Semester semester;
 
 	@OneToMany(cascade = { CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH })
-	private List<Subject> listSubject;
+	private List<Subject> listSubjects;
 
 	public Ue() {
 	}
@@ -42,7 +42,7 @@ public class Ue {
 		this.name = ueDto.getNom();
 		this.number = ueDto.getNumber();
 		this.ueCoefficient = ueDto.getCoefficientUe();
-		this.threshold = ueDto.getSeuilCompensation();
+		this.threshold = ueDto.getThreshold();
 		this.semester = semester;
 	}
 
@@ -102,12 +102,12 @@ public class Ue {
 		this.semester = semester;
 	}
 
-	public List<Subject> getListSubject() {
-		return listSubject;
+	public List<Subject> getListSubjects() {
+		return listSubjects;
 	}
 
-	public void setListSubject(List<Subject> listSubject) {
-		this.listSubject = listSubject;
+	public void setListSubjects(List<Subject> listSubjects) {
+		this.listSubjects = listSubjects;
 	}
 
 	

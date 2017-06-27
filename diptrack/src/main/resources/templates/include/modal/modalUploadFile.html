@@ -1,22 +1,15 @@
 <!-- Modal Structure -->
 <div th:fragment="modalUploadFile" id="modalUploadFile" class="modal">
-	<div class="modal-content">
-		<h4>Créer des comptes depuis un excel</h4>
-		<form method="POST" id="excel" enctype="multipart/form-data"
-			th:action="@{/administrateur/uploadExcel.html}">
-			<div class="file-field input-field">
-				<div class="btn">
-					<span>Fichier</span> <input type="file" name="file" />
-				</div>
-				<div class="file-path-wrapper">
-					<input class="file-path validate" type="text" />
-				</div>
-			</div>
-			<div class="modal-footer">
-   				<button id="submitFile"
-					class="btn waves-effect waves-light col s5 offset-s2" type="button">Envoyer</button>
-    		</div>
-		</form>
-	</div>
+    <div class="modal-content">
+        <h4>Créer des comptes depuis un excel</h4>
+        <form method="POST" id="excel" enctype="multipart/form-data" th:action="@{/administrateur/uploadExcel.html}">
+            <div class="file-field input-field">
+                <input type="file" class="dropify" name="file" />
+            </div>
+            <div class="modal-footer">
+                <button id="submitFile" class="btn waves-effect waves-light col s5 offset-s2" type="button">Envoyer</button>
+            </div>
+        </form>
+    </div>
 
 </div>

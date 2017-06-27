@@ -16,10 +16,11 @@
         <div class="container">
             <div class="row" style="margin-top: 25%;">
 
-                <div class="col s12 m5 offset-m3">
+                <div class="col s12 m6 offset-m3">
                     <div class="card teal">
                         <div class="card-content white-text">
-                            <span class="card-title">Votre compte est activé !</span>
+                        	<span th:if="${resetPassword}" class="card-title">Votre mot de passe a été changé !</span>
+                            <span th:unless="${resetPassword}" class="card-title">Votre compte est activé !</span>
                             <p>Vous allez être redirigé vers la page de connexion dans : </p>
                             <div id="gj-counter-box">
                                 <p id="gj-counter-num" class="white-text center-align"></p>

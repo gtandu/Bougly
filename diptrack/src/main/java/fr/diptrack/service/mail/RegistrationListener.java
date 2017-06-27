@@ -1,7 +1,5 @@
 package fr.diptrack.service.mail;
 
-import java.util.UUID;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.MessageSource;
@@ -40,7 +38,7 @@ public class RegistrationListener implements ApplicationListener<OnRegistrationC
 	private void confirmRegistration(OnRegistrationCompleteEvent event) {
 		UserAccount compte = event.getAccount();
 
-		String token = generateToken(compte);
+		String token = tokenService.generateToken(compte);
 
 		String recipientAddress = compte.getMail();
 		String subject = messages.getMessage("mail.subject.confirmationCompte", null, null);
@@ -60,12 +58,6 @@ public class RegistrationListener implements ApplicationListener<OnRegistrationC
 		} catch (MailException e) {
 			throw new MailSendException(e.getMessage());
 		}
-	}
-
-	private String generateToken(UserAccount compte) {
-		String token = UUID.randomUUID().toString();
-		tokenService.createVerificationToken(compte, token);
-		return token;
 	}
 
 }

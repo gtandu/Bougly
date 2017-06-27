@@ -6,7 +6,7 @@ public class UeDto {
 	private String nom;
 	private int number;
 	private int coefficientUe;
-	private int seuilCompensation;
+	private int Threshold;
 	private long idSemester;
 
 	public long getId() {
@@ -41,12 +41,14 @@ public class UeDto {
 		this.coefficientUe = coefficientUe;
 	}
 
-	public int getSeuilCompensation() {
-		return seuilCompensation;
+	
+
+	public int getThreshold() {
+		return Threshold;
 	}
 
-	public void setSeuilCompensation(int seuilCompensation) {
-		this.seuilCompensation = seuilCompensation;
+	public void setThreshold(int threshold) {
+		Threshold = threshold;
 	}
 
 	public long getIdSemester() {

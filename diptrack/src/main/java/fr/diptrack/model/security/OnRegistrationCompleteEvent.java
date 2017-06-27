@@ -6,11 +6,9 @@ import org.springframework.context.ApplicationEvent;
 
 import fr.diptrack.model.UserAccount;
 
+@SuppressWarnings("serial")
 public class OnRegistrationCompleteEvent extends ApplicationEvent {
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -7096826582160653808L;
+
 	private String appUrl;
 	private Locale locale;
 	private UserAccount account;

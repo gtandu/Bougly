@@ -22,7 +22,7 @@ public class UeService {
 	public Ue createUeFromUeDto(UeDto ueDto) {
 		Semester semester = semesterRepository.findOne(ueDto.getIdSemester());
 		Ue ue = new Ue(ueDto, semester);
-		semester.getListUe().add(ue);
+		semester.getListUes().add(ue);
 		return ueRepository.save(ue);
 	}
 

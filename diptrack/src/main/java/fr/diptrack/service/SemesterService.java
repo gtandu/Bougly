@@ -20,9 +20,9 @@ public class SemesterService {
 	private CourseRepository branchRepository;
 
 	public Semester saveSemesterFromDto(SemesterDto semesterDto) {
-		Course course = branchRepository.findByName(semesterDto.getBranchName());
+		Course course = branchRepository.findByName(semesterDto.getCourseName());
 		Semester semester = new Semester(semesterDto, course);
-		course.getListSemester().add(semester);
+		course.getListSemesters().add(semester);
 		return semesterRepository.save(semester);
 	}
 
