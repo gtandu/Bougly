@@ -1,6 +1,7 @@
 package fr.diptrack.web.controller;
 
 import static org.mockito.Matchers.anyString;
+import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
@@ -8,6 +9,9 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
+
+import java.util.ArrayList;
+import java.util.Arrays;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -27,9 +31,15 @@ import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
+import fr.diptrack.model.Mark;
+import fr.diptrack.model.Student;
+import fr.diptrack.model.Subject;
 import fr.diptrack.model.Teacher;
+import fr.diptrack.model.enumeration.MarkTypeEnum;
 import fr.diptrack.service.AccountService;
+import fr.diptrack.service.MarkService;
 import fr.diptrack.service.StudentService;
+import fr.diptrack.service.SubjectService;
 import fr.diptrack.service.TeacherService;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -48,6 +58,12 @@ public class TeacherControllerTest {
 	@MockBean
 	private TeacherService teacherService;
 
+	@MockBean
+	private SubjectService subjectService;
+
+	@MockBean
+	private MarkService markService;
+
 	@InjectMocks
 	private TeacherController teacherController;
 
@@ -64,12 +80,8 @@ public class TeacherControllerTest {
 	@Test
 	@WithMockUser(authorities = "Teacher")
 	public void testShowPageHomePageteacher() throws Exception {
-		// WHEN
-		Authentication authentication = Mockito.mock(Authentication.class);
-		SecurityContext securityContext = Mockito.mock(SecurityContext.class);
-		Mockito.when(securityContext.getAuthentication()).thenReturn(authentication);
-		SecurityContextHolder.setContext(securityContext);
-		
+		buildAuthentificationContext();
+
 		Teacher teacher = new Teacher();
 		teacher.setFirstName("Joe");
 		teacher.setLastName("Dalton");
@@ -82,6 +94,44 @@ public class TeacherControllerTest {
 
 		// THEN
 		verify(accountService).findByMail(anyString());
+	}
+
+	@Test
+	@WithMockUser(authorities = "Teacher")
+	public void testShowPageNoteGradeManagement() throws Exception {
+		// WHEN
+		buildAuthentificationContext();
+
+		Teacher teacher = new Teacher();
+		teacher.setSubject("Anglais");
+		String subjectName = teacher.getSubject();
+		ArrayList<Student> listStudents = new ArrayList<>();
+		Student student = new Student();
+		Subject subject = new Subject();
+		subject.setId(new Long(2));
+		student.setListSubjects(Arrays.asList(subject));
+		Mark mark = new Mark(12, student, subject, MarkTypeEnum.Continu);
+		student.setListMarks(Arrays.asList(mark));
+		listStudents.add(student);
+
+		when(teacherService.findByMail(anyString())).thenReturn(teacher);
+		when(studentService.findAllStudentBySubject(eq(subjectName))).thenReturn(listStudents);
+
+		// GIVEN
+		this.mockMvc.perform(get(URL_TEACHER_CONTROLLER + TeacherController.URL_NOTE_GRADE_MANAGEMENT))
+				.andExpect(status().isOk()).andExpect(model().attributeExists("markManagementForm"));
+
+		// THEN
+
+		verify(teacherService).findByMail(anyString());
+		verify(studentService).findAllStudentBySubject(eq(subjectName));
+	}
+
+	private void buildAuthentificationContext() {
+		Authentication authentication = Mockito.mock(Authentication.class);
+		SecurityContext securityContext = Mockito.mock(SecurityContext.class);
+		Mockito.when(securityContext.getAuthentication()).thenReturn(authentication);
+		SecurityContextHolder.setContext(securityContext);
 	}
 
 }

@@ -62,7 +62,9 @@ public class SubjectServiceTest {
 		Ue ue = new Ue();
 		ue.setListSubjects(new ArrayList<>());
 		when(ueRepository.findOne(anyLong())).thenReturn(ue);
-		when(subjectRepository.save(any(Subject.class))).thenReturn(new Subject());
+		Subject subjectSave = new Subject();
+		subjectSave.setId(new Long(2));
+		when(subjectRepository.save(any(Subject.class))).thenReturn(subjectSave);
 
 		// GIVEN
 		subjectService.saveSubjectFromDto(subjectDto);
@@ -207,6 +209,18 @@ public class SubjectServiceTest {
 
 		// THEN
 		verify(subjectRepository).findAll();
+	}
+
+	@Test
+	public void testFindById() throws Exception {
+		// WHEN
+		Long id = new Long(2);
+		when(subjectRepository.findOne(anyLong())).thenReturn(new Subject());
+		// GIVEN
+		subjectService.findById(id);
+
+		// THEN
+		verify(subjectRepository).findOne(id);
 	}
 
 }

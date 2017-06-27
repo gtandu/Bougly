@@ -34,7 +34,7 @@ public class SubjectService {
 	}
 	
 	public Subject findById(Long id){
-		return subjectRepository.findById(id);
+		return subjectRepository.findOne(id);
 	}
 	
 	public SubjectIdUeCoefficientDto saveSubjectFromDto(SubjectDto subjectDto) {

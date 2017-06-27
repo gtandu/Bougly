@@ -34,8 +34,8 @@ public class StudentService {
 		return listStudents;
 	}
 	
-	public void updateStudent(Student student){
-		studentRepository.save(student);
+	public Student saveStudent(Student student){
+		return studentRepository.save(student);
 	}
 	
 }
