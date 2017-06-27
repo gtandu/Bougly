@@ -92,7 +92,7 @@ public class ManageAccountController {
 
 	@RequestMapping(value = URL_CREATE_PASSWORD, method = RequestMethod.POST)
 	public String createPassword(WebRequest request, @RequestParam("token") String token,
-			@RequestParam(value = "resetPassword", required = false) boolean resetPassword, AccountDto accountDto,
+			@RequestParam(value = "resetPassword", required = false) String resetPassword, AccountDto accountDto,
 			Model model) {
 
 		String mail = accountDto.getMail();
@@ -107,15 +107,15 @@ public class ManageAccountController {
 	}
 
 	@RequestMapping(value = URL_FORGOT_PASSWORD_PAGE, method = RequestMethod.GET)
-	public ModelAndView showForgotPasswordPage(@RequestParam(required=false, value="error") boolean error) throws Exception {
+	public ModelAndView showForgotPasswordPage(@RequestParam(required = false, value = "error") boolean error)
+			throws Exception {
 		ModelAndView model = new ModelAndView();
 		model.setViewName("forgotPassword");
 
-		model.addObject("error",error);
+		model.addObject("error", error);
 		return model;
 	}
 
-	
 	@RequestMapping(value = URL_FORGOT_PASSWORD_PAGE, method = RequestMethod.POST)
 	public ModelAndView manageForgotPassword(HttpServletRequest request, @RequestParam(value = "mail") String mail)
 			throws Exception {
@@ -126,7 +126,7 @@ public class ManageAccountController {
 		} else
 
 		{
-			return new ModelAndView("redirect:" + URL_FORGOT_PASSWORD_PAGE+"?error=true");
+			return new ModelAndView("redirect:" + URL_FORGOT_PASSWORD_PAGE + "?error=true");
 		}
 	}
 

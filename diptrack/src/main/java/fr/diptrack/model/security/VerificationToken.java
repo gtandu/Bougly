@@ -4,7 +4,6 @@ import java.sql.Timestamp;
 import java.util.Calendar;
 import java.util.Date;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -13,6 +12,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
 
 import fr.diptrack.model.UserAccount;
 
@@ -29,7 +30,8 @@ public class VerificationToken {
 
 	private boolean expired;
 
-	@OneToOne(targetEntity = UserAccount.class, fetch = FetchType.EAGER, cascade = { CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH })
+	@OneToOne(targetEntity = UserAccount.class, fetch = FetchType.EAGER)
+	@Cascade(CascadeType.DELETE)
 	@JoinColumn(nullable = false, name = "user_id")
 	private UserAccount account;
 

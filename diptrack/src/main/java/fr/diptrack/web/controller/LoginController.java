@@ -22,21 +22,20 @@ public class LoginController {
 	@SuppressWarnings("unused")
 	@Autowired
 	private InitService initService;
-	
+
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
 	@RequestMapping(value = URL_LOGIN_PAGE, method = RequestMethod.GET)
 	public ModelAndView showLoginPage(HttpServletRequest request, Model model) throws Exception {
-		
+
 		String errorMsg = (String) request.getSession().getAttribute(WebAttributes.AUTHENTICATION_EXCEPTION);
-		if(errorMsg != null)
-		{
+		if (errorMsg != null) {
 			model.addAttribute("errorMsg", errorMsg);
 			request.getSession().removeAttribute(WebAttributes.AUTHENTICATION_EXCEPTION);
 		}
 
-		//initService.initUser();
-		//initService.initClass();
+		// initService.initUser();
+		// initService.initClass();
 		logger.info("Show login page");
 		return new ModelAndView("login");
 	}
