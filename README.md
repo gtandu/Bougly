@@ -56,7 +56,7 @@ It results from a problem raised by the faculty that does not have access to Apo
 * Start your server
 * Open [Login page](http://localhost:8080/login.html)
 * Stop your server
-* Uncomment this line
+* Comment this line
 				
 		initService.initUser();
 * Restart your server			
