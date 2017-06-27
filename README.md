@@ -58,7 +58,7 @@ It results from a problem raised by the faculty that does not have access to Apo
 * Stop your server
 * Comment this line
 				
-		initService.initUser();
+		//initService.initUser();
 * Restart your server			
 				
 ### Start server
