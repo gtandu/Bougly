@@ -6,7 +6,7 @@
     <div th:replace="/include/header :: header"></div>
     <title>Renseignement Notes</title>
     <meta charset="UTF-8" />
-    <link type="text/css" rel="stylesheet" th:href="@{/css/noteGradeManagement.css}" media="screen,projection" />
+    <link type="text/css" rel="stylesheet" th:href="@{/css/gestionNote.css}" media="screen,projection" />
 
 </head>
 
@@ -18,17 +18,19 @@
     <div th:replace="/include/preloader :: preloader"></div>
     <main id="content">
         <div class="container">
-            <h3 class="header center teal-text text-lighten-2">Renseignement des notes</h3>
+            <h3 class="header center teal-text text-lighten-1">Renseignement des notes</h3>
             <div class="row">
                 <div id="tabClasse" class="col s12">
+                    
                     <div th:if="${save}" class="row">
-                        <div class="col s4 m4 l4 offset-l4 offset-m4 offset-s4 ">
-                            <div class="card-panel teal">
-                                <p id="saveMsg" class="white-text">Votre saisie de note a été sauvegardé avec succès.</p>
+                        <div id="updateDone" class="col s8 m8 l8 offset-l2 offset-m2 offset-s2 ">
+                            <div class="card-panel #f5f5f5 grey lighten-4" style="padding :2px">
+                                <p id="saveMsg">Votre saisie de note a été sauvegardé avec succès.</p>
                             </div>
                         </div>
                     </div>
-                    <form th:action="@{/enseignant/noteGradeManagement.html}" th:object="${markManagementForm}" method="post">
+                    
+                    <form th:action="@{/enseignant/gestionNote.html}" th:object="${markManagementForm}" method="post">
                         <table class="bordered striped highlight centered responsive-table">
                             <thead>
                                 <tr>
@@ -72,16 +74,8 @@
     <div th:replace="/include/script :: script"></div>
     <div th:replace="/include/preloader-script :: preloader-script"></div>
 
-	<div th:if="${update}">
-		<script type="text/javascript" th:src="@{/js/lib/sweetalert.min.js}">
-		$(function() {	
-			$( document ).ready(function() {
-				swal("Mis à Jour", "Vos notes ont été enregistrées", "success");
-				});
-			});
-		</script>
-	</div>
-
+	<script type="text/javascript" th:src="@{/js/gestionNote.js}"></script>
+	
     <footer>
         <div th:replace="/include/footer :: footer"></div>
     </footer>

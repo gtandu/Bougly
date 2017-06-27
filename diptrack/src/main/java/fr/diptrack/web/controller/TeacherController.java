@@ -33,7 +33,7 @@ import fr.diptrack.web.dtos.MarkManagementForm;
 public class TeacherController {
 
 	public static final String URL_HOME_PAGE_TEACHER = "/homePageTeacher.html";
-	public static final String URL_NOTE_GRADE_MANAGEMENT = "/noteGradeManagement.html";
+	public static final String URL_NOTE_GRADE_MANAGEMENT = "/gestionNote.html";
 	public static final String URL_MAIL_PUBLICATION_NOTE_ENVOYE = "/mailPublicationNoteEnvoye.html";
 
 	@Autowired
@@ -68,7 +68,7 @@ public class TeacherController {
 
 	@RequestMapping(value = URL_NOTE_GRADE_MANAGEMENT, method = RequestMethod.GET)
 	public ModelAndView showPageNoteGradeManagement(@RequestParam(required = false, value = "save") boolean save) {
-		ModelAndView model = new ModelAndView("noteGradeManagement");
+		ModelAndView model = new ModelAndView("gestionNote");
 
 		MarkManagementForm markManagementForm = new MarkManagementForm();
 
